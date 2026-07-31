@@ -58,8 +58,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             ? 'Gram altın fiyatı'
             : `${base} ${quote}`;
 
-  const title = `${human}? ${price} TL (${change}) — Bullseye`;
-  const description = `${base}/${quote} canlı döviz kuru ${price} TL. Anlık TCMB verisi, dönüştürücü ve değişim oranı Bullseye'te.`;
+  const title = `${human}? ${price} TL (${change}) — Bullsye`;
+  const description = `${base}/${quote} canlı döviz kuru ${price} TL. Anlık TCMB verisi, dönüştürücü ve değişim oranı Bullsye'da.`;
   const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(`${base}/${quote}`)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('Döviz Canlı')}`;
 
   return {
@@ -133,7 +133,7 @@ export default async function FxPairPage({ params }: Props) {
         {
           question: 'Kurlar nereden geliyor?',
           answer:
-            'Bullseye döviz kurlarını TCMB verilerine dayalı olarak günceller.',
+            "Bullsye döviz kurlarını TCMB verilerine dayalı olarak günceller.",
         },
         {
           question: 'Döviz çevirici var mı?',
@@ -157,7 +157,7 @@ export default async function FxPairPage({ params }: Props) {
         </h2>
         <p>
           {name} için güncel kur, günlük değişim ve hızlı dönüştürücü bu
-          sayfada. Dolar, euro ve diğer pariteler Bullseye FX bölümünden
+          sayfada. Dolar, euro ve diğer pariteler Bullsye FX bölümünden
           takip edilebilir.
         </p>
       </section>

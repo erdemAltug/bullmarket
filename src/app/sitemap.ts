@@ -9,6 +9,7 @@ import {
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
+  // High-priority core routes
   const staticRoutes: MetadataRoute.Sitemap = [
     '',
     '/bist',
@@ -21,28 +22,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ].map((path) => ({
     url: `${SITE_URL}${path}`,
     lastModified: now,
-    changeFrequency: path === '' || path === '/bist' || path === '/crypto' ? 'always' : 'hourly',
-    priority: path === '' ? 1 : 0.8,
+    changeFrequency:
+      path === '' || path === '/bist' || path === '/crypto'
+        ? ('always' as const)
+        : ('hourly' as const),
+    priority: path === '' ? 1.0 : 0.8,
   }));
 
+  // Popular BİST & Crypto tickers — programmatic indexing
   const bist: MetadataRoute.Sitemap = SEO_BIST_TICKERS.map((symbol) => ({
     url: `${SITE_URL}/bist/${symbol}`,
     lastModified: now,
-    changeFrequency: 'always',
+    changeFrequency: 'hourly' as const,
     priority: 0.9,
   }));
 
   const crypto: MetadataRoute.Sitemap = SEO_CRYPTO_SYMBOLS.map((symbol) => ({
     url: `${SITE_URL}/crypto/${symbol}`,
     lastModified: now,
-    changeFrequency: 'always',
+    changeFrequency: 'hourly' as const,
     priority: 0.9,
   }));
 
   const fx: MetadataRoute.Sitemap = SEO_FX_PAIRS.map((pair) => ({
     url: `${SITE_URL}/fx/${pair}`,
     lastModified: now,
-    changeFrequency: 'hourly',
+    changeFrequency: 'hourly' as const,
     priority: 0.85,
   }));
 

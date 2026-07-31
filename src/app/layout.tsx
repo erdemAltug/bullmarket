@@ -1,6 +1,8 @@
 ﻿import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { Providers } from './providers';
+import { SITE_URL } from '@/lib/seo/symbols';
 import './globals.css';
 
 const geistSans = Geist({
@@ -15,54 +17,75 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
-const SITE_URL = 'https://bullmarket.app';
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Bullseye — BİST, Kripto & Finansal Analiz Terminali',
-    template: '%s | Bullseye Terminal',
+    default: 'Bullsye — Canlı BİST, Kripto & Akıllı Alım Sinyalleri Terminali',
+    template: '%s | Bullsye Terminal',
   },
   description:
-    'Borsa İstanbul (BİST), Kripto paralar, Döviz ve Altın piyasalarını canlı takip edin. Yapay zeka destekli alım fırsatları ve portföy analiz platformu.',
+    'Borsa İstanbul (BİST), Kripto Paralar, Döviz ve Altın piyasalarını anlık grafiklerle takip edin. Yapay zeka destekli alım fırsatları, temettü takvimi ve portföy analizi.',
   keywords: [
-    'BİST 100',
-    'Borsa İstanbul',
-    'Kripto Takip',
-    'Canlı Borsa',
-    'Temel Analiz',
-    'Portföy Takibi',
-    'Bullseye',
+    'Bullsye',
+    'Bullsye App',
+    'BİST 100 canlı',
+    'Borsa İstanbul alım fırsatları',
+    'Kripto sinyal radarı',
+    'Hisse temel analiz karnesi',
+    'THYAO canlı fiyat',
+    'Bitcoin canlı grafik',
+    'Portföy takip uygulaması',
   ],
-  authors: [{ name: 'Bullseye Team' }],
+  authors: [{ name: 'Bullsye Team', url: SITE_URL }],
+  creator: 'Bullsye',
+  publisher: 'Bullsye',
+  formatDetection: { email: false, address: false, telephone: false },
+  alternates: {
+    canonical: SITE_URL,
+  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
       { url: '/icon', type: 'image/png', sizes: '32x32' },
     ],
-    apple: [
-      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
-      { url: '/apple-icon', sizes: '180x180', type: 'image/png' },
-    ],
+    apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {
-    title: 'Bullseye — Canlı Borsa & Finansal Analiz Terminali',
+    title: 'Bullsye — Canlı BİST, Kripto & Akıllı Alım Sinyalleri',
     description:
-      'BİST, Kripto ve FX piyasalarını anlık grafikler ve akıllı alım sinyalleriyle takip edin.',
+      'Piyasanın nabzını tutun. Nokta atışı teknik sinyaller, BİST 100 grafikleri ve canlı portföy sağlık analizi.',
     url: SITE_URL,
-    siteName: 'Bullseye',
+    siteName: 'Bullsye',
     locale: 'tr_TR',
     type: 'website',
+    images: [
+      {
+        url: `${SITE_URL}/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Financial%20Terminal`,
+        width: 1200,
+        height: 630,
+        alt: 'Bullsye Financial Terminal Preview',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bullseye Terminal',
-    description: 'Canlı Finansal Veri ve Portföy Takip Platformu',
+    title: 'Bullsye — Financial Intelligence Terminal',
+    description: 'Canlı BİST, Kripto ve Akıllı Alım Sinyalleri Platformu',
+    creator: '@bullsyeapp',
+    images: [
+      `${SITE_URL}/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Financial%20Terminal`,
+    ],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -76,6 +99,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}
       >
+        <JsonLd />
         <Providers>{children}</Providers>
       </body>
     </html>

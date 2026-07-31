@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const change = searchParams.get('change') || '0.00%';
   const positive = !change.trim().startsWith('-');
   const accent = positive ? '#34d399' : '#fb7185';
-  const label = searchParams.get('label') || 'Bullseye Terminal';
+  const label = searchParams.get('label') || 'Bullsye Terminal';
 
   // Decorative sparkline points
   const spark = [12, 18, 14, 22, 19, 28, 24, 32, 30, 38, 35, 42];
@@ -60,11 +60,11 @@ export async function GET(request: NextRequest) {
                 fontWeight: 800,
               }}
             >
-              BE
+              BY
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: -1 }}>
-                BULLSEYE
+                BULLSYE
               </span>
               <span style={{ fontSize: 12, color: '#71717a', letterSpacing: 3 }}>
                 {label}
@@ -112,7 +112,7 @@ export async function GET(request: NextRequest) {
               points={points}
             />
           </svg>
-          <span style={{ fontSize: 14, color: '#52525b' }}>bullseye.app</span>
+          <span style={{ fontSize: 14, color: '#52525b' }}>bullsye.app</span>
         </div>
       </div>
     ),

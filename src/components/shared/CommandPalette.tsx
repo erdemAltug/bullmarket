@@ -143,7 +143,7 @@ export function CommandPalette() {
   );
 
   return (
-    <CommandDialog open={open} onOpenChange={setOpen} title="Search Bullseye">
+    <CommandDialog open={open} onOpenChange={setOpen} title="Search Bullsye">
       <Command>
         <CommandInput placeholder="Ara · Enter = izleme listesine ekle…" />
         <CommandList>

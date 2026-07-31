@@ -44,12 +44,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const price = formatMetaPrice(priceNum, 'USD');
   const change = formatMetaChange(changeNum);
-  const title = `${display} Canlı Fiyatı $${price} (${change}) | Grafik — Bullseye`;
-  const description = `${display} (${symbol}) canlı kripto fiyatı, anlık grafik, 24s hacim ve emir defteri derinliği Bullseye'te.`;
-  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(`$${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('Crypto Canlı')}`;
+  const canonicalUrl = `${SITE_URL}/crypto/${symbol}`;
+  const title = `${display} Canlı Fiyatı $${price} (${change}), Grafiği & Sinyal Radarı`;
+  const description = `${display} (${symbol}) 24 saatlik canlı fiyat değişimi, hacim derinliği (Order Book), RSI kırılım sinyalleri ve canlı grafik takibi Bullsye Terminal'de.`;
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(`$${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('CRYPTO')}&type=CRYPTO`;
 
   return {
-    title: { absolute: title },
+    title,
     description,
     keywords: [
       `${display} canlı`,
@@ -57,17 +58,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `${symbol} grafik`,
       `${display} USDT`,
       'kripto grafik',
+      'kripto sinyal',
     ],
-    alternates: { canonical: `${SITE_URL}/crypto/${symbol}` },
+    alternates: { canonical: canonicalUrl },
     openGraph: {
-      title: `${display} $${price} (${change}) | Bullseye`,
-      description: `Anlık ${display} grafik ve order book.`,
-      url: `${SITE_URL}/crypto/${symbol}`,
+      title: `${display} Canlı Kripto Analizi | Bullsye`,
+      description: `Anlık ${display} grafik, hacim ve sinyal radarı.`,
+      url: canonicalUrl,
+      siteName: 'Bullsye',
       images: [{ url: ogImage, width: 1200, height: 630, alt: display }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${display} $${price} ${change} | Bullseye`,
+      title: `${display} $${price} ${change} | Bullsye`,
       images: [ogImage],
     },
   };
@@ -132,7 +135,7 @@ export default async function CryptoSymbolPage({ params }: Props) {
         <p>
           {display} için canlı USDT çifti fiyatı, 24 saatlik değişim, grafik ve
           emir defteri bu sayfada toplanır. Teknik takip ve fiyat alarmı
-          Bullseye üzerinden yönetilebilir.
+          Bullsye üzerinden yönetilebilir.
         </p>
       </section>
     </AssetSeoShell>

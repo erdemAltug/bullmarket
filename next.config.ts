@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [
-      { protocol: 'https', hostname: 'bullmarket.app' },
+      { protocol: 'https', hostname: 'bullsye.app' },
+      { protocol: 'https', hostname: 'www.bullsye.app' },
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
     ],
   },

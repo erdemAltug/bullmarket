@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 const DEFAULT_TITLE =
-  'Bullseye — BİST, Kripto & Finansal Analiz Terminali';
+  'Bullsye — BİST, Kripto & Finansal Analiz Terminali';
 
 interface DynamicTitleProps {
   symbol?: string;
@@ -39,7 +39,7 @@ export function DynamicTitle({
         ? ''
         : ` (${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%)`;
 
-    document.title = `${direction} ${symbol} ${currencySymbol}${formattedPrice}${formattedChange} | Bullseye`;
+    document.title = `${direction} ${symbol} ${currencySymbol}${formattedPrice}${formattedChange} | Bullsye`;
 
     return () => {
       document.title = DEFAULT_TITLE;

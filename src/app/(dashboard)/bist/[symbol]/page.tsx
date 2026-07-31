@@ -42,12 +42,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const price = formatMetaPrice(priceNum, 'TRY');
   const change = formatMetaChange(changeNum);
-  const title = `${symbol} Canlı Fiyatı ${price} TL (${change}) | Grafik ve Yorumlar — Bullseye`;
-  const description = `${name} (${symbol}) canlı hisse fiyatı, anlık grafiği, teknik analiz ve alarm kurulumu Bullseye'te. ${symbol} hisse yorum ve hedef fiyat takibi.`;
-  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('BİST Canlı')}`;
+  const canonicalUrl = `${SITE_URL}/bist/${symbol}`;
+  const title = `${symbol} Canlı Hisse Fiyatı ${price} TL (${change}), Grafik & Analiz Karnesi`;
+  const description = `${name} (${symbol}) Borsa İstanbul anlık fiyatı, 52 haftalık zirve/dip, F/K ve PD/DD değerleri, teknik sinyaller ve alım fırsatları Bullsye'da.`;
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('BIST')}&type=BIST`;
 
   return {
-    title: { absolute: title },
+    title,
     description,
     keywords: [
       `${symbol} canlı`,
@@ -56,15 +57,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       `${symbol} analiz`,
       `${symbol} yorum`,
       `${symbol} hedef fiyat`,
+      'BİST canlı',
     ],
-    alternates: {
-      canonical: `${SITE_URL}/bist/${symbol}`,
-    },
+    alternates: { canonical: canonicalUrl },
     openGraph: {
-      title: `${symbol} Canlı Fiyatı: ₺${price} (${change}) | Bullseye`,
-      description: `Anlık ${symbol} grafik ve akıllı alım sinyallerini inceleyin.`,
-      url: `${SITE_URL}/bist/${symbol}`,
-      siteName: 'Bullseye',
+      title: `${symbol} Hisse Analizi & Canlı Grafik | Bullsye`,
+      description: `${symbol} hisse senedi canlı veri ve akıllı alım sinyalleri.`,
+      url: canonicalUrl,
+      siteName: 'Bullsye',
       locale: 'tr_TR',
       type: 'website',
       images: [
@@ -72,13 +72,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${symbol} Bullseye Analysis Card`,
+          alt: `${symbol} Bullsye Analysis Card`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${symbol} ₺${price} ${change} | Bullseye`,
+      title: `${symbol} ₺${price} ${change} | Bullsye`,
       description,
       images: [ogImage],
     },

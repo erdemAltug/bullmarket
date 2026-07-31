@@ -1,6 +1,8 @@
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
-  'https://bullmarket.app';
+  'https://bullsye.app';
+
+export const BRAND = 'Bullsye';
 
 export const SEO_BIST_TICKERS = [
   'XU100',
@@ -71,7 +73,7 @@ export function formatMetaPrice(
   currency: 'TRY' | 'USD' = 'TRY'
 ): string {
   return price.toLocaleString('tr-TR', {
-    minimumFractionDigits: currency === 'TRY' && price < 100 ? 2 : 2,
+    minimumFractionDigits: 2,
     maximumFractionDigits: price >= 1000 ? 2 : 4,
   });
 }

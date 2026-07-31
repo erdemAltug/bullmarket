@@ -65,7 +65,7 @@ export async function GET() {
           responseType: 'text',
           timeout: 12_000,
           headers: {
-            'User-Agent': 'Bullseye/1.0 (news aggregator)',
+            'User-Agent': 'Bullsye/1.0 (news aggregator)',
             Accept: 'application/rss+xml, application/xml, text/xml, */*',
           },
         });
