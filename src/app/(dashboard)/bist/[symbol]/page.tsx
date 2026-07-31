@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
+import { AnalystTargetCard } from '@/components/asset/AnalystTargetCard';
 import { BistHealthScorecard } from '@/components/dashboard/AssetHealthScorecard';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
 import { fetchQuotes } from '@/lib/api/yahoo';
+import { getAssetAnalystDetails } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import {
   SITE_URL,
@@ -177,15 +179,20 @@ export default async function BistSymbolPage({ params }: Props) {
 
       <BistHealthScorecard yahooSymbol={yahoo} />
 
+      <AnalystTargetCard
+        data={getAssetAnalystDetails(symbol, quote.price, 'BIST')}
+      />
+
       <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-400">
         <h2 className="mb-2 text-base font-semibold text-zinc-100">
           {symbol} hakkında
         </h2>
         <p>
           {quote.name} ({symbol}) Borsa İstanbul&apos;da işlem gören bir
-          menkul kıymettir. Bu sayfada canlı fiyat, AI sağlık karnesi, günlük
-          değişim ve interaktif grafik yer alır. Alarm kurmak için fiyat kartına
-          tıklayabilir veya Overview üzerinden watchlist&apos;inize ekleyebilirsiniz.
+          menkul kıymettir. Bu sayfada canlı fiyat, AI sağlık karnesi, 12 aylık
+          analist hedef fiyat konsensüsü, kurum raporları ve interaktif grafik
+          yer alır. Alarm kurmak için fiyat kartına tıklayabilir veya Overview
+          üzerinden watchlist&apos;inize ekleyebilirsiniz.
         </p>
       </section>
     </AssetSeoShell>
