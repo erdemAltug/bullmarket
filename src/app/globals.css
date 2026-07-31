@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
-:root {
+/* Dark Glass — default */
+:root,
+.dark {
   --background: #050508;
   --foreground: #fafafa;
   --muted: #a1a1aa;
   --card: rgba(24, 24, 27, 0.6);
+  --popover-bg: rgba(9, 9, 11, 0.95);
   --border: rgba(39, 39, 42, 0.8);
   --up: #34d399;
   --down: #fb7185;
@@ -12,6 +15,53 @@
   --glow-up: rgba(16, 185, 129, 0.12);
   --glow-down: rgba(244, 63, 94, 0.12);
   --glow-violet: rgba(139, 92, 246, 0.15);
+  --sidebar: rgba(9, 9, 11, 0.8);
+  --header: rgba(9, 9, 11, 0.8);
+  --surface: #09090b;
+  --scrollbar-track: #050508;
+  --scrollbar-thumb: #27272a;
+}
+
+/* Light Mode */
+.light {
+  --background: #f4f6f8;
+  --foreground: #09090b;
+  --muted: #71717a;
+  --card: rgba(255, 255, 255, 0.85);
+  --popover-bg: rgba(255, 255, 255, 0.98);
+  --border: rgba(228, 228, 231, 0.95);
+  --up: #059669;
+  --down: #e11d48;
+  --accent: #059669;
+  --glow-up: rgba(5, 150, 105, 0.1);
+  --glow-down: rgba(225, 29, 72, 0.08);
+  --glow-violet: rgba(124, 58, 237, 0.1);
+  --sidebar: rgba(255, 255, 255, 0.9);
+  --header: rgba(255, 255, 255, 0.92);
+  --surface: #ffffff;
+  --scrollbar-track: #e4e4e7;
+  --scrollbar-thumb: #a1a1aa;
+}
+
+/* High-contrast Bloomberg Terminal */
+.terminal {
+  --background: #000000;
+  --foreground: #e8ffe8;
+  --muted: #3d8f3d;
+  --card: rgba(0, 20, 0, 0.92);
+  --popover-bg: rgba(0, 12, 0, 0.98);
+  --border: rgba(0, 180, 0, 0.35);
+  --up: #00ff66;
+  --down: #ff3355;
+  --accent: #00ff66;
+  --glow-up: rgba(0, 255, 102, 0.12);
+  --glow-down: rgba(255, 51, 85, 0.12);
+  --glow-violet: rgba(0, 255, 170, 0.1);
+  --sidebar: rgba(0, 8, 0, 0.95);
+  --header: rgba(0, 8, 0, 0.95);
+  --surface: #001400;
+  --scrollbar-track: #000000;
+  --scrollbar-thumb: #005500;
 }
 
 @theme inline {
@@ -25,6 +75,16 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.terminal body,
+html.terminal body {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.terminal {
+  letter-spacing: 0.01em;
 }
 
 @keyframes ticker {
@@ -83,23 +143,22 @@ body {
   transform-origin: left;
 }
 
-/* Dark premium scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #050508;
+  background: var(--scrollbar-track);
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: var(--scrollbar-thumb);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  filter: brightness(1.25);
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #27272a #050508;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }

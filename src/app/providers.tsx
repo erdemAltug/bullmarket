@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
+import { PreferencesProvider } from '@/components/providers/PreferencesProvider';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [client] = useState(
@@ -9,7 +10,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            // Market hooks set their own refetchInterval — do NOT poll everything
             staleTime: 60_000,
             gcTime: 10 * 60_000,
             refetchInterval: false,
@@ -21,5 +21,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       })
   );
 
-  return <QueryClientProvider client={client}>{children}</QueryClientProvider>;
+  return (
+    <QueryClientProvider client={client}>
+      <PreferencesProvider>{children}</PreferencesProvider>
+    </QueryClientProvider>
+  );
 }

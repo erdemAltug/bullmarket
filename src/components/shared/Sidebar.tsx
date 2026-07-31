@@ -13,62 +13,28 @@ import {
   Banknote,
 } from 'lucide-react';
 import { FastLink } from '@/components/shared/NavigationProgress';
+import { usePreferences } from '@/components/providers/PreferencesProvider';
 import { cn } from '@/lib/utils';
 
-const links = [
-  {
-    href: '/',
-    label: 'Overview',
-    icon: LayoutDashboard,
-    color: 'text-emerald-400',
-  },
-  { href: '/bist', label: 'BİST', icon: LineChart, color: 'text-blue-400' },
-  {
-    href: '/bist/heatmap',
-    label: 'Isı Haritası',
-    icon: Map,
-    color: 'text-amber-400',
-  },
-  {
-    href: '/crypto',
-    label: 'Crypto',
-    icon: Bitcoin,
-    color: 'text-violet-400',
-  },
-  {
-    href: '/fx/USD-TRY',
-    label: 'Döviz',
-    icon: Banknote,
-    color: 'text-lime-400',
-  },
-  {
-    href: '/portfolio',
-    label: 'Portföyüm',
-    icon: Briefcase,
-    color: 'text-cyan-400',
-  },
-  {
-    href: '/alerts',
-    label: 'Alarmlar',
-    icon: Bell,
-    color: 'text-orange-400',
-  },
-  {
-    href: '/dividends',
-    label: 'Temettü',
-    icon: Coins,
-    color: 'text-rose-400',
-  },
+const linkDefs = [
+  { href: '/', key: 'overview' as const, icon: LayoutDashboard, color: 'text-emerald-400' },
+  { href: '/bist', key: 'bist' as const, icon: LineChart, color: 'text-blue-400' },
+  { href: '/bist/heatmap', key: 'heatmap' as const, icon: Map, color: 'text-amber-400' },
+  { href: '/crypto', key: 'crypto' as const, icon: Bitcoin, color: 'text-violet-400' },
+  { href: '/fx/USD-TRY', key: 'fx' as const, icon: Banknote, color: 'text-lime-400' },
+  { href: '/portfolio', key: 'portfolio' as const, icon: Briefcase, color: 'text-cyan-400' },
+  { href: '/alerts', key: 'alerts' as const, icon: Bell, color: 'text-orange-400' },
+  { href: '/dividends', key: 'dividends' as const, icon: Coins, color: 'text-rose-400' },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { t } = usePreferences();
 
-  // Warm every tab into the client router cache (idle) so clicks are instant
   useEffect(() => {
     const id = window.setTimeout(() => {
-      for (const { href } of links) {
+      for (const { href } of linkDefs) {
         router.prefetch(href);
       }
     }, 100);
@@ -76,9 +42,10 @@ export function Sidebar() {
   }, [router]);
 
   return (
-    <aside className="hidden w-52 shrink-0 border-r border-zinc-800/80 bg-zinc-950/80 p-3 backdrop-blur-xl md:block">
+    <aside className="hidden w-52 shrink-0 border-r border-[var(--border)] bg-[var(--sidebar)] p-3 backdrop-blur-xl md:block">
       <nav className="flex flex-col gap-1">
-        {links.map(({ href, label, icon: Icon, color }) => {
+        {linkDefs.map(({ href, key, icon: Icon, color }) => {
+          const label = t.nav[key];
           const active =
             href === '/'
               ? pathname === '/'
@@ -95,12 +62,12 @@ export function Sidebar() {
               className={cn(
                 'flex items-center gap-2 rounded-lg border-l-2 px-3 py-2 text-sm transition-colors',
                 active
-                  ? 'border-emerald-400 bg-gradient-to-r from-emerald-500/15 to-transparent font-semibold text-emerald-400'
-                  : 'border-transparent text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200'
+                  ? 'border-[var(--accent)] bg-gradient-to-r from-[var(--glow-up)] to-transparent font-semibold text-[var(--accent)]'
+                  : 'border-transparent text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--foreground)]'
               )}
             >
               <Icon
-                className={cn('size-4', active ? 'text-emerald-400' : color)}
+                className={cn('size-4', active ? 'text-[var(--accent)]' : color)}
               />
               {label}
             </FastLink>

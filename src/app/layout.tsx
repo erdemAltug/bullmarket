@@ -95,9 +95,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="tr">
+    <html lang="tr" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('bullsye_theme')||(document.cookie.match(/(?:^|; )bullsye_theme=([^;]*)/)||[])[1]||'dark';if(t==='light'||t==='terminal'||t==='dark'){document.documentElement.classList.add(t);}var l=localStorage.getItem('bullsye_lang')||(document.cookie.match(/(?:^|; )bullsye_lang=([^;]*)/)||[])[1];if(l)document.documentElement.lang=l;}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background antialiased`}
       >
         <JsonLd />
         <Providers>{children}</Providers>

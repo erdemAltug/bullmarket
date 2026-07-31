@@ -9,11 +9,13 @@ import { WatchlistTable } from '@/components/dashboard/WatchlistTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartSkeleton, ListSkeleton } from '@/components/ui/skeleton';
 import { useCrypto } from '@/hooks/useMarketData';
-import { formatCompact, formatPrice } from '@/lib/utils';
+import { usePreferences } from '@/components/providers/PreferencesProvider';
+import { formatCompact } from '@/lib/utils';
 
 function CryptoPageInner() {
   const searchParams = useSearchParams();
   const focusSymbol = (searchParams.get('symbol') ?? 'BTCUSDT').toUpperCase();
+  const { formatPrice, t } = usePreferences();
 
   const { data, isLoading, error } = useCrypto(undefined, focusSymbol);
 
@@ -58,7 +60,9 @@ function CryptoPageInner() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div>
-          <h2 className="mb-3 text-sm font-medium text-zinc-400">Tickers</h2>
+          <h2 className="mb-3 text-sm font-medium text-[var(--muted)]">
+            {t.common.tickers}
+          </h2>
           {error ? (
             <p className="text-sm text-red-400">{error.message}</p>
           ) : isLoading && !tickers.length ? (
@@ -93,8 +97,8 @@ function CryptoPageInner() {
             ) : isLoading ? (
               <ChartSkeleton />
             ) : (
-              <p className="py-8 text-center text-sm text-zinc-500">
-                No order book
+              <p className="py-8 text-center text-sm text-[var(--muted)]">
+                {t.common.noOrderBook}
               </p>
             )}
           </CardContent>

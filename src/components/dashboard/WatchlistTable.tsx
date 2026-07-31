@@ -2,7 +2,8 @@
 
 import { ArrowDownRight, ArrowUpRight, Bell, Trash2 } from 'lucide-react';
 import { VolatilityBadge } from '@/components/dashboard/VolatilityBadge';
-import { cn, formatPercent, formatPrice } from '@/lib/utils';
+import { usePreferences } from '@/components/providers/PreferencesProvider';
+import { cn, formatPercent } from '@/lib/utils';
 
 export interface WatchlistRow {
   symbol: string;
@@ -21,7 +22,7 @@ interface WatchlistTableProps {
 }
 
 const thClass =
-  'px-4 py-2.5 text-xs font-medium uppercase tracking-wider text-zinc-500';
+  'px-4 py-2.5 text-xs font-medium uppercase tracking-wider text-[var(--muted)]';
 
 export function WatchlistTable({
   rows,
@@ -30,10 +31,12 @@ export function WatchlistTable({
   onRemove,
   onRowClick,
 }: WatchlistTableProps) {
+  const { formatPrice } = usePreferences();
+
   return (
-    <div className="w-full overflow-x-auto rounded-xl border border-zinc-800">
+    <div className="w-full overflow-x-auto rounded-xl border border-[var(--border)]">
       <table className="w-full min-w-[520px] text-left text-sm">
-        <thead className="border-b border-zinc-800 bg-zinc-900/80">
+        <thead className="border-b border-[var(--border)] bg-[var(--surface)]/80">
           <tr>
             <th className={thClass}>
               <button
@@ -73,18 +76,18 @@ export function WatchlistTable({
               <tr
                 key={row.symbol}
                 className={cn(
-                  'group border-b border-zinc-800/50 last:border-0 transition-colors hover:bg-zinc-900/60',
+                  'group border-b border-[var(--border)]/50 last:border-0 transition-colors hover:bg-[var(--card)]',
                   onRowClick && 'cursor-pointer'
                 )}
                 onClick={() => onRowClick?.(row)}
               >
-                <td className="px-4 py-3 font-medium text-zinc-100">
+                <td className="px-4 py-3 font-medium text-[var(--foreground)]">
                   <span className="inline-flex items-center gap-1.5">
                     {row.symbol}
                     <VolatilityBadge changePercent={row.changePercent} />
                   </span>
                 </td>
-                <td className="px-4 py-3 text-zinc-400">{row.name}</td>
+                <td className="px-4 py-3 text-[var(--muted)]">{row.name}</td>
                 <td className="px-4 py-3 text-right tabular-nums">
                   {formatPrice(row.price, row.currency ?? 'TRY')}
                 </td>
@@ -112,7 +115,7 @@ export function WatchlistTable({
                         <button
                           type="button"
                           title="Alarm kur"
-                          className="rounded p-1 text-zinc-400 hover:bg-zinc-800 hover:text-emerald-400"
+                          className="rounded p-1 text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--accent)]"
                           onClick={(e) => {
                             e.stopPropagation();
                             onAlert(row);
@@ -125,7 +128,7 @@ export function WatchlistTable({
                         <button
                           type="button"
                           title="Listeden çıkar"
-                          className="rounded p-1 text-zinc-400 hover:bg-zinc-800 hover:text-red-400"
+                          className="rounded p-1 text-[var(--muted)] hover:bg-[var(--card)] hover:text-red-400"
                           onClick={(e) => {
                             e.stopPropagation();
                             onRemove(row.symbol);

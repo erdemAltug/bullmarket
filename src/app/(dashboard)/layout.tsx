@@ -11,7 +11,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-[#050508]">
+    <div className="flex min-h-screen flex-col bg-[var(--background)]">
       <NavigationProgress />
       <TabTitleEngine />
       <Header />

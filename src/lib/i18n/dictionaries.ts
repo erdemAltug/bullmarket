@@ -1,0 +1,152 @@
+import type { Language } from '@/lib/preferences';
+
+export type Dictionary = {
+  nav: {
+    overview: string;
+    bist: string;
+    heatmap: string;
+    crypto: string;
+    fx: string;
+    portfolio: string;
+    alerts: string;
+    dividends: string;
+  };
+  header: {
+    tagline: string;
+    preferences: string;
+    language: string;
+    theme: string;
+    currency: string;
+  };
+  themeDark: string;
+  themeLight: string;
+  themeTerminal: string;
+  common: {
+    loading: string;
+    clickForAlert: string;
+    tickers: string;
+    noOrderBook: string;
+  };
+};
+
+const tr: Dictionary = {
+  nav: {
+    overview: 'Overview',
+    bist: 'BİST',
+    heatmap: 'Isı Haritası',
+    crypto: 'Crypto',
+    fx: 'Döviz',
+    portfolio: 'Portföyüm',
+    alerts: 'Alarmlar',
+    dividends: 'Temettü',
+  },
+  header: {
+    tagline: 'BİST · Kripto · Döviz',
+    preferences: 'Tercihler',
+    language: 'Dil',
+    theme: 'Tema',
+    currency: 'Para Birimi',
+  },
+  themeDark: 'Koyu Cam',
+  themeLight: 'Açık',
+  themeTerminal: 'Terminal',
+  common: {
+    loading: 'Yükleniyor…',
+    clickForAlert: 'Alarm kurmak için tıklayın',
+    tickers: 'Tickers',
+    noOrderBook: 'Emir defteri yok',
+  },
+};
+
+const en: Dictionary = {
+  nav: {
+    overview: 'Overview',
+    bist: 'BIST',
+    heatmap: 'Heatmap',
+    crypto: 'Crypto',
+    fx: 'FX',
+    portfolio: 'Portfolio',
+    alerts: 'Alerts',
+    dividends: 'Dividends',
+  },
+  header: {
+    tagline: 'BIST · Crypto · FX',
+    preferences: 'Preferences',
+    language: 'Language',
+    theme: 'Theme',
+    currency: 'Currency',
+  },
+  themeDark: 'Dark Glass',
+  themeLight: 'Light',
+  themeTerminal: 'Terminal',
+  common: {
+    loading: 'Loading…',
+    clickForAlert: 'Click to set an alert',
+    tickers: 'Tickers',
+    noOrderBook: 'No order book',
+  },
+};
+
+const de: Dictionary = {
+  nav: {
+    overview: 'Übersicht',
+    bist: 'BIST',
+    heatmap: 'Heatmap',
+    crypto: 'Krypto',
+    fx: 'Devisen',
+    portfolio: 'Portfolio',
+    alerts: 'Alarme',
+    dividends: 'Dividenden',
+  },
+  header: {
+    tagline: 'BIST · Krypto · Devisen',
+    preferences: 'Einstellungen',
+    language: 'Sprache',
+    theme: 'Design',
+    currency: 'Währung',
+  },
+  themeDark: 'Dunkles Glas',
+  themeLight: 'Hell',
+  themeTerminal: 'Terminal',
+  common: {
+    loading: 'Laden…',
+    clickForAlert: 'Klicken für Alarm',
+    tickers: 'Ticker',
+    noOrderBook: 'Kein Orderbuch',
+  },
+};
+
+const es: Dictionary = {
+  nav: {
+    overview: 'Resumen',
+    bist: 'BIST',
+    heatmap: 'Mapa de calor',
+    crypto: 'Cripto',
+    fx: 'Divisas',
+    portfolio: 'Cartera',
+    alerts: 'Alertas',
+    dividends: 'Dividendos',
+  },
+  header: {
+    tagline: 'BIST · Cripto · Divisas',
+    preferences: 'Preferencias',
+    language: 'Idioma',
+    theme: 'Tema',
+    currency: 'Moneda',
+  },
+  themeDark: 'Vidrio oscuro',
+  themeLight: 'Claro',
+  themeTerminal: 'Terminal',
+  common: {
+    loading: 'Cargando…',
+    clickForAlert: 'Clic para crear alerta',
+    tickers: 'Tickers',
+    noOrderBook: 'Sin libro de órdenes',
+  },
+};
+
+export const dictionaries: Record<Language, Dictionary> = { tr, en, de, es };
+
+export function getDictionary(lang: Language): Dictionary {
+  return dictionaries[lang] ?? dictionaries.tr;
+}
