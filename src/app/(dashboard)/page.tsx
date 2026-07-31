@@ -1,6 +1,9 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { AIDailyVisionPanel } from '@/components/dashboard/AIDailyVisionPanel';
+import { AIPotentialRadar } from '@/components/dashboard/AIPotentialRadar';
+import { MarketSentimentMeter } from '@/components/dashboard/MarketSentimentMeter';
 import { AlertModal } from '@/components/alerts/AlertModal';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import {
@@ -34,6 +37,11 @@ import {
 import { useBist, useCrypto, useFx } from '@/hooks/useMarketData';
 import { useMarketScanner } from '@/hooks/useMarketScanner';
 import { useWatchlist } from '@/hooks/useWatchlist';
+import {
+  buildDailyVision,
+  buildPotentialCards,
+  computeMarketSentiment,
+} from '@/lib/ai-opportunity';
 import type { DashboardWidgetId } from '@/types';
 import { formatPrice } from '@/lib/utils';
 
@@ -90,6 +98,20 @@ export default function OverviewPage() {
   const activeAlerts = useMemo(
     () => new Set(alerts.filter((a) => a.triggered).map((a) => a.displaySymbol)),
     [alerts]
+  );
+
+  const marketItems = scanner.data ?? [];
+  const dailyVision = useMemo(
+    () => (marketItems.length ? buildDailyVision(marketItems) : null),
+    [marketItems]
+  );
+  const potentialCards = useMemo(
+    () => buildPotentialCards(marketItems, 6),
+    [marketItems]
+  );
+  const sentiment = useMemo(
+    () => (marketItems.length ? computeMarketSentiment(marketItems) : null),
+    [marketItems]
   );
 
   const tapeItems = [
@@ -317,6 +339,24 @@ export default function OverviewPage() {
       />
       <CalendarTickerBanner />
       <TickerTape items={tapeItems} />
+
+      <AIDailyVisionPanel
+        report={dailyVision}
+        loading={scanner.isLoading}
+      />
+
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_280px] xl:items-start">
+        <AIPotentialRadar
+          cards={potentialCards}
+          loading={scanner.isLoading}
+        />
+        <div className="xl:sticky xl:top-4">
+          <MarketSentimentMeter
+            reading={sentiment}
+            loading={scanner.isLoading}
+          />
+        </div>
+      </div>
 
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>

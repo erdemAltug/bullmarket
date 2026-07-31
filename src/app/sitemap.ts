@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { BLOG_POSTS, EDUCATION_LESSONS } from '@/content/academy';
 import { sitemapLanguageAlternates } from '@/lib/seo/hreflang';
 import {
   SITE_URL,
@@ -22,6 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/targets',
     '/smart-money',
     '/dividends',
+    '/egitim',
+    '/blog',
     '/fx/USD-TRY',
   ];
 
@@ -31,9 +34,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency:
       path === '' || path === '/bist' || path === '/crypto' || path === '/tr' || path === '/en'
         ? ('always' as const)
-        : ('hourly' as const),
-    priority: path === '' || path === '/tr' || path === '/en' ? 1.0 : 0.8,
-    alternates: sitemapLanguageAlternates(path === '/tr' || path === '/en' ? '' : path),
+        : path === '/egitim' || path === '/blog'
+          ? ('weekly' as const)
+          : ('hourly' as const),
+    priority:
+      path === '' || path === '/tr' || path === '/en'
+        ? 1.0
+        : path === '/egitim' || path === '/blog'
+          ? 0.9
+          : 0.8,
+    alternates: sitemapLanguageAlternates(
+      path === '/tr' || path === '/en' ? '' : path
+    ),
+  }));
+
+  const egitim: MetadataRoute.Sitemap = EDUCATION_LESSONS.map((l) => ({
+    url: `${SITE_URL}/egitim/${l.category}/${l.slug}`,
+    lastModified: new Date(l.updatedAt),
+    changeFrequency: 'monthly' as const,
+    priority: 0.85,
+    alternates: sitemapLanguageAlternates(
+      `/egitim/${l.category}/${l.slug}`
+    ),
+  }));
+
+  const blog: MetadataRoute.Sitemap = BLOG_POSTS.map((p) => ({
+    url: `${SITE_URL}/blog/${p.slug}`,
+    lastModified: new Date(p.updatedAt),
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+    alternates: sitemapLanguageAlternates(`/blog/${p.slug}`),
   }));
 
   const bist: MetadataRoute.Sitemap = SEO_BIST_TICKERS.map((symbol) => ({
@@ -60,5 +90,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: sitemapLanguageAlternates(`/fx/${pair}`),
   }));
 
-  return [...staticRoutes, ...bist, ...crypto, ...fx];
+  return [...staticRoutes, ...egitim, ...blog, ...bist, ...crypto, ...fx];
 }

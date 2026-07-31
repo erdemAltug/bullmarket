@@ -5,6 +5,7 @@ import Link from 'next/link';
 import useSWR from 'swr';
 import { Coins, Search, Trophy } from 'lucide-react';
 import { LockedValue } from '@/components/auth/ProtectedFeature';
+import { WealthSimulator } from '@/components/dashboard/WealthSimulator';
 import { TermHint } from '@/components/shared/TermHint';
 import { authClient } from '@/lib/auth/client';
 import { usePortfolio } from '@/hooks/usePortfolio';
@@ -145,6 +146,14 @@ export default function DividendsPage() {
           {items.length ? ` · ${items.length} hisse` : ''}
         </p>
       </div>
+
+      <WealthSimulator
+        defaultPrincipal={100_000}
+        suggestedReturnPct={
+          champion ? Math.min(28, Math.max(8, champion.dividendYield + 10)) : 14
+        }
+        title="Temettü + Bileşik Getiri · 3 Yıllık Simülatör"
+      />
 
       {isLoading ? (
         <div className="grid gap-4 md:grid-cols-3">

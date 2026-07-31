@@ -45,6 +45,20 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
     href: '/fx/USD-TRY',
   },
   {
+    id: 'nav-academy',
+    label: 'Eğitim Hub',
+    keywords: 'eğitim academy borsa rehber rsi temettü',
+    kind: 'nav',
+    href: '/egitim',
+  },
+  {
+    id: 'nav-blog',
+    label: 'Blog',
+    keywords: 'blog analiz haber finans',
+    kind: 'nav',
+    href: '/blog',
+  },
+  {
     id: 'nav-compare',
     label: '1v1 Kıyasla',
     keywords: 'compare kıyasla vs benchmark thyao pegasus',

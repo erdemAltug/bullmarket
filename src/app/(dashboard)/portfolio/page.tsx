@@ -12,6 +12,7 @@ import {
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { PortfolioHealthCheck } from '@/components/dashboard/PortfolioHealthCheck';
 import { RiskRewardCalculator } from '@/components/dashboard/RiskRewardCalculator';
+import { WealthSimulator } from '@/components/dashboard/WealthSimulator';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBist, useCrypto, useFx } from '@/hooks/useMarketData';
@@ -129,6 +130,13 @@ export default function PortfolioPage() {
           Pozisyonlar, getiri ve portföy sağlığı
         </p>
       </div>
+
+      <WealthSimulator
+        defaultPrincipal={metrics.value > 0 ? metrics.value : 100_000}
+        suggestedReturnPct={
+          metrics.pnlPct > 0 ? Math.min(35, Math.max(8, metrics.pnlPct)) : 18
+        }
+      />
 
       <div className="grid gap-4 lg:grid-cols-4">
         <MetricCard title="Toplam Değer" value={metrics.value} currency="TRY" />

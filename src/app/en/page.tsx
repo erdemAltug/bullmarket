@@ -94,6 +94,18 @@ export default function EnLocaleLanding() {
           AI Signals
         </Link>
         <Link
+          href="/egitim"
+          className="rounded-lg border border-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:border-zinc-500"
+        >
+          Academy
+        </Link>
+        <Link
+          href="/blog"
+          className="rounded-lg border border-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:border-zinc-500"
+        >
+          Blog
+        </Link>
+        <Link
           href="/tr"
           className="rounded-lg border border-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:border-zinc-500"
         >

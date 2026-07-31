@@ -15,6 +15,8 @@ export type Dictionary = {
     portfolioAudit: string;
     alerts: string;
     dividends: string;
+    academy: string;
+    blog: string;
   };
   header: {
     tagline: string;
@@ -49,6 +51,8 @@ const tr: Dictionary = {
     portfolioAudit: 'Portföy Analizi',
     alerts: 'Alarmlar',
     dividends: 'Temettü Karnesi',
+    academy: 'Eğitim Hub',
+    blog: 'Blog',
   },
   header: {
     tagline: 'BİST · Kripto · Döviz',
@@ -83,6 +87,8 @@ const en: Dictionary = {
     portfolioAudit: 'Portfolio Audit',
     alerts: 'Alerts',
     dividends: 'Dividend Desk',
+    academy: 'Academy',
+    blog: 'Blog',
   },
   header: {
     tagline: 'BIST · Crypto · FX',
@@ -117,6 +123,8 @@ const de: Dictionary = {
     portfolioAudit: 'Portfolio-Check',
     alerts: 'Alarme',
     dividends: 'Dividenden',
+    academy: 'Akademie',
+    blog: 'Blog',
   },
   header: {
     tagline: 'BIST · Krypto · Devisen',
@@ -151,6 +159,8 @@ const es: Dictionary = {
     portfolioAudit: 'Auditoría',
     alerts: 'Alertas',
     dividends: 'Dividendos',
+    academy: 'Academia',
+    blog: 'Blog',
   },
   header: {
     tagline: 'BIST · Cripto · Divisas',
