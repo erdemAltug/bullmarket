@@ -7,7 +7,7 @@ import { MetricCard } from '@/components/dashboard/MetricCard';
 import { OrderBookDepth } from '@/components/dashboard/OrderBookDepth';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
 import { fetchOrderBook, fetchTickers } from '@/lib/api/binance';
-import { getAssetAnalystDetails } from '@/lib/analystData';
+import { fromLiveCryptoBand } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import {
   SITE_URL,
@@ -114,6 +114,8 @@ export default async function CryptoSymbolPage({ params }: Props) {
   const display = symbol.replace('USDT', '');
   let price = 0;
   let changePercent = 0;
+  let high24h = 0;
+  let low24h = 0;
   let orderbook = null;
 
   try {
@@ -125,11 +127,24 @@ export default async function CryptoSymbolPage({ params }: Props) {
     if (t) {
       price = t.price;
       changePercent = t.changePercent;
+      high24h = t.high24h;
+      low24h = t.low24h;
     }
     orderbook = book;
   } catch {
     /* empty */
   }
+
+  const analystCard =
+    price > 0
+      ? fromLiveCryptoBand({
+          symbol,
+          price,
+          high24h: high24h || price * 1.02,
+          low24h: low24h || price * 0.98,
+          changePercent,
+        })
+      : null;
 
   return (
     <AssetSeoShell
@@ -163,9 +178,7 @@ export default async function CryptoSymbolPage({ params }: Props) {
         changePercent={changePercent}
         price={price}
       />
-      <AnalystTargetCard
-        data={getAssetAnalystDetails(display, price, 'CRYPTO')}
-      />
+      {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
       <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-400">
         <h2 className="mb-2 text-base font-semibold text-zinc-100">
           {display} hakkında

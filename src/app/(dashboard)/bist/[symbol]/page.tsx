@@ -5,8 +5,8 @@ import { BistHealthScorecard } from '@/components/dashboard/AssetHealthScorecard
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
-import { fetchQuotes } from '@/lib/api/yahoo';
-import { getAssetAnalystDetails } from '@/lib/analystData';
+import { fetchFundamentals, fetchQuotes } from '@/lib/api/yahoo';
+import { fromLiveFundamentals } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import {
   SITE_URL,
@@ -151,6 +151,14 @@ export default async function BistSymbolPage({ params }: Props) {
     /* show page shell anyway */
   }
 
+  let analystCard = null;
+  try {
+    const fundamentals = await fetchFundamentals(yahoo);
+    analystCard = fromLiveFundamentals(fundamentals);
+  } catch {
+    analystCard = null;
+  }
+
   return (
     <AssetSeoShell
       symbol={symbol}
@@ -179,9 +187,7 @@ export default async function BistSymbolPage({ params }: Props) {
 
       <BistHealthScorecard yahooSymbol={yahoo} />
 
-      <AnalystTargetCard
-        data={getAssetAnalystDetails(symbol, quote.price, 'BIST')}
-      />
+      {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
 
       <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-400">
         <h2 className="mb-2 text-base font-semibold text-zinc-100">

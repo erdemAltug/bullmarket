@@ -21,6 +21,10 @@ function toQuote(raw: {
   marketCap?: number;
   regularMarketVolume?: number;
   trailingPE?: number;
+  regularMarketDayHigh?: number;
+  regularMarketDayLow?: number;
+  fiftyTwoWeekHigh?: number;
+  fiftyTwoWeekLow?: number;
 }): Quote {
   return {
     symbol: raw.symbol ?? '',
@@ -34,6 +38,10 @@ function toQuote(raw: {
     marketCap: raw.marketCap,
     volume: raw.regularMarketVolume,
     trailingPE: raw.trailingPE,
+    dayHigh: raw.regularMarketDayHigh ?? null,
+    dayLow: raw.regularMarketDayLow ?? null,
+    fiftyTwoWeekHigh: raw.fiftyTwoWeekHigh ?? null,
+    fiftyTwoWeekLow: raw.fiftyTwoWeekLow ?? null,
   };
 }
 
@@ -120,6 +128,62 @@ export async function fetchFundamentals(
       strongSell: trend?.strongSell ?? 0,
     },
   };
+}
+
+export interface LiveDividendRow {
+  symbol: string;
+  name: string;
+  price: number;
+  currency: string;
+  dividendRate: number | null;
+  dividendYield: number | null;
+  exDividendDate: string | null;
+  trailingAnnualDividendRate: number | null;
+}
+
+/** Live dividend metrics from Yahoo quoteSummary */
+export async function fetchDividendSnapshot(
+  symbol: string
+): Promise<LiveDividendRow | null> {
+  try {
+    const [quote, summary] = await Promise.all([
+      yahooFinance.quote(symbol),
+      yahooFinance.quoteSummary(symbol, {
+        modules: ['summaryDetail', 'calendarEvents'],
+      }),
+    ]);
+    const q = Array.isArray(quote) ? quote[0] : quote;
+    const detail = summary.summaryDetail;
+    const cal = summary.calendarEvents;
+    const exRaw = cal?.exDividendDate ?? detail?.exDividendDate ?? null;
+    let exDividendDate: string | null = null;
+    if (exRaw) {
+      const d = exRaw instanceof Date ? exRaw : new Date(exRaw as string);
+      if (!Number.isNaN(d.getTime())) exDividendDate = d.toISOString().slice(0, 10);
+    }
+
+    const yieldRaw = detail?.dividendYield ?? null;
+    // Yahoo sometimes returns yield as fraction (0.04) or already %
+    const dividendYield =
+      yieldRaw == null
+        ? null
+        : yieldRaw > 1
+          ? yieldRaw
+          : yieldRaw * 100;
+
+    return {
+      symbol: q.symbol ?? symbol,
+      name: q.shortName || q.longName || symbol,
+      price: q.regularMarketPrice ?? 0,
+      currency: q.currency ?? 'TRY',
+      dividendRate: detail?.dividendRate ?? detail?.trailingAnnualDividendRate ?? null,
+      dividendYield,
+      exDividendDate,
+      trailingAnnualDividendRate: detail?.trailingAnnualDividendRate ?? null,
+    };
+  } catch {
+    return null;
+  }
 }
 
 export const DEFAULT_BIST_SYMBOLS = [

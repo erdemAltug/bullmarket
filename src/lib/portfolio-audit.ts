@@ -1,4 +1,3 @@
-import { DIVIDEND_DATASET } from '@/data/dividends';
 import { peersFor } from '@/lib/sector-peers';
 import type { HealthFinding, PortfolioHealthReport } from '@/types';
 
@@ -28,9 +27,8 @@ function assetClass(sym: string): 'bist' | 'crypto' | 'fx' {
   const u = sym.toUpperCase();
   if (
     u.endsWith('USDT') ||
-    ['BTC', 'ETH', 'SOL', 'BNB', 'XU100'].includes(u.replace('.IS', ''))
+    ['BTC', 'ETH', 'SOL', 'BNB'].includes(u.replace('.IS', ''))
   ) {
-    if (u.includes('XU') || u === 'XU100') return 'bist';
     return 'crypto';
   }
   return 'bist';
@@ -74,14 +72,8 @@ export function auditPortfolioWeights(
     .reduce((s, h) => s + h.weight, 0);
   const tryShare = 100 - cryptoShare;
 
-  let estimatedYieldPct = 0;
-  for (const h of normalized) {
-    const bare = h.symbol.replace('.IS', '').replace('USDT', '').toUpperCase();
-    const div = DIVIDEND_DATASET.find((d) => d.symbol === bare);
-    if (div) estimatedYieldPct += (div.dividendYield * h.weight) / 100;
-  }
+  const estimatedYieldPct = 0;
 
-  // Proxy beta: crypto ~1.6, bank ~1.1, aviation ~1.3, default 1.0
   let betaIndex = 0;
   for (const h of normalized) {
     const sec = sectorOf(h.symbol);
@@ -107,7 +99,7 @@ export function auditPortfolioWeights(
       id: 'sector-heavy',
       severity: topSector.weight >= 60 ? 'critical' : 'warn',
       title: 'Sektörel Yoğunlaşma',
-      message: `Portföyünüzün %${topSector.weight.toFixed(0)}'i ${topSector.sector} sektöründe — aşırı riskli. Ağırlığı %40 altına çekmeyi düşünün.`,
+      message: `Portföyünüzün %${topSector.weight.toFixed(0)}'i ${topSector.sector} sektöründe — aşırı riskli.`,
     });
   }
 
@@ -117,7 +109,7 @@ export function auditPortfolioWeights(
       id: 'single-heavy',
       severity: maxHolding.weight >= 55 ? 'critical' : 'warn',
       title: 'Tek Varlık Riski',
-      message: `${maxHolding.symbol} portföyün %${maxHolding.weight.toFixed(0)}'ini oluşturuyor. Çeşitlendirme skorunu yükseltmek için dağıtın.`,
+      message: `${maxHolding.symbol} portföyün %${maxHolding.weight.toFixed(0)}'ini oluşturuyor.`,
     });
   }
 
@@ -126,7 +118,7 @@ export function auditPortfolioWeights(
       id: 'try-heavy',
       severity: 'warn',
       title: 'TL Yoğunluğu',
-      message: `Portföyünüz %${tryShare.toFixed(0)} oranında Türk Lirası varlıklarından oluşuyor. Kripto veya döviz çeşitlendirmesi düşünebilirsiniz.`,
+      message: `Portföyünüz %${tryShare.toFixed(0)} TL varlık. Kripto/döviz çeşitlendirmesi düşünün.`,
     });
   }
 
@@ -135,43 +127,24 @@ export function auditPortfolioWeights(
       id: 'crypto-heavy',
       severity: 'warn',
       title: 'Kripto Ağırlığı',
-      message: `Kripto payı %${cryptoShare.toFixed(0)}. Volatilite yüksek — BİST temettü hisseleriyle dengeleyebilirsiniz.`,
+      message: `Kripto payı %${cryptoShare.toFixed(0)}.`,
     });
   }
 
-  if (estimatedYieldPct >= 3) {
-    findings.push({
-      id: 'yield-ok',
-      severity: 'info',
-      title: 'Temettü Potansiyeli',
-      message: `Tahmini portföy temettü verimi ~%${estimatedYieldPct.toFixed(1)} (yıllık, mevcut veri setine göre).`,
-    });
-  } else if (estimatedYieldPct < 1 && tryShare > 50) {
-    findings.push({
-      id: 'yield-low',
-      severity: 'info',
-      title: 'Düşük Temettü',
-      message:
-        'Portföyde temettü verimi düşük. TUPRS, FROTO veya EREGL gibi temettü isimleri eklenebilir.',
-    });
-  }
+  findings.push({
+    id: 'yield-live',
+    severity: 'info',
+    title: 'Temettü Verimi',
+    message:
+      'Tahmini temettü için Temettü Karnesi sayfasındaki canlı Yahoo verimini kullanın.',
+  });
 
   if (betaIndex >= 1.35) {
     findings.push({
       id: 'beta-high',
       severity: 'warn',
       title: 'Yüksek Beta',
-      message: `Portföy beta ~${betaIndex} — BİST 100 düşüşlerinde portföy daha sert sarsılabilir.`,
-    });
-  }
-
-  if (!findings.length) {
-    findings.push({
-      id: 'ok',
-      severity: 'info',
-      title: 'Dengeli görünüm',
-      message:
-        'Belirgin sektörel veya varlık sınıfı riski yok. Periyodik rebalance önerilir.',
+      message: `Portföy beta ~${betaIndex}.`,
     });
   }
 
@@ -193,7 +166,7 @@ export function auditPortfolioWeights(
     findings,
     diversification,
     risk,
-    estimatedYieldPct: Math.round(estimatedYieldPct * 10) / 10,
+    estimatedYieldPct,
     betaIndex,
     sectorWeights,
   };

@@ -10,10 +10,10 @@ import {
 } from '@/lib/scanner-universe';
 import type { ScannerItem } from '@/types/scanner';
 
-const CACHE_KEY = 'market:live:v1';
-const CACHE_TTL_SEC = 15;
+const CACHE_KEY = 'market:live:v2';
+const CACHE_TTL_SEC = 10;
 
-/** Aggregates BİST (Yahoo) + Crypto (Binance mirrors) + US (Yahoo) with 15s cache. */
+/** Aggregates BİST (Yahoo) + Crypto (Binance) + US (Yahoo) with 10s cache. */
 export async function getLiveMarketItems(): Promise<{
   items: ScannerItem[];
   cached: boolean;
@@ -53,6 +53,9 @@ export async function getLiveMarketItems(): Promise<{
       sparkline: buildSparkline(q.price, q.changePercent, q.symbol),
       chartSymbol: q.symbol,
       chartSource: 'yahoo',
+      dayHigh: q.dayHigh ?? null,
+      dayLow: q.dayLow ?? null,
+      trailingPE: q.trailingPE ?? null,
     });
   }
 
@@ -71,6 +74,9 @@ export async function getLiveMarketItems(): Promise<{
       sparkline: buildSparkline(q.price, q.changePercent, q.symbol),
       chartSymbol: q.symbol,
       chartSource: 'yahoo',
+      dayHigh: q.dayHigh ?? null,
+      dayLow: q.dayLow ?? null,
+      trailingPE: q.trailingPE ?? null,
     });
   }
 
@@ -90,6 +96,8 @@ export async function getLiveMarketItems(): Promise<{
       sparkline: buildSparkline(t.price, t.changePercent, t.symbol),
       chartSymbol: t.symbol,
       chartSource: 'binance',
+      dayHigh: t.high24h,
+      dayLow: t.low24h,
     });
   }
 

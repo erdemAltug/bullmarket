@@ -31,9 +31,9 @@ export function useMarketScanner() {
     '/api/market',
     marketFetcher,
     {
-      refreshInterval: 15_000,
+      refreshInterval: 10_000,
       revalidateOnFocus: true,
-      dedupingInterval: 10_000,
+      dedupingInterval: 8_000,
       keepPreviousData: true,
     }
   );

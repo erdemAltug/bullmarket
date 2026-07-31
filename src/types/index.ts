@@ -16,6 +16,10 @@ export interface Quote {
   marketCap?: number;
   volume?: number;
   trailingPE?: number;
+  dayHigh?: number | null;
+  dayLow?: number | null;
+  fiftyTwoWeekHigh?: number | null;
+  fiftyTwoWeekLow?: number | null;
 }
 
 export interface AnalystConsensus {
