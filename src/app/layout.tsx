@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Providers } from './providers';
 import './globals.css';
@@ -20,8 +20,8 @@ const SITE_URL = 'https://bullmarket.app';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'BullMarket — BİST, Kripto & Finansal Analiz Terminali',
-    template: '%s | BullMarket Terminal',
+    default: 'Bullseye — BİST, Kripto & Finansal Analiz Terminali',
+    template: '%s | Bullseye Terminal',
   },
   description:
     'Borsa İstanbul (BİST), Kripto paralar, Döviz ve Altın piyasalarını canlı takip edin. Yapay zeka destekli alım fırsatları ve portföy analiz platformu.',
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
     'Canlı Borsa',
     'Temel Analiz',
     'Portföy Takibi',
-    'BullMarket',
+    'Bullseye',
   ],
-  authors: [{ name: 'BullMarket Team' }],
+  authors: [{ name: 'Bullseye Team' }],
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -47,17 +47,17 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: 'BullMarket — Canlı Borsa & Finansal Analiz Terminali',
+    title: 'Bullseye — Canlı Borsa & Finansal Analiz Terminali',
     description:
       'BİST, Kripto ve FX piyasalarını anlık grafikler ve akıllı alım sinyalleriyle takip edin.',
     url: SITE_URL,
-    siteName: 'BullMarket',
+    siteName: 'Bullseye',
     locale: 'tr_TR',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'BullMarket Terminal',
+    title: 'Bullseye Terminal',
     description: 'Canlı Finansal Veri ve Portföy Takip Platformu',
   },
   robots: {

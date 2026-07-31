@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import axios from 'axios';
 import { appCache } from '@/lib/cache';
 import type { NewsItem } from '@/types';
@@ -65,7 +65,7 @@ export async function GET() {
           responseType: 'text',
           timeout: 12_000,
           headers: {
-            'User-Agent': 'BullMarket/1.0 (news aggregator)',
+            'User-Agent': 'Bullseye/1.0 (news aggregator)',
             Accept: 'application/rss+xml, application/xml, text/xml, */*',
           },
         });

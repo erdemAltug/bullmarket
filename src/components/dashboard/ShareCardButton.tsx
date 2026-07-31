@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useRef, useState } from 'react';
 import { toPng } from 'html-to-image';
@@ -48,7 +48,7 @@ export function ShareCardButton({
     const dataUrl = await makePng();
     if (!dataUrl) return;
     const a = document.createElement('a');
-    a.download = `bullmarket-${title.replace(/\s+/g, '-').toLowerCase()}.png`;
+    a.download = `Bullseye-${title.replace(/\s+/g, '-').toLowerCase()}.png`;
     a.href = dataUrl;
     a.click();
   }
@@ -90,7 +90,7 @@ export function ShareCardButton({
           >
             <div className="mb-3 flex items-center gap-2">
               <span className="text-sm font-bold tracking-tight text-emerald-400">
-                BullMarket
+                Bullseye
               </span>
               <span className="text-[10px] text-zinc-600">· canlı</span>
             </div>

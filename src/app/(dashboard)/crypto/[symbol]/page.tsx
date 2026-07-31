@@ -44,8 +44,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const price = formatMetaPrice(priceNum, 'USD');
   const change = formatMetaChange(changeNum);
-  const title = `${display} Canlı Fiyatı $${price} (${change}) | Grafik — BullMarket`;
-  const description = `${display} (${symbol}) canlı kripto fiyatı, anlık grafik, 24s hacim ve emir defteri derinliği BullMarket'te.`;
+  const title = `${display} Canlı Fiyatı $${price} (${change}) | Grafik — Bullseye`;
+  const description = `${display} (${symbol}) canlı kripto fiyatı, anlık grafik, 24s hacim ve emir defteri derinliği Bullseye'te.`;
   const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(`$${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('Crypto Canlı')}`;
 
   return {
@@ -60,14 +60,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ],
     alternates: { canonical: `${SITE_URL}/crypto/${symbol}` },
     openGraph: {
-      title: `${display} $${price} (${change}) | BullMarket`,
+      title: `${display} $${price} (${change}) | Bullseye`,
       description: `Anlık ${display} grafik ve order book.`,
       url: `${SITE_URL}/crypto/${symbol}`,
       images: [{ url: ogImage, width: 1200, height: 630, alt: display }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${display} $${price} ${change} | BullMarket`,
+      title: `${display} $${price} ${change} | Bullseye`,
       images: [ogImage],
     },
   };
@@ -132,7 +132,7 @@ export default async function CryptoSymbolPage({ params }: Props) {
         <p>
           {display} için canlı USDT çifti fiyatı, 24 saatlik değişim, grafik ve
           emir defteri bu sayfada toplanır. Teknik takip ve fiyat alarmı
-          BullMarket üzerinden yönetilebilir.
+          Bullseye üzerinden yönetilebilir.
         </p>
       </section>
     </AssetSeoShell>

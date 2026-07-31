@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -137,7 +137,7 @@ export function AuthModal({
       <DialogContent className="max-w-md overflow-hidden border-zinc-800/80 bg-zinc-950/90 p-0 backdrop-blur-xl">
         <div className="border-b border-zinc-800/80 bg-gradient-to-r from-emerald-500/10 via-transparent to-violet-500/10 px-5 py-4">
           <DialogTitle className="text-lg font-semibold tracking-tight text-zinc-50">
-            BullMarket Hesabı
+            Bullseye Hesabı
           </DialogTitle>
           <p className="mt-1 text-xs text-zinc-500">
             Watchlist, alarm ve portföy hesabınızda güvende

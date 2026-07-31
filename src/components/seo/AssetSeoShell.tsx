@@ -1,4 +1,4 @@
-import {
+﻿import {
   FinancialSchema,
   FaqSchema,
 } from '@/components/seo/FinancialSchema';
@@ -37,11 +37,11 @@ export function AssetSeoShell({
     },
     {
       question: `${symbol} grafiği nereden takip edilir?`,
-      answer: `${symbol} anlık grafik, teknik göstergeler ve alarm kurulumu BullMarket ${kindLabel.toLowerCase()} sayfasında yer alır.`,
+      answer: `${symbol} anlık grafik, teknik göstergeler ve alarm kurulumu Bullseye ${kindLabel.toLowerCase()} sayfasında yer alır.`,
     },
     {
       question: `${symbol} hakkında nasıl alarm kurulur?`,
-      answer: `BullMarket üzerinde ${symbol} için fiyat üstü/altı ve yüzde değişim alarmları oluşturabilirsiniz.`,
+      answer: `Bullseye üzerinde ${symbol} için fiyat üstü/altı ve yüzde değişim alarmları oluşturabilirsiniz.`,
     },
   ];
 
@@ -65,7 +65,7 @@ export function AssetSeoShell({
           <span className="text-lg font-normal text-zinc-400">· {name}</span>
         </h1>
         <p className="text-sm text-zinc-500">
-          Canlı fiyat, grafik ve analiz — BullMarket
+          Canlı fiyat, grafik ve analiz — Bullseye
         </p>
         <p
           className={`text-2xl font-semibold tabular-nums ${

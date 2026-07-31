@@ -1,4 +1,4 @@
-import { ImageResponse } from 'next/og';
+﻿import { ImageResponse } from 'next/og';
 import type { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const change = searchParams.get('change') || '0.00%';
   const positive = !change.trim().startsWith('-');
   const accent = positive ? '#34d399' : '#fb7185';
-  const label = searchParams.get('label') || 'BullMarket Terminal';
+  const label = searchParams.get('label') || 'Bullseye Terminal';
 
   // Decorative sparkline points
   const spark = [12, 18, 14, 22, 19, 28, 24, 32, 30, 38, 35, 42];
@@ -59,11 +59,11 @@ export async function GET(request: NextRequest) {
                 fontWeight: 800,
               }}
             >
-              BM
+              BE
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: -1 }}>
-                BULL.MARKET
+                BULLSEYE
               </span>
               <span style={{ fontSize: 12, color: '#71717a', letterSpacing: 3 }}>
                 {label}
@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
               points={points}
             />
           </svg>
-          <span style={{ fontSize: 14, color: '#52525b' }}>bullmarket.app</span>
+          <span style={{ fontSize: 14, color: '#52525b' }}>bullseye.app</span>
         </div>
       </div>
     ),

@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import { useEffect } from 'react';
 
 const DEFAULT_TITLE =
-  'BullMarket — BİST, Kripto & Finansal Analiz Terminali';
+  'Bullseye — BİST, Kripto & Finansal Analiz Terminali';
 
 interface DynamicTitleProps {
   symbol?: string;
@@ -39,7 +39,7 @@ export function DynamicTitle({
         ? ''
         : ` (${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%)`;
 
-    document.title = `${direction} ${symbol} ${currencySymbol}${formattedPrice}${formattedChange} | BullMarket`;
+    document.title = `${direction} ${symbol} ${currencySymbol}${formattedPrice}${formattedChange} | Bullseye`;
 
     return () => {
       document.title = DEFAULT_TITLE;

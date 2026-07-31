@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -143,7 +143,7 @@ export function CommandPalette() {
   );
 
   return (
-    <CommandDialog open={open} onOpenChange={setOpen} title="Search BullMarket">
+    <CommandDialog open={open} onOpenChange={setOpen} title="Search Bullseye">
       <Command>
         <CommandInput placeholder="Ara · Enter = izleme listesine ekle…" />
         <CommandList>

@@ -42,8 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const price = formatMetaPrice(priceNum, 'TRY');
   const change = formatMetaChange(changeNum);
-  const title = `${symbol} Canlı Fiyatı ${price} TL (${change}) | Grafik ve Yorumlar — BullMarket`;
-  const description = `${name} (${symbol}) canlı hisse fiyatı, anlık grafiği, teknik analiz ve alarm kurulumu BullMarket'te. ${symbol} hisse yorum ve hedef fiyat takibi.`;
+  const title = `${symbol} Canlı Fiyatı ${price} TL (${change}) | Grafik ve Yorumlar — Bullseye`;
+  const description = `${name} (${symbol}) canlı hisse fiyatı, anlık grafiği, teknik analiz ve alarm kurulumu Bullseye'te. ${symbol} hisse yorum ve hedef fiyat takibi.`;
   const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('BİST Canlı')}`;
 
   return {
@@ -61,10 +61,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `${SITE_URL}/bist/${symbol}`,
     },
     openGraph: {
-      title: `${symbol} Canlı Fiyatı: ₺${price} (${change}) | BullMarket`,
+      title: `${symbol} Canlı Fiyatı: ₺${price} (${change}) | Bullseye`,
       description: `Anlık ${symbol} grafik ve akıllı alım sinyallerini inceleyin.`,
       url: `${SITE_URL}/bist/${symbol}`,
-      siteName: 'BullMarket',
+      siteName: 'Bullseye',
       locale: 'tr_TR',
       type: 'website',
       images: [
@@ -72,13 +72,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${symbol} BullMarket Analysis Card`,
+          alt: `${symbol} Bullseye Analysis Card`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${symbol} ₺${price} ${change} | BullMarket`,
+      title: `${symbol} ₺${price} ${change} | Bullseye`,
       description,
       images: [ogImage],
     },

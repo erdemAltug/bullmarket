@@ -31,7 +31,7 @@ export default function AppleIcon() {
             textShadow: '0 0 24px rgba(16,185,129,0.55)',
           }}
         >
-          BM
+          BE
         </div>
       </div>
     ),
