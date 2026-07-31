@@ -17,7 +17,7 @@ import { FxConverter } from '@/components/dashboard/FxConverter';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { NewsFeed } from '@/components/dashboard/NewsFeed';
 import { ShareCardButton } from '@/components/dashboard/ShareCardButton';
-import { SignalRadar } from '@/components/dashboard/SignalRadar';
+import { AISignalRadar } from '@/components/dashboard/AISignalRadar';
 import { SmartRadar } from '@/components/dashboard/SmartRadar';
 import { StockScorecard } from '@/components/dashboard/StockScorecard';
 import { TickerTape } from '@/components/dashboard/TickerTape';
@@ -293,7 +293,13 @@ export default function OverviewPage() {
       case 'news':
         return <NewsFeed />;
       case 'signals':
-        return <SignalRadar symbols={signalSymbols} />;
+        return (
+          <AISignalRadar
+            marketItems={scanner.data ?? []}
+            isLoading={scanner.isLoading}
+            freeCount={3}
+          />
+        );
       case 'calendar':
         return <EconomicCalendar />;
       default:
