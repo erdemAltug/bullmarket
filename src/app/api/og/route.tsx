@@ -1,10 +1,11 @@
 ﻿import { ImageResponse } from 'next/og';
 import type { NextRequest } from 'next/server';
 
-export const runtime = 'edge';
+// Node runtime — Edge plan limit is 1MB; next/og bundle exceeds it
+export const runtime = 'nodejs';
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = request.nextUrl;
+  const { searchParams } = new URL(request.url);
   const symbol = (searchParams.get('symbol') || 'BULL').toUpperCase();
   const price = searchParams.get('price') || '—';
   const change = searchParams.get('change') || '0.00%';
