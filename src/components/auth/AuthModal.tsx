@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { migrateAnonymousWatchlist } from '@/actions/watchlist';
@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { authClient } from '@/lib/auth/client';
+import { trackEvent } from '@/lib/analytics';
 import { DEFAULT_WATCHLIST } from '@/hooks/useWatchlist.shared';
 import { cn } from '@/lib/utils';
 
@@ -19,6 +20,9 @@ interface AuthModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   defaultTab?: Tab;
+  headline?: string;
+  subtitle?: string;
+  growthMode?: boolean;
 }
 
 function GoogleIcon({ className }: { className?: string }) {
@@ -64,6 +68,9 @@ export function AuthModal({
   open,
   onOpenChange,
   defaultTab = 'login',
+  headline,
+  subtitle,
+  growthMode = false,
 }: AuthModalProps) {
   const qc = useQueryClient();
   const [tab, setTab] = useState<Tab>(defaultTab);
@@ -73,11 +80,18 @@ export function AuthModal({
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
+  useEffect(() => {
+    if (!open) return;
+    setTab(defaultTab);
+    setError(null);
+  }, [open, defaultTab]);
+
   async function afterAuthSuccess() {
     await migrateLocalWatchlist();
     await qc.invalidateQueries({ queryKey: ['watchlist'] });
     await qc.invalidateQueries({ queryKey: ['alerts'] });
     await qc.invalidateQueries({ queryKey: ['portfolio'] });
+    trackEvent('registration_completed', { method: 'email_or_session' });
     onOpenChange(false);
     setPassword('');
     setError(null);
@@ -137,10 +151,16 @@ export function AuthModal({
       <DialogContent className="max-w-md overflow-hidden border-zinc-800/80 bg-zinc-950/90 p-0 backdrop-blur-xl">
         <div className="border-b border-zinc-800/80 bg-gradient-to-r from-emerald-500/10 via-transparent to-violet-500/10 px-5 py-4">
           <DialogTitle className="text-lg font-semibold tracking-tight text-zinc-50">
-            Bullsye Hesabı
+            {headline ??
+              (growthMode
+                ? 'Ücretsiz Kayıt Ol & Kilidi Aç'
+                : 'Bullsye Hesabı')}
           </DialogTitle>
           <p className="mt-1 text-xs text-zinc-500">
-            Watchlist, alarm ve portföy hesabınızda güvende
+            {subtitle ??
+              (growthMode
+                ? '1 tıkla Google ile devam et — AI sinyalleri ve hedef fiyatlar açılır.'
+                : 'Watchlist, alarm ve portföy hesabınızda güvende')}
           </p>
         </div>
 
@@ -178,7 +198,9 @@ export function AuthModal({
             className="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-4 py-2.5 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-800 disabled:opacity-60"
           >
             <GoogleIcon className="size-4" />
-            Google ile Devam Et
+            {growthMode || tab === 'register'
+              ? '1 Tıkla Google ile Kayıt Ol'
+              : 'Google ile Devam Et'}
           </button>
 
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-zinc-600">

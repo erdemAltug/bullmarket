@@ -3,8 +3,10 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { MetricCard } from '@/components/dashboard/MetricCard';
+import { LockedValue } from '@/components/auth/ProtectedFeature';
 import { TermHint } from '@/components/shared/TermHint';
 import { usePortfolio } from '@/hooks/usePortfolio';
+import { authClient } from '@/lib/auth/client';
 import type { ApiResponse, DividendEvent } from '@/types';
 import { formatPrice } from '@/lib/utils';
 
@@ -16,11 +18,12 @@ async function getJson<T>(url: string): Promise<T> {
 }
 
 export default function DividendsPage() {
+  const { data: session } = authClient.useSession();
+  const unlocked = Boolean(session?.user);
   const { positions } = usePortfolio();
   const { data, isLoading, error } = useQuery({
     queryKey: ['dividends'],
-    queryFn: () =>
-      getJson<{ events: DividendEvent[] }>('/api/dividends'),
+    queryFn: () => getJson<{ events: DividendEvent[] }>('/api/dividends'),
     staleTime: 600_000,
   });
 
@@ -40,10 +43,10 @@ export default function DividendsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">
-          Temettü / Pasif Gelir
+          Temettü & Bilanço Karnesi
         </h1>
-        <p className="mt-1 text-sm text-zinc-500">
-          Yaklaşan ödemeler ve tahmini gelir
+        <p className="mt-1 text-sm text-[var(--muted)]">
+          Yaklaşan ödemeler, tahmini hisse başı temettü ve kâr sürprizi skorları
         </p>
       </div>
 
@@ -54,21 +57,21 @@ export default function DividendsPage() {
           currency="TRY"
           subtitle="Portföydeki eşleşen hisseler"
         />
-        <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 text-sm text-zinc-400">
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4 text-sm text-[var(--muted)]">
           <TermHint term="yield" label="Temettü Verimi" />:{' '}
           Yıllık temettünün fiyata oranıdır. Takvim tarihleri bilgilendirme
           amaçlıdır; KAP duyurusunu doğrulayın.
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-xl border border-zinc-800">
+      <div className="overflow-x-auto rounded-xl border border-[var(--border)]">
         <table className="w-full min-w-[640px] text-left text-sm">
-          <thead className="border-b border-zinc-800 bg-zinc-900/80 text-zinc-400">
+          <thead className="border-b border-[var(--border)] bg-[var(--surface)]/80 text-[var(--muted)]">
             <tr>
               <th className="px-4 py-3">Hisse</th>
               <th className="px-4 py-3">Ex-Date</th>
               <th className="px-4 py-3">Ödeme</th>
-              <th className="px-4 py-3 text-right">Net TL / Hisse</th>
+              <th className="px-4 py-3 text-right">Tahmini Net TL / Hisse</th>
               <th className="px-4 py-3 text-right">
                 <TermHint term="yield" />
               </th>
@@ -77,7 +80,10 @@ export default function DividendsPage() {
           <tbody>
             {isLoading ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-zinc-500">
+                <td
+                  colSpan={5}
+                  className="px-4 py-8 text-center text-[var(--muted)]"
+                >
                   Yükleniyor…
                 </td>
               </tr>
@@ -89,17 +95,19 @@ export default function DividendsPage() {
               </tr>
             ) : (
               events.map((e) => {
-                const inPortfolio = positions.some((p) => p.symbol === e.symbol);
+                const inPortfolio = positions.some(
+                  (p) => p.symbol === e.symbol
+                );
                 return (
                   <tr
                     key={e.symbol}
-                    className="border-b border-zinc-800/80 last:border-0"
+                    className="border-b border-[var(--border)]/80 last:border-0"
                   >
                     <td className="px-4 py-3">
                       <span className="font-medium">
                         {e.symbol.replace('.IS', '')}
                       </span>
-                      <span className="ml-2 text-xs text-zinc-500">
+                      <span className="ml-2 text-xs text-[var(--muted)]">
                         {e.name}
                       </span>
                       {inPortfolio ? (
@@ -108,14 +116,20 @@ export default function DividendsPage() {
                         </span>
                       ) : null}
                     </td>
-                    <td className="px-4 py-3 tabular-nums text-zinc-400">
+                    <td className="px-4 py-3 tabular-nums text-[var(--muted)]">
                       {e.exDate}
                     </td>
-                    <td className="px-4 py-3 tabular-nums text-zinc-400">
+                    <td className="px-4 py-3 tabular-nums text-[var(--muted)]">
                       {e.payDate}
                     </td>
                     <td className="px-4 py-3 text-right tabular-nums">
-                      {formatPrice(e.netPerShare, 'TRY')}
+                      {unlocked ? (
+                        formatPrice(e.netPerShare, 'TRY')
+                      ) : (
+                        <LockedValue feature="Tahmini Hisse Başı Temettü">
+                          {formatPrice(e.netPerShare, 'TRY')}
+                        </LockedValue>
+                      )}
                     </td>
                     <td className="px-4 py-3 text-right tabular-nums text-emerald-400">
                       %{e.yieldPct.toFixed(1)}

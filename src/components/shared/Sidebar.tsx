@@ -3,14 +3,18 @@
 import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import {
+  Activity,
   Bell,
   Bitcoin,
   Briefcase,
   Coins,
+  Crosshair,
   LayoutDashboard,
   LineChart,
   Map,
   Banknote,
+  Sparkles,
+  Waves,
 } from 'lucide-react';
 import { FastLink } from '@/components/shared/NavigationProgress';
 import { usePreferences } from '@/components/providers/PreferencesProvider';
@@ -22,9 +26,13 @@ const linkDefs = [
   { href: '/bist/heatmap', key: 'heatmap' as const, icon: Map, color: 'text-amber-400' },
   { href: '/crypto', key: 'crypto' as const, icon: Bitcoin, color: 'text-violet-400' },
   { href: '/fx/USD-TRY', key: 'fx' as const, icon: Banknote, color: 'text-lime-400' },
+  { href: '/signals', key: 'signals' as const, icon: Sparkles, color: 'text-emerald-300' },
+  { href: '/targets', key: 'targets' as const, icon: Crosshair, color: 'text-amber-300' },
+  { href: '/smart-money', key: 'smartMoney' as const, icon: Waves, color: 'text-cyan-400' },
+  { href: '/dividends', key: 'dividends' as const, icon: Coins, color: 'text-rose-400' },
+  { href: '/portfolio-audit', key: 'portfolioAudit' as const, icon: Activity, color: 'text-rose-300' },
   { href: '/portfolio', key: 'portfolio' as const, icon: Briefcase, color: 'text-cyan-400' },
   { href: '/alerts', key: 'alerts' as const, icon: Bell, color: 'text-orange-400' },
-  { href: '/dividends', key: 'dividends' as const, icon: Coins, color: 'text-rose-400' },
 ];
 
 export function Sidebar() {

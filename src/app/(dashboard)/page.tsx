@@ -22,6 +22,7 @@ import { SmartRadar } from '@/components/dashboard/SmartRadar';
 import { StockScorecard } from '@/components/dashboard/StockScorecard';
 import { TickerTape } from '@/components/dashboard/TickerTape';
 import { WatchlistTable } from '@/components/dashboard/WatchlistTable';
+import { MarketScannerTable } from '@/components/dashboard/MarketScannerTable';
 import { DynamicTitle } from '@/components/shared/DynamicTitle';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -31,6 +32,7 @@ import {
   useDashboardLayout,
 } from '@/hooks/useDashboardLayout';
 import { useBist, useCrypto, useFx } from '@/hooks/useMarketData';
+import { useMarketScanner } from '@/hooks/useMarketScanner';
 import { useWatchlist } from '@/hooks/useWatchlist';
 import type { DashboardWidgetId } from '@/types';
 import { formatPrice } from '@/lib/utils';
@@ -65,6 +67,7 @@ export default function OverviewPage() {
   const bist = useBist(bistSymbols || undefined);
   const crypto = useCrypto(cryptoSymbols);
   const fx = useFx();
+  const scanner = useMarketScanner();
   const { alerts } = useAlerts();
 
   const [alertTarget, setAlertTarget] = useState<{
@@ -251,29 +254,40 @@ export default function OverviewPage() {
         );
       case 'watchlist':
         return (
-          <div>
-            <h2 className="mb-3 text-sm font-medium text-zinc-400">
-              Watchlist — BİST satırı → Temel Analiz Karnesi
-            </h2>
-            <WatchlistTable
-              rows={watchRows}
-              onRowClick={(row) => {
-                if (row.symbol.endsWith('.IS') && !row.symbol.includes('XU')) {
-                  setScoreSymbol(row.symbol);
-                }
-              }}
-              onAlert={(row) =>
-                setAlertTarget({
-                  symbol: row.symbol,
-                  displaySymbol: row.symbol
-                    .replace('.IS', '')
-                    .replace('USDT', ''),
-                  price: row.price,
-                  changePercent: row.changePercent,
-                })
-              }
-              onRemove={removeSymbol}
+          <div className="space-y-4">
+            <MarketScannerTable
+              items={scanner.data ?? []}
+              isLoading={scanner.isLoading}
+              error={scanner.error?.message}
+              title="Market Screener Terminal"
             />
+            <div>
+              <h2 className="mb-3 text-sm font-medium text-zinc-400">
+                Kişisel Watchlist — BİST satırı → Temel Analiz Karnesi
+              </h2>
+              <WatchlistTable
+                rows={watchRows}
+                onRowClick={(row) => {
+                  if (
+                    row.symbol.endsWith('.IS') &&
+                    !row.symbol.includes('XU')
+                  ) {
+                    setScoreSymbol(row.symbol);
+                  }
+                }}
+                onAlert={(row) =>
+                  setAlertTarget({
+                    symbol: row.symbol,
+                    displaySymbol: row.symbol
+                      .replace('.IS', '')
+                      .replace('USDT', ''),
+                    price: row.price,
+                    changePercent: row.changePercent,
+                  })
+                }
+                onRemove={removeSymbol}
+              />
+            </div>
           </div>
         );
       case 'news':

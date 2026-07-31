@@ -7,7 +7,11 @@ export type Dictionary = {
     heatmap: string;
     crypto: string;
     fx: string;
+    signals: string;
+    targets: string;
+    smartMoney: string;
     portfolio: string;
+    portfolioAudit: string;
     alerts: string;
     dividends: string;
   };
@@ -36,9 +40,13 @@ const tr: Dictionary = {
     heatmap: 'Isı Haritası',
     crypto: 'Crypto',
     fx: 'Döviz',
+    signals: 'AI Sinyalleri',
+    targets: 'Hedef Fiyatlar',
+    smartMoney: 'Balina & Takas',
     portfolio: 'Portföyüm',
+    portfolioAudit: 'Portföy Analizi',
     alerts: 'Alarmlar',
-    dividends: 'Temettü',
+    dividends: 'Temettü Karnesi',
   },
   header: {
     tagline: 'BİST · Kripto · Döviz',
@@ -65,9 +73,13 @@ const en: Dictionary = {
     heatmap: 'Heatmap',
     crypto: 'Crypto',
     fx: 'FX',
+    signals: 'AI Signals',
+    targets: 'Price Targets',
+    smartMoney: 'Smart Money',
     portfolio: 'Portfolio',
+    portfolioAudit: 'Portfolio Audit',
     alerts: 'Alerts',
-    dividends: 'Dividends',
+    dividends: 'Dividend Desk',
   },
   header: {
     tagline: 'BIST · Crypto · FX',
@@ -94,7 +106,11 @@ const de: Dictionary = {
     heatmap: 'Heatmap',
     crypto: 'Krypto',
     fx: 'Devisen',
+    signals: 'KI-Signale',
+    targets: 'Kursziele',
+    smartMoney: 'Smart Money',
     portfolio: 'Portfolio',
+    portfolioAudit: 'Portfolio-Check',
     alerts: 'Alarme',
     dividends: 'Dividenden',
   },
@@ -123,7 +139,11 @@ const es: Dictionary = {
     heatmap: 'Mapa de calor',
     crypto: 'Cripto',
     fx: 'Divisas',
+    signals: 'Señales IA',
+    targets: 'Precios objetivo',
+    smartMoney: 'Smart Money',
     portfolio: 'Cartera',
+    portfolioAudit: 'Auditoría',
     alerts: 'Alertas',
     dividends: 'Dividendos',
   },
