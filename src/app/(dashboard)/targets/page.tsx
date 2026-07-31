@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Crosshair } from 'lucide-react';
 import {
   ProtectedFeature,
@@ -77,7 +78,12 @@ export default function TargetsPage() {
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-lg font-bold">{t.symbol}</p>
+                <Link
+                  href={`/bist/${t.symbol}`}
+                  className="text-lg font-bold hover:text-emerald-400 hover:underline"
+                >
+                  {t.symbol}
+                </Link>
                 <p className="text-xs text-[var(--muted)]">{t.name}</p>
               </div>
               <div className="text-right">

@@ -29,7 +29,7 @@ export function rootHreflangLanguages(): Record<string, string> {
   return {
     'tr-TR': `${SITE_URL}/tr`,
     'en-US': `${SITE_URL}/en`,
-    'x-default': `${SITE_URL}/en`,
+    'x-default': `${SITE_URL}/tr`,
   };
 }
 
@@ -40,8 +40,9 @@ export function sitemapLanguageAlternates(path = ''): {
   const joiner = '?';
   return {
     languages: {
-      tr: `${base}${joiner}lang=tr`,
-      en: `${base}${joiner}lang=en`,
+      'tr-TR': `${base}${joiner}lang=tr`,
+      'en-US': `${base}${joiner}lang=en`,
+      'x-default': `${base}${joiner}lang=en`,
     },
   };
 }

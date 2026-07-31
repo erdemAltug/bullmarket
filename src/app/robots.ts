@@ -7,17 +7,40 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/auth/', '/api/auth/*', '/settings', '/settings/'],
+        disallow: [
+          '/api/auth/',
+          '/api/auth/*',
+          '/settings',
+          '/settings/',
+          '/portfolio',
+          '/portfolio/',
+          '/alerts',
+          '/alerts/',
+          '/portfolio-audit',
+          '/portfolio-audit/',
+        ],
       },
       {
         userAgent: 'Googlebot',
         allow: '/',
-        disallow: ['/api/auth/'],
+        disallow: [
+          '/api/auth/',
+          '/portfolio',
+          '/alerts',
+          '/portfolio-audit',
+          '/settings',
+        ],
       },
       {
         userAgent: 'Bingbot',
         allow: '/',
-        disallow: ['/api/auth/'],
+        disallow: [
+          '/api/auth/',
+          '/portfolio',
+          '/alerts',
+          '/portfolio-audit',
+          '/settings',
+        ],
       },
       {
         userAgent: 'Twitterbot',

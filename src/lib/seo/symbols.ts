@@ -4,6 +4,7 @@ export const SITE_URL =
 
 export const BRAND = 'Bullsye';
 
+/** High-search BİST universe for sitemap + static params */
 export const SEO_BIST_TICKERS = [
   'XU100',
   'THYAO',
@@ -13,23 +14,43 @@ export const SEO_BIST_TICKERS = [
   'AKBNK',
   'YKBNK',
   'ISCTR',
+  'HALKB',
+  'VAKBN',
   'SAHOL',
   'KCHOL',
   'BIMAS',
+  'MGROS',
   'SISE',
   'TUPRS',
   'TCELL',
+  'TTKOM',
   'PGSUS',
+  'TAVHL',
   'FROTO',
   'TOASO',
+  'DOAS',
   'PETKM',
   'SASA',
   'HEKTS',
   'ASTOR',
+  'KONTR',
   'KOZAL',
+  'KOZAA',
   'ENKAI',
   'ULKER',
   'ARCLK',
+  'EKGYO',
+  'EUPWR',
+  'ODAS',
+  'GESAN',
+  'CWENE',
+  'ALARK',
+  'AEFES',
+  'CCOLA',
+  'OTKAR',
+  'TKFEN',
+  'TTRAK',
+  'VESBE',
 ] as const;
 
 export const SEO_CRYPTO_SYMBOLS = [
@@ -43,6 +64,11 @@ export const SEO_CRYPTO_SYMBOLS = [
   'AVAXUSDT',
   'DOTUSDT',
   'LINKUSDT',
+  'MATICUSDT',
+  'NEARUSDT',
+  'UNIUSDT',
+  'LTCUSDT',
+  'ATOMUSDT',
 ] as const;
 
 export const SEO_FX_PAIRS = [

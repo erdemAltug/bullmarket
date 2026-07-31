@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
 import {
   LockedValue,
@@ -8,6 +9,7 @@ import {
 } from '@/components/auth/ProtectedFeature';
 import { authClient } from '@/lib/auth/client';
 import { generateRealTimeSignals } from '@/lib/signals';
+import { assetDetailHref } from '@/lib/seo/internal-links';
 import type { ScannerItem } from '@/types/scanner';
 import { cn } from '@/lib/utils';
 
@@ -117,9 +119,21 @@ export function AISignalRadar({
               <div className="mb-3 flex items-start justify-between gap-2">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-base font-bold text-[var(--foreground)] transition-colors group-hover:text-emerald-400">
-                      {sig.displaySymbol}
-                    </span>
+                    {(() => {
+                      const href = assetDetailHref(sig.symbol, sig.category);
+                      return href ? (
+                        <Link
+                          href={href}
+                          className="text-base font-bold text-[var(--foreground)] transition-colors hover:text-emerald-400 hover:underline"
+                        >
+                          {sig.displaySymbol}
+                        </Link>
+                      ) : (
+                        <span className="text-base font-bold text-[var(--foreground)] transition-colors group-hover:text-emerald-400">
+                          {sig.displaySymbol}
+                        </span>
+                      );
+                    })()}
                     <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--muted)]">
                       {sig.category}
                     </span>

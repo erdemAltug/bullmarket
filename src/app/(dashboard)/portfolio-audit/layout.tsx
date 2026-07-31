@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Alarmlarım',
-  description: 'Fiyat ve yüzde değişim alarmları.',
+  title: 'Portföy Sağlık Tarama',
+  description: 'Portföy risk ve çeşitlendirme analizi.',
   robots: { index: false, follow: false },
 };
 
-export default function AlertsLayout({
+export default function PortfolioAuditLayout({
   children,
 }: {
   children: React.ReactNode;

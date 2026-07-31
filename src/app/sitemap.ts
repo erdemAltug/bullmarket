@@ -21,10 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/signals',
     '/targets',
     '/smart-money',
-    '/portfolio',
-    '/portfolio-audit',
     '/dividends',
-    '/alerts',
     '/fx/USD-TRY',
   ];
 

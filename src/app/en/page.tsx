@@ -2,22 +2,30 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { rootHreflangLanguages } from '@/lib/seo/hreflang';
+import {
+  SEO_HUB_FEATURES_EN,
+  TOP_BIST_FOR_HUB,
+  TOP_CRYPTO_FOR_HUB,
+} from '@/lib/seo/internal-links';
 
 export const metadata: Metadata = {
   title: {
     absolute:
-      'Bullsye — Real-Time Stocks, Crypto Radar & AI Trading Signals',
+      'Bullsye — Live Stock Analysis, Crypto Signals & Price Targets',
   },
   description:
-    'Live BIST & global markets, crypto signal radar, AI stock scorecards, dividend tracker and portfolio health. Nail every market move on Bullsye Terminal.',
+    'Real-time BIST & global market analysis, AI trading signals, analyst price targets, crypto radar and dividend calendar. Free financial intelligence terminal.',
   keywords: [
-    'Real-time stock terminal',
-    'Crypto signal radar',
+    'stock analysis',
+    'live stock prices',
+    'analyst price targets',
     'AI trading signals',
-    'Live market monitoring',
-    'Stock scorecards',
+    'crypto signal radar',
     'BTC live chart',
-    'Live dividend tracker',
+    'BIST live',
+    'dividend calendar',
+    'financial terminal',
+    'market intelligence',
   ],
   alternates: {
     canonical: `${SITE_URL}/en`,
@@ -28,32 +36,62 @@ export const metadata: Metadata = {
     alternateLocale: ['tr_TR'],
     title: 'Bullsye — Real-Time Market Intelligence Terminal',
     description:
-      'Crypto signal radar, AI trading signals, live charts and portfolio monitoring.',
+      'Stock analysis, analyst targets, AI signals and crypto radar in one place.',
     url: `${SITE_URL}/en`,
     siteName: 'Bullsye',
     type: 'website',
+    images: [
+      {
+        url: `${SITE_URL}/api/og?symbol=BULLSYE&price=LIVE&change=AI&label=EN%20Terminal`,
+        width: 1200,
+        height: 630,
+        alt: 'Bullsye English Market Terminal',
+      },
+    ],
   },
 };
 
+const FAQ = [
+  {
+    q: 'What can I analyze on Bullsye?',
+    a: 'Live BIST equities, crypto pairs, FX, AI buy/sell signals, analyst price targets, health scorecards and dividend calendars.',
+  },
+  {
+    q: 'Does Bullsye show broker price targets?',
+    a: 'Yes. Asset pages include 12-month consensus targets, buy/hold/sell mix and recent broker notes.',
+  },
+  {
+    q: 'Is the crypto signal radar real-time?',
+    a: 'Prices stream from live market data; RSI/SMA-based signal cards update with the market.',
+  },
+];
+
 export default function EnLocaleLanding() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center gap-6 px-6 py-16">
+    <main className="mx-auto max-w-4xl px-6 py-14">
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-400">
-        Bullsye · EN
+        Bullsye · Global
       </p>
-      <h1 className="text-4xl font-black tracking-tight text-zinc-50">
-        Real-Time Stocks, Crypto Radar & AI Signals
+      <h1 className="mt-3 text-4xl font-black tracking-tight text-zinc-50 sm:text-5xl">
+        Live Stock Analysis, Crypto Signals & Price Targets
       </h1>
-      <p className="text-lg leading-relaxed text-zinc-400">
+      <p className="mt-4 max-w-2xl text-lg leading-relaxed text-zinc-400">
         Monitor BIST equities, crypto depth, FX and dividends in one terminal.
-        AI scorecards and smart buy signals — hit the market with precision.
+        Turn raw prices into decisions with AI scorecards and analyst consensus.
       </p>
-      <div className="flex flex-wrap gap-3">
+
+      <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href="/?lang=en"
           className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
         >
           Open Terminal
+        </Link>
+        <Link
+          href="/signals?lang=en"
+          className="rounded-lg border border-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:border-zinc-500"
+        >
+          AI Signals
         </Link>
         <Link
           href="/tr"
@@ -62,37 +100,84 @@ export default function EnLocaleLanding() {
           Türkçe
         </Link>
       </div>
-      <ul className="mt-4 space-y-2 text-sm text-zinc-500">
-        <li>
+
+      <section className="mt-12">
+        <h2 className="text-xl font-semibold text-zinc-100">
+          Top BIST Stock Analysis Pages
+        </h2>
+        <ul className="mt-4 flex flex-wrap gap-2">
+          {TOP_BIST_FOR_HUB.map((sym) => (
+            <li key={sym}>
+              <Link
+                href={`/bist/${sym}?lang=en`}
+                className="inline-block rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-sm text-emerald-400 hover:border-emerald-500/40"
+              >
+                {sym} analysis
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="text-xl font-semibold text-zinc-100">
+          Crypto Live Charts
+        </h2>
+        <ul className="mt-4 flex flex-wrap gap-2">
+          {TOP_CRYPTO_FOR_HUB.map((sym) => (
+            <li key={sym}>
+              <Link
+                href={`/crypto/${sym}?lang=en`}
+                className="inline-block rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-sm text-emerald-400 hover:border-emerald-500/40"
+              >
+                {sym.replace('USDT', '')} live
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-10 grid gap-4 sm:grid-cols-2">
+        {SEO_HUB_FEATURES_EN.map((f) => (
           <Link
-            className="text-emerald-400 hover:underline"
-            href="/crypto/BTCUSDT?lang=en"
+            key={f.href}
+            href={`${f.href}?lang=en`}
+            className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-4 transition-colors hover:border-emerald-500/30"
           >
-            BTC live chart
+            <h3 className="font-semibold text-zinc-100">{f.title}</h3>
+            <p className="mt-1 text-sm text-zinc-500">{f.desc}</p>
           </Link>
-        </li>
-        <li>
-          <Link className="text-emerald-400 hover:underline" href="/crypto?lang=en">
-            Crypto signal radar
-          </Link>
-        </li>
-        <li>
-          <Link
-            className="text-emerald-400 hover:underline"
-            href="/bist/THYAO?lang=en"
-          >
-            AI stock scorecard
-          </Link>
-        </li>
-        <li>
-          <Link
-            className="text-emerald-400 hover:underline"
-            href="/dividends?lang=en"
-          >
-            Live dividend tracker
-          </Link>
-        </li>
-      </ul>
+        ))}
+      </section>
+
+      <section className="mt-12">
+        <h2 className="text-xl font-semibold text-zinc-100">FAQ</h2>
+        <dl className="mt-4 space-y-4">
+          {FAQ.map((item) => (
+            <div key={item.q}>
+              <dt className="font-medium text-zinc-200">{item.q}</dt>
+              <dd className="mt-1 text-sm leading-relaxed text-zinc-400">
+                {item.a}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQ.map((item) => ({
+              '@type': 'Question',
+              name: item.q,
+              acceptedAnswer: { '@type': 'Answer', text: item.a },
+            })),
+          }),
+        }}
+      />
     </main>
   );
 }

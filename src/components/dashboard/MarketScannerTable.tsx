@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -17,6 +18,7 @@ import {
 } from '@/components/ui/dialog';
 import { useWatchlist } from '@/hooks/useWatchlist';
 import { usePreferences } from '@/components/providers/PreferencesProvider';
+import { assetDetailHref } from '@/lib/seo/internal-links';
 import type { ScannerItem } from '@/types/scanner';
 import { cn } from '@/lib/utils';
 
@@ -216,6 +218,7 @@ export function MarketScannerTable({
             {paginatedData.map((item) => {
               const positive = item.changePercent >= 0;
               const starred = hasSymbol(item.symbol);
+              const detailHref = assetDetailHref(item.symbol, item.category);
               return (
                 <tr
                   key={item.symbol}
@@ -245,9 +248,19 @@ export function MarketScannerTable({
                       />
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-bold text-[var(--foreground)] group-hover:text-emerald-400">
-                            {item.displaySymbol}
-                          </span>
+                          {detailHref ? (
+                            <Link
+                              href={detailHref}
+                              onClick={(e) => e.stopPropagation()}
+                              className="font-bold text-[var(--foreground)] hover:text-emerald-400 hover:underline"
+                            >
+                              {item.displaySymbol}
+                            </Link>
+                          ) : (
+                            <span className="font-bold text-[var(--foreground)] group-hover:text-emerald-400">
+                              {item.displaySymbol}
+                            </span>
+                          )}
                           <span className="rounded border border-[var(--border)] px-1 py-px text-[9px] font-semibold uppercase text-[var(--muted)]">
                             {item.market}
                           </span>

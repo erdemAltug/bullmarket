@@ -8,13 +8,13 @@ import './globals.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   display: 'swap',
 });
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
-  subsets: ['latin'],
+  subsets: ['latin', 'latin-ext'],
   display: 'swap',
 });
 
@@ -22,24 +22,27 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      'Bullsye — Canlı BİST, Kripto & Akıllı Alım Sinyalleri | Real-Time Market Terminal',
-    template: '%s | Bullsye Terminal',
+      'Bullsye — Canlı BİST Hisse Analizi, Kripto Sinyal & Temettü Terminali',
+    template: '%s | Bullsye',
   },
   description:
-    'Borsa İstanbul (BİST), Global Stocks, Crypto, and FX in real-time. Yapay zeka destekli alım fırsatları, canlı grafikler ve portföy sağlığı takibi.',
+    'Borsa İstanbul canlı hisse fiyatı, temel analiz karnesi, analist hedef fiyatları, kripto sinyal radarı ve temettü takvimi. Türkiye ve global piyasalar için ücretsiz finans analiz terminali.',
   keywords: [
     'Bullsye',
-    'Bullsye App',
-    'BİST 100 canlı',
-    'Borsa İstanbul alım fırsatları',
-    'Hisse temel analiz karnesi',
-    'Canlı borsa takip',
-    'Temettü takvimi',
-    'Real-time stock terminal',
-    'Crypto signal radar',
+    'BİST canlı',
+    'Borsa İstanbul hisse analizi',
+    'hisse fiyatı',
+    'temel analiz',
+    'analist hedef fiyat',
+    'temettü takvimi',
+    'kripto sinyal',
+    'Bitcoin canlı',
+    'BİST 100',
+    'stock analysis',
+    'price targets',
     'AI trading signals',
-    'Live market monitoring',
-    'Stock scorecards',
+    'crypto radar',
+    'financial terminal',
   ],
   authors: [{ name: 'Bullsye Team', url: SITE_URL }],
   creator: 'Bullsye',
@@ -50,7 +53,7 @@ export const metadata: Metadata = {
     languages: {
       'tr-TR': `${SITE_URL}/tr`,
       'en-US': `${SITE_URL}/en`,
-      'x-default': `${SITE_URL}/en`,
+      'x-default': `${SITE_URL}/tr`,
     },
   },
   icons: {
@@ -61,9 +64,9 @@ export const metadata: Metadata = {
     apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {
-    title: 'Bullsye — Global & BİST Financial Intelligence Terminal',
+    title: 'Bullsye — Canlı BİST, Kripto & Finans Analiz Terminali',
     description:
-      'Nailing every market move. Real-time BİST & Crypto monitoring with AI trading signals.',
+      'Hisse analizi, analist hedefleri, AI alım sinyalleri ve temettü takibi — tek terminalde.',
     url: SITE_URL,
     siteName: 'Bullsye',
     locale: 'tr_TR',
@@ -74,15 +77,17 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Financial%20Terminal`,
         width: 1200,
         height: 630,
-        alt: 'Bullsye Financial Terminal Preview',
+        alt: 'Bullsye Canlı BİST ve Kripto Analiz Terminali',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bullsye Terminal — TR/EN Market Intelligence',
-    description: 'Canlı BİST, Crypto Radar & AI Trading Signals',
+    site: '@bullsyeapp',
     creator: '@bullsyeapp',
+    title: 'Bullsye — BİST Hisse Analizi & Kripto Sinyaller',
+    description:
+      'Canlı BİST, analist hedef fiyatları, AI trading signals ve temettü takvimi.',
     images: [
       `${SITE_URL}/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Financial%20Terminal`,
     ],
@@ -98,6 +103,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  category: 'finance',
 };
 
 export default function RootLayout({
