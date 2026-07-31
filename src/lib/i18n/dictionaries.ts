@@ -7,6 +7,7 @@ export type Dictionary = {
     heatmap: string;
     crypto: string;
     fx: string;
+    compare: string;
     signals: string;
     targets: string;
     smartMoney: string;
@@ -40,6 +41,7 @@ const tr: Dictionary = {
     heatmap: 'Isı Haritası',
     crypto: 'Crypto',
     fx: 'Döviz',
+    compare: '1v1 Kıyasla',
     signals: 'AI Sinyalleri',
     targets: 'Hedef Fiyatlar',
     smartMoney: 'Balina & Takas',
@@ -73,6 +75,7 @@ const en: Dictionary = {
     heatmap: 'Heatmap',
     crypto: 'Crypto',
     fx: 'FX',
+    compare: '1v1 Compare',
     signals: 'AI Signals',
     targets: 'Price Targets',
     smartMoney: 'Smart Money',
@@ -106,6 +109,7 @@ const de: Dictionary = {
     heatmap: 'Heatmap',
     crypto: 'Krypto',
     fx: 'Devisen',
+    compare: '1v1 Vergleich',
     signals: 'KI-Signale',
     targets: 'Kursziele',
     smartMoney: 'Smart Money',
@@ -139,6 +143,7 @@ const es: Dictionary = {
     heatmap: 'Mapa de calor',
     crypto: 'Cripto',
     fx: 'Divisas',
+    compare: 'Comparar 1v1',
     signals: 'Señales IA',
     targets: 'Precios objetivo',
     smartMoney: 'Smart Money',

@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/bist',
     '/bist/heatmap',
     '/crypto',
+    '/compare',
     '/signals',
     '/targets',
     '/smart-money',

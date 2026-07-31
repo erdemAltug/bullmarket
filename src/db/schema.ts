@@ -42,7 +42,7 @@ export const portfolioTransactions = pgTable('portfolio_transactions', {
 
 /**
  * Price / % change alerts.
- * condition: price_above | price_below | change_above | change_below
+ * condition: price_above | price_below | change_above | change_below | rsi_above | rsi_below
  * (maps ABOVE/BELOW style for price_* kinds)
  */
 export const priceAlerts = pgTable('price_alerts', {

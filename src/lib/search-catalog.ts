@@ -45,6 +45,20 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
     href: '/fx/USD-TRY',
   },
   {
+    id: 'nav-compare',
+    label: '1v1 Kıyasla',
+    keywords: 'compare kıyasla vs benchmark thyao pegasus',
+    kind: 'nav',
+    href: '/compare',
+  },
+  {
+    id: 'nav-alerts',
+    label: 'Alarmlar',
+    keywords: 'alerts alarm bildirim rsi',
+    kind: 'nav',
+    href: '/alerts',
+  },
+  {
     id: 'nav-portfolio',
     label: 'Portföyüm',
     keywords: 'portfolio portföy holdings',

@@ -23,8 +23,10 @@ interface AlertModalProps {
 const KINDS: { value: AlertKind; label: string }[] = [
   { value: 'price_above', label: 'Fiyat üstü' },
   { value: 'price_below', label: 'Fiyat altı' },
-  { value: 'change_above', label: '% değişim üstü' },
+  { value: 'change_above', label: 'Volatilite spike (%)' },
   { value: 'change_below', label: '% değişim altı' },
+  { value: 'rsi_above', label: 'RSI aşırı alım' },
+  { value: 'rsi_below', label: 'RSI aşırı satım' },
 ];
 
 export function AlertModal({
@@ -38,6 +40,14 @@ export function AlertModal({
   const { addAlert } = useAlerts();
   const [kind, setKind] = useState<AlertKind>('price_above');
   const [threshold, setThreshold] = useState(String(currentPrice));
+
+  function onKindChange(next: AlertKind) {
+    setKind(next);
+    if (next === 'rsi_above') setThreshold('70');
+    else if (next === 'rsi_below') setThreshold('30');
+    else if (next.startsWith('change')) setThreshold('3');
+    else setThreshold(String(currentPrice));
+  }
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -67,7 +77,7 @@ export function AlertModal({
             Tip
             <select
               value={kind}
-              onChange={(e) => setKind(e.target.value as AlertKind)}
+              onChange={(e) => onKindChange(e.target.value as AlertKind)}
               className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100"
             >
               {KINDS.map((k) => (

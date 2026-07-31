@@ -140,7 +140,9 @@ export type AlertKind =
   | 'price_above'
   | 'price_below'
   | 'change_above'
-  | 'change_below';
+  | 'change_below'
+  | 'rsi_above'
+  | 'rsi_below';
 
 export interface PriceAlert {
   id: string;

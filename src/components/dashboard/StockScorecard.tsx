@@ -8,7 +8,8 @@ import { TermHint } from '@/components/shared/TermHint';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { useFundamentals } from '@/hooks/useIntelligence';
 import { useChartHistory } from '@/hooks/useMarketData';
-import { formatCompact, formatPrice } from '@/lib/utils';
+import { computeAssetHealth } from '@/lib/health-score';
+import { formatCompact, formatPrice, cn } from '@/lib/utils';
 import type { TermKey } from '@/lib/glossary';
 
 interface StockScorecardProps {
@@ -125,6 +126,47 @@ export function StockScorecard({
             <p className="text-sm text-red-400">{error.message}</p>
           ) : data ? (
             <>
+              {(() => {
+                const health = computeAssetHealth(data);
+                return (
+                  <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-[11px] uppercase tracking-wide text-zinc-500">
+                          Genel Sağlık Skoru
+                        </p>
+                        <p className="text-3xl font-black tabular-nums text-emerald-300">
+                          {health.overall}
+                          <span className="text-sm font-normal text-zinc-500">
+                            /100
+                          </span>
+                        </p>
+                        <p className="text-xs text-zinc-400">{health.label}</p>
+                      </div>
+                      <div className="grid flex-1 grid-cols-2 gap-2">
+                        {health.subs.map((s) => (
+                          <div key={s.key} className="text-right">
+                            <p className="text-[10px] text-zinc-500">{s.label}</p>
+                            <p
+                              className={cn(
+                                'text-sm font-semibold tabular-nums',
+                                s.score >= 70
+                                  ? 'text-emerald-400'
+                                  : s.score >= 45
+                                    ? 'text-amber-400'
+                                    : 'text-rose-400'
+                              )}
+                            >
+                              {s.score}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+
               <div className="grid grid-cols-2 gap-3">
                 <Stat
                   label="F/K"

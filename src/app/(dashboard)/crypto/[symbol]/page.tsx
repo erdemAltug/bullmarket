@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { permanentRedirect } from 'next/navigation';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
+import { CryptoHealthScorecard } from '@/components/dashboard/AssetHealthScorecard';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { OrderBookDepth } from '@/components/dashboard/OrderBookDepth';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
@@ -155,14 +156,19 @@ export default async function CryptoSymbolPage({ params }: Props) {
         />
       </div>
       {orderbook ? <OrderBookDepth orderbook={orderbook} /> : null}
+      <CryptoHealthScorecard
+        symbol={symbol}
+        changePercent={changePercent}
+        price={price}
+      />
       <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-400">
         <h2 className="mb-2 text-base font-semibold text-zinc-100">
           {display} hakkında
         </h2>
         <p>
-          {display} için canlı USDT çifti fiyatı, 24 saatlik değişim, grafik ve
-          emir defteri bu sayfada toplanır. Teknik takip ve fiyat alarmı
-          Bullsye üzerinden yönetilebilir.
+          {display} için canlı USDT çifti fiyatı, 24 saatlik değişim, grafik,
+          momentum karnesi ve emir defteri bu sayfada toplanır. Teknik takip ve
+          fiyat alarmı Bullsye üzerinden yönetilebilir.
         </p>
       </section>
     </AssetSeoShell>
