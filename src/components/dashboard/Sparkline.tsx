@@ -18,7 +18,17 @@ export function Sparkline({
   height = 28,
 }: SparklineProps) {
   if (!data.length) {
-    return <div className={cn('mx-auto', className)} style={{ width, height }} />;
+    return (
+      <div
+        className={cn(
+          'mx-auto flex items-center justify-center text-[10px] text-zinc-600',
+          className
+        )}
+        style={{ width, height }}
+      >
+        —
+      </div>
+    );
   }
 
   const min = Math.min(...data);

@@ -57,8 +57,8 @@ export function ProtectedFeature({
           {featureTitle} için Ücretsiz Hesap Oluşturun
         </h3>
         <p className="mb-4 max-w-xs text-xs text-[var(--muted)]">
-          Nokta atışı AI sinyalleri, analist hedef fiyatları ve balina
-          hareketlerini anında kilit açarak inceleyin.
+          Canlı sinyaller, Yahoo analist hedefleri ve hacim liderlerini ücretsiz
+          hesapla inceleyin.
         </p>
         <button
           type="button"
@@ -68,7 +68,7 @@ export function ProtectedFeature({
               feature: featureTitle,
               headline: `Ücretsiz Kayıt Ol & ${featureTitle}`,
               subtitle:
-                '1 tıkla Google ile devam et — sinyaller, hedefler ve balina takibi açılır.',
+                '1 tıkla Google ile devam et — sinyaller, hedefler ve canlı tarama açılır.',
             })
           }
           className="rounded-lg bg-emerald-500 px-5 py-2 text-xs font-bold text-black shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all hover:bg-emerald-400"

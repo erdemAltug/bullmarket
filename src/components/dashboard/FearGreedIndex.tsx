@@ -124,7 +124,7 @@ export function FearGreedIndex() {
             />
             <Dial
               value={data.bist.value}
-              label="BİST Endeksi"
+              label="BİST RSI Proxy"
               classification={data.bist.classification}
             />
           </div>

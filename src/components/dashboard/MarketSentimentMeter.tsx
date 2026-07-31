@@ -27,7 +27,7 @@ export function MarketSentimentMeter({
     <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
       <div className="mb-3 flex items-center justify-between gap-2">
         <h2 className="text-sm font-semibold tracking-tight">
-          Boğa & Ayı Hissiyat Metresi
+          Piyasa Genişlik Metresi
         </h2>
         <span
           className={cn(
@@ -64,7 +64,7 @@ export function MarketSentimentMeter({
         %{reading.value}
       </p>
       <p className="mt-1 text-center text-xs text-[var(--muted)]">
-        {reading.detail}
+        {reading.detail} · Bullsye genişlik endeksi (CNN Fear&amp;Greed değil)
       </p>
       <div className="mt-3 grid grid-cols-2 gap-2 text-center text-[11px] text-[var(--muted)]">
         <div className="rounded-lg bg-[var(--surface)]/60 px-2 py-1.5">

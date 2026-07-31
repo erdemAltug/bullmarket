@@ -23,6 +23,7 @@ function ratingTone(rating: string) {
 }
 
 export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
+  const isTechnical = data.source === 'technical';
   const totalVotes =
     data.ratings.strongBuy +
     data.ratings.buy +
@@ -66,7 +67,9 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-400">
                 <Target className="size-4" />
-                12 Aylık Analist Konsensüs Hedefi
+                {isTechnical
+                  ? '24s Teknik Fiyat Bandı (Binance)'
+                  : '12 Aylık Analist Konsensüs Hedefi'}
               </span>
               <span
                 className={cn(
@@ -77,7 +80,8 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
                 )}
               >
                 {data.upsidePotential >= 0 ? '+' : ''}
-                %{data.upsidePotential.toFixed(1)} Potansiyel Prim
+                %{data.upsidePotential.toFixed(1)}{' '}
+                {isTechnical ? 'zirveye mesafe' : 'Potansiyel Prim'}
               </span>
             </div>
 
@@ -96,7 +100,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
                 <div
                   className="absolute top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-zinc-950 bg-white shadow"
                   style={{ left: `${meanPct}%` }}
-                  title="Ortalama hedef"
+                  title={isTechnical ? '24s orta' : 'Ortalama hedef'}
                 />
                 <div
                   className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300 bg-emerald-500"
@@ -105,70 +109,95 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
                 />
               </div>
               <div className="flex justify-between font-mono text-[10px] text-zinc-500">
-                <span>En Düşük: {money(data.targetPriceLow, data.currency)}</span>
-                <span className="font-bold text-emerald-400">
-                  Ortalama: {money(data.targetPriceMean, data.currency)}
+                <span>
+                  {isTechnical ? '24s Dip' : 'En Düşük'}:{' '}
+                  {money(data.targetPriceLow, data.currency)}
                 </span>
-                <span>En Yüksek: {money(data.targetPriceHigh, data.currency)}</span>
+                <span className="font-bold text-emerald-400">
+                  {isTechnical ? 'Orta' : 'Ortalama'}:{' '}
+                  {money(data.targetPriceMean, data.currency)}
+                </span>
+                <span>
+                  {isTechnical ? '24s Zirve' : 'En Yüksek'}:{' '}
+                  {money(data.targetPriceHigh, data.currency)}
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="flex min-w-[200px] flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-5 text-center">
-            <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--muted)]">
-              Analist Konsensüsü
+          {!isTechnical && totalVotes > 0 ? (
+            <div className="flex min-w-[200px] flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-5 text-center">
+              <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--muted)]">
+                Analist Konsensüsü
+              </div>
+              <div
+                className={cn(
+                  'mt-1 text-xl font-extrabold',
+                  data.consensusRating === 'SAT'
+                    ? 'text-rose-400'
+                    : data.consensusRating === 'TUT'
+                      ? 'text-amber-300'
+                      : 'text-emerald-400'
+                )}
+              >
+                {data.consensusRating}
+              </div>
+              <div className="mt-1 text-[11px] text-[var(--muted)]">
+                %{buyPercent} analist AL öneriyor ({totalVotes} oy)
+              </div>
             </div>
-            <div
-              className={cn(
-                'mt-1 text-xl font-extrabold',
-                data.consensusRating === 'SAT'
-                  ? 'text-rose-400'
-                  : data.consensusRating === 'TUT'
-                    ? 'text-amber-300'
-                    : 'text-emerald-400'
-              )}
-            >
-              {data.consensusRating}
+          ) : (
+            <div className="flex min-w-[200px] flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-5 text-center">
+              <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--muted)]">
+                Kaynak
+              </div>
+              <div className="mt-1 text-sm font-bold text-cyan-400">
+                Canlı Binance
+              </div>
+              <div className="mt-1 text-[11px] text-[var(--muted)]">
+                Analist oyu yok — teknik bant
+              </div>
             </div>
-            <div className="mt-1 text-[11px] text-[var(--muted)]">
-              %{buyPercent} analist AL öneriyor ({totalVotes} kurum)
-            </div>
-          </div>
+          )}
         </div>
 
-        {/* Buy / Hold / Sell distribution */}
-        <div className="mt-5 space-y-2">
-          <p className="text-[11px] uppercase tracking-wide text-[var(--muted)]">
-            Tavsiye Dağılımı
-          </p>
-          <div className="flex h-3 overflow-hidden rounded-full bg-zinc-800">
-            {segments.map((s) =>
-              s.n > 0 ? (
-                <div
-                  key={s.label}
-                  className={cn('h-full', s.color)}
-                  style={{ width: `${(s.n / totalVotes) * 100}%` }}
-                  title={`${s.label}: ${s.n}`}
-                />
-              ) : null
-            )}
+        {!isTechnical && totalVotes > 0 ? (
+          <div className="mt-5 space-y-2">
+            <p className="text-[11px] uppercase tracking-wide text-[var(--muted)]">
+              Tavsiye Dağılımı (Yahoo)
+            </p>
+            <div className="flex h-3 overflow-hidden rounded-full bg-zinc-800">
+              {segments.map((s) =>
+                s.n > 0 ? (
+                  <div
+                    key={s.label}
+                    className={cn('h-full', s.color)}
+                    style={{ width: `${(s.n / totalVotes) * 100}%` }}
+                    title={`${s.label}: ${s.n}`}
+                  />
+                ) : null
+              )}
+            </div>
+            <div className="flex flex-wrap gap-3 text-[11px] text-[var(--muted)]">
+              {segments.map((s) => (
+                <span key={s.label}>
+                  <span
+                    className={cn(
+                      'mr-1 inline-block size-2 rounded-full',
+                      s.color
+                    )}
+                  />
+                  {s.label} {s.n}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3 text-[11px] text-[var(--muted)]">
-            {segments.map((s) => (
-              <span key={s.label}>
-                <span
-                  className={cn('mr-1 inline-block size-2 rounded-full', s.color)}
-                />
-                {s.label} {s.n}
-              </span>
-            ))}
-          </div>
-        </div>
+        ) : null}
 
         <div className="mt-6 rounded-xl border border-[var(--border)] bg-[var(--surface)]/40 p-4 text-xs text-[var(--muted)]">
           <div className="mb-1.5 flex items-center gap-2 font-bold text-emerald-400">
             <Sparkles className="size-3.5" />
-            Bullsye AI Yıllık Bakış Yorumu
+            {isTechnical ? 'Teknik not' : 'Analist özeti'}
           </div>
           <p className="leading-relaxed text-zinc-300">{data.aiSummaryNote}</p>
         </div>
@@ -177,7 +206,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
       <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 backdrop-blur-xl sm:p-6">
         <h3 className="mb-4 flex items-center gap-2 text-sm font-bold">
           <Building2 className="size-4 text-zinc-400" />
-          Aracı Kurum & Analist Raporları
+          {isTechnical ? 'Veri kaynağı' : 'Aracı Kurum & Analist Raporları'}
         </h3>
         <div className="space-y-3">
           {data.recentBrokerReports.map((report) => (
@@ -207,7 +236,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
                   {report.rating}
                 </span>
                 <div className="mt-1 font-mono text-xs font-bold">
-                  Hedef: {money(report.targetPrice, data.currency)}
+                  Ref: {money(report.targetPrice, data.currency)}
                 </div>
               </div>
             </div>

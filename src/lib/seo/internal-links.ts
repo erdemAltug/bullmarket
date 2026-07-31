@@ -40,7 +40,7 @@ export const SEO_HUB_FEATURES_TR = [
   },
   {
     href: '/signals',
-    title: 'Yapay Zeka Alım Sinyalleri',
+    title: 'Canlı Alım Sinyalleri',
     desc: 'RSI, SMA ve momentum tabanlı akıllı al/sat kartları.',
   },
   {

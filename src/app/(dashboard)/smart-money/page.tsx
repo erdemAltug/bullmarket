@@ -32,11 +32,11 @@ export default function SmartMoneyPage() {
       <div>
         <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
           <Waves className="size-6 text-cyan-400" />
-          Balina & Smart Money
+          Hacim & Momentum Liderleri
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Canlı hacim × momentum liderleri (Yahoo + Binance) — sahte takas/balina
-          listesi yok
+          Canlı hacim × fiyat değişimi (Yahoo + Binance) — net takas / balina
+          akışı iddiası yok
         </p>
       </div>
 

@@ -19,10 +19,10 @@ export interface PotentialCard {
   currency: 'TRY' | 'USD';
   score: number;
   changePercent: number;
-  bullTarget: number;
-  bullUpsidePct: number;
-  baseTarget: number;
-  baseUpsidePct: number;
+  /** Real day-high distance % when available; else null */
+  toHighPct: number | null;
+  dayHigh: number | null;
+  dayLow: number | null;
   catalysts: string[];
   href: string | null;
 }
@@ -103,7 +103,7 @@ function catalystsFor(item: ScannerItem, score: number): string[] {
   }
 
   if (score >= 80) {
-    out.push(`AI skor ${score}/100 — üst dilim fırsat adayı`);
+    out.push(`Fırsat skoru ${score}/100 — üst dilim (canlı metrik)`);
   } else if (item.category === 'BIST') {
     out.push('BİST likidite evreninde tarama sinyali pozitif');
   } else {
@@ -133,8 +133,13 @@ export function buildPotentialCards(
   const ranked = eligible
     .map((item) => {
       const score = scoreOpportunity(item);
-      const bullUpside = 12 + (score / 100) * 38;
-      const baseUpside = 5 + (score / 100) * 18;
+      const dayHigh =
+        item.dayHigh && item.dayHigh > 0 ? item.dayHigh : null;
+      const dayLow = item.dayLow && item.dayLow > 0 ? item.dayLow : null;
+      const toHighPct =
+        dayHigh && item.price > 0
+          ? ((dayHigh - item.price) / item.price) * 100
+          : null;
       return {
         symbol: item.symbol,
         displaySymbol: item.displaySymbol,
@@ -144,10 +149,9 @@ export function buildPotentialCards(
         currency: item.currency,
         score,
         changePercent: item.changePercent,
-        bullTarget: item.price * (1 + bullUpside / 100),
-        bullUpsidePct: bullUpside,
-        baseTarget: item.price * (1 + baseUpside / 100),
-        baseUpsidePct: baseUpside,
+        toHighPct,
+        dayHigh,
+        dayLow,
         catalysts: catalystsFor(item, score),
         href: detailHref(item),
       } satisfies PotentialCard;
@@ -159,9 +163,9 @@ export function buildPotentialCards(
 
 export function buildDailyVision(items: ScannerItem[]): DailyVisionReport {
   const cards = buildPotentialCards(items, 12);
-  const avgUpside =
+  const avgScore =
     cards.length > 0
-      ? cards.reduce((s, c) => s + c.bullUpsidePct, 0) / cards.length
+      ? cards.reduce((s, c) => s + c.score, 0) / cards.length
       : 0;
   const movers = items.filter((i) => i.price > 0 && !i.displaySymbol.includes('XU'));
   const bullish = movers.filter((i) => i.changePercent >= 0).length;
@@ -170,22 +174,22 @@ export function buildDailyVision(items: ScannerItem[]): DailyVisionReport {
   const topSymbols = cards.slice(0, 4).map((c) => c.displaySymbol);
 
   const tone =
-    avgUpside >= 30
+    avgScore >= 72
       ? 'fırsat pencereleri açılıyor'
-      : avgUpside >= 18
+      : avgScore >= 55
         ? 'seçici alım fırsatları oluşuyor'
         : 'temkinli ama izlenebilir kırılımlar var';
 
-  const headline = `AI Günlük Vizyon · ${tone.charAt(0).toUpperCase()}${tone.slice(1)}`;
+  const headline = `Günlük tarama · ${tone.charAt(0).toUpperCase()}${tone.slice(1)}`;
 
-  const body = `Piyasalarda ${tone}. Algoritmamız BİST, global hisse ve kripto tarafında taradığı canlı veride ortalama %${avgUpside.toFixed(0)} büyüme potansiyeli taşıyan ${opportunityCount || cards.length} kırılım/fırsat profili tespit etti${
+  const body = `Canlı Yahoo + Binance taramasında ${tone}. Ortalama fırsat skoru ${avgScore.toFixed(0)}/100 · ${opportunityCount || cards.length} yüksek skorlu profil${
     topSymbols.length ? ` — öne çıkanlar: ${topSymbols.join(', ')}` : ''
-  }. Günlük genişlik: yükselenlerin oranı %${bullishShare.toFixed(0)}.`;
+  }. Günlük genişlik: yükselenlerin oranı %${bullishShare.toFixed(0)}. Bu bir fiyat tahmini değildir.`;
 
   return {
     headline,
     body,
-    avgUpsidePct: avgUpside,
+    avgUpsidePct: avgScore,
     bullishShare,
     opportunityCount: opportunityCount || cards.length,
     topSymbols,

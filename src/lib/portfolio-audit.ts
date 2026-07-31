@@ -1,9 +1,35 @@
 import { peersFor } from '@/lib/sector-peers';
+import {
+  normalizeYieldPct,
+  resolveSymbol,
+  type AssetMarket,
+} from '@/lib/symbol-resolve';
 import type { HealthFinding, PortfolioHealthReport } from '@/types';
 
 export interface AuditHolding {
   symbol: string;
   weight: number;
+  /** Yahoo symbol if known from search (e.g. THYAO.IS, AAPL, BTC-USD) */
+  yahoo?: string | null;
+  market?: AssetMarket;
+  name?: string;
+}
+
+export interface LiveHoldingMetrics {
+  symbol: string;
+  display: string;
+  yahoo: string | null;
+  market: AssetMarket;
+  name: string;
+  price: number | null;
+  currency: string | null;
+  beta: number | null;
+  dividendYieldPct: number | null;
+  sector: string;
+  pe: number | null;
+  marketCap: number | null;
+  ok: boolean;
+  error?: string;
 }
 
 export interface PortfolioAuditResult extends PortfolioHealthReport {
@@ -12,37 +38,24 @@ export interface PortfolioAuditResult extends PortfolioHealthReport {
   estimatedYieldPct: number;
   betaIndex: number;
   sectorWeights: { sector: string; weight: number }[];
+  holdings: LiveHoldingMetrics[];
+  live: boolean;
 }
 
-function toYahoo(sym: string): string {
-  const s = sym.trim().toUpperCase();
-  if (s.endsWith('USDT') || ['BTC', 'ETH', 'SOL', 'BNB'].includes(s)) {
-    return s.endsWith('USDT') ? s : `${s}USDT`;
-  }
-  if (s.includes('.')) return s;
-  return `${s}.IS`;
-}
-
-function assetClass(sym: string): 'bist' | 'crypto' | 'fx' {
-  const u = sym.toUpperCase();
-  if (
-    u.endsWith('USDT') ||
-    ['BTC', 'ETH', 'SOL', 'BNB'].includes(u.replace('.IS', ''))
-  ) {
-    return 'crypto';
-  }
-  return 'bist';
-}
-
-function sectorOf(sym: string): string {
-  const yahoo = toYahoo(sym);
-  if (yahoo.endsWith('USDT') || assetClass(sym) === 'crypto') return 'Kripto';
-  const peers = peersFor(yahoo);
-  return peers?.sectorTr ?? 'Diğer BİST';
+export function fallbackSector(
+  display: string,
+  yahoo: string | null,
+  market: AssetMarket
+): string {
+  if (market === 'crypto') return 'Kripto';
+  if (market === 'us') return 'NASDAQ / US';
+  const peers = peersFor(yahoo ?? `${display}.IS`);
+  return peers?.sectorTr ?? 'BİST';
 }
 
 export function auditPortfolioWeights(
-  holdings: AuditHolding[]
+  holdings: AuditHolding[],
+  liveMetrics?: LiveHoldingMetrics[] | null
 ): PortfolioAuditResult | null {
   if (!holdings.length) return null;
 
@@ -52,46 +65,79 @@ export function auditPortfolioWeights(
     weight: (h.weight / total) * 100,
   }));
 
-  const herfindahl = normalized.reduce((s, h) => {
+  const metricsByDisplay = new Map(
+    (liveMetrics ?? []).map((m) => [m.display.toUpperCase(), m])
+  );
+
+  const enriched = normalized.map((h) => {
+    const key = h.symbol.toUpperCase();
+    const live = metricsByDisplay.get(key);
+    const resolved = resolveSymbol(h.yahoo ?? h.symbol);
+    const market = h.market ?? live?.market ?? resolved.market;
+    const yahoo = h.yahoo ?? live?.yahoo ?? resolved.yahoo;
+    const sector =
+      live?.sector ||
+      fallbackSector(h.symbol, yahoo, market);
+    return {
+      ...h,
+      market,
+      yahoo,
+      sector,
+      beta: live?.beta ?? (market === 'crypto' ? 1.65 : 1),
+      yieldPct: live?.dividendYieldPct ?? 0,
+      name: live?.name ?? h.name ?? h.symbol,
+      liveOk: live?.ok ?? false,
+    };
+  });
+
+  const herfindahl = enriched.reduce((s, h) => {
     const w = h.weight / 100;
     return s + w * w;
   }, 0);
   const diversification = Math.round((1 - herfindahl) * 100);
 
   const sectorMap = new Map<string, number>();
-  for (const h of normalized) {
-    const sec = sectorOf(h.symbol);
-    sectorMap.set(sec, (sectorMap.get(sec) ?? 0) + h.weight);
+  for (const h of enriched) {
+    sectorMap.set(h.sector, (sectorMap.get(h.sector) ?? 0) + h.weight);
   }
   const sectorWeights = [...sectorMap.entries()]
     .map(([sector, weight]) => ({ sector, weight }))
     .sort((a, b) => b.weight - a.weight);
 
-  const cryptoShare = normalized
-    .filter((h) => assetClass(h.symbol) === 'crypto')
+  const cryptoShare = enriched
+    .filter((h) => h.market === 'crypto')
     .reduce((s, h) => s + h.weight, 0);
-  const tryShare = 100 - cryptoShare;
+  const usShare = enriched
+    .filter((h) => h.market === 'us')
+    .reduce((s, h) => s + h.weight, 0);
+  const bistShare = enriched
+    .filter((h) => h.market === 'bist')
+    .reduce((s, h) => s + h.weight, 0);
 
-  const estimatedYieldPct = 0;
+  const estimatedYieldPct =
+    Math.round(
+      enriched.reduce((s, h) => s + (h.yieldPct * h.weight) / 100, 0) * 100
+    ) / 100;
 
-  let betaIndex = 0;
-  for (const h of normalized) {
-    const sec = sectorOf(h.symbol);
-    let b = 1;
-    if (sec === 'Kripto') b = 1.65;
-    else if (sec.includes('Banka')) b = 1.15;
-    else if (sec.includes('Havacılık')) b = 1.35;
-    else if (sec.includes('Savunma')) b = 1.25;
-    betaIndex += (b * h.weight) / 100;
-  }
+  let betaIndex = enriched.reduce(
+    (s, h) => s + ((h.beta ?? 1) * h.weight) / 100,
+    0
+  );
   betaIndex = Math.round(betaIndex * 100) / 100;
 
   const risk = Math.min(
     100,
-    Math.round(30 + cryptoShare * 0.45 + herfindahl * 40 + (betaIndex - 1) * 25)
+    Math.round(
+      28 +
+        cryptoShare * 0.48 +
+        herfindahl * 38 +
+        Math.max(0, betaIndex - 1) * 28 +
+        (usShare > 0 && bistShare > 0 ? -4 : 0)
+    )
   );
 
   const findings: HealthFinding[] = [];
+  const live = Boolean(liveMetrics?.length);
 
   const topSector = sectorWeights[0];
   if (topSector && topSector.weight >= 40) {
@@ -99,11 +145,11 @@ export function auditPortfolioWeights(
       id: 'sector-heavy',
       severity: topSector.weight >= 60 ? 'critical' : 'warn',
       title: 'Sektörel Yoğunlaşma',
-      message: `Portföyünüzün %${topSector.weight.toFixed(0)}'i ${topSector.sector} sektöründe — aşırı riskli.`,
+      message: `Portföyünüzün %${topSector.weight.toFixed(0)}'i ${topSector.sector} — çeşitlendirin.`,
     });
   }
 
-  const maxHolding = [...normalized].sort((a, b) => b.weight - a.weight)[0];
+  const maxHolding = [...enriched].sort((a, b) => b.weight - a.weight)[0];
   if (maxHolding && maxHolding.weight >= 40) {
     findings.push({
       id: 'single-heavy',
@@ -113,47 +159,69 @@ export function auditPortfolioWeights(
     });
   }
 
-  if (tryShare >= 80) {
+  if (bistShare >= 80) {
     findings.push({
-      id: 'try-heavy',
+      id: 'bist-heavy',
       severity: 'warn',
-      title: 'TL Yoğunluğu',
-      message: `Portföyünüz %${tryShare.toFixed(0)} TL varlık. Kripto/döviz çeşitlendirmesi düşünün.`,
+      title: 'BİST Yoğunluğu',
+      message: `Portföyünüz %${bistShare.toFixed(0)} BİST. NASDAQ / kripto ile coğrafi çeşitlilik düşünün.`,
     });
   }
 
-  if (cryptoShare >= 50) {
+  if (usShare >= 80) {
+    findings.push({
+      id: 'us-heavy',
+      severity: 'info',
+      title: 'USD Yoğunluğu',
+      message: `Portföyünüz %${usShare.toFixed(0)} ABD hissesi — kur ve Fed riskini izleyin.`,
+    });
+  }
+
+  if (cryptoShare >= 40) {
     findings.push({
       id: 'crypto-heavy',
-      severity: 'warn',
+      severity: cryptoShare >= 60 ? 'critical' : 'warn',
       title: 'Kripto Ağırlığı',
-      message: `Kripto payı %${cryptoShare.toFixed(0)}.`,
+      message: `Kripto payı %${cryptoShare.toFixed(0)} (canlı Binance).`,
     });
   }
 
-  findings.push({
-    id: 'yield-live',
-    severity: 'info',
-    title: 'Temettü Verimi',
-    message:
-      'Tahmini temettü için Temettü Karnesi sayfasındaki canlı Yahoo verimini kullanın.',
-  });
+  if (live && estimatedYieldPct > 0) {
+    findings.push({
+      id: 'yield-live',
+      severity: 'info',
+      title: 'Canlı Temettü',
+      message: `Ağırlıklı yıllık temettü verimi ~%${estimatedYieldPct.toFixed(2)} (Yahoo).`,
+    });
+  } else if (live) {
+    findings.push({
+      id: 'yield-low',
+      severity: 'info',
+      title: 'Temettü',
+      message:
+        'Seçili varlıkların Yahoo temettü verimi düşük veya sıfır (büyüme / kripto odaklı).',
+    });
+  }
 
   if (betaIndex >= 1.35) {
     findings.push({
       id: 'beta-high',
       severity: 'warn',
       title: 'Yüksek Beta',
-      message: `Portföy beta ~${betaIndex}.`,
+      message: `Canlı portföy beta ~${betaIndex} (Yahoo / kripto varsayılan 1.65).`,
     });
   }
 
-  let score = 90;
-  for (const f of findings) {
-    if (f.severity === 'critical') score -= 20;
-    else if (f.severity === 'warn') score -= 12;
+  const failed = (liveMetrics ?? []).filter((m) => !m.ok);
+  if (failed.length) {
+    findings.push({
+      id: 'fetch-fail',
+      severity: 'warn',
+      title: 'Eksik Veri',
+      message: `${failed.map((f) => f.display).join(', ')} için canlı veri alınamadı.`,
+    });
   }
-  score = Math.max(20, Math.min(98, score));
+
   const health = Math.max(
     0,
     Math.min(100, Math.round(diversification * 0.55 + (100 - risk) * 0.45))
@@ -169,5 +237,9 @@ export function auditPortfolioWeights(
     estimatedYieldPct,
     betaIndex,
     sectorWeights,
+    holdings: liveMetrics ?? [],
+    live,
   };
 }
+
+export { normalizeYieldPct, resolveSymbol };

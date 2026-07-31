@@ -117,7 +117,7 @@ export function BistHealthScorecard({ yahooSymbol }: { yahooSymbol: string }) {
 
   return (
     <ScorecardShell
-      title="Yapay Zeka Şirket Sağlık Karnesi"
+      title="Şirket Sağlık Karnesi"
       report={report}
       loading={isLoading}
       error={error?.message}

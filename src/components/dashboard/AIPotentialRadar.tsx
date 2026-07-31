@@ -42,10 +42,10 @@ export function AIPotentialRadar({ cards, loading }: AIPotentialRadarProps) {
     <section className="space-y-4">
       <div>
         <h2 className="text-lg font-semibold tracking-tight">
-          AI Gelecek Potansiyel Radarı
+          Canlı Fırsat Radarı
         </h2>
         <p className="mt-0.5 text-xs text-[var(--muted)]">
-          Canlı F/K, hacim ve teknik banttan türetilen 100 üzerinden fırsat skoru
+          F/K, hacim ve gün içi banttan skor — uydurma fiyat hedefi yok
         </p>
       </div>
 
@@ -95,7 +95,7 @@ export function AIPotentialRadar({ cards, loading }: AIPotentialRadarProps) {
                 )}
               >
                 <p className="text-[9px] uppercase tracking-wide opacity-80">
-                  AI Skor
+                  Skor
                 </p>
                 <p className="font-mono text-lg font-black leading-none">
                   {card.score}
@@ -104,19 +104,28 @@ export function AIPotentialRadar({ cards, loading }: AIPotentialRadarProps) {
               </div>
             </div>
 
-            <div className="mt-4 space-y-2.5">
-              <ScenarioBar
-                label="Boğa senaryosu"
-                pct={card.bullUpsidePct}
-                target={money(card.bullTarget, card.currency)}
-                tone="emerald"
-              />
-              <ScenarioBar
-                label="Baz senaryo"
-                pct={card.baseUpsidePct}
-                target={money(card.baseTarget, card.currency)}
-                tone="zinc"
-              />
+            <div className="mt-4 grid grid-cols-2 gap-2 text-[11px]">
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)]/50 p-2">
+                <p className="text-[var(--muted)]">Gün içi zirve</p>
+                <p className="mt-0.5 font-mono font-semibold">
+                  {card.dayHigh != null
+                    ? money(card.dayHigh, card.currency)
+                    : '—'}
+                </p>
+                {card.toHighPct != null ? (
+                  <p className="text-[10px] text-emerald-400">
+                    mesafe %{card.toHighPct.toFixed(1)}
+                  </p>
+                ) : null}
+              </div>
+              <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)]/50 p-2">
+                <p className="text-[var(--muted)]">Gün içi dip</p>
+                <p className="mt-0.5 font-mono font-semibold">
+                  {card.dayLow != null
+                    ? money(card.dayLow, card.currency)
+                    : '—'}
+                </p>
+              </div>
             </div>
 
             <div className="mt-4 border-t border-[var(--border)] pt-3">
@@ -136,38 +145,5 @@ export function AIPotentialRadar({ cards, loading }: AIPotentialRadarProps) {
         ))}
       </div>
     </section>
-  );
-}
-
-function ScenarioBar({
-  label,
-  pct,
-  target,
-  tone,
-}: {
-  label: string;
-  pct: number;
-  target: string;
-  tone: 'emerald' | 'zinc';
-}) {
-  const width = Math.min(100, Math.max(8, pct * 1.6));
-  return (
-    <div>
-      <div className="mb-1 flex justify-between text-[11px]">
-        <span className="text-[var(--muted)]">{label}</span>
-        <span className="font-mono font-semibold text-[var(--foreground)]">
-          +%{pct.toFixed(0)} · {target}
-        </span>
-      </div>
-      <div className="h-2 overflow-hidden rounded-full bg-zinc-800">
-        <div
-          className={cn(
-            'h-full rounded-full transition-all',
-            tone === 'emerald' ? 'bg-emerald-500' : 'bg-zinc-500'
-          )}
-          style={{ width: `${width}%` }}
-        />
-      </div>
-    </div>
   );
 }

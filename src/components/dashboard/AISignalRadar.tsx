@@ -63,15 +63,16 @@ export function AISignalRadar({
           <div className="flex items-center gap-2">
             <Sparkles className="size-5 text-emerald-400" />
             <h2 className="text-lg font-bold tracking-tight text-[var(--foreground)]">
-              AI Signal Radar
+              Signal Radar
             </h2>
             <span className="animate-pulse rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
-              LIVE ALGO
+              CANLI
             </span>
           </div>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Canlı fiyat aksiyonuna bağlı RSI, SMA, MACD ve destek/direnç
-            sinyalleri — {filteredSignals.length} aktif kart
+            Gün içi high/low + momentum — canlı Yahoo/Binance fiyatından ·{' '}
+            {filteredSignals.length} aktif kart (RSI/SMA için grafik geçmişi
+            kullanılır)
           </p>
         </div>
 

@@ -1,16 +1,18 @@
 import { NextResponse } from 'next/server';
-import { getEconomicCalendar } from '@/lib/economic-calendar';
-import { appCache } from '@/lib/cache';
 
+/**
+ * Live economic calendar feed is not wired yet.
+ * Returning empty avoids showing fabricated TCMB/CPI dates to users.
+ */
 export async function GET() {
-  const cacheKey = 'calendar:v1';
-  const hit = appCache.get(cacheKey);
-  if (hit) {
-    return NextResponse.json({ success: true, data: hit, cached: true });
-  }
-
-  const events = getEconomicCalendar();
-  const payload = { events, generatedAt: new Date().toISOString() };
-  appCache.set(cacheKey, payload, 600);
-  return NextResponse.json({ success: true, data: payload });
+  return NextResponse.json({
+    success: true,
+    data: {
+      events: [],
+      live: false,
+      generatedAt: new Date().toISOString(),
+      notice:
+        'Canlı ekonomik takvim henüz bağlanmadı — uydurma tarihler gösterilmiyor.',
+    },
+  });
 }

@@ -3,13 +3,18 @@ import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
-  title: 'Balina & Smart Money Takas Akışı',
+  title: 'Hacim & Momentum Liderleri',
   description:
-    'BİST hisse net takas ve smart money hareketleri. Kurumsal alım/satım izleri — Bullsye.',
-  keywords: ['smart money', 'net takas', 'balina hareketi', 'kurumsal alım'],
+    'BİST ve kripto canlı hacim × momentum liderleri. Yahoo + Binance verisi — Bullsye.',
+  keywords: [
+    'hacim liderleri',
+    'momentum',
+    'BİST hacim',
+    'kripto volume',
+  ],
   alternates: withLangAlternates('/smart-money'),
   openGraph: {
-    title: 'Smart Money | Bullsye',
+    title: 'Hacim & Momentum | Bullsye',
     url: `${SITE_URL}/smart-money`,
   },
 };

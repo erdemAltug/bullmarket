@@ -18,8 +18,9 @@ export interface SignalCardData {
 }
 
 /**
- * Live signal cards from real price + session/24h high-low.
- * SL/TP are mathematical % of the live entry (no mock arrays).
+ * Intraday band signals from live price + session/24h high-low.
+ * Not RSI/SMA/MACD — those live on /api/signals (history-based).
+ * SL/TP are mathematical % of the live entry.
  */
 export function generateRealTimeSignals(
   marketItems: ScannerItem[]
@@ -36,8 +37,11 @@ export function generateRealTimeSignals(
 
   for (const item of eligible) {
     const price = item.price;
-    const high = item.dayHigh && item.dayHigh > 0 ? item.dayHigh : price * 1.02;
-    const low = item.dayLow && item.dayLow > 0 ? item.dayLow : price * 0.98;
+    if (!item.dayHigh || !item.dayLow || item.dayHigh <= item.dayLow) {
+      continue; // require real high/low — no invented bands
+    }
+    const high = item.dayHigh;
+    const low = item.dayLow;
     const span = Math.max(high - low, price * 0.005);
     const rangePos = Math.min(1, Math.max(0, (price - low) / span));
     const chg = item.changePercent;
@@ -47,26 +51,26 @@ export function generateRealTimeSignals(
 
     if (rangePos <= 0.22 && chg > -8) {
       signalType = rangePos <= 0.12 ? 'STRONG_BUY' : 'BUY';
-      strategyName = 'Destek (gün içi dip) tepkisi — aşırı satım bölgesi';
+      strategyName = 'Gün içi dip bandı — canlı high/low desteği';
     } else if (rangePos >= 0.82 && chg < 8) {
       signalType = 'SELL';
-      strategyName = 'Direnç (gün içi zirve) reddi — aşırı alım bölgesi';
+      strategyName = 'Gün içi zirve bandı — direnç reddi';
     } else if (chg >= 3 && rangePos < 0.7) {
       signalType = chg >= 5 ? 'STRONG_BUY' : 'BUY';
-      strategyName = 'Momentum kırılımı — güçlü pozitif günlük değişim';
+      strategyName = `Momentum +%${chg.toFixed(1)} — canlı günlük değişim`;
     } else if (chg <= -3 && rangePos > 0.3) {
       signalType = 'SELL';
-      strategyName = 'Negatif ivme — destek kırılımı riski';
+      strategyName = `Negatif ivme %${chg.toFixed(1)} — destek kırılım riski`;
     } else if (price >= high * 0.995 && chg > 0) {
       signalType = 'BUY';
       strategyName = 'Gün içi zirveye yakın kırılım denemesi';
     } else {
-      continue; // no clear live signal — skip (no fake cards)
+      continue;
     }
 
     const isBuy = signalType === 'BUY' || signalType === 'STRONG_BUY';
-    const slPct = isBuy ? 0.028 : 0.028;
-    const tpPct = isBuy ? 0.055 : 0.055;
+    const slPct = 0.028;
+    const tpPct = 0.055;
     const stopLoss = isBuy
       ? Math.min(price * (1 - slPct), low)
       : Math.max(price * (1 + slPct), high);

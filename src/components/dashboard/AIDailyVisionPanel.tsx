@@ -33,7 +33,7 @@ export function AIDailyVisionPanel({
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-400">
               <Sparkles className="size-3.5" />
-              Yapay Zeka Günlük Vizyon
+              Canlı Günlük Tarama
             </span>
             <span className="text-[11px] text-zinc-500">
               {new Date(report.asOf).toLocaleString('tr-TR', {
@@ -55,7 +55,7 @@ export function AIDailyVisionPanel({
         <div className="grid shrink-0 grid-cols-3 gap-2 sm:gap-3">
           {(
             [
-              ['Ort. potansiyel', `%${report.avgUpsidePct.toFixed(0)}`],
+              ['Ort. skor', `${report.avgUpsidePct.toFixed(0)}/100`],
               ['Fırsat kartı', String(report.opportunityCount)],
               ['Yükselen pay', `%${report.bullishShare.toFixed(0)}`],
             ] as const

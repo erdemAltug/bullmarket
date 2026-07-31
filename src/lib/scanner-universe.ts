@@ -60,35 +60,30 @@ export const SCANNER_US_SYMBOLS = [
   'AMD',
   'NFLX',
   'INTC',
+  'AVGO',
+  'ORCL',
+  'CRM',
+  'PLTR',
+  'COIN',
   'JPM',
   'V',
   'BAC',
+  'XOM',
+  'WMT',
   'DIS',
   'COST',
+  'KO',
+  'BA',
+  'UBER',
 ] as const;
 
-/** Deterministic 7-point sparkline ending near current move */
+/** Deterministic sparkline removed — do not invent price history. */
 export function buildSparkline(
-  price: number,
-  changePercent: number,
-  seed: string
+  _price: number,
+  _changePercent: number,
+  _seed: string
 ): number[] {
-  const points = 7;
-  const end = Math.max(price, 0.0001);
-  const start = end / (1 + changePercent / 100);
-  const out: number[] = [];
-  let hash = 0;
-  for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) | 0;
-
-  for (let i = 0; i < points; i++) {
-    const t = i / (points - 1);
-    const base = start + (end - start) * t;
-    hash = (hash * 1664525 + 1013904223) | 0;
-    const wobble = ((hash % 1000) / 1000 - 0.5) * Math.abs(end - start) * 0.35;
-    out.push(Math.max(0.0001, base + wobble));
-  }
-  out[points - 1] = end;
-  return out;
+  return [];
 }
 
 export function formatVolumeDisplay(

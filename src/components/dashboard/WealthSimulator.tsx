@@ -15,8 +15,8 @@ interface WealthSimulatorProps {
 
 export function WealthSimulator({
   defaultPrincipal = 100_000,
-  suggestedReturnPct = 18,
-  title = '3 Yıllık Gelecek Servet Simülatörü',
+  suggestedReturnPct = 10,
+  title = '3 Yıllık Servet Simülatörü',
 }: WealthSimulatorProps) {
   const [principal, setPrincipal] = useState(String(Math.round(defaultPrincipal) || 100000));
   const [annualReturn, setAnnualReturn] = useState(
@@ -48,7 +48,7 @@ export function WealthSimulator({
             {title}
           </h2>
           <p className="mt-0.5 text-[11px] text-[var(--muted)]">
-            Bileşik getiri + temettü/katkı yeniden yatırımı (DRIP)
+            Varsayımsal bileşik getiri simülasyonu — tahmin / tavsiye değildir
           </p>
         </div>
         <label className="flex items-center gap-2 text-xs text-[var(--muted)]">

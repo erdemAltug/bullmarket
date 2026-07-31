@@ -40,8 +40,8 @@ export function EconomicCalendar() {
       ) : !events.length ? (
         <EmptyState
           icon={CalendarClock}
-          title="Takvim boş"
-          description="Yaklaşan ekonomik olay bulunamadı."
+          title="Canlı takvim yok"
+          description="Ekonomik olay feed’i henüz bağlanmadı — uydurma tarihler göstermiyoruz."
           className="py-8"
         />
       ) : (
