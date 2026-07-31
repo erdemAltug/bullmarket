@@ -5,6 +5,7 @@ import { MetricCard } from '@/components/dashboard/MetricCard';
 import { OrderBookDepth } from '@/components/dashboard/OrderBookDepth';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
 import { fetchOrderBook, fetchTickers } from '@/lib/api/binance';
+import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import {
   SITE_URL,
   SEO_CRYPTO_SYMBOLS,
@@ -14,7 +15,10 @@ import {
 
 export const revalidate = 60;
 
-type Props = { params: Promise<{ symbol: string }> };
+type Props = {
+  params: Promise<{ symbol: string }>;
+  searchParams: Promise<{ lang?: string }>;
+};
 
 function normalizeCrypto(raw: string): string {
   let s = raw.trim().toUpperCase();
@@ -26,9 +30,14 @@ export async function generateStaticParams() {
   return SEO_CRYPTO_SYMBOLS.map((symbol) => ({ symbol }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
   const symbol = normalizeCrypto((await params).symbol);
   const display = symbol.replace('USDT', '');
+  const lang = resolveSeoLang((await searchParams).lang);
+  const isTr = lang === 'tr';
 
   let priceNum = 0;
   let changeNum = 0;
@@ -44,28 +53,46 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const price = formatMetaPrice(priceNum, 'USD');
   const change = formatMetaChange(changeNum);
-  const canonicalUrl = `${SITE_URL}/crypto/${symbol}`;
-  const title = `${display} Canlı Fiyatı $${price} (${change}), Grafiği & Sinyal Radarı`;
-  const description = `${display} (${symbol}) 24 saatlik canlı fiyat değişimi, hacim derinliği (Order Book), RSI kırılım sinyalleri ve canlı grafik takibi Bullsye Terminal'de.`;
-  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(`$${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('CRYPTO')}&type=CRYPTO`;
+  const path = `/crypto/${symbol}`;
+  const canonicalUrl = `${SITE_URL}${path}`;
+
+  const title = isTr
+    ? `${display} Canlı Fiyatı $${price} (${change}), Grafiği & Sinyal Radarı`
+    : `${display} Live Price $${price} (${change}) — Chart & Signal Radar`;
+
+  const description = isTr
+    ? `${display} (${symbol}) 24 saatlik canlı fiyat değişimi, hacim derinliği (Order Book), RSI kırılım sinyalleri ve canlı grafik takibi Bullsye Terminal'de.`
+    : `Real-time ${display} (${symbol}) price, 24h volume, order book depth, RSI breakout signals and live charts on Bullsye Terminal.`;
+
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(`$${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent(isTr ? 'CRYPTO' : 'Crypto Live')}&type=CRYPTO&lang=${lang}`;
 
   return {
     title,
     description,
-    keywords: [
-      `${display} canlı`,
-      `${display} fiyat`,
-      `${symbol} grafik`,
-      `${display} USDT`,
-      'kripto grafik',
-      'kripto sinyal',
-    ],
-    alternates: { canonical: canonicalUrl },
+    keywords: isTr
+      ? [
+          `${display} canlı`,
+          `${display} fiyat`,
+          `${symbol} grafik`,
+          'kripto sinyal',
+        ]
+      : [
+          `${display} live price`,
+          `${display} chart`,
+          'crypto signal radar',
+          'BTC live chart',
+        ],
+    alternates: withLangAlternates(path),
     openGraph: {
-      title: `${display} Canlı Kripto Analizi | Bullsye`,
-      description: `Anlık ${display} grafik, hacim ve sinyal radarı.`,
+      title: isTr
+        ? `${display} Canlı Kripto Analizi | Bullsye`
+        : `${display} Live Crypto Analysis | Bullsye`,
+      description: isTr
+        ? `Anlık ${display} grafik, hacim ve sinyal radarı.`
+        : `Live ${display} chart, depth and signal radar.`,
       url: canonicalUrl,
       siteName: 'Bullsye',
+      locale: isTr ? 'tr_TR' : 'en_US',
       images: [{ url: ogImage, width: 1200, height: 630, alt: display }],
     },
     twitter: {

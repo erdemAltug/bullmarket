@@ -4,6 +4,7 @@ import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
 import { fetchQuotes } from '@/lib/api/yahoo';
+import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import {
   SITE_URL,
   SEO_BIST_TICKERS,
@@ -15,15 +16,23 @@ import {
 
 export const revalidate = 60;
 
-type Props = { params: Promise<{ symbol: string }> };
+type Props = {
+  params: Promise<{ symbol: string }>;
+  searchParams: Promise<{ lang?: string }>;
+};
 
 export async function generateStaticParams() {
   return SEO_BIST_TICKERS.map((symbol) => ({ symbol }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
   const raw = (await params).symbol;
   const symbol = canonicalSymbol(raw);
+  const lang = resolveSeoLang((await searchParams).lang);
+  const isTr = lang === 'tr';
   const yahoo = toYahooSymbol(symbol);
 
   let priceNum = 0;
@@ -42,30 +51,50 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const price = formatMetaPrice(priceNum, 'TRY');
   const change = formatMetaChange(changeNum);
-  const canonicalUrl = `${SITE_URL}/bist/${symbol}`;
-  const title = `${symbol} Canlı Hisse Fiyatı ${price} TL (${change}), Grafik & Analiz Karnesi`;
-  const description = `${name} (${symbol}) Borsa İstanbul anlık fiyatı, 52 haftalık zirve/dip, F/K ve PD/DD değerleri, teknik sinyaller ve alım fırsatları Bullsye'da.`;
-  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('BIST')}&type=BIST`;
+  const path = `/bist/${symbol}`;
+  const canonicalUrl = `${SITE_URL}${path}`;
+
+  const title = isTr
+    ? `${symbol} Canlı Hisse Fiyatı ${price} TL (${change}), Grafik & Analiz Karnesi`
+    : `${symbol} Live Price ${price} TRY (${change}) — Chart & AI Scorecard`;
+
+  const description = isTr
+    ? `${name} (${symbol}) Borsa İstanbul anlık fiyatı, 52 haftalık zirve/dip, F/K ve PD/DD değerleri, teknik sinyaller ve alım fırsatları Bullsye'da.`
+    : `Real-time ${name} (${symbol}) BIST price chart, technical indicators, analyst targets, and AI signal breakdown on Bullsye Terminal.`;
+
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent(isTr ? 'BIST' : 'BIST Live')}&type=BIST&lang=${lang}`;
 
   return {
     title,
     description,
-    keywords: [
-      `${symbol} canlı`,
-      `${symbol} hisse fiyatı`,
-      `${symbol} grafik`,
-      `${symbol} analiz`,
-      `${symbol} yorum`,
-      `${symbol} hedef fiyat`,
-      'BİST canlı',
-    ],
-    alternates: { canonical: canonicalUrl },
+    keywords: isTr
+      ? [
+          `${symbol} canlı`,
+          `${symbol} hisse fiyatı`,
+          `${symbol} grafik`,
+          `${symbol} analiz`,
+          `${symbol} yorum`,
+          'BİST canlı',
+        ]
+      : [
+          `${symbol} live price`,
+          `${symbol} chart`,
+          `${symbol} stock analysis`,
+          'BIST live',
+          'AI stock scorecard',
+        ],
+    alternates: withLangAlternates(path),
     openGraph: {
-      title: `${symbol} Hisse Analizi & Canlı Grafik | Bullsye`,
-      description: `${symbol} hisse senedi canlı veri ve akıllı alım sinyalleri.`,
+      title: isTr
+        ? `${symbol} Hisse Analizi & Canlı Grafik | Bullsye`
+        : `${symbol} Live Chart & AI Signals | Bullsye`,
+      description: isTr
+        ? `${symbol} hisse senedi canlı veri ve akıllı alım sinyalleri.`
+        : `Live ${symbol} quotes, charts and smart buy signals.`,
       url: canonicalUrl,
       siteName: 'Bullsye',
-      locale: 'tr_TR',
+      locale: isTr ? 'tr_TR' : 'en_US',
+      alternateLocale: [isTr ? 'en_US' : 'tr_TR'],
       type: 'website',
       images: [
         {

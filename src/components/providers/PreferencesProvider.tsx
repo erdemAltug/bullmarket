@@ -55,7 +55,16 @@ function PreferencesInner({ children }: { children: React.ReactNode }) {
   const { setTheme } = useTheme();
 
   useEffect(() => {
+    const urlLang = new URLSearchParams(window.location.search)
+      .get('lang')
+      ?.toLowerCase();
+    const fromUrl =
+      urlLang === 'tr' || urlLang === 'en' || urlLang === 'de' || urlLang === 'es'
+        ? (urlLang as Language)
+        : null;
+
     const savedLang =
+      fromUrl ||
       (localStorage.getItem(PREF_KEYS.lang) as Language | null) ||
       (readCookie(PREF_KEYS.lang) as Language | null) ||
       'tr';
@@ -71,6 +80,10 @@ function PreferencesInner({ children }: { children: React.ReactNode }) {
     if (['tr', 'en', 'de', 'es'].includes(savedLang)) {
       setLanguageState(savedLang as Language);
       document.documentElement.lang = savedLang;
+      if (fromUrl) {
+        localStorage.setItem(PREF_KEYS.lang, fromUrl);
+        setPrefCookie(PREF_KEYS.lang, fromUrl);
+      }
     }
     if (['TRY', 'USD', 'EUR'].includes(savedCurr)) {
       setCurrencyState(savedCurr as AppCurrency);

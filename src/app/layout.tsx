@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { MicrosoftClarity } from '@/components/analytics/MicrosoftClarity';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Providers } from './providers';
 import { SITE_URL } from '@/lib/seo/symbols';
@@ -20,21 +21,25 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Bullsye — Canlı BİST, Kripto & Akıllı Alım Sinyalleri Terminali',
+    default:
+      'Bullsye — Canlı BİST, Kripto & Akıllı Alım Sinyalleri | Real-Time Market Terminal',
     template: '%s | Bullsye Terminal',
   },
   description:
-    'Borsa İstanbul (BİST), Kripto Paralar, Döviz ve Altın piyasalarını anlık grafiklerle takip edin. Yapay zeka destekli alım fırsatları, temettü takvimi ve portföy analizi.',
+    'Borsa İstanbul (BİST), Global Stocks, Crypto, and FX in real-time. Yapay zeka destekli alım fırsatları, canlı grafikler ve portföy sağlığı takibi.',
   keywords: [
     'Bullsye',
     'Bullsye App',
     'BİST 100 canlı',
     'Borsa İstanbul alım fırsatları',
-    'Kripto sinyal radarı',
     'Hisse temel analiz karnesi',
-    'THYAO canlı fiyat',
-    'Bitcoin canlı grafik',
-    'Portföy takip uygulaması',
+    'Canlı borsa takip',
+    'Temettü takvimi',
+    'Real-time stock terminal',
+    'Crypto signal radar',
+    'AI trading signals',
+    'Live market monitoring',
+    'Stock scorecards',
   ],
   authors: [{ name: 'Bullsye Team', url: SITE_URL }],
   creator: 'Bullsye',
@@ -42,6 +47,11 @@ export const metadata: Metadata = {
   formatDetection: { email: false, address: false, telephone: false },
   alternates: {
     canonical: SITE_URL,
+    languages: {
+      'tr-TR': `${SITE_URL}/tr`,
+      'en-US': `${SITE_URL}/en`,
+      'x-default': `${SITE_URL}/en`,
+    },
   },
   icons: {
     icon: [
@@ -51,12 +61,13 @@ export const metadata: Metadata = {
     apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {
-    title: 'Bullsye — Canlı BİST, Kripto & Akıllı Alım Sinyalleri',
+    title: 'Bullsye — Global & BİST Financial Intelligence Terminal',
     description:
-      'Piyasanın nabzını tutun. Nokta atışı teknik sinyaller, BİST 100 grafikleri ve canlı portföy sağlık analizi.',
+      'Nailing every market move. Real-time BİST & Crypto monitoring with AI trading signals.',
     url: SITE_URL,
     siteName: 'Bullsye',
     locale: 'tr_TR',
+    alternateLocale: ['en_US'],
     type: 'website',
     images: [
       {
@@ -69,8 +80,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bullsye — Financial Intelligence Terminal',
-    description: 'Canlı BİST, Kripto ve Akıllı Alım Sinyalleri Platformu',
+    title: 'Bullsye Terminal — TR/EN Market Intelligence',
+    description: 'Canlı BİST, Crypto Radar & AI Trading Signals',
     creator: '@bullsyeapp',
     images: [
       `${SITE_URL}/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Financial%20Terminal`,
@@ -106,6 +117,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background antialiased`}
       >
+        <MicrosoftClarity />
         <JsonLd />
         <Providers>{children}</Providers>
       </body>

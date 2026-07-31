@@ -4,6 +4,7 @@ import { MetricCard } from '@/components/dashboard/MetricCard';
 import { FxConverter } from '@/components/dashboard/FxConverter';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
 import { fetchFxRates } from '@/lib/api/tcmb';
+import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import {
   SITE_URL,
   SEO_FX_PAIRS,
@@ -14,7 +15,10 @@ import {
 
 export const revalidate = 120;
 
-type Props = { params: Promise<{ pair: string }> };
+type Props = {
+  params: Promise<{ pair: string }>;
+  searchParams: Promise<{ lang?: string }>;
+};
 
 function normalizePair(raw: string): string {
   const { base, quote } = fxPairParts(raw);
@@ -25,9 +29,14 @@ export async function generateStaticParams() {
   return SEO_FX_PAIRS.map((pair) => ({ pair }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
   const pair = normalizePair((await params).pair);
   const { base, quote } = fxPairParts(pair);
+  const lang = resolveSeoLang((await searchParams).lang);
+  const isTr = lang === 'tr';
 
   let priceNum = 0;
   let changeNum = 0;
@@ -47,7 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const price = formatMetaPrice(priceNum, 'TRY');
   const change = formatMetaChange(changeNum);
-  const human =
+  const humanTr =
     base === 'USD'
       ? 'Dolar kaç TL'
       : base === 'EUR'
@@ -57,26 +66,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           : base === 'XAU'
             ? 'Gram altın fiyatı'
             : `${base} ${quote}`;
+  const humanEn =
+    base === 'XAU' ? 'Gold price TRY' : `${base} to TRY live rate`;
 
-  const title = `${human}? ${price} TL (${change}) — Bullsye`;
-  const description = `${base}/${quote} canlı döviz kuru ${price} TL. Anlık TCMB verisi, dönüştürücü ve değişim oranı Bullsye'da.`;
-  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(`${base}/${quote}`)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('Döviz Canlı')}`;
+  const title = isTr
+    ? `${humanTr}? ${price} TL (${change}) — Bullsye`
+    : `${humanEn}: ${price} TRY (${change}) — Bullsye`;
+  const description = isTr
+    ? `${base}/${quote} canlı döviz kuru ${price} TL. Anlık TCMB verisi, dönüştürücü ve değişim oranı Bullsye'da.`
+    : `Live ${base}/${quote} FX rate at ${price} TRY. TCMB-based quotes and converter on Bullsye.`;
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(`${base}/${quote}`)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent(isTr ? 'Döviz' : 'FX')}&lang=${lang}`;
+  const path = `/fx/${pair}`;
 
   return {
     title: { absolute: title },
     description,
-    keywords: [
-      human,
-      `${base} TRY`,
-      `${base} kaç TL`,
-      'döviz kuru',
-      'canlı döviz',
-    ],
-    alternates: { canonical: `${SITE_URL}/fx/${pair}` },
+    keywords: isTr
+      ? [humanTr, `${base} TRY`, 'canlı döviz']
+      : [humanEn, `${base} TRY`, 'live FX'],
+    alternates: withLangAlternates(path),
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}/fx/${pair}`,
+      url: `${SITE_URL}${path}`,
+      locale: isTr ? 'tr_TR' : 'en_US',
       images: [{ url: ogImage, width: 1200, height: 630 }],
     },
     twitter: {
