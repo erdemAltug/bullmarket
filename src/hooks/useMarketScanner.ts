@@ -1,21 +1,48 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import useSWR from 'swr';
 import type { ScannerItem } from '@/types/scanner';
-import type { ApiResponse } from '@/types';
 
-async function fetchScanner(): Promise<ScannerItem[]> {
-  const res = await fetch('/api/scanner');
-  const json = (await res.json()) as ApiResponse<{ items: ScannerItem[] }>;
-  if (!json.success) throw new Error(json.error);
-  return json.data.items;
+type MarketPayload = {
+  success: boolean;
+  error?: string;
+  data?: { items: ScannerItem[] };
+  markets?: ScannerItem[];
+  updatedAt?: string;
+  cached?: boolean;
+};
+
+async function marketFetcher(url: string): Promise<{
+  items: ScannerItem[];
+  updatedAt?: string;
+}> {
+  const res = await fetch(url);
+  const json = (await res.json()) as MarketPayload;
+  if (!json.success) {
+    throw new Error(json.error || 'Market fetch failed');
+  }
+  const items = json.data?.items ?? json.markets ?? [];
+  return { items, updatedAt: json.updatedAt };
 }
 
+/** Live market universe — polls `/api/market` every 15s via SWR. */
 export function useMarketScanner() {
-  return useQuery({
-    queryKey: ['market-scanner'],
-    queryFn: fetchScanner,
-    staleTime: 15_000,
-    refetchInterval: 30_000,
-  });
+  const { data, error, isLoading, isValidating } = useSWR(
+    '/api/market',
+    marketFetcher,
+    {
+      refreshInterval: 15_000,
+      revalidateOnFocus: true,
+      dedupingInterval: 10_000,
+      keepPreviousData: true,
+    }
+  );
+
+  return {
+    data: data?.items,
+    updatedAt: data?.updatedAt,
+    error,
+    isLoading,
+    isValidating,
+  };
 }
