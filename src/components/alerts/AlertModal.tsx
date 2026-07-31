@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -40,6 +40,12 @@ export function AlertModal({
   const { addAlert } = useAlerts();
   const [kind, setKind] = useState<AlertKind>('price_above');
   const [threshold, setThreshold] = useState(String(currentPrice));
+
+  useEffect(() => {
+    if (!open) return;
+    setKind('price_above');
+    setThreshold(String(currentPrice));
+  }, [open, currentPrice, displaySymbol]);
 
   function onKindChange(next: AlertKind) {
     setKind(next);

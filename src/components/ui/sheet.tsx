@@ -27,10 +27,11 @@ export function SheetContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content>) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/60" />
+      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />
       <DialogPrimitive.Content
         className={cn(
-          'fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col border-l border-zinc-800 bg-zinc-950 shadow-2xl outline-none',
+          'fixed inset-y-0 right-0 z-50 flex w-full max-w-full flex-col border-l border-zinc-800 bg-zinc-950/95 shadow-2xl outline-none backdrop-blur-xl sm:max-w-md',
+          'transition-transform duration-300 ease-out',
           className
         )}
         {...props}

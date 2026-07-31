@@ -21,8 +21,13 @@ export interface PotentialCard {
   changePercent: number;
   /** Real day-high distance % when available; else null */
   toHighPct: number | null;
+  /** Real day-low distance % when available; else null */
+  toLowPct: number | null;
   dayHigh: number | null;
   dayLow: number | null;
+  trailingPE: number | null;
+  volume: string;
+  volumeRaw: number;
   catalysts: string[];
   href: string | null;
 }
@@ -119,6 +124,40 @@ function detailHref(item: ScannerItem): string | null {
   return null;
 }
 
+/** 2-sentence conversion hook for Asset Detail Drawer */
+export function buildMicroReview(card: PotentialCard): string {
+  const pos =
+    card.dayHigh != null &&
+    card.dayLow != null &&
+    card.dayHigh > card.dayLow
+      ? (card.price - card.dayLow) / (card.dayHigh - card.dayLow)
+      : 0.5;
+
+  let band =
+    'gün içi bant ortasında dengeli bir konumda';
+  if (pos <= 0.28) {
+    band = 'gün içi bant pozisyonunda güçlü alım / destek bölgesinde';
+  } else if (pos >= 0.78) {
+    band = 'gün içi zirve bandına yakın, direnç bölgesinde';
+  }
+
+  const pe =
+    card.trailingPE != null && card.trailingPE > 0
+      ? ` Canlı F/K ${card.trailingPE.toFixed(1)} ile değerleme filtresi skorunu destekliyor.`
+      : card.category === 'CRYPTO'
+        ? ' Spot hacim ve 24s bant, fırsat skorunun ana sürücüleri.'
+        : ' Hacim ve momentum, fırsat skorunun ana sürücüleri.';
+
+  const tone =
+    card.score >= 80
+      ? 'üst dilim fırsat profili'
+      : card.score >= 65
+        ? 'izlenmeye değer fırsat profili'
+        : 'seçici izleme adayı';
+
+  return `${card.displaySymbol}, canlı teknik verilere göre ${band} yer alıyor (skor ${card.score}/100 — ${tone}).${pe} Bu bir yatırım tavsiyesi değildir; alarm ve izleme listesiyle disiplini otomatikleştirin.`;
+}
+
 export function buildPotentialCards(
   items: ScannerItem[],
   limit = 6
@@ -140,6 +179,10 @@ export function buildPotentialCards(
         dayHigh && item.price > 0
           ? ((dayHigh - item.price) / item.price) * 100
           : null;
+      const toLowPct =
+        dayLow && item.price > 0
+          ? ((item.price - dayLow) / item.price) * 100
+          : null;
       return {
         symbol: item.symbol,
         displaySymbol: item.displaySymbol,
@@ -150,8 +193,12 @@ export function buildPotentialCards(
         score,
         changePercent: item.changePercent,
         toHighPct,
+        toLowPct,
         dayHigh,
         dayLow,
+        trailingPE: item.trailingPE ?? null,
+        volume: item.volume,
+        volumeRaw: item.volumeRaw,
         catalysts: catalystsFor(item, score),
         href: detailHref(item),
       } satisfies PotentialCard;

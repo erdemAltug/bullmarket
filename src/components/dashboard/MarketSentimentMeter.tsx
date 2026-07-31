@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { HintTooltip } from '@/components/shared/HintTooltip';
 import type { SentimentReading } from '@/lib/ai-opportunity';
 import { cn } from '@/lib/utils';
 
@@ -8,6 +8,9 @@ interface MarketSentimentMeterProps {
   reading: SentimentReading | null;
   loading?: boolean;
 }
+
+const BREADTH_TIP =
+  'Piyasada yükselen hisselerin düşenlere oranı üzerinden hesaplanan anlık yön endeksi.';
 
 export function MarketSentimentMeter({
   reading,
@@ -24,11 +27,13 @@ export function MarketSentimentMeter({
   const bullish = reading.value >= 55;
 
   return (
-    <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
+    <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 backdrop-blur-xl">
       <div className="mb-3 flex items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold tracking-tight">
-          Piyasa Genişlik Metresi
-        </h2>
+        <HintTooltip content={BREADTH_TIP} title="Piyasa Genişlik Metresi">
+          <h2 className="text-sm font-semibold tracking-tight">
+            Piyasa Genişlik Metresi
+          </h2>
+        </HintTooltip>
         <span
           className={cn(
             'rounded-full border px-2.5 py-0.5 text-[11px] font-bold',
