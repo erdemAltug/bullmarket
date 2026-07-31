@@ -1,0 +1,40 @@
+---
+description: BullMarket core — token-efficient, modular financial platform conventions
+alwaysApply: true
+---
+
+# BullMarket Core
+
+Personal finance monitor: BİST, crypto, FX/gold. Next.js App Router + React Query + node-cache.
+
+## Token Efficiency
+
+- Diffs only; never rewrite whole files.
+- No prose/explanations unless asked with `?`.
+- Prefer existing `types/`, `lib/api/`, `components/dashboard/` — do not invent parallel layers.
+- Skip README/docs edits unless explicitly requested.
+
+## Architecture Boundaries
+
+```
+lib/api/*  → adapters only (yahoo, binance, tcmb)
+app/api/*/route.ts → cache + normalize + JSON envelope
+components/* → UI only; fetch via React Query hooks, never call adapters directly
+```
+
+## Response Shape
+
+```ts
+{ success: true, data: T, cached?: boolean } | { success: false, error: string }
+```
+
+## Caching
+
+Use `appCache` from `@/lib/cache`. Key format: `{domain}:{resource}:{id?}`. Default TTL 15s (FX 60s).
+
+## Stack Locks
+
+- Icons: `lucide-react` only
+- Charts: `recharts`
+- Styles: Tailwind v4 + `cn()` from `@/lib/utils`
+- Client polling: `refetchInterval: 15_000`

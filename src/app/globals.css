@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050508;
+  --foreground: #fafafa;
+  --muted: #a1a1aa;
+  --card: rgba(24, 24, 27, 0.6);
+  --border: rgba(39, 39, 42, 0.8);
+  --up: #34d399;
+  --down: #fb7185;
+  --accent: #10b981;
+  --glow-up: rgba(16, 185, 129, 0.12);
+  --glow-down: rgba(244, 63, 94, 0.12);
+  --glow-violet: rgba(139, 92, 246, 0.15);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  animation: ticker 40s linear infinite;
+}
+
+@keyframes alert-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+.animate-alert-blink {
+  animation: alert-blink 0.8s ease-in-out infinite;
+}
+
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes nav-pulse {
+  0% {
+    transform: scaleX(0.12);
+    opacity: 1;
+  }
+  70% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+.animate-nav-pulse {
+  animation: nav-pulse 320ms ease-out forwards;
+  transform-origin: left;
+}
+
+/* Dark premium scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050508;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #27272a #050508;
+}

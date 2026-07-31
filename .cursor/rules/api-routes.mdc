@@ -1,0 +1,36 @@
+---
+description: Route handler & adapter patterns for BullMarket APIs
+globs: src/app/api/**/*.ts,src/lib/api/**/*.ts,src/lib/cache.ts
+alwaysApply: false
+---
+
+# API & Adapters
+
+## Route Handler Pattern
+
+```ts
+export async function GET(req: Request) {
+  const cacheKey = 'domain:resource';
+  const hit = appCache.get<T>(cacheKey);
+  if (hit) return NextResponse.json({ success: true, data: hit, cached: true });
+
+  try {
+    const data = await fetchFromAdapter();
+    appCache.set(cacheKey, data);
+    return NextResponse.json({ success: true, data });
+  } catch (e) {
+    return NextResponse.json(
+      { success: false, error: e instanceof Error ? e.message : 'Unknown error' },
+      { status: 502 }
+    );
+  }
+}
+```
+
+## Rules
+
+- Adapters in `lib/api/*` only; no React imports.
+- Normalize to `types/index.ts` shapes before caching.
+- Never expose raw third-party payloads to the client.
+- Axios for Binance/TCMB; `yahoo-finance2` for BİST/US.
+- Keep each adapter file < 120 lines; split helpers if needed.

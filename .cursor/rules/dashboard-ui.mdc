@@ -1,0 +1,15 @@
+---
+description: Dashboard UI — modular cards, charts, tables; lucide + recharts only
+globs: src/components/**/*.tsx,src/app/(dashboard)/**/*.tsx,src/app/providers.tsx
+alwaysApply: false
+---
+
+# Dashboard UI
+
+- Server Components by default; `"use client"` only for charts, tables, ticker, React Query.
+- Icons: `lucide-react` (`ArrowUpRight`, `ArrowDownRight`).
+- Charts: `recharts` via `PriceChart` wrapper — do not inline AreaChart elsewhere.
+- KPI display → `MetricCard`; grids → `WatchlistTable`; top bar → `TickerTape`.
+- Fetch with shared hooks (`useQuotes`, `useCrypto`, `useFx`) — `refetchInterval: 15_000`.
+- Use `cn()`; shadcn primitives live in `components/ui/`.
+- One concern per component file; extract when JSX > ~80 lines.
