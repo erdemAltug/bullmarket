@@ -166,7 +166,9 @@ export default function TargetsPage() {
             const href =
               item.category === 'BIST'
                 ? `/bist/${item.displaySymbol}`
-                : null;
+                : item.category === 'US'
+                  ? `/us/${item.displaySymbol}`
+                  : null;
             const upside = item.upsidePotential;
             return (
               <article

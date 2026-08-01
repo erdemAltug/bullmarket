@@ -4,7 +4,7 @@ export interface SignalCardData {
   symbol: string;
   displaySymbol: string;
   name: string;
-  category: 'BIST' | 'CRYPTO';
+  category: 'BIST' | 'CRYPTO' | 'US';
   signalType: 'BUY' | 'SELL' | 'STRONG_BUY';
   strategyName: string;
   entryPrice: number;
@@ -29,7 +29,9 @@ export function generateRealTimeSignals(
 
   const eligible = marketItems.filter(
     (item) =>
-      (item.category === 'BIST' || item.category === 'CRYPTO') &&
+      (item.category === 'BIST' ||
+        item.category === 'CRYPTO' ||
+        item.category === 'US') &&
       item.price > 0
   );
 
@@ -99,7 +101,7 @@ export function generateRealTimeSignals(
       symbol: item.symbol,
       displaySymbol,
       name: item.name,
-      category: item.category as 'BIST' | 'CRYPTO',
+      category: item.category as 'BIST' | 'CRYPTO' | 'US',
       signalType,
       strategyName,
       entryPrice: price,

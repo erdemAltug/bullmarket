@@ -121,6 +121,7 @@ function catalystsFor(item: ScannerItem, score: number): string[] {
 function detailHref(item: ScannerItem): string | null {
   if (item.category === 'BIST') return `/bist/${item.displaySymbol}`;
   if (item.category === 'CRYPTO') return `/crypto/${item.symbol}`;
+  if (item.category === 'US') return `/us/${item.displaySymbol}`;
   return null;
 }
 

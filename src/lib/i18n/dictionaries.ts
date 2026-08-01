@@ -5,6 +5,7 @@ export type Dictionary = {
     overview: string;
     bist: string;
     heatmap: string;
+    us: string;
     crypto: string;
     fx: string;
     compare: string;
@@ -41,6 +42,7 @@ const tr: Dictionary = {
     overview: 'Overview',
     bist: 'BİST',
     heatmap: 'Isı Haritası',
+    us: 'NASDAQ / ABD',
     crypto: 'Crypto',
     fx: 'Döviz',
     compare: '1v1 Kıyasla',
@@ -55,7 +57,7 @@ const tr: Dictionary = {
     blog: 'Blog',
   },
   header: {
-    tagline: 'BİST · Kripto · Döviz',
+    tagline: 'BİST · NASDAQ · Kripto · Döviz',
     preferences: 'Tercihler',
     language: 'Dil',
     theme: 'Tema',
@@ -77,6 +79,7 @@ const en: Dictionary = {
     overview: 'Overview',
     bist: 'BIST',
     heatmap: 'Heatmap',
+    us: 'NASDAQ / US',
     crypto: 'Crypto',
     fx: 'FX',
     compare: '1v1 Compare',
@@ -91,7 +94,7 @@ const en: Dictionary = {
     blog: 'Blog',
   },
   header: {
-    tagline: 'BIST · Crypto · FX',
+    tagline: 'BIST · NASDAQ · Crypto · FX',
     preferences: 'Preferences',
     language: 'Language',
     theme: 'Theme',
@@ -113,6 +116,7 @@ const de: Dictionary = {
     overview: 'Übersicht',
     bist: 'BIST',
     heatmap: 'Heatmap',
+    us: 'NASDAQ / US',
     crypto: 'Krypto',
     fx: 'Devisen',
     compare: '1v1 Vergleich',
@@ -127,7 +131,7 @@ const de: Dictionary = {
     blog: 'Blog',
   },
   header: {
-    tagline: 'BIST · Krypto · Devisen',
+    tagline: 'BIST · NASDAQ · Krypto · Devisen',
     preferences: 'Einstellungen',
     language: 'Sprache',
     theme: 'Design',
@@ -149,6 +153,7 @@ const es: Dictionary = {
     overview: 'Resumen',
     bist: 'BIST',
     heatmap: 'Mapa de calor',
+    us: 'NASDAQ / EE.UU.',
     crypto: 'Cripto',
     fx: 'Divisas',
     compare: 'Comparar 1v1',
@@ -163,7 +168,7 @@ const es: Dictionary = {
     blog: 'Blog',
   },
   header: {
-    tagline: 'BIST · Cripto · Divisas',
+    tagline: 'BIST · NASDAQ · Cripto · Divisas',
     preferences: 'Preferencias',
     language: 'Idioma',
     theme: 'Tema',

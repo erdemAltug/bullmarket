@@ -6,6 +6,7 @@ import {
   SEO_BIST_TICKERS,
   SEO_CRYPTO_SYMBOLS,
   SEO_FX_PAIRS,
+  SEO_US_TICKERS,
 } from '@/lib/seo/symbols';
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -17,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/en',
     '/bist',
     '/bist/heatmap',
+    '/us',
     '/crypto',
     '/compare',
     '/signals',
@@ -74,6 +76,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: sitemapLanguageAlternates(`/bist/${symbol}`),
   }));
 
+  const us: MetadataRoute.Sitemap = SEO_US_TICKERS.map((symbol) => ({
+    url: `${SITE_URL}/us/${symbol}`,
+    lastModified: now,
+    changeFrequency: 'hourly' as const,
+    priority: 0.9,
+    alternates: sitemapLanguageAlternates(`/us/${symbol}`),
+  }));
+
   const crypto: MetadataRoute.Sitemap = SEO_CRYPTO_SYMBOLS.map((symbol) => ({
     url: `${SITE_URL}/crypto/${symbol}`,
     lastModified: now,
@@ -90,5 +100,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: sitemapLanguageAlternates(`/fx/${pair}`),
   }));
 
-  return [...staticRoutes, ...egitim, ...blog, ...bist, ...crypto, ...fx];
+  return [
+    ...staticRoutes,
+    ...egitim,
+    ...blog,
+    ...bist,
+    ...us,
+    ...crypto,
+    ...fx,
+  ];
 }

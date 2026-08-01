@@ -13,11 +13,12 @@ import { assetDetailHref } from '@/lib/seo/internal-links';
 import type { ScannerItem } from '@/types/scanner';
 import { cn } from '@/lib/utils';
 
-type Filter = 'ALL' | 'BIST' | 'CRYPTO' | 'BUY';
+type Filter = 'ALL' | 'BIST' | 'CRYPTO' | 'US' | 'BUY';
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'ALL', label: 'Tümü' },
   { id: 'BIST', label: 'BİST Sinyalleri' },
+  { id: 'US', label: 'ABD / NASDAQ' },
   { id: 'CRYPTO', label: 'Kripto Sinyalleri' },
   { id: 'BUY', label: 'Sadece AL' },
 ];
@@ -46,6 +47,7 @@ export function AISignalRadar({
   const filteredSignals = useMemo(() => {
     return allSignals.filter((sig) => {
       if (filter === 'BIST') return sig.category === 'BIST';
+      if (filter === 'US') return sig.category === 'US';
       if (filter === 'CRYPTO') return sig.category === 'CRYPTO';
       if (filter === 'BUY')
         return sig.signalType === 'BUY' || sig.signalType === 'STRONG_BUY';
@@ -105,7 +107,8 @@ export function AISignalRadar({
         {free.map((sig) => {
           const isBuy =
             sig.signalType === 'BUY' || sig.signalType === 'STRONG_BUY';
-          const currency = sig.category === 'CRYPTO' ? '$' : '₺';
+          const currency =
+            sig.category === 'CRYPTO' || sig.category === 'US' ? '$' : '₺';
           const fmt = (n: number) =>
             n.toLocaleString('tr-TR', {
               minimumFractionDigits: 2,

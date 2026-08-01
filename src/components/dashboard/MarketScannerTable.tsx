@@ -34,7 +34,7 @@ const FILTERS: { id: ScannerFilter; label: string }[] = [
   { id: 'ALL', label: 'Tümü' },
   { id: 'BIST', label: 'BİST 100' },
   { id: 'CRYPTO', label: 'Kripto' },
-  { id: 'US', label: 'ABD' },
+  { id: 'US', label: 'NASDAQ' },
   { id: 'GAINERS', label: 'Yükselenler' },
   { id: 'LOSERS', label: 'Düşenler' },
 ];
@@ -190,7 +190,7 @@ export function MarketScannerTable({
               setSearchQuery(e.target.value);
               setPage(1);
             }}
-            placeholder="Hisse / Kripto Ara (THYAO, BTC…)"
+            placeholder="Ara: THYAO, AAPL, NVDA, BTC…"
             className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] py-2 pl-9 pr-3 text-xs text-[var(--foreground)] placeholder:text-[var(--muted)] outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/40"
           />
         </div>

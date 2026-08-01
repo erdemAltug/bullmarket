@@ -16,6 +16,7 @@ import {
   LineChart,
   Map,
   Banknote,
+  Landmark,
   Sparkles,
   Waves,
 } from 'lucide-react';
@@ -27,6 +28,7 @@ const linkDefs = [
   { href: '/', key: 'overview' as const, icon: LayoutDashboard, color: 'text-emerald-400' },
   { href: '/bist', key: 'bist' as const, icon: LineChart, color: 'text-blue-400' },
   { href: '/bist/heatmap', key: 'heatmap' as const, icon: Map, color: 'text-amber-400' },
+  { href: '/us', key: 'us' as const, icon: Landmark, color: 'text-sky-300' },
   { href: '/crypto', key: 'crypto' as const, icon: Bitcoin, color: 'text-violet-400' },
   { href: '/fx/USD-TRY', key: 'fx' as const, icon: Banknote, color: 'text-lime-400' },
   { href: '/compare', key: 'compare' as const, icon: GitCompare, color: 'text-emerald-300' },

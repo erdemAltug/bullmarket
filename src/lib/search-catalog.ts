@@ -1,4 +1,4 @@
-export type SearchItemKind = 'nav' | 'bist' | 'crypto' | 'fx';
+export type SearchItemKind = 'nav' | 'bist' | 'crypto' | 'fx' | 'us';
 
 export interface SearchCatalogItem {
   id: string;
@@ -22,6 +22,13 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
     keywords: 'bist istanbul stocks',
     kind: 'nav',
     href: '/bist',
+  },
+  {
+    id: 'nav-us',
+    label: 'NASDAQ / ABD',
+    keywords: 'nasdaq us abd aapl nvda tsla apple',
+    kind: 'nav',
+    href: '/us',
   },
   {
     id: 'nav-heatmap',
@@ -141,6 +148,55 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
     keywords: 'sol solana',
     kind: 'crypto',
     href: '/crypto/SOLUSDT',
+  },
+  {
+    id: 'us-aapl',
+    label: 'AAPL · Apple',
+    keywords: 'aapl apple nasdaq',
+    kind: 'us',
+    href: '/us/AAPL',
+  },
+  {
+    id: 'us-msft',
+    label: 'MSFT · Microsoft',
+    keywords: 'msft microsoft nasdaq',
+    kind: 'us',
+    href: '/us/MSFT',
+  },
+  {
+    id: 'us-nvda',
+    label: 'NVDA · NVIDIA',
+    keywords: 'nvda nvidia nasdaq ai',
+    kind: 'us',
+    href: '/us/NVDA',
+  },
+  {
+    id: 'us-tsla',
+    label: 'TSLA · Tesla',
+    keywords: 'tsla tesla nasdaq',
+    kind: 'us',
+    href: '/us/TSLA',
+  },
+  {
+    id: 'us-amzn',
+    label: 'AMZN · Amazon',
+    keywords: 'amzn amazon nasdaq',
+    kind: 'us',
+    href: '/us/AMZN',
+  },
+  {
+    id: 'us-meta',
+    label: 'META · Meta',
+    keywords: 'meta facebook nasdaq',
+    kind: 'us',
+    href: '/us/META',
+  },
+  {
+    id: 'us-googl',
+    label: 'GOOGL · Alphabet',
+    keywords: 'googl google alphabet nasdaq',
+    kind: 'us',
+    href: '/us/GOOGL',
   },
   {
     id: 'usd',

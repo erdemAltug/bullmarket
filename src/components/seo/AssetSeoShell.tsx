@@ -15,7 +15,7 @@ interface SeoShellProps {
   changePercent: number;
   currency: 'TRY' | 'USD';
   currencySymbol: string;
-  kind: 'bist' | 'crypto' | 'fx';
+  kind: 'bist' | 'crypto' | 'fx' | 'us';
   children: React.ReactNode;
   faqs?: { question: string; answer: string }[];
 }
@@ -33,17 +33,37 @@ export function AssetSeoShell({
 }: SeoShellProps) {
   const positive = changePercent >= 0;
   const kindLabel =
-    kind === 'bist' ? 'Hisse' : kind === 'crypto' ? 'Kripto' : 'Döviz';
+    kind === 'bist'
+      ? 'Hisse'
+      : kind === 'crypto'
+        ? 'Kripto'
+        : kind === 'us'
+          ? 'ABD Hisse'
+          : 'Döviz';
   const hubPath =
-    kind === 'bist' ? '/bist' : kind === 'crypto' ? '/crypto' : '/fx/USD-TRY';
+    kind === 'bist'
+      ? '/bist'
+      : kind === 'crypto'
+        ? '/crypto'
+        : kind === 'us'
+          ? '/us'
+          : '/fx/USD-TRY';
   const hubLabel =
-    kind === 'bist' ? 'BİST' : kind === 'crypto' ? 'Kripto' : 'Döviz';
+    kind === 'bist'
+      ? 'BİST'
+      : kind === 'crypto'
+        ? 'Kripto'
+        : kind === 'us'
+          ? 'NASDAQ'
+          : 'Döviz';
   const selfPath =
     kind === 'bist'
       ? `/bist/${symbol}`
       : kind === 'crypto'
         ? `/crypto/${symbol.endsWith('USDT') ? symbol : `${symbol}USDT`}`
-        : `/fx/${symbol}`;
+        : kind === 'us'
+          ? `/us/${symbol}`
+          : `/fx/${symbol}`;
 
   const defaultFaqs = [
     {
@@ -75,7 +95,11 @@ export function AssetSeoShell({
         ? ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT'].filter(
             (s) => !symbol.includes(s.replace('USDT', ''))
           )
-        : ['USD-TRY', 'EUR-TRY', 'XAU-TRY'];
+        : kind === 'us'
+          ? ['AAPL', 'MSFT', 'NVDA', 'TSLA', 'AMZN', 'META']
+              .filter((s) => s !== symbol)
+              .slice(0, 4)
+          : ['USD-TRY', 'EUR-TRY', 'XAU-TRY'];
 
   const crumbs = [
     { name: 'Bullsye', path: '/' },
@@ -168,7 +192,14 @@ export function AssetSeoShell({
             const href =
               kind === 'fx'
                 ? `/fx/${p}`
-                : assetDetailHref(p, kind === 'crypto' ? 'CRYPTO' : 'BIST');
+                : assetDetailHref(
+                    p,
+                    kind === 'crypto'
+                      ? 'CRYPTO'
+                      : kind === 'us'
+                        ? 'US'
+                        : 'BIST'
+                  );
             if (!href) return null;
             return (
               <li key={p}>

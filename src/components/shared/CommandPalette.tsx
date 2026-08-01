@@ -6,6 +6,7 @@ import {
   Bitcoin,
   Briefcase,
   Coins,
+  Landmark,
   LayoutDashboard,
   LineChart,
   Map,
@@ -33,6 +34,7 @@ const KIND_ICON: Record<SearchItemKind, typeof LayoutDashboard> = {
   bist: LineChart,
   crypto: Bitcoin,
   fx: Coins,
+  us: Landmark,
 };
 
 const KIND_LABEL: Record<SearchItemKind, string> = {
@@ -40,6 +42,7 @@ const KIND_LABEL: Record<SearchItemKind, string> = {
   bist: 'BİST',
   crypto: 'Crypto',
   fx: 'FX',
+  us: 'NASDAQ',
 };
 
 export function CommandPalette() {
@@ -82,6 +85,11 @@ export function CommandPalette() {
       if (m) return m[1].toUpperCase();
       const q = item.href.match(/symbol=([^&]+)/);
       return q ? decodeURIComponent(q[1]) : null;
+    }
+    if (item.kind === 'us') {
+      const m = item.href.match(/\/us\/([A-Za-z0-9.-]+)/);
+      if (m) return m[1].toUpperCase();
+      return null;
     }
     return null;
   }

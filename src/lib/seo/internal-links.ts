@@ -2,6 +2,7 @@ import {
   SEO_BIST_TICKERS,
   SEO_CRYPTO_SYMBOLS,
   SEO_FX_PAIRS,
+  SEO_US_TICKERS,
 } from '@/lib/seo/symbols';
 
 /** Crawlable detail URL for sitemap / internal links */
@@ -17,11 +18,21 @@ export function assetDetailHref(
     return `/crypto/${pair}`;
   }
 
-  if (category === 'US') return null;
+  if (category === 'US') {
+    return `/us/${s.replace(/\.IS$/i, '')}`;
+  }
+
+  if (category === 'BIST') {
+    return `/bist/${s.replace(/\.IS$/i, '')}`;
+  }
 
   const bare = s.replace(/\.IS$/i, '');
   if (bare.includes('-') && SEO_FX_PAIRS.includes(bare as (typeof SEO_FX_PAIRS)[number])) {
     return `/fx/${bare}`;
+  }
+
+  if (SEO_US_TICKERS.includes(bare as (typeof SEO_US_TICKERS)[number])) {
+    return `/us/${bare}`;
   }
 
   return `/bist/${bare}`;
@@ -32,6 +43,11 @@ export const SEO_HUB_FEATURES_TR = [
     href: '/bist',
     title: 'BİST Canlı Fiyat & Grafik',
     desc: 'Borsa İstanbul hisseleri, XU100 ve ısı haritası anlık takip.',
+  },
+  {
+    href: '/us',
+    title: 'NASDAQ & ABD Hisseleri',
+    desc: 'AAPL, NVDA, TSLA ve ABD blue-chip’leri canlı Yahoo fiyat + analist hedefi.',
   },
   {
     href: '/crypto',
@@ -67,6 +83,11 @@ export const SEO_HUB_FEATURES_EN = [
     desc: 'Real-time Istanbul equities, XU100 and market heatmap.',
   },
   {
+    href: '/us',
+    title: 'NASDAQ & US Equities',
+    desc: 'AAPL, NVDA, TSLA and US blue-chips with live Yahoo quotes & targets.',
+  },
+  {
     href: '/crypto',
     title: 'Crypto Signal Radar',
     desc: 'BTC, ETH and alts with live price, RSI and order book depth.',
@@ -99,3 +120,5 @@ export const TOP_BIST_FOR_HUB = SEO_BIST_TICKERS.filter((s) => s !== 'XU100').sl
 );
 
 export const TOP_CRYPTO_FOR_HUB = SEO_CRYPTO_SYMBOLS.slice(0, 8);
+
+export const TOP_US_FOR_HUB = SEO_US_TICKERS.slice(0, 16);

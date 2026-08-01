@@ -6,7 +6,7 @@ interface FinancialSchemaProps {
   price: number;
   currency?: string;
   changePercent?: number;
-  kind?: 'bist' | 'crypto' | 'fx';
+  kind?: 'bist' | 'crypto' | 'fx' | 'us';
 }
 
 export function FinancialSchema({
@@ -22,10 +22,12 @@ export function FinancialSchema({
       ? `${SITE_URL}/crypto/${symbol.endsWith('USDT') ? symbol : `${symbol}USDT`}`
       : kind === 'fx'
         ? `${SITE_URL}/fx/${symbol}`
-        : `${SITE_URL}/bist/${symbol.replace('.IS', '')}`;
+        : kind === 'us'
+          ? `${SITE_URL}/us/${symbol}`
+          : `${SITE_URL}/bist/${symbol.replace('.IS', '')}`;
 
   const jsonLd =
-    kind === 'bist'
+    kind === 'bist' || kind === 'us'
       ? {
           '@context': 'https://schema.org',
           '@type': 'Corporation',

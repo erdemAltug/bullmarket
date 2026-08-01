@@ -6,6 +6,7 @@ import {
   SEO_HUB_FEATURES_EN,
   TOP_BIST_FOR_HUB,
   TOP_CRYPTO_FOR_HUB,
+  TOP_US_FOR_HUB,
 } from '@/lib/seo/internal-links';
 
 export const metadata: Metadata = {
@@ -94,6 +95,12 @@ export default function EnLocaleLanding() {
           AI Signals
         </Link>
         <Link
+          href="/us?lang=en"
+          className="rounded-lg border border-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:border-zinc-500"
+        >
+          NASDAQ / US
+        </Link>
+        <Link
           href="/egitim"
           className="rounded-lg border border-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:border-zinc-500"
         >
@@ -123,6 +130,24 @@ export default function EnLocaleLanding() {
               <Link
                 href={`/bist/${sym}?lang=en`}
                 className="inline-block rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-sm text-emerald-400 hover:border-emerald-500/40"
+              >
+                {sym} analysis
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="text-xl font-semibold text-zinc-100">
+          Top NASDAQ / US Stock Pages
+        </h2>
+        <ul className="mt-4 flex flex-wrap gap-2">
+          {TOP_US_FOR_HUB.map((sym) => (
+            <li key={sym}>
+              <Link
+                href={`/us/${sym}?lang=en`}
+                className="inline-block rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-sm text-sky-400 hover:border-sky-500/40"
               >
                 {sym} analysis
               </Link>
