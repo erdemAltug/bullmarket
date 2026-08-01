@@ -9,6 +9,8 @@ import { cn } from '@/lib/utils';
 interface AIPotentialRadarProps {
   cards: PotentialCard[];
   loading?: boolean;
+  /** Hide built-in title when parent provides aligned section header */
+  hideHeader?: boolean;
 }
 
 const SCORE_TIP =
@@ -25,7 +27,11 @@ function money(n: number, currency: 'TRY' | 'USD') {
   })}`;
 }
 
-export function AIPotentialRadar({ cards, loading }: AIPotentialRadarProps) {
+export function AIPotentialRadar({
+  cards,
+  loading,
+  hideHeader = false,
+}: AIPotentialRadarProps) {
   const [selected, setSelected] = useState<PotentialCard | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -36,8 +42,8 @@ export function AIPotentialRadar({ cards, loading }: AIPotentialRadarProps) {
 
   if (loading && !cards.length) {
     return (
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {Array.from({ length: 3 }).map((_, i) => (
+      <div className="grid gap-4 md:grid-cols-2">
+        {Array.from({ length: 4 }).map((_, i) => (
           <div
             key={i}
             className="h-56 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--card)]"
@@ -56,15 +62,17 @@ export function AIPotentialRadar({ cards, loading }: AIPotentialRadarProps) {
   }
 
   return (
-    <section className="space-y-4">
-      <div>
-        <h2 className="text-lg font-semibold tracking-tight">
-          Canlı Fırsat Radarı
-        </h2>
-        <p className="mt-0.5 text-xs text-[var(--muted)]">
-          Karta tıkla → detay drawer · skor/F/K/mesafe üzerine gel → tooltip
-        </p>
-      </div>
+    <section className={hideHeader ? undefined : 'space-y-4'}>
+      {!hideHeader ? (
+        <div>
+          <h2 className="text-lg font-semibold tracking-tight">
+            Canlı Fırsat Radarı
+          </h2>
+          <p className="mt-0.5 text-xs text-[var(--muted)]">
+            Karta tıkla → detay drawer · skor/F/K/mesafe üzerine gel → tooltip
+          </p>
+        </div>
+      ) : null}
 
       <div className="grid gap-4 md:grid-cols-2">
         {cards.map((card) => (

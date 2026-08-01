@@ -346,27 +346,35 @@ export default function OverviewPage() {
         loading={scanner.isLoading}
       />
 
-      <div className="flex items-center justify-between gap-2">
-        <p className="text-xs text-[var(--muted)]">
-          Tam fırsat masası — sticky alarm, seri ve geniş önizleme
-        </p>
-        <Link
-          href="/firsatlar"
-          className="shrink-0 text-xs font-bold text-emerald-400 hover:underline"
-        >
-          AI Fırsat Alımları →
-        </Link>
-      </div>
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_280px] xl:items-start">
-        <AIPotentialRadar
-          cards={potentialCards}
-          loading={scanner.isLoading}
-        />
-        <div className="xl:sticky xl:top-4">
-          <MarketSentimentMeter
-            reading={sentiment}
+      <div className="space-y-3">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight">
+              Canlı Fırsat Radarı
+            </h2>
+            <p className="mt-0.5 text-xs text-[var(--muted)]">
+              Karta tıkla → detay · skor/F/K/mesafe → tooltip
+            </p>
+          </div>
+          <Link
+            href="/firsatlar"
+            className="shrink-0 text-xs font-bold text-emerald-400 hover:underline"
+          >
+            AI Fırsat Alımları →
+          </Link>
+        </div>
+        <div className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1fr)_260px]">
+          <AIPotentialRadar
+            cards={potentialCards}
             loading={scanner.isLoading}
+            hideHeader
           />
+          <div className="xl:sticky xl:top-4 xl:self-start">
+            <MarketSentimentMeter
+              reading={sentiment}
+              loading={scanner.isLoading}
+            />
+          </div>
         </div>
       </div>
 
