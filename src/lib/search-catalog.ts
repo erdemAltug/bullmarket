@@ -73,6 +73,20 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
     href: '/compare',
   },
   {
+    id: 'nav-firsatlar',
+    label: 'AI Fırsat Alımları',
+    keywords: 'fırsat opportunity ai alım sinyal radar canlı',
+    kind: 'nav',
+    href: '/firsatlar',
+  },
+  {
+    id: 'nav-signals',
+    label: 'AI Sinyalleri',
+    keywords: 'signals sinyal rsi alım satım radar',
+    kind: 'nav',
+    href: '/signals',
+  },
+  {
     id: 'nav-alerts',
     label: 'Alarmlar',
     keywords: 'alerts alarm bildirim rsi',

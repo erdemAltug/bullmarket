@@ -22,6 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/crypto',
     '/compare',
     '/signals',
+    '/firsatlar',
     '/targets',
     '/smart-money',
     '/dividends',

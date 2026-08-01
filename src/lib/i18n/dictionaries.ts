@@ -3,6 +3,7 @@ import type { Language } from '@/lib/preferences';
 export type Dictionary = {
   nav: {
     overview: string;
+    opportunities: string;
     bist: string;
     heatmap: string;
     us: string;
@@ -40,6 +41,7 @@ export type Dictionary = {
 const tr: Dictionary = {
   nav: {
     overview: 'Overview',
+    opportunities: 'AI Fırsatlar',
     bist: 'BİST',
     heatmap: 'Isı Haritası',
     us: 'NASDAQ / ABD',
@@ -77,6 +79,7 @@ const tr: Dictionary = {
 const en: Dictionary = {
   nav: {
     overview: 'Overview',
+    opportunities: 'AI Opportunities',
     bist: 'BIST',
     heatmap: 'Heatmap',
     us: 'NASDAQ / US',
@@ -114,6 +117,7 @@ const en: Dictionary = {
 const de: Dictionary = {
   nav: {
     overview: 'Übersicht',
+    opportunities: 'KI-Chancen',
     bist: 'BIST',
     heatmap: 'Heatmap',
     us: 'NASDAQ / US',
@@ -151,6 +155,7 @@ const de: Dictionary = {
 const es: Dictionary = {
   nav: {
     overview: 'Resumen',
+    opportunities: 'Oportunidades IA',
     bist: 'BIST',
     heatmap: 'Mapa de calor',
     us: 'NASDAQ / EE.UU.',

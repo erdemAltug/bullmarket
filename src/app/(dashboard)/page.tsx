@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
 import { AIDailyVisionPanel } from '@/components/dashboard/AIDailyVisionPanel';
 import { AIPotentialRadar } from '@/components/dashboard/AIPotentialRadar';
 import { MarketSentimentMeter } from '@/components/dashboard/MarketSentimentMeter';
@@ -345,6 +346,17 @@ export default function OverviewPage() {
         loading={scanner.isLoading}
       />
 
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-xs text-[var(--muted)]">
+          Tam fırsat masası — sticky alarm, seri ve geniş önizleme
+        </p>
+        <Link
+          href="/firsatlar"
+          className="shrink-0 text-xs font-bold text-emerald-400 hover:underline"
+        >
+          AI Fırsat Alımları →
+        </Link>
+      </div>
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_280px] xl:items-start">
         <AIPotentialRadar
           cards={potentialCards}

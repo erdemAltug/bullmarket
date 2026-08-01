@@ -55,6 +55,11 @@ export const SEO_HUB_FEATURES_TR = [
     desc: 'BTC, ETH ve altcoinler için canlı fiyat, RSI ve derinlik.',
   },
   {
+    href: '/firsatlar',
+    title: 'AI Fırsat Alımları',
+    desc: 'Anlık skor, gün içi bant ve yüksek potansiyelli AL fırsat masası.',
+  },
+  {
     href: '/signals',
     title: 'Canlı Alım Sinyalleri',
     desc: 'RSI, SMA ve momentum tabanlı akıllı al/sat kartları.',
@@ -91,6 +96,11 @@ export const SEO_HUB_FEATURES_EN = [
     href: '/crypto',
     title: 'Crypto Signal Radar',
     desc: 'BTC, ETH and alts with live price, RSI and order book depth.',
+  },
+  {
+    href: '/firsatlar',
+    title: 'AI Opportunity Desk',
+    desc: 'Live scores, intraday bands and high-conviction buy setups.',
   },
   {
     href: '/signals',

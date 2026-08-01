@@ -19,6 +19,7 @@ import {
   Landmark,
   Sparkles,
   Waves,
+  Zap,
 } from 'lucide-react';
 import { FastLink } from '@/components/shared/NavigationProgress';
 import { usePreferences } from '@/components/providers/PreferencesProvider';
@@ -26,6 +27,7 @@ import { cn } from '@/lib/utils';
 
 const linkDefs = [
   { href: '/', key: 'overview' as const, icon: LayoutDashboard, color: 'text-emerald-400' },
+  { href: '/firsatlar', key: 'opportunities' as const, icon: Zap, color: 'text-emerald-400' },
   { href: '/bist', key: 'bist' as const, icon: LineChart, color: 'text-blue-400' },
   { href: '/bist/heatmap', key: 'heatmap' as const, icon: Map, color: 'text-amber-400' },
   { href: '/us', key: 'us' as const, icon: Landmark, color: 'text-sky-300' },
