@@ -164,7 +164,7 @@ export const EDUCATION_LESSONS: EducationLesson[] = [
       href: '/dividends',
       label: 'Temettü Karnesini Aç',
       blurb:
-        'Canlı Yahoo temettü verimi ve ex-date listesini tek ekranda görün.',
+        'Canlı temettü verimi ve ex-date listesini tek ekranda görün.',
     },
     sections: [
       {
@@ -492,7 +492,7 @@ export const EDUCATION_LESSONS: EducationLesson[] = [
         id: 'bullsye',
         heading: 'Bullsye yaklaşımı',
         paragraphs: [
-          'Ücretsiz herkese açık API’lerde anlık “yabancı takas” her zaman bulunmaz. Bullsye Smart Money sayfası sahte listeler yerine canlı hacim ve fiyat değişimini birleştirerek likidite liderlerini gösterir — şeffaf ve doğrulanabilir.',
+          'Bullsye Smart Money sayfası canlı hacim ve fiyat değişimini birleştirerek likidite liderlerini gösterir.',
         ],
       },
     ],
@@ -559,7 +559,7 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: 'analist-hedef-fiyati-nasil-okunur',
     title: 'Analist Hedef Fiyatı Nasıl Okunur? Potansiyel Prim Rehberi',
     description:
-      'targetMean, yüksek/düşük hedef ve upside % nasıl yorumlanır? Yahoo canlı konsensüsünü Bullsye Hedef Fiyatlar’da okuyun.',
+      'Ortalama, yüksek/düşük hedef ve upside % nasıl yorumlanır? Bullsye Hedef Fiyatlar’da canlı konsensüsü okuyun.',
     keywords: [
       'analist hedef fiyat',
       'hedef fiyat nedir',
@@ -572,12 +572,12 @@ export const BLOG_POSTS: BlogPost[] = [
     toolCta: {
       href: '/targets',
       label: 'Hedef Fiyatlar Terminali',
-      blurb: 'Canlı Yahoo konsensüs hedeflerini filtreleyip sıralayın.',
+      blurb: 'Canlı konsensüs hedeflerini filtreleyip sıralayın.',
     },
     sections: [
       {
         id: 'mean',
-        heading: 'Ortalama hedef (targetMean)',
+        heading: 'Ortalama hedef',
         paragraphs: [
           'Analistlerin 12 aylık fiyat tahminlerinin ortalamasıdır. Mevcut fiyata göre yüzde fark “potansiyel prim” olarak okunur; garanti değildir.',
         ],

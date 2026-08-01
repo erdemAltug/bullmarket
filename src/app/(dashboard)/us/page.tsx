@@ -25,7 +25,7 @@ function UsPageInner() {
           NASDAQ & ABD
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Amerikan borsaları — canlı Yahoo fiyat, F/K, analist hedefi & screener
+          Amerikan borsaları — canlı fiyat, F/K, analist hedefi & screener
         </p>
       </div>
 

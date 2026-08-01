@@ -18,7 +18,7 @@ export default function SignalsPage() {
       ) : null}
       {scanner.updatedAt ? (
         <p className="text-center text-[10px] text-[var(--muted)]">
-          Canlı feed · son güncelleme{' '}
+          Son güncelleme{' '}
           {new Date(scanner.updatedAt).toLocaleTimeString('tr-TR')}
         </p>
       ) : null}

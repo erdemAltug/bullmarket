@@ -69,7 +69,7 @@ export function MarketSentimentMeter({
         %{reading.value}
       </p>
       <p className="mt-1 text-center text-xs text-[var(--muted)]">
-        {reading.detail} · Bullsye genişlik endeksi (CNN Fear&amp;Greed değil)
+        {reading.detail}
       </p>
       <div className="mt-3 grid grid-cols-2 gap-2 text-center text-[11px] text-[var(--muted)]">
         <div className="rounded-lg bg-[var(--surface)]/60 px-2 py-1.5">

@@ -73,8 +73,8 @@ export function fromLiveFundamentals(
   const reports: BrokerReport[] = [];
   if (mean != null) {
     reports.push({
-      id: 'yahoo-mean',
-      brokerName: 'Yahoo Finance Konsensüs',
+      id: 'consensus-mean',
+      brokerName: 'Kurumsal Konsensüs',
       targetPrice: mean,
       rating:
         upside >= 10 ? 'AL' : upside <= -5 ? 'SAT' : 'TUT',
@@ -84,22 +84,22 @@ export function fromLiveFundamentals(
   }
   if (high != null && high !== mean) {
     reports.push({
-      id: 'yahoo-high',
-      brokerName: 'En Yüksek Hedef (Analist)',
+      id: 'consensus-high',
+      brokerName: 'En Yüksek Hedef',
       targetPrice: high,
       rating: 'AL',
       date: new Date().toISOString().slice(0, 10),
-      comment: 'Yahoo Finance financialData hedef bandı üstü.',
+      comment: 'Analist hedef bandının üst sınırı.',
     });
   }
   if (low != null && low !== mean) {
     reports.push({
-      id: 'yahoo-low',
-      brokerName: 'En Düşük Hedef (Analist)',
+      id: 'consensus-low',
+      brokerName: 'En Düşük Hedef',
       targetPrice: low,
       rating: upside < 0 ? 'SAT' : 'TUT',
       date: new Date().toISOString().slice(0, 10),
-      comment: 'Yahoo Finance financialData hedef bandı altı.',
+      comment: 'Analist hedef bandının alt sınırı.',
     });
   }
 
@@ -108,9 +108,7 @@ export function fromLiveFundamentals(
   const aiSummaryNote = [
     `${display} canlı fiyat ${currency === '$' ? '$' : '₺'}${price.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} (${pe}).`,
     `12 aylık analist ortalaması ${currency === '$' ? '$' : '₺'}${resolvedMean.toLocaleString('tr-TR', { maximumFractionDigits: 2 })} · potansiyel %${upside.toFixed(1)} (${consensusRating}).`,
-    a.recommendationKey
-      ? `Yahoo recommendationKey: ${a.recommendationKey}.`
-      : 'Tavsiye dağılımı canlı analist oylarından türetilmiştir.',
+    'Tavsiye dağılımı canlı kurumsal konsensüsten türetilmiştir.',
   ].join(' ');
 
   return {
@@ -158,11 +156,11 @@ export function fromLiveCryptoBand(input: {
     upsidePotential: upside,
     ratings: { strongBuy: 0, buy: 0, hold: 0, sell: 0 },
     consensusRating: bullish ? 'AL' : 'TUT',
-    aiSummaryNote: `${display} canlı spot $${input.price.toLocaleString('en-US', { maximumFractionDigits: 2 })} (Binance). Bu kart kurumsal analist hedefi değildir — yalnızca 24s high/low teknik bandıdır.`,
+    aiSummaryNote: `${display} canlı spot $${input.price.toLocaleString('en-US', { maximumFractionDigits: 2 })}. Bu kart kurumsal analist hedefi değildir — yalnızca 24s high/low teknik bandıdır.`,
     recentBrokerReports: [
       {
-        id: 'binance-24h',
-        brokerName: 'Binance 24s Teknik Bant',
+        id: 'spot-24h',
+        brokerName: '24s Teknik Bant',
         targetPrice: mid,
         rating: bullish ? 'AL' : 'TUT',
         date: new Date().toISOString().slice(0, 10),

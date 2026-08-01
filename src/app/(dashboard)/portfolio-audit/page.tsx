@@ -176,7 +176,7 @@ export default function PortfolioAuditPage() {
       yahoo: q.toUpperCase(),
       name: q.toUpperCase(),
       market: 'us',
-      exchange: 'Yahoo',
+      exchange: 'ABD',
     });
   }
 
@@ -197,7 +197,7 @@ export default function PortfolioAuditPage() {
       feature: 'Portföy Sağlık Raporu',
       headline: 'Raporun hazır! Ücretsiz kayıt ol',
       subtitle:
-        'Canlı Yahoo + Binance portföy analizini kaydet — 1 tıkla Google ile başla.',
+        'Canlı portföy analizini kaydet — 1 tıkla Google ile başla.',
     });
     setUnlocked(true);
   }
@@ -210,8 +210,7 @@ export default function PortfolioAuditPage() {
           Portföy Sağlık & Risk Tarayıcısı
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Canlı Yahoo (BİST + NASDAQ) ve Binance verisi — beta, temettü, sektör ve
-          fiyat gerçek API&apos;den
+          Canlı piyasa verisi — beta, temettü, sektör ve fiyat anlık hesaplanır
         </p>
       </div>
 
@@ -250,7 +249,7 @@ export default function PortfolioAuditPage() {
               {searchQuery.isFetching ? (
                 <li className="flex items-center gap-2 px-3 py-2 text-xs text-[var(--muted)]">
                   <Loader2 className="size-3.5 animate-spin" />
-                  Yahoo araması…
+                  Sembol aranıyor…
                 </li>
               ) : null}
               {(searchQuery.data ?? []).map((hit) => (
@@ -380,10 +379,10 @@ export default function PortfolioAuditPage() {
           {auditQuery.isFetching ? (
             <>
               <Loader2 className="size-3 animate-spin" />
-              Canlı metrikler çekiliyor (Yahoo / Binance)…
+              Canlı metrikler çekiliyor…
             </>
           ) : report?.live ? (
-            <>● Canlı veri — beta & temettü Yahoo, kripto Binance</>
+            <>● Bullsye canlı veri — beta, temettü ve fiyat güncel</>
           ) : auditQuery.isError ? (
             <span className="text-amber-400">
               Canlı audit hatası — tekrar deneyin
@@ -422,7 +421,7 @@ export default function PortfolioAuditPage() {
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
               <p className="text-xs uppercase tracking-wide text-[var(--muted)]">
-                Tahmini yıllık temettü (Yahoo)
+                Tahmini yıllık temettü
               </p>
               <p className="mt-1 text-2xl font-bold tabular-nums text-emerald-400">
                 %{report.estimatedYieldPct.toFixed(2)}
@@ -430,7 +429,7 @@ export default function PortfolioAuditPage() {
             </div>
             <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
               <p className="mb-2 text-xs uppercase tracking-wide text-[var(--muted)]">
-                Sektör ağırlıkları (canlı)
+                Sektör ağırlıkları
               </p>
               <ul className="space-y-1 text-sm">
                 {report.sectorWeights.slice(0, 5).map((s) => (
@@ -470,7 +469,7 @@ export default function PortfolioAuditPage() {
         className="w-full rounded-xl bg-emerald-500 py-3 text-sm font-bold text-black shadow-[0_0_20px_rgba(16,185,129,0.25)] hover:bg-emerald-400"
       >
         {isAuthed
-          ? 'Raporu Yenile (Canlı API)'
+          ? 'Raporu Yenile'
           : showFull
             ? 'Raporu Kaydet — Ücretsiz Kayıt Ol'
             : 'Raporu Gör — Ücretsiz Kayıt Ol & Kilidi Aç'}

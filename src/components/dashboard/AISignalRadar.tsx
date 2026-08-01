@@ -72,9 +72,7 @@ export function AISignalRadar({
             </span>
           </div>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Gün içi high/low + momentum — canlı Yahoo/Binance fiyatından ·{' '}
-            {filteredSignals.length} aktif kart (RSI/SMA için grafik geçmişi
-            kullanılır)
+            Gün içi high/low + momentum · {filteredSignals.length} aktif kart
           </p>
         </div>
 

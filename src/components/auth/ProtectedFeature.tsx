@@ -57,7 +57,7 @@ export function ProtectedFeature({
           {featureTitle} için Ücretsiz Hesap Oluşturun
         </h3>
         <p className="mb-4 max-w-xs text-xs text-[var(--muted)]">
-          Canlı sinyaller, Yahoo analist hedefleri ve hacim liderlerini ücretsiz
+          Canlı sinyaller, analist hedefleri ve hacim liderlerini ücretsiz
           hesapla inceleyin.
         </p>
         <button

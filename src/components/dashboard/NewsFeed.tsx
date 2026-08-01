@@ -66,7 +66,7 @@ export function NewsFeed({ defaultOpen = true }: NewsFeedProps) {
             <EmptyState
               icon={Newspaper}
               title="Haber bulunamadı"
-              description="Akış boş veya kaynak yanıt vermedi."
+              description="Haber akışı şu an boş."
               className="py-8"
             />
           ) : (

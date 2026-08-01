@@ -5,7 +5,7 @@ import { withLangAlternates } from '@/lib/seo/hreflang';
 export const metadata: Metadata = {
   title: 'NASDAQ & ABD Hisse Fiyatları | Bullsye',
   description:
-    'NASDAQ ve NYSE canlı fiyatlar: AAPL, NVDA, TSLA, MSFT. Yahoo Finance verisi, analist hedefi, grafik ve sağlık karnesi — Bullsye.',
+    'NASDAQ ve NYSE canlı fiyatlar: AAPL, NVDA, TSLA, MSFT. Analist hedefi, grafik ve sağlık karnesi — Bullsye.',
   keywords: [
     'NASDAQ canlı',
     'ABD hisseleri',

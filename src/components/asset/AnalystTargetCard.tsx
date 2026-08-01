@@ -68,7 +68,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
               <span className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-400">
                 <Target className="size-4" />
                 {isTechnical
-                  ? '24s Teknik Fiyat Bandı (Binance)'
+                  ? '24s Teknik Fiyat Bandı'
                   : '12 Aylık Analist Konsensüs Hedefi'}
               </span>
               <span
@@ -152,7 +152,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
                 Kaynak
               </div>
               <div className="mt-1 text-sm font-bold text-cyan-400">
-                Canlı Binance
+                Canlı piyasa
               </div>
               <div className="mt-1 text-[11px] text-[var(--muted)]">
                 Analist oyu yok — teknik bant
@@ -164,7 +164,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
         {!isTechnical && totalVotes > 0 ? (
           <div className="mt-5 space-y-2">
             <p className="text-[11px] uppercase tracking-wide text-[var(--muted)]">
-              Tavsiye Dağılımı (Yahoo)
+              Tavsiye Dağılımı
             </p>
             <div className="flex h-3 overflow-hidden rounded-full bg-zinc-800">
               {segments.map((s) =>

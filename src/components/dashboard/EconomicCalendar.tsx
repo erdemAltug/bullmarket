@@ -41,7 +41,7 @@ export function EconomicCalendar() {
         <EmptyState
           icon={CalendarClock}
           title="Canlı takvim yok"
-          description="Ekonomik olay feed’i henüz bağlanmadı — uydurma tarihler göstermiyoruz."
+          description="Ekonomik takvim yakında aktif olacak."
           className="py-8"
         />
       ) : (

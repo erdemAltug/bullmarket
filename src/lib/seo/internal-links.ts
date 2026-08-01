@@ -47,7 +47,7 @@ export const SEO_HUB_FEATURES_TR = [
   {
     href: '/us',
     title: 'NASDAQ & ABD Hisseleri',
-    desc: 'AAPL, NVDA, TSLA ve ABD blue-chip’leri canlı Yahoo fiyat + analist hedefi.',
+    desc: 'AAPL, NVDA, TSLA ve ABD blue-chip’leri canlı fiyat + analist hedefi.',
   },
   {
     href: '/crypto',
@@ -85,7 +85,7 @@ export const SEO_HUB_FEATURES_EN = [
   {
     href: '/us',
     title: 'NASDAQ & US Equities',
-    desc: 'AAPL, NVDA, TSLA and US blue-chips with live Yahoo quotes & targets.',
+    desc: 'AAPL, NVDA, TSLA and US blue-chips with live quotes & analyst targets.',
   },
   {
     href: '/crypto',

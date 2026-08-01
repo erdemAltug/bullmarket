@@ -139,7 +139,7 @@ export default function DividendsPage() {
           Temettü & Bilanço Karnesi
         </h1>
         <p className="mt-1 text-xs text-[var(--muted)]">
-          Yahoo Finance canlı temettü verimi & ex-date
+          Canlı temettü verimi & ex-date
           {data?.updatedAt
             ? ` · ${new Date(data.updatedAt).toLocaleTimeString('tr-TR')}`
             : ''}

@@ -108,7 +108,7 @@ function catalystsFor(item: ScannerItem, score: number): string[] {
   }
 
   if (score >= 80) {
-    out.push(`Fırsat skoru ${score}/100 — üst dilim (canlı metrik)`);
+    out.push(`Fırsat skoru ${score}/100 — üst dilim profil`);
   } else if (item.category === 'BIST') {
     out.push('BİST likidite evreninde tarama sinyali pozitif');
   } else {
@@ -230,7 +230,7 @@ export function buildDailyVision(items: ScannerItem[]): DailyVisionReport {
 
   const headline = `Günlük tarama · ${tone.charAt(0).toUpperCase()}${tone.slice(1)}`;
 
-  const body = `Canlı Yahoo + Binance taramasında ${tone}. Ortalama fırsat skoru ${avgScore.toFixed(0)}/100 · ${opportunityCount || cards.length} yüksek skorlu profil${
+  const body = `Canlı piyasa taramasında ${tone}. Ortalama fırsat skoru ${avgScore.toFixed(0)}/100 · ${opportunityCount || cards.length} yüksek skorlu profil${
     topSymbols.length ? ` — öne çıkanlar: ${topSymbols.join(', ')}` : ''
   }. Günlük genişlik: yükselenlerin oranı %${bullishShare.toFixed(0)}. Bu bir fiyat tahmini değildir.`;
 

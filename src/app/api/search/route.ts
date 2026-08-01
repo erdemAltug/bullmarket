@@ -125,7 +125,7 @@ export async function GET(request: Request) {
             (row as { longname?: string }).longname ||
             display,
           market,
-          exchange: exchDisp || (market === 'bist' ? 'BİST' : 'Yahoo'),
+          exchange: exchDisp || (market === 'bist' ? 'BİST' : 'ABD'),
         } satisfies SearchHit;
       })
       .filter((r) => r.symbol.length > 0);

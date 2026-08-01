@@ -25,11 +25,11 @@ export function AnalystConsensusPanel({
     analyst.strongSell;
 
   const segments = [
-    { key: 'SB', n: analyst.strongBuy, color: 'bg-emerald-500' },
-    { key: 'B', n: analyst.buy, color: 'bg-emerald-400/80' },
-    { key: 'H', n: analyst.hold, color: 'bg-zinc-500' },
-    { key: 'S', n: analyst.sell, color: 'bg-red-400/80' },
-    { key: 'SS', n: analyst.strongSell, color: 'bg-red-600' },
+    { key: 'SB', label: 'Güçlü Al', n: analyst.strongBuy, color: 'bg-emerald-500' },
+    { key: 'B', label: 'Al', n: analyst.buy, color: 'bg-emerald-400/80' },
+    { key: 'H', label: 'Tut', n: analyst.hold, color: 'bg-zinc-500' },
+    { key: 'S', label: 'Sat', n: analyst.sell, color: 'bg-red-400/80' },
+    { key: 'SS', label: 'Güçlü Sat', n: analyst.strongSell, color: 'bg-red-600' },
   ];
 
   const hasTargets = mean != null || analyst.targetHigh != null;
@@ -40,6 +40,14 @@ export function AnalystConsensusPanel({
         Bu sembol için analist konsensüsü bulunamadı.
       </p>
     );
+  }
+
+  function mapRecLabel(key: string): string {
+    const k = key.toLowerCase();
+    if (k.includes('strong_buy') || k === 'strongbuy') return 'GÜÇLÜ AL';
+    if (k.includes('buy') || k === 'outperform') return 'AL';
+    if (k.includes('sell') || k.includes('under')) return 'SAT';
+    return 'TUT';
   }
 
   return (
@@ -90,8 +98,8 @@ export function AnalystConsensusPanel({
       {analyst.recommendationKey ? (
         <p className="text-xs text-zinc-400">
           Konsensüs:{' '}
-          <span className="font-medium uppercase text-zinc-200">
-            {analyst.recommendationKey.replace(/_/g, ' ')}
+          <span className="font-medium text-zinc-200">
+            {mapRecLabel(analyst.recommendationKey)}
           </span>
         </p>
       ) : null}
@@ -105,17 +113,17 @@ export function AnalystConsensusPanel({
                   key={s.key}
                   className={cn(s.color)}
                   style={{ width: `${(s.n / total) * 100}%` }}
-                  title={`${s.key}: ${s.n}`}
+                  title={`${s.label}: ${s.n}`}
                 />
               ) : null
             )}
           </div>
           <div className="flex flex-wrap gap-2 text-[10px] text-zinc-500">
-            <span>Strong Buy {analyst.strongBuy}</span>
-            <span>Buy {analyst.buy}</span>
-            <span>Hold {analyst.hold}</span>
-            <span>Sell {analyst.sell}</span>
-            <span>Strong Sell {analyst.strongSell}</span>
+            <span>Güçlü Al {analyst.strongBuy}</span>
+            <span>Al {analyst.buy}</span>
+            <span>Tut {analyst.hold}</span>
+            <span>Sat {analyst.sell}</span>
+            <span>Güçlü Sat {analyst.strongSell}</span>
           </div>
         </div>
       ) : null}

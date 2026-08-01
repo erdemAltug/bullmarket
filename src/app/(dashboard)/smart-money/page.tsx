@@ -35,8 +35,7 @@ export default function SmartMoneyPage() {
           Hacim & Momentum Liderleri
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Canlı hacim × fiyat değişimi (Yahoo + Binance) — net takas / balina
-          akışı iddiası yok
+          Canlı hacim × fiyat değişimi — net takas / balina akışı iddiası yok
         </p>
       </div>
 
@@ -115,7 +114,7 @@ export default function SmartMoneyPage() {
 
           <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
             <h2 className="text-sm font-semibold">
-              Kripto — En yüksek 24s hacim (Binance canlı)
+              Kripto — En yüksek 24s hacim
             </h2>
             <ul className="mt-4 space-y-2">
               {cryptoLeaders.map((r) => (

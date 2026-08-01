@@ -5,7 +5,7 @@ import { withLangAlternates } from '@/lib/seo/hreflang';
 export const metadata: Metadata = {
   title: 'Hacim & Momentum Liderleri',
   description:
-    'BİST ve kripto canlı hacim × momentum liderleri. Yahoo + Binance verisi — Bullsye.',
+    'BİST ve kripto canlı hacim × momentum liderleri — Bullsye.',
   keywords: [
     'hacim liderleri',
     'momentum',

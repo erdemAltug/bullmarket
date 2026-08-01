@@ -87,7 +87,7 @@ export default function TargetsPage() {
           Analist Hedef Fiyatları
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Yahoo Finance canlı konsensüs · targetMean / High / Low
+          Canlı kurumsal konsensüs · ortalama / yüksek / düşük hedef
           {data?.updatedAt
             ? ` · güncelleme ${new Date(data.updatedAt).toLocaleTimeString('tr-TR')}`
             : ''}

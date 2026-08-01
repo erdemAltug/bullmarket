@@ -73,8 +73,8 @@ export async function generateMetadata({
     ? `${humanTr}? ${price} TL (${change}) — Bullsye`
     : `${humanEn}: ${price} TRY (${change}) — Bullsye`;
   const description = isTr
-    ? `${base}/${quote} canlı döviz kuru ${price} TL. Anlık TCMB verisi, dönüştürücü ve değişim oranı Bullsye'da.`
-    : `Live ${base}/${quote} FX rate at ${price} TRY. TCMB-based quotes and converter on Bullsye.`;
+    ? `${base}/${quote} canlı döviz kuru ${price} TL. Anlık kur, dönüştürücü ve değişim oranı Bullsye'da.`
+    : `Live ${base}/${quote} FX rate at ${price} TRY. Live quotes and converter on Bullsye.`;
   const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(`${base}/${quote}`)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent(isTr ? 'Döviz' : 'FX')}&lang=${lang}`;
   const path = `/fx/${pair}`;
 
@@ -146,7 +146,7 @@ export default async function FxPairPage({ params }: Props) {
         {
           question: 'Kurlar nereden geliyor?',
           answer:
-            "Bullsye döviz kurlarını TCMB verilerine dayalı olarak günceller.",
+            "Bullsye döviz kurlarını anlık olarak günceller.",
         },
         {
           question: 'Döviz çevirici var mı?',

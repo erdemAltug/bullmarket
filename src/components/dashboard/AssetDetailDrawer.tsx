@@ -170,7 +170,7 @@ export function AssetDetailDrawer({
                   <Metric
                     label="Hacim"
                     value={card.volume || '—'}
-                    tip="Canlı işlem hacmi (Yahoo / Binance). Yüksek hacim, sinyalin likidite desteğini güçlendirir."
+                    tip="Canlı işlem hacmi. Yüksek hacim, sinyalin likidite desteğini güçlendirir."
                     tipTitle="Hacim"
                   />
                 </div>

@@ -182,7 +182,7 @@ export function auditPortfolioWeights(
       id: 'crypto-heavy',
       severity: cryptoShare >= 60 ? 'critical' : 'warn',
       title: 'Kripto Ağırlığı',
-      message: `Kripto payı %${cryptoShare.toFixed(0)} (canlı Binance).`,
+      message: `Kripto payı %${cryptoShare.toFixed(0)}.`,
     });
   }
 
@@ -191,7 +191,7 @@ export function auditPortfolioWeights(
       id: 'yield-live',
       severity: 'info',
       title: 'Canlı Temettü',
-      message: `Ağırlıklı yıllık temettü verimi ~%${estimatedYieldPct.toFixed(2)} (Yahoo).`,
+      message: `Ağırlıklı yıllık temettü verimi ~%${estimatedYieldPct.toFixed(2)}.`,
     });
   } else if (live) {
     findings.push({
@@ -199,7 +199,7 @@ export function auditPortfolioWeights(
       severity: 'info',
       title: 'Temettü',
       message:
-        'Seçili varlıkların Yahoo temettü verimi düşük veya sıfır (büyüme / kripto odaklı).',
+        'Seçili varlıkların temettü verimi düşük veya sıfır (büyüme / kripto odaklı).',
     });
   }
 
@@ -208,7 +208,7 @@ export function auditPortfolioWeights(
       id: 'beta-high',
       severity: 'warn',
       title: 'Yüksek Beta',
-      message: `Canlı portföy beta ~${betaIndex} (Yahoo / kripto varsayılan 1.65).`,
+      message: `Canlı portföy beta ~${betaIndex}.`,
     });
   }
 

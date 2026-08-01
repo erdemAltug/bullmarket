@@ -96,7 +96,7 @@ async function fetchEquityMetrics(
       pe: null,
       marketCap: null,
       ok: false,
-      error: e instanceof Error ? e.message : 'Yahoo fetch failed',
+      error: 'Veri alınamadı',
     };
   }
 }
@@ -120,11 +120,11 @@ async function fetchCryptoMetrics(
       price = ticker.price;
       ok = true;
     }
-  } catch (e) {
-    err = e instanceof Error ? e.message : 'Binance fetch failed';
+  } catch {
+    err = 'Kripto verisi alınamadı';
   }
 
-  // Optional Yahoo crypto (BTC-USD) for beta if available
+  // Optional crypto beta from USD pair summary
   let beta: number | null = 1.65;
   let name = display;
   if (yahoo) {
@@ -156,7 +156,7 @@ async function fetchCryptoMetrics(
     pe: null,
     marketCap: null,
     ok,
-    error: ok ? undefined : err ?? 'Binance ticker not found',
+    error: ok ? undefined : err ?? 'Sembol bulunamadı',
   };
   if (ok) appCache.set(cacheKey, metrics, 60);
   return metrics;
@@ -173,7 +173,6 @@ async function metricsForHolding(
     return fetchCryptoMetrics(display, resolved.binance, resolved.yahoo);
   }
 
-  // Try explicit yahoo, then BİST .IS fallback if US lookup fails for Turkish tickers
   const primary = h.yahoo || resolved.yahoo;
   if (!primary) {
     return {
@@ -190,7 +189,7 @@ async function metricsForHolding(
       pe: null,
       marketCap: null,
       ok: false,
-      error: 'No Yahoo symbol',
+      error: 'Sembol çözülemedi',
     };
   }
 
@@ -247,7 +246,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        error: e instanceof Error ? e.message : 'Audit failed',
+        error: 'Analiz tamamlanamadı',
       },
       { status: 502 }
     );

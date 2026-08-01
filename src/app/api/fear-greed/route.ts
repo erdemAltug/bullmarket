@@ -74,7 +74,7 @@ export async function GET() {
       bist: {
         value: bist.value,
         classification: classify(bist.value),
-        note: `XU100 RSI+getiri proxy (Alternative.me değil). ${bist.note}`,
+        note: bist.note,
       },
     };
 

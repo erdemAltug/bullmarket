@@ -119,12 +119,12 @@ export function FearGreedIndex() {
           <div className="grid gap-4 sm:grid-cols-2">
             <Dial
               value={data.crypto.value}
-              label="Kripto (Alternative.me)"
+              label="Kripto"
               classification={data.crypto.classification}
             />
             <Dial
               value={data.bist.value}
-              label="BİST RSI Proxy"
+              label="BİST Endeksi"
               classification={data.bist.classification}
             />
           </div>

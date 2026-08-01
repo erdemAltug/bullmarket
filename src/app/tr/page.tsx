@@ -65,7 +65,7 @@ const FAQ = [
   },
   {
     q: 'Kripto sinyalleri gerçek zamanlı mı?',
-    a: 'BTC, ETH ve diğer çiftler canlı Binance verisiyle güncellenir; RSI/SMA tabanlı AI sinyal kartları üretilir.',
+    a: 'BTC, ETH ve diğer çiftler Bullsye terminalinde anlık güncellenir; RSI/SMA tabanlı sinyal kartları üretilir.',
   },
 ];
 
@@ -149,7 +149,7 @@ export default function TrLocaleLanding() {
           Popüler NASDAQ / ABD Analizleri
         </h2>
         <p className="mt-1 text-sm text-zinc-500">
-          AAPL, NVDA, TSLA — canlı Yahoo fiyat ve analist hedefi
+          AAPL, NVDA, TSLA — canlı fiyat ve analist hedefi
         </p>
         <ul className="mt-4 flex flex-wrap gap-2">
           {TOP_US_FOR_HUB.map((sym) => (

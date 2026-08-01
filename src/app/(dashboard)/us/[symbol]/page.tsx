@@ -183,7 +183,7 @@ export default async function UsSymbolPage({ params }: Props) {
         </h2>
         <p>
           {quote.name} ({symbol}) ABD piyasalarında (NASDAQ/NYSE) işlem gören bir
-          hisse senedidir. Bu sayfada canlı Yahoo fiyatı, sağlık karnesi, 12
+          hisse senedidir. Bu sayfada canlı fiyat, sağlık karnesi, 12
           aylık analist hedef konsensüsü ve interaktif grafik yer alır. Alarm
           ve izleme listesi Overview üzerinden kullanılabilir.
         </p>
