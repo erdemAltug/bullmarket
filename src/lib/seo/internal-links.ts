@@ -8,10 +8,18 @@ import {
 /** Crawlable detail URL for sitemap / internal links */
 export function assetDetailHref(
   symbol: string,
-  category?: 'BIST' | 'CRYPTO' | 'US' | string
+  category?: 'BIST' | 'CRYPTO' | 'US' | 'FON' | 'ETF' | string
 ): string | null {
   const s = symbol.trim().toUpperCase();
   if (!s) return null;
+
+  if (category === 'FON' || s.startsWith('TEFAS:')) {
+    return `/fon/${s.replace(/^TEFAS:/, '')}`;
+  }
+
+  if (category === 'ETF') {
+    return `/fon/${s.replace(/\.IS$/i, '')}`;
+  }
 
   if (category === 'CRYPTO' || s.endsWith('USDT')) {
     const pair = s.endsWith('USDT') ? s : `${s.replace(/[^A-Z0-9]/g, '')}USDT`;
@@ -26,7 +34,7 @@ export function assetDetailHref(
     return `/bist/${s.replace(/\.IS$/i, '')}`;
   }
 
-  const bare = s.replace(/\.IS$/i, '');
+  const bare = s.replace(/\.IS$/i, '').replace(/^TEFAS:/, '');
   if (bare.includes('-') && SEO_FX_PAIRS.includes(bare as (typeof SEO_FX_PAIRS)[number])) {
     return `/fx/${bare}`;
   }
@@ -48,6 +56,11 @@ export const SEO_HUB_FEATURES_TR = [
     href: '/us',
     title: 'NASDAQ & ABD Hisseleri',
     desc: 'AAPL, NVDA, TSLA ve ABD blue-chip’leri canlı fiyat + analist hedefi.',
+  },
+  {
+    href: '/fon',
+    title: "TEFAS Fonlar & ETF'ler",
+    desc: 'AFT, YAY, VOO, QQQ — yatırım fonu ve küresel ETF canlı takip.',
   },
   {
     href: '/crypto',
@@ -91,6 +104,11 @@ export const SEO_HUB_FEATURES_EN = [
     href: '/us',
     title: 'NASDAQ & US Equities',
     desc: 'AAPL, NVDA, TSLA and US blue-chips with live quotes & analyst targets.',
+  },
+  {
+    href: '/fon',
+    title: 'TEFAS Funds & Global ETFs',
+    desc: 'AFT, YAY, VOO, QQQ — mutual funds and ETF live desk.',
   },
   {
     href: '/crypto',

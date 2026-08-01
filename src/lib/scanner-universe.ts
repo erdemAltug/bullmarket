@@ -118,6 +118,126 @@ export const SCANNER_US_SYMBOLS = [
   'MRK',
 ] as const;
 
+/** Global US ETFs via Yahoo */
+export const SCANNER_ETF_SYMBOLS = [
+  'VOO',
+  'QQQ',
+  'SPY',
+  'SCHD',
+  'ARKK',
+  'VTI',
+  'IWM',
+  'EEM',
+  'GLD',
+  'QQQM',
+  'VIG',
+  'JEPI',
+] as const;
+
+export const ETF_META: Record<
+  (typeof SCANNER_ETF_SYMBOLS)[number],
+  { style: string }
+> = {
+  VOO: { style: 'S&P 500 · Geniş ABD' },
+  QQQ: { style: 'Nasdaq 100 · Teknoloji' },
+  SPY: { style: 'S&P 500 · Likidite' },
+  SCHD: { style: 'ABD Temettü Hisse' },
+  ARKK: { style: 'İnovasyon / Büyüme' },
+  VTI: { style: 'Toplam ABD Piyasası' },
+  IWM: { style: 'Russell 2000 · Küçük Şirket' },
+  EEM: { style: 'Gelişmekte Olan Ülkeler' },
+  GLD: { style: 'Altın' },
+  QQQM: { style: 'Nasdaq 100 · Maliyet Etkin' },
+  VIG: { style: 'Temettü Büyüme' },
+  JEPI: { style: 'Opsiyon Gelir / Temettü' },
+};
+
+/** Curated popular TEFAS YAT funds */
+export const SCANNER_TEFAS_FUNDS = [
+  {
+    code: 'AFT',
+    style: 'Yabancı Teknoloji Hisse',
+    founder: 'Ak Portföy',
+  },
+  {
+    code: 'YAY',
+    style: 'Yabancı Teknoloji Hisse',
+    founder: 'Yapı Kredi Portföy',
+  },
+  {
+    code: 'TTE',
+    style: 'BIST Teknoloji Hisse Yoğun',
+    founder: 'İş Portföy',
+  },
+  {
+    code: 'TI2',
+    style: 'Hisse Senedi Yoğun',
+    founder: 'İş Portföy',
+  },
+  {
+    code: 'BIO',
+    style: 'Sürdürülebilirlik Hisse',
+    founder: 'İş Portföy',
+  },
+  {
+    code: 'MAC',
+    style: 'Hisse Senedi Yoğun',
+    founder: 'Marmara Capital',
+  },
+  {
+    code: 'IIH',
+    style: 'Hisse Senedi Yoğun',
+    founder: 'İstanbul Portföy',
+  },
+  {
+    code: 'NNF',
+    style: 'Hisse Senedi Yoğun',
+    founder: 'Hedef Portföy',
+  },
+  {
+    code: 'ST1',
+    style: 'Hisse Senedi Yoğun',
+    founder: 'Strateji Portföy',
+  },
+  {
+    code: 'CPU',
+    style: 'Teknoloji Katılım',
+    founder: 'Aktif Portföy',
+  },
+  {
+    code: 'TCD',
+    style: 'Değişken',
+    founder: 'Tacirler Portföy',
+  },
+  {
+    code: 'IPB',
+    style: 'Değişken',
+    founder: 'İstanbul Portföy',
+  },
+  {
+    code: 'OJK',
+    style: 'Altın',
+    founder: 'QNB Portföy',
+  },
+  {
+    code: 'GUM',
+    style: 'Gümüş Fon Sepeti',
+    founder: 'Ak Portföy',
+  },
+  {
+    code: 'AK2',
+    style: 'Borçlanma Araçları',
+    founder: 'Ak Portföy',
+  },
+  {
+    code: 'PPN',
+    style: 'Para Piyasası',
+    founder: 'Nurol Portföy',
+  },
+] as const;
+
+export const SCANNER_TEFAS_CODES = SCANNER_TEFAS_FUNDS.map((f) => f.code);
+
 /** Deterministic sparkline removed — do not invent price history. */
 export function buildSparkline(
   _price: number,

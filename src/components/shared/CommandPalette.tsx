@@ -7,6 +7,7 @@ import {
   Briefcase,
   Coins,
   Landmark,
+  Layers,
   LayoutDashboard,
   LineChart,
   Map,
@@ -35,6 +36,7 @@ const KIND_ICON: Record<SearchItemKind, typeof LayoutDashboard> = {
   crypto: Bitcoin,
   fx: Coins,
   us: Landmark,
+  fon: Layers,
 };
 
 const KIND_LABEL: Record<SearchItemKind, string> = {
@@ -43,6 +45,7 @@ const KIND_LABEL: Record<SearchItemKind, string> = {
   crypto: 'Crypto',
   fx: 'FX',
   us: 'NASDAQ',
+  fon: "Fon / ETF",
 };
 
 export function CommandPalette() {
@@ -90,6 +93,22 @@ export function CommandPalette() {
       const m = item.href.match(/\/us\/([A-Za-z0-9.-]+)/);
       if (m) return m[1].toUpperCase();
       return null;
+    }
+    if (item.kind === 'fon') {
+      const m = item.href.match(/\/fon\/([A-Za-z0-9.-]+)/);
+      if (!m) return null;
+      const code = m[1].toUpperCase();
+      const etfs = new Set([
+        'VOO',
+        'QQQ',
+        'SPY',
+        'SCHD',
+        'ARKK',
+        'VTI',
+        'IWM',
+        'GLD',
+      ]);
+      return etfs.has(code) ? code : `TEFAS:${code}`;
     }
     return null;
   }
@@ -139,15 +158,19 @@ export function CommandPalette() {
     go(item.href);
   }
 
-  const groups = (['nav', 'bist', 'crypto', 'fx'] as SearchItemKind[]).map(
-    (kind) => ({
-      kind,
-      items: SEARCH_CATALOG.filter((i) => i.kind === kind),
-    })
-  );
+  const groups = (
+    ['nav', 'bist', 'us', 'fon', 'crypto', 'fx'] as SearchItemKind[]
+  ).map((kind) => ({
+    kind,
+    items: SEARCH_CATALOG.filter((i) => i.kind === kind),
+  }));
 
   const actionable = SEARCH_CATALOG.filter(
-    (i) => i.kind === 'bist' || i.kind === 'crypto'
+    (i) =>
+      i.kind === 'bist' ||
+      i.kind === 'crypto' ||
+      i.kind === 'us' ||
+      i.kind === 'fon'
   );
 
   return (

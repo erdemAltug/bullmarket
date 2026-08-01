@@ -16,6 +16,7 @@ import {
   CalendarTickerBanner,
   EconomicCalendar,
 } from '@/components/dashboard/EconomicCalendar';
+import { ExpandableSection } from '@/components/dashboard/ExpandableSection';
 import { FearGreedIndex } from '@/components/dashboard/FearGreedIndex';
 import { FxConverter } from '@/components/dashboard/FxConverter';
 import { MetricCard } from '@/components/dashboard/MetricCard';
@@ -321,6 +322,7 @@ export default function OverviewPage() {
             marketItems={scanner.data ?? []}
             isLoading={scanner.isLoading}
             freeCount={3}
+            hideHeader
           />
         );
       case 'calendar':
@@ -341,28 +343,43 @@ export default function OverviewPage() {
       <CalendarTickerBanner />
       <TickerTape items={tapeItems} />
 
-      <AIDailyVisionPanel
-        report={dailyVision}
-        loading={scanner.isLoading}
-      />
+      <ExpandableSection
+        id="daily-vision"
+        title="Canlı Günlük Tarama"
+        subtitle="Özet skor, fırsat sayısı ve piyasa genişliği"
+        collapsedHint={
+          dailyVision
+            ? `skor ${dailyVision.avgUpsidePct.toFixed(0)} · ${dailyVision.opportunityCount} fırsat`
+            : undefined
+        }
+        defaultOpen
+      >
+        <AIDailyVisionPanel
+          report={dailyVision}
+          loading={scanner.isLoading}
+        />
+      </ExpandableSection>
 
-      <div className="space-y-3">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-semibold tracking-tight">
-              Canlı Fırsat Radarı
-            </h2>
-            <p className="mt-0.5 text-xs text-[var(--muted)]">
-              Karta tıkla → detay · skor/F/K/mesafe → tooltip
-            </p>
-          </div>
+      <ExpandableSection
+        id="opportunity-radar"
+        title="Canlı Fırsat Radarı"
+        subtitle="Karta tıkla → detay · skor/F/K/mesafe → tooltip"
+        collapsedHint={
+          potentialCards.length
+            ? `${potentialCards.length} kart`
+            : undefined
+        }
+        defaultOpen
+        actions={
           <Link
             href="/firsatlar"
             className="shrink-0 text-xs font-bold text-emerald-400 hover:underline"
+            onClick={(e) => e.stopPropagation()}
           >
             AI Fırsat Alımları →
           </Link>
-        </div>
+        }
+      >
         <div className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1fr)_260px]">
           <AIPotentialRadar
             cards={potentialCards}
@@ -376,7 +393,7 @@ export default function OverviewPage() {
             />
           </div>
         </div>
-      </div>
+      </ExpandableSection>
 
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
@@ -433,6 +450,7 @@ export default function OverviewPage() {
         editing={layout.editing}
         onReorder={layout.move}
         render={renderWidget}
+        labels={WIDGET_LABELS}
       />
 
       <StockScorecard

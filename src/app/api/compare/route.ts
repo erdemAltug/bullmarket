@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { fetchFundamentals } from '@/lib/api/yahoo';
 import { fetchKlines } from '@/lib/api/binance';
+import { fetchTefasLatest } from '@/lib/api/tefas';
 import { appCache } from '@/lib/cache';
 import type { CompareMetrics } from '@/types';
 
@@ -20,6 +21,23 @@ async function metricsFor(symbol: string): Promise<CompareMetrics> {
       trailingPE: null,
       priceToBook: null,
       yearReturn,
+      earningsGrowth: null,
+      beta: null,
+      dividendYield: null,
+    };
+  }
+
+  if (symbol.startsWith('TEFAS:')) {
+    const code = symbol.replace(/^TEFAS:/, '');
+    const rows = await fetchTefasLatest([code], 'YAT');
+    const row = rows[0];
+    return {
+      symbol,
+      name: row?.name ?? code,
+      price: row?.price ?? 0,
+      trailingPE: null,
+      priceToBook: null,
+      yearReturn: null,
       earningsGrowth: null,
       beta: null,
       dividendYield: null,

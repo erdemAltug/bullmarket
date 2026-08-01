@@ -111,6 +111,28 @@ export const SEO_US_TICKERS = [
   'MCD',
 ] as const;
 
+export const SEO_ETF_TICKERS = [
+  'VOO',
+  'QQQ',
+  'SPY',
+  'SCHD',
+  'ARKK',
+  'VTI',
+  'IWM',
+  'GLD',
+] as const;
+
+export const SEO_TEFAS_CODES = [
+  'AFT',
+  'YAY',
+  'TTE',
+  'TI2',
+  'MAC',
+  'IIH',
+  'OJK',
+  'GUM',
+] as const;
+
 export const SEO_FX_PAIRS = [
   'USD-TRY',
   'EUR-TRY',

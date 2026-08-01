@@ -111,7 +111,7 @@ export function OpportunityHunt() {
   }, [scanner.updatedAt]);
 
   return (
-    <div className="relative space-y-6 pb-24">
+    <div className="relative space-y-6 pb-28 md:pb-24">
       <header className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-400">
@@ -224,9 +224,10 @@ export function OpportunityHunt() {
       {/* Sticky FOMO bar */}
       <div
         className={cn(
-          'fixed inset-x-0 bottom-0 z-40 border-t border-emerald-500/25',
+          'fixed inset-x-0 z-40 border-t border-emerald-500/25',
+          'bottom-16 md:bottom-0',
           'bg-[var(--background)]/95 px-4 py-3 backdrop-blur-xl',
-          'pb-[max(0.75rem,env(safe-area-inset-bottom))]'
+          'pb-[max(0.75rem,env(safe-area-inset-bottom))] md:pb-[max(0.75rem,env(safe-area-inset-bottom))]'
         )}
       >
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">

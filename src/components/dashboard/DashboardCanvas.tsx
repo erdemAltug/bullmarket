@@ -15,6 +15,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
+import { ExpandableSection } from '@/components/dashboard/ExpandableSection';
 import type { DashboardWidgetId } from '@/types';
 import { cn } from '@/lib/utils';
 
@@ -65,6 +66,7 @@ interface DashboardCanvasProps {
   editing: boolean;
   onReorder: (active: DashboardWidgetId, over: DashboardWidgetId) => void;
   render: (id: DashboardWidgetId) => React.ReactNode;
+  labels: Record<DashboardWidgetId, string>;
 }
 
 export function DashboardCanvas({
@@ -72,6 +74,7 @@ export function DashboardCanvas({
   editing,
   onReorder,
   render,
+  labels,
 }: DashboardCanvasProps) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
@@ -96,7 +99,13 @@ export function DashboardCanvas({
         <div className="space-y-6">
           {ids.map((id) => (
             <SortableItem key={id} id={id} editing={editing}>
-              {render(id)}
+              <ExpandableSection
+                id={`widget-${id}`}
+                title={labels[id]}
+                defaultOpen
+              >
+                {render(id)}
+              </ExpandableSection>
             </SortableItem>
           ))}
         </div>

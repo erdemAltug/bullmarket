@@ -14,7 +14,7 @@ export interface PotentialCard {
   symbol: string;
   displaySymbol: string;
   name: string;
-  category: 'BIST' | 'CRYPTO' | 'US';
+  category: 'BIST' | 'CRYPTO' | 'US' | 'FON' | 'ETF';
   price: number;
   currency: 'TRY' | 'USD';
   score: number;
@@ -30,6 +30,9 @@ export interface PotentialCard {
   volumeRaw: number;
   catalysts: string[];
   href: string | null;
+  fundStyle?: string | null;
+  portfolioSize?: number | null;
+  investorCount?: number | null;
 }
 
 export interface SentimentReading {
@@ -109,6 +112,10 @@ function catalystsFor(item: ScannerItem, score: number): string[] {
 
   if (score >= 80) {
     out.push(`Fırsat skoru ${score}/100 — üst dilim profil`);
+  } else if (item.category === 'FON') {
+    out.push('TEFAS yatırım fonu — günlük pay değeri taraması');
+  } else if (item.category === 'ETF') {
+    out.push('Küresel ETF — canlı ABD borsa yatırım fonu profili');
   } else if (item.category === 'BIST') {
     out.push('BİST likidite evreninde tarama sinyali pozitif');
   } else {
@@ -122,6 +129,9 @@ function detailHref(item: ScannerItem): string | null {
   if (item.category === 'BIST') return `/bist/${item.displaySymbol}`;
   if (item.category === 'CRYPTO') return `/crypto/${item.symbol}`;
   if (item.category === 'US') return `/us/${item.displaySymbol}`;
+  if (item.category === 'FON' || item.category === 'ETF') {
+    return `/fon/${item.displaySymbol}`;
+  }
   return null;
 }
 
@@ -147,7 +157,15 @@ export function buildMicroReview(card: PotentialCard): string {
       ? ` Canlı F/K ${card.trailingPE.toFixed(1)} ile değerleme filtresi skorunu destekliyor.`
       : card.category === 'CRYPTO'
         ? ' Spot hacim ve 24s bant, fırsat skorunun ana sürücüleri.'
-        : ' Hacim ve momentum, fırsat skorunun ana sürücüleri.';
+        : card.category === 'FON'
+          ? ` TEFAS pay değeri ve günlük getiri tarandı${
+              card.fundStyle ? ` · ${card.fundStyle}` : ''
+            }.`
+          : card.category === 'ETF'
+            ? ` Küresel ETF canlı fiyat/momentum${
+                card.fundStyle ? ` · ${card.fundStyle}` : ''
+              }.`
+            : ' Hacim ve momentum, fırsat skorunun ana sürücüleri.';
 
   const tone =
     card.score >= 80
@@ -166,7 +184,11 @@ export function buildPotentialCards(
   const eligible = items.filter(
     (i) =>
       i.price > 0 &&
-      (i.category === 'BIST' || i.category === 'CRYPTO' || i.category === 'US') &&
+      (i.category === 'BIST' ||
+        i.category === 'CRYPTO' ||
+        i.category === 'US' ||
+        i.category === 'FON' ||
+        i.category === 'ETF') &&
       !i.displaySymbol.includes('XU')
   );
 
@@ -202,6 +224,9 @@ export function buildPotentialCards(
         volumeRaw: item.volumeRaw,
         catalysts: catalystsFor(item, score),
         href: detailHref(item),
+        fundStyle: item.fundStyle ?? null,
+        portfolioSize: item.portfolioSize ?? null,
+        investorCount: item.investorCount ?? null,
       } satisfies PotentialCard;
     })
     .sort((a, b) => b.score - a.score);

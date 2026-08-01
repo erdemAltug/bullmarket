@@ -1,4 +1,4 @@
-export type SearchItemKind = 'nav' | 'bist' | 'crypto' | 'fx' | 'us';
+export type SearchItemKind = 'nav' | 'bist' | 'crypto' | 'fx' | 'us' | 'fon';
 
 export interface SearchCatalogItem {
   id: string;
@@ -29,6 +29,13 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
     keywords: 'nasdaq us abd aapl nvda tsla apple',
     kind: 'nav',
     href: '/us',
+  },
+  {
+    id: 'nav-fon',
+    label: "Fonlar & ETF'ler",
+    keywords: 'tefas fon etf voo qqq spy schd aft yay yatırım fonu',
+    kind: 'nav',
+    href: '/fon',
   },
   {
     id: 'nav-heatmap',
@@ -211,6 +218,48 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
     keywords: 'googl google alphabet nasdaq',
     kind: 'us',
     href: '/us/GOOGL',
+  },
+  {
+    id: 'fon-aft',
+    label: 'AFT · Ak Portföy Yeni Teknolojiler',
+    keywords: 'aft ak portföy teknoloji tefas fon',
+    kind: 'fon',
+    href: '/fon/AFT',
+  },
+  {
+    id: 'fon-yay',
+    label: 'YAY · Yapı Kredi Yabancı Teknoloji',
+    keywords: 'yay yapı kredi teknoloji tefas fon',
+    kind: 'fon',
+    href: '/fon/YAY',
+  },
+  {
+    id: 'fon-tte',
+    label: 'TTE · İş Portföy BIST Teknoloji',
+    keywords: 'tte iş portföy teknoloji tefas',
+    kind: 'fon',
+    href: '/fon/TTE',
+  },
+  {
+    id: 'etf-voo',
+    label: 'VOO · Vanguard S&P 500 ETF',
+    keywords: 'voo vanguard sp500 etf',
+    kind: 'fon',
+    href: '/fon/VOO',
+  },
+  {
+    id: 'etf-qqq',
+    label: 'QQQ · Invesco Nasdaq 100',
+    keywords: 'qqq invesco nasdaq etf',
+    kind: 'fon',
+    href: '/fon/QQQ',
+  },
+  {
+    id: 'etf-schd',
+    label: 'SCHD · Schwab US Dividend',
+    keywords: 'schd dividend temettü etf',
+    kind: 'fon',
+    href: '/fon/SCHD',
   },
   {
     id: 'usd',

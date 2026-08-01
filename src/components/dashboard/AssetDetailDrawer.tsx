@@ -56,7 +56,9 @@ export function AssetDetailDrawer({
       ? card.symbol
       : card.category === 'BIST'
         ? `${card.displaySymbol}.IS`
-        : card.displaySymbol;
+        : card.category === 'FON'
+          ? `TEFAS:${card.displaySymbol}`
+          : card.displaySymbol;
 
   return (
     <>
@@ -124,55 +126,114 @@ export function AssetDetailDrawer({
 
               <section>
                 <h3 className="mb-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
-                  Teknik döküm
+                  {card.category === 'FON' || card.category === 'ETF'
+                    ? 'Fon dökümü'
+                    : 'Teknik döküm'}
                 </h3>
                 <div className="grid grid-cols-2 gap-2">
-                  <Metric
-                    label="Gün içi zirve"
-                    value={
-                      card.dayHigh != null
-                        ? money(card.dayHigh, card.currency)
-                        : '—'
-                    }
-                    tip={DIST_TIP}
-                    tipTitle="Mesafe"
-                    sub={
-                      card.toHighPct != null
-                        ? `mesafe %${card.toHighPct.toFixed(1)}`
-                        : undefined
-                    }
-                  />
-                  <Metric
-                    label="Gün içi dip"
-                    value={
-                      card.dayLow != null
-                        ? money(card.dayLow, card.currency)
-                        : '—'
-                    }
-                    tip={DIST_TIP}
-                    tipTitle="Mesafe"
-                    sub={
-                      card.toLowPct != null
-                        ? `mesafe %${card.toLowPct.toFixed(1)}`
-                        : undefined
-                    }
-                  />
-                  <Metric
-                    label="F/K"
-                    value={
-                      card.trailingPE != null && card.trailingPE > 0
-                        ? card.trailingPE.toFixed(1)
-                        : '—'
-                    }
-                    tip={PE_TIP}
-                    tipTitle="F/K Oranı"
-                  />
-                  <Metric
-                    label="Hacim"
-                    value={card.volume || '—'}
-                    tip="Canlı işlem hacmi. Yüksek hacim, sinyalin likidite desteğini güçlendirir."
-                    tipTitle="Hacim"
-                  />
+                  {card.category === 'FON' || card.category === 'ETF' ? (
+                    <>
+                      <Metric
+                        label="Fon tipi"
+                        value={card.fundStyle || card.category}
+                        tip="Fon / ETF stil etiketi — TEFAS veya küresel sınıflandırma."
+                        tipTitle="Fon tipi"
+                      />
+                      <Metric
+                        label="Günlük getiri"
+                        value={`${card.changePercent >= 0 ? '+' : ''}${card.changePercent.toFixed(2)}%`}
+                        tip="Son seans / gün değişimi."
+                        tipTitle="Getiri"
+                      />
+                      <Metric
+                        label={
+                          card.category === 'FON' ? 'Portföy büyüklüğü' : 'Hacim'
+                        }
+                        value={card.volume || '—'}
+                        tip={
+                          card.category === 'FON'
+                            ? 'TEFAS toplam portföy büyüklüğü (AUM).'
+                            : 'Canlı işlem hacmi.'
+                        }
+                        tipTitle={
+                          card.category === 'FON' ? 'AUM' : 'Hacim'
+                        }
+                      />
+                      <Metric
+                        label={
+                          card.category === 'FON'
+                            ? 'Yatırımcı sayısı'
+                            : 'Gün içi zirve'
+                        }
+                        value={
+                          card.category === 'FON'
+                            ? card.investorCount != null
+                              ? card.investorCount.toLocaleString('tr-TR')
+                              : '—'
+                            : card.dayHigh != null
+                              ? money(card.dayHigh, card.currency)
+                              : '—'
+                        }
+                        tip={
+                          card.category === 'FON'
+                            ? 'TEFAS bildirilen yatırımcı / katılımcı sayısı.'
+                            : DIST_TIP
+                        }
+                        tipTitle={
+                          card.category === 'FON' ? 'Katılımcı' : 'Mesafe'
+                        }
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Metric
+                        label="Gün içi zirve"
+                        value={
+                          card.dayHigh != null
+                            ? money(card.dayHigh, card.currency)
+                            : '—'
+                        }
+                        tip={DIST_TIP}
+                        tipTitle="Mesafe"
+                        sub={
+                          card.toHighPct != null
+                            ? `mesafe %${card.toHighPct.toFixed(1)}`
+                            : undefined
+                        }
+                      />
+                      <Metric
+                        label="Gün içi dip"
+                        value={
+                          card.dayLow != null
+                            ? money(card.dayLow, card.currency)
+                            : '—'
+                        }
+                        tip={DIST_TIP}
+                        tipTitle="Mesafe"
+                        sub={
+                          card.toLowPct != null
+                            ? `mesafe %${card.toLowPct.toFixed(1)}`
+                            : undefined
+                        }
+                      />
+                      <Metric
+                        label="F/K"
+                        value={
+                          card.trailingPE != null && card.trailingPE > 0
+                            ? card.trailingPE.toFixed(1)
+                            : '—'
+                        }
+                        tip={PE_TIP}
+                        tipTitle="F/K Oranı"
+                      />
+                      <Metric
+                        label="Hacim"
+                        value={card.volume || '—'}
+                        tip="Canlı işlem hacmi. Yüksek hacim, sinyalin likidite desteğini güçlendirir."
+                        tipTitle="Hacim"
+                      />
+                    </>
+                  )}
                 </div>
               </section>
 
@@ -200,7 +261,7 @@ export function AssetDetailDrawer({
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 py-3 text-sm font-bold text-black shadow-[0_0_20px_rgba(16,185,129,0.3)] transition hover:bg-emerald-400"
                 >
                   <Bell className="size-4" />
-                  Bu Hisseden Alarm Kur
+                  Bu Varlıktan Alarm Kur
                 </button>
                 <button
                   type="button"

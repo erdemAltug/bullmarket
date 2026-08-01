@@ -13,27 +13,38 @@ const EXTRA = [
   { symbol: 'AKBNK.IS', label: 'AKBNK' },
   { symbol: 'YKBNK.IS', label: 'YKBNK' },
   { symbol: 'TUPRS.IS', label: 'TUPRS' },
+  { symbol: 'VOO', label: 'VOO' },
+  { symbol: 'QQQ', label: 'QQQ' },
+  { symbol: 'SCHD', label: 'SCHD' },
+  { symbol: 'TEFAS:AFT', label: 'AFT' },
+  { symbol: 'TEFAS:YAY', label: 'YAY' },
 ];
 
 const BASE_PICKS = [
-  ...SEARCH_CATALOG.filter((i) => i.kind === 'bist' || i.kind === 'crypto').map(
-    (i) => {
-      const m = i.href.match(/\/(?:bist|crypto)\/([^/?]+)/);
+  ...SEARCH_CATALOG.filter(
+    (i) => i.kind === 'bist' || i.kind === 'crypto' || i.kind === 'fon'
+  ).map((i) => {
+      const m = i.href.match(/\/(?:bist|crypto|fon)\/([^/?]+)/);
       const raw = m ? decodeURIComponent(m[1]) : i.id;
-      const symbol =
-        i.kind === 'crypto'
-          ? raw.endsWith('USDT')
-            ? raw
-            : `${raw}USDT`
-          : raw.includes('.')
-            ? raw
-            : `${raw}.IS`;
+      if (i.kind === 'crypto') {
+        const symbol = raw.endsWith('USDT') ? raw : `${raw}USDT`;
+        return { symbol, label: i.label.split('·')[0].trim() };
+      }
+      if (i.kind === 'fon') {
+        const isEtf = ['VOO', 'QQQ', 'SPY', 'SCHD', 'ARKK', 'VTI', 'IWM', 'GLD'].includes(
+          raw.toUpperCase()
+        );
+        return {
+          symbol: isEtf ? raw.toUpperCase() : `TEFAS:${raw.toUpperCase()}`,
+          label: i.label.split('·')[0].trim(),
+        };
+      }
+      const symbol = raw.includes('.') ? raw : `${raw}.IS`;
       return {
         symbol,
         label: i.label.split('·')[0].trim(),
       };
-    }
-  ),
+    }),
   ...EXTRA,
 ];
 
@@ -41,8 +52,23 @@ function normalizeParam(raw: string | null, fallback: string): string {
   if (!raw) return fallback;
   const u = raw.trim().toUpperCase();
   if (!u) return fallback;
+  if (u.startsWith('TEFAS:')) return u;
   if (u.endsWith('USDT') || u.endsWith('.IS')) return u;
   if (['BTC', 'ETH', 'SOL', 'BNB'].includes(u)) return `${u}USDT`;
+  if (
+    ['VOO', 'QQQ', 'SPY', 'SCHD', 'ARKK', 'VTI', 'IWM', 'EEM', 'GLD', 'QQQM', 'VIG', 'JEPI'].includes(
+      u
+    )
+  ) {
+    return u;
+  }
+  if (
+    ['AFT', 'YAY', 'TTE', 'TI2', 'MAC', 'IIH', 'OJK', 'GUM', 'BIO', 'CPU', 'TCD', 'NNF', 'ST1', 'IPB', 'AK2', 'PPN'].includes(
+      u
+    )
+  ) {
+    return `TEFAS:${u}`;
+  }
   return `${u}.IS`;
 }
 

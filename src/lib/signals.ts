@@ -4,7 +4,7 @@ export interface SignalCardData {
   symbol: string;
   displaySymbol: string;
   name: string;
-  category: 'BIST' | 'CRYPTO' | 'US';
+  category: 'BIST' | 'CRYPTO' | 'US' | 'FON' | 'ETF';
   signalType: 'BUY' | 'SELL' | 'STRONG_BUY';
   strategyName: string;
   entryPrice: number;
@@ -31,7 +31,8 @@ export function generateRealTimeSignals(
     (item) =>
       (item.category === 'BIST' ||
         item.category === 'CRYPTO' ||
-        item.category === 'US') &&
+        item.category === 'US' ||
+        item.category === 'ETF') &&
       item.price > 0
   );
 
@@ -101,7 +102,7 @@ export function generateRealTimeSignals(
       symbol: item.symbol,
       displaySymbol,
       name: item.name,
-      category: item.category as 'BIST' | 'CRYPTO' | 'US',
+      category: item.category as SignalCardData['category'],
       signalType,
       strategyName,
       entryPrice: price,

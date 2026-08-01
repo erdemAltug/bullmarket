@@ -7,8 +7,9 @@ export const dynamic = 'force-dynamic';
 
 /**
  * Live market aggregate (no mock):
- * - BİST + US via yahoo-finance2
+ * - BİST + US + ETF via yahoo-finance2
  * - Crypto top pairs via Binance 24hr ticker
+ * - TEFAS YAT funds via tefas.gov.tr public JSON API
  */
 export async function GET() {
   try {

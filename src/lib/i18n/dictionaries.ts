@@ -7,6 +7,7 @@ export type Dictionary = {
     bist: string;
     heatmap: string;
     us: string;
+    funds: string;
     crypto: string;
     fx: string;
     compare: string;
@@ -19,6 +20,13 @@ export type Dictionary = {
     dividends: string;
     academy: string;
     blog: string;
+  };
+  navGroups: {
+    terminal: string;
+    markets: string;
+    analysis: string;
+    learn: string;
+    account: string;
   };
   header: {
     tagline: string;
@@ -45,6 +53,7 @@ const tr: Dictionary = {
     bist: 'BİST',
     heatmap: 'Isı Haritası',
     us: 'NASDAQ / ABD',
+    funds: "Fonlar & ETF'ler",
     crypto: 'Crypto',
     fx: 'Döviz',
     compare: '1v1 Kıyasla',
@@ -57,6 +66,13 @@ const tr: Dictionary = {
     dividends: 'Temettü Karnesi',
     academy: 'Eğitim Hub',
     blog: 'Blog',
+  },
+  navGroups: {
+    terminal: 'Terminal',
+    markets: 'Piyasalar',
+    analysis: 'Analiz',
+    learn: 'Öğren',
+    account: 'Hesabım',
   },
   header: {
     tagline: 'BİST · NASDAQ · Kripto · Döviz',
@@ -83,6 +99,7 @@ const en: Dictionary = {
     bist: 'BIST',
     heatmap: 'Heatmap',
     us: 'NASDAQ / US',
+    funds: 'Funds & ETFs',
     crypto: 'Crypto',
     fx: 'FX',
     compare: '1v1 Compare',
@@ -95,6 +112,13 @@ const en: Dictionary = {
     dividends: 'Dividend Desk',
     academy: 'Academy',
     blog: 'Blog',
+  },
+  navGroups: {
+    terminal: 'Terminal',
+    markets: 'Markets',
+    analysis: 'Analysis',
+    learn: 'Learn',
+    account: 'Account',
   },
   header: {
     tagline: 'BIST · NASDAQ · Crypto · FX',
@@ -121,6 +145,7 @@ const de: Dictionary = {
     bist: 'BIST',
     heatmap: 'Heatmap',
     us: 'NASDAQ / US',
+    funds: 'Fonds & ETFs',
     crypto: 'Krypto',
     fx: 'Devisen',
     compare: '1v1 Vergleich',
@@ -133,6 +158,13 @@ const de: Dictionary = {
     dividends: 'Dividenden',
     academy: 'Akademie',
     blog: 'Blog',
+  },
+  navGroups: {
+    terminal: 'Terminal',
+    markets: 'Märkte',
+    analysis: 'Analyse',
+    learn: 'Lernen',
+    account: 'Konto',
   },
   header: {
     tagline: 'BIST · NASDAQ · Krypto · Devisen',
@@ -159,6 +191,7 @@ const es: Dictionary = {
     bist: 'BIST',
     heatmap: 'Mapa de calor',
     us: 'NASDAQ / EE.UU.',
+    funds: 'Fondos y ETFs',
     crypto: 'Cripto',
     fx: 'Divisas',
     compare: 'Comparar 1v1',
@@ -171,6 +204,13 @@ const es: Dictionary = {
     dividends: 'Dividendos',
     academy: 'Academia',
     blog: 'Blog',
+  },
+  navGroups: {
+    terminal: 'Terminal',
+    markets: 'Mercados',
+    analysis: 'Análisis',
+    learn: 'Aprender',
+    account: 'Cuenta',
   },
   header: {
     tagline: 'BIST · NASDAQ · Cripto · Divisas',

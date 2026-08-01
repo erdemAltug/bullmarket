@@ -13,12 +13,13 @@ import { assetDetailHref } from '@/lib/seo/internal-links';
 import type { ScannerItem } from '@/types/scanner';
 import { cn } from '@/lib/utils';
 
-type Filter = 'ALL' | 'BIST' | 'CRYPTO' | 'US' | 'BUY';
+type Filter = 'ALL' | 'BIST' | 'CRYPTO' | 'US' | 'ETF' | 'BUY';
 
 const FILTERS: { id: Filter; label: string }[] = [
   { id: 'ALL', label: 'Tümü' },
   { id: 'BIST', label: 'BİST Sinyalleri' },
   { id: 'US', label: 'ABD / NASDAQ' },
+  { id: 'ETF', label: "ETF'ler" },
   { id: 'CRYPTO', label: 'Kripto Sinyalleri' },
   { id: 'BUY', label: 'Sadece AL' },
 ];
@@ -28,12 +29,15 @@ interface AISignalRadarProps {
   isLoading?: boolean;
   /** Free preview cards before soft paywall */
   freeCount?: number;
+  /** Parent section already shows the title */
+  hideHeader?: boolean;
 }
 
 export function AISignalRadar({
   marketItems,
   isLoading,
   freeCount = 3,
+  hideHeader = false,
 }: AISignalRadarProps) {
   const { data: session } = authClient.useSession();
   const unlocked = Boolean(session?.user);
@@ -48,6 +52,7 @@ export function AISignalRadar({
     return allSignals.filter((sig) => {
       if (filter === 'BIST') return sig.category === 'BIST';
       if (filter === 'US') return sig.category === 'US';
+      if (filter === 'ETF') return sig.category === 'ETF';
       if (filter === 'CRYPTO') return sig.category === 'CRYPTO';
       if (filter === 'BUY')
         return sig.signalType === 'BUY' || sig.signalType === 'STRONG_BUY';
@@ -61,20 +66,29 @@ export function AISignalRadar({
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-        <div>
-          <div className="flex items-center gap-2">
-            <Sparkles className="size-5 text-emerald-400" />
-            <h2 className="text-lg font-bold tracking-tight text-[var(--foreground)]">
-              Signal Radar
-            </h2>
-            <span className="animate-pulse rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+        {!hideHeader ? (
+          <div>
+            <div className="flex items-center gap-2">
+              <Sparkles className="size-5 text-emerald-400" />
+              <h2 className="text-lg font-bold tracking-tight text-[var(--foreground)]">
+                Signal Radar
+              </h2>
+              <span className="animate-pulse rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-400">
+                CANLI
+              </span>
+            </div>
+            <p className="mt-0.5 text-xs text-[var(--muted)]">
+              Gün içi high/low + momentum · {filteredSignals.length} aktif kart
+            </p>
+          </div>
+        ) : (
+          <p className="text-xs text-[var(--muted)]">
+            <span className="mr-2 inline-flex animate-pulse rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
               CANLI
             </span>
-          </div>
-          <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Gün içi high/low + momentum · {filteredSignals.length} aktif kart
+            {filteredSignals.length} aktif kart
           </p>
-        </div>
+        )}
 
         <div className="flex items-center gap-1.5 overflow-x-auto">
           {FILTERS.map((tab) => (

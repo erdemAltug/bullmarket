@@ -5,7 +5,9 @@ import {
   SITE_URL,
   SEO_BIST_TICKERS,
   SEO_CRYPTO_SYMBOLS,
+  SEO_ETF_TICKERS,
   SEO_FX_PAIRS,
+  SEO_TEFAS_CODES,
   SEO_US_TICKERS,
 } from '@/lib/seo/symbols';
 
@@ -19,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/bist',
     '/bist/heatmap',
     '/us',
+    '/fon',
     '/crypto',
     '/compare',
     '/signals',
@@ -93,6 +96,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: sitemapLanguageAlternates(`/crypto/${symbol}`),
   }));
 
+  const funds: MetadataRoute.Sitemap = [
+    ...SEO_TEFAS_CODES,
+    ...SEO_ETF_TICKERS,
+  ].map((code) => ({
+    url: `${SITE_URL}/fon/${code}`,
+    lastModified: now,
+    changeFrequency: 'daily' as const,
+    priority: 0.88,
+    alternates: sitemapLanguageAlternates(`/fon/${code}`),
+  }));
+
   const fx: MetadataRoute.Sitemap = SEO_FX_PAIRS.map((pair) => ({
     url: `${SITE_URL}/fx/${pair}`,
     lastModified: now,
@@ -108,6 +122,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...bist,
     ...us,
     ...crypto,
+    ...funds,
     ...fx,
   ];
 }

@@ -27,6 +27,9 @@ export type ScannerFilter =
   | 'BIST'
   | 'CRYPTO'
   | 'US'
+  | 'FON'
+  | 'ETF'
+  | 'FUNDS'
   | 'GAINERS'
   | 'LOSERS';
 
@@ -35,6 +38,7 @@ const FILTERS: { id: ScannerFilter; label: string }[] = [
   { id: 'BIST', label: 'BİST 100' },
   { id: 'CRYPTO', label: 'Kripto' },
   { id: 'US', label: 'NASDAQ' },
+  { id: 'FUNDS', label: "Fonlar & ETF'ler" },
   { id: 'GAINERS', label: 'Yükselenler' },
   { id: 'LOSERS', label: 'Düşenler' },
 ];
@@ -54,7 +58,11 @@ function SymbolBadge({
       ? 'from-violet-600/40 to-zinc-900 text-violet-300'
       : category === 'US'
         ? 'from-blue-600/40 to-zinc-900 text-blue-300'
-        : 'from-emerald-600/40 to-zinc-900 text-emerald-300';
+        : category === 'ETF'
+          ? 'from-amber-600/40 to-zinc-900 text-amber-300'
+          : category === 'FON'
+            ? 'from-rose-600/40 to-zinc-900 text-rose-300'
+            : 'from-emerald-600/40 to-zinc-900 text-emerald-300';
   return (
     <span
       className={cn(
@@ -102,6 +110,10 @@ export function MarketScannerTable({
       if (filter === 'ALL') return true;
       if (filter === 'GAINERS') return item.changePercent > 0;
       if (filter === 'LOSERS') return item.changePercent < 0;
+      if (filter === 'FUNDS')
+        return item.category === 'FON' || item.category === 'ETF';
+      if (filter === 'FON') return item.category === 'FON';
+      if (filter === 'ETF') return item.category === 'ETF';
       return item.category === filter;
     });
 
@@ -190,7 +202,7 @@ export function MarketScannerTable({
               setSearchQuery(e.target.value);
               setPage(1);
             }}
-            placeholder="Ara: THYAO, AAPL, NVDA, BTC…"
+            placeholder="Ara: THYAO, VOO, YAY, AFT, BTC…"
             className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] py-2 pl-9 pr-3 text-xs text-[var(--foreground)] placeholder:text-[var(--muted)] outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/40"
           />
         </div>
@@ -367,14 +379,66 @@ export function MarketScannerTable({
                   {chartItem.name}
                 </span>
               </DialogTitle>
-              <ChartPanel
-                title={chartItem.displaySymbol}
-                symbol={chartItem.chartSymbol}
-                source={chartItem.chartSource}
-                isPositive={chartItem.changePercent >= 0}
-                currencySymbol={chartItem.currency === 'USD' ? '$' : '₺'}
-                defaultTimeframe="5D"
-              />
+              {chartItem.chartSource === 'tefas' ? (
+                <div className="space-y-3 rounded-xl border border-[var(--border)] bg-[var(--card)] p-4 text-sm">
+                  <p className="text-[var(--muted)]">
+                    TEFAS günlük pay değeri — grafik seansı borsadaki hisse
+                    çizgisi gibi değildir.
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <p className="text-[10px] uppercase text-[var(--muted)]">
+                        Fon tipi
+                      </p>
+                      <p className="font-medium">
+                        {chartItem.fundStyle || 'Yatırım Fonu'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] uppercase text-[var(--muted)]">
+                        Portföy
+                      </p>
+                      <p className="font-medium">{chartItem.volume}</p>
+                    </div>
+                    {chartItem.investorCount != null ? (
+                      <div>
+                        <p className="text-[10px] uppercase text-[var(--muted)]">
+                          Yatırımcı
+                        </p>
+                        <p className="font-medium">
+                          {chartItem.investorCount.toLocaleString('tr-TR')}
+                        </p>
+                      </div>
+                    ) : null}
+                    <div>
+                      <p className="text-[10px] uppercase text-[var(--muted)]">
+                        Günlük
+                      </p>
+                      <p className="font-medium">
+                        {chartItem.changePercent >= 0 ? '+' : ''}
+                        {chartItem.changePercent.toFixed(2)}%
+                      </p>
+                    </div>
+                  </div>
+                  <Link
+                    href={`/fon/${chartItem.displaySymbol}`}
+                    className="inline-block text-xs font-bold text-emerald-400 hover:underline"
+                  >
+                    Fon detay sayfası →
+                  </Link>
+                </div>
+              ) : (
+                <ChartPanel
+                  title={chartItem.displaySymbol}
+                  symbol={chartItem.chartSymbol}
+                  source={
+                    chartItem.chartSource === 'binance' ? 'binance' : 'yahoo'
+                  }
+                  isPositive={chartItem.changePercent >= 0}
+                  currencySymbol={chartItem.currency === 'USD' ? '$' : '₺'}
+                  defaultTimeframe="5D"
+                />
+              )}
             </>
           ) : null}
         </DialogContent>
