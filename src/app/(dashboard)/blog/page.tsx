@@ -90,6 +90,35 @@ export default function BlogIndexPage() {
           </li>
         ))}
       </ul>
+
+      <aside className="rounded-2xl border border-zinc-800 bg-zinc-950/60 p-5">
+        <p className="text-sm font-semibold text-zinc-100">
+          Yazıdan terminale
+        </p>
+        <p className="mt-1 text-sm text-zinc-400">
+          Checklist’i canlı araçlarda doğrulayın — içerik tek başına kalmasın.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link
+            href="/firsatlar"
+            className="rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-bold text-black hover:bg-emerald-400"
+          >
+            Fırsat Masası
+          </Link>
+          <Link
+            href="/bist/heatmap"
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-200 hover:border-emerald-500/40"
+          >
+            Isı haritası
+          </Link>
+          <Link
+            href="/signals"
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-200 hover:border-emerald-500/40"
+          >
+            Sinyaller
+          </Link>
+        </div>
+      </aside>
     </div>
   );
 }

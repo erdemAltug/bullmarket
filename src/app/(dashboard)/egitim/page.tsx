@@ -100,6 +100,42 @@ export default function EgitimHubPage() {
         );
       })}
 
+      <aside className="rounded-2xl border border-emerald-500/25 bg-gradient-to-br from-emerald-500/10 to-transparent p-5">
+        <p className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+          Öğrendiklerinizi uygulayın
+        </p>
+        <p className="mt-2 text-sm text-zinc-300">
+          Ders bitince terminale dönün — skor, sinyal ve fon masası aynı günün
+          verisiyle bekliyor.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Link
+            href="/firsatlar"
+            className="rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-bold text-black hover:bg-emerald-400"
+          >
+            Fırsat Masası
+          </Link>
+          <Link
+            href="/signals"
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-200 hover:border-emerald-500/40"
+          >
+            AI Sinyaller
+          </Link>
+          <Link
+            href="/fon"
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-200 hover:border-emerald-500/40"
+          >
+            Fonlar & ETF
+          </Link>
+          <Link
+            href="/blog/bullsye-gunluk-rutin-rehberi"
+            className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-200 hover:border-emerald-500/40"
+          >
+            10 dk rutin
+          </Link>
+        </div>
+      </aside>
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import type { ContentSection, ToolCta } from '@/content/academy';
+import type { ContentSection, ToolCta } from '@/content/types';
 import { cn } from '@/lib/utils';
 
 export function ReadingProgressBar() {

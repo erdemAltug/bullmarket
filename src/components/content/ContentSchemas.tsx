@@ -1,5 +1,5 @@
 import { SITE_URL } from '@/lib/seo/symbols';
-import type { BlogPost, EducationLesson } from '@/content/academy';
+import type { BlogPost, EducationLesson } from '@/content/types';
 
 export function CourseSchema({
   lesson,

@@ -1,75 +1,16 @@
-export type ContentLevel = 'baslangic' | 'orta' | 'ileri';
+export type {
+  BlogPost,
+  ContentFaq,
+  ContentLevel,
+  ContentSection,
+  EducationLesson,
+  ToolCta,
+} from '@/content/types';
+export { EDUCATION_CATEGORIES } from '@/content/types';
+import type { BlogPost, EducationLesson } from '@/content/types';
+import { loadMdBlogPosts, loadMdLessons } from '@/lib/content/load-md';
 
-export interface ContentSection {
-  id: string;
-  heading: string;
-  paragraphs: string[];
-  bullets?: string[];
-}
-
-export interface ToolCta {
-  href: string;
-  label: string;
-  blurb: string;
-}
-
-export interface ContentFaq {
-  question: string;
-  answer: string;
-}
-
-export interface EducationLesson {
-  category: string;
-  categoryTitle: string;
-  slug: string;
-  title: string;
-  description: string;
-  keywords: string[];
-  level: ContentLevel;
-  publishedAt: string;
-  updatedAt: string;
-  readingMinutes: number;
-  sections: ContentSection[];
-  faqs: ContentFaq[];
-  toolCta: ToolCta;
-}
-
-export interface BlogPost {
-  slug: string;
-  title: string;
-  description: string;
-  keywords: string[];
-  publishedAt: string;
-  updatedAt: string;
-  readingMinutes: number;
-  tags: string[];
-  sections: ContentSection[];
-  faqs: ContentFaq[];
-  toolCta: ToolCta;
-}
-
-export const EDUCATION_CATEGORIES = [
-  {
-    slug: 'borsa-temelleri',
-    title: 'Borsa & Hisse Temelleri',
-    description:
-      'Yeni başlayanlar için borsa, temettü ve temel değerleme kavramları.',
-  },
-  {
-    slug: 'teknik-analiz',
-    title: 'Teknik Analiz & AI Sinyalleri',
-    description:
-      'RSI, Golden Cross, destek-direnç ve canlı sinyal okuma rehberleri.',
-  },
-  {
-    slug: 'kripto-risk',
-    title: 'Kripto & Risk Yönetimi',
-    description:
-      'Stop-loss, pozisyon boyutu ve smart money takip stratejileri.',
-  },
-] as const;
-
-export const EDUCATION_LESSONS: EducationLesson[] = [
+const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
   {
     category: 'borsa-temelleri',
     categoryTitle: 'Borsa & Hisse Temelleri',
@@ -506,7 +447,19 @@ export const EDUCATION_LESSONS: EducationLesson[] = [
   },
 ];
 
-export const BLOG_POSTS: BlogPost[] = [
+function mergeBySlug<T extends { slug: string }>(base: T[], extra: T[]): T[] {
+  const map = new Map<string, T>();
+  for (const item of base) map.set(item.slug, item);
+  for (const item of extra) map.set(item.slug, item);
+  return [...map.values()];
+}
+
+export const EDUCATION_LESSONS: EducationLesson[] = mergeBySlug(
+  EDUCATION_LESSONS_STATIC,
+  loadMdLessons()
+);
+
+const BLOG_POSTS_STATIC: BlogPost[] = [
   {
     slug: 'bist-canli-analiz-nasil-yapilir',
     title: 'BİST Canlı Analiz Nasıl Yapılır? Terminal Checklist',
@@ -636,6 +589,11 @@ export const BLOG_POSTS: BlogPost[] = [
     ],
   },
 ];
+
+export const BLOG_POSTS: BlogPost[] = mergeBySlug(
+  BLOG_POSTS_STATIC,
+  loadMdBlogPosts()
+);
 
 export function getLesson(category: string, slug: string) {
   return EDUCATION_LESSONS.find(
