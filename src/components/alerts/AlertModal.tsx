@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useAlerts } from '@/hooks/useAlerts';
+import { assetSupportsRsi } from '@/lib/alert-assets';
 import type { AlertKind } from '@/types';
 
 interface AlertModalProps {
@@ -20,13 +21,13 @@ interface AlertModalProps {
   changePercent?: number;
 }
 
-const KINDS: { value: AlertKind; label: string }[] = [
-  { value: 'price_above', label: 'Fiyat üstü' },
-  { value: 'price_below', label: 'Fiyat altı' },
-  { value: 'change_above', label: 'Volatilite spike (%)' },
-  { value: 'change_below', label: '% değişim altı' },
-  { value: 'rsi_above', label: 'RSI aşırı alım' },
-  { value: 'rsi_below', label: 'RSI aşırı satım' },
+const KINDS: { value: AlertKind; label: string; needsRsi: boolean }[] = [
+  { value: 'price_above', label: 'Fiyat üstü', needsRsi: false },
+  { value: 'price_below', label: 'Fiyat altı', needsRsi: false },
+  { value: 'change_above', label: 'Volatilite spike (%)', needsRsi: false },
+  { value: 'change_below', label: '% değişim altı', needsRsi: false },
+  { value: 'rsi_above', label: 'RSI aşırı alım', needsRsi: true },
+  { value: 'rsi_below', label: 'RSI aşırı satım', needsRsi: true },
 ];
 
 export function AlertModal({
@@ -40,6 +41,8 @@ export function AlertModal({
   const { addAlert } = useAlerts();
   const [kind, setKind] = useState<AlertKind>('price_above');
   const [threshold, setThreshold] = useState(String(currentPrice));
+  const rsiOk = assetSupportsRsi(symbol);
+  const kindOptions = KINDS.filter((k) => !k.needsRsi || rsiOk);
 
   useEffect(() => {
     if (!open) return;
@@ -82,11 +85,11 @@ export function AlertModal({
           <label className="block text-xs text-zinc-400">
             Tip
             <select
-              value={kind}
+              value={kindOptions.some((k) => k.value === kind) ? kind : 'price_above'}
               onChange={(e) => onKindChange(e.target.value as AlertKind)}
               className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100"
             >
-              {KINDS.map((k) => (
+              {kindOptions.map((k) => (
                 <option key={k.value} value={k.value}>
                   {k.label}
                 </option>

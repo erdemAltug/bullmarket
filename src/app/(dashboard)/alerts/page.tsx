@@ -1,11 +1,17 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { Bell, Plus, Trash2 } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { Bell, Plus, Search, Trash2 } from 'lucide-react';
 import { useAlerts } from '@/hooks/useAlerts';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
-import { SEARCH_CATALOG } from '@/lib/search-catalog';
+import {
+  ALERT_ASSET_GROUPS,
+  assetSupportsRsi,
+  filterAlertAssets,
+  findAlertAsset,
+  type AlertAssetOption,
+} from '@/lib/alert-assets';
 import { formatPrice } from '@/lib/utils';
 import type { AlertKind } from '@/types';
 
@@ -18,56 +24,39 @@ const KIND_LABEL: Record<AlertKind, string> = {
   rsi_below: 'RSI aşırı satım',
 };
 
-const KINDS: { value: AlertKind; label: string; hint: string }[] = [
-  {
-    value: 'price_above',
-    label: 'Fiyat hedefi (üst)',
-    hint: 'Örn: THYAO ₺350 üstüne çıkınca',
-  },
-  {
-    value: 'price_below',
-    label: 'Fiyat hedefi (alt)',
-    hint: 'Örn: fiyat bu seviyenin altına inince',
-  },
-  {
-    value: 'change_above',
-    label: 'Yüzdesel hareket',
-    hint: 'Örn: 1 seans içinde %3+ hareket',
-  },
-  {
-    value: 'rsi_above',
-    label: 'RSI kırılımı (aşırı alım)',
-    hint: 'Örn: RSI 70 üzerine çıkınca',
-  },
-  {
-    value: 'rsi_below',
-    label: 'RSI kırılımı (aşırı satım)',
-    hint: 'Örn: RSI 30 altına inince',
-  },
-];
-
-const ASSET_OPTIONS = [
-  ...SEARCH_CATALOG.filter((i) => i.kind === 'bist' || i.kind === 'crypto').map(
-    (i) => {
-      const m = i.href.match(/\/(?:bist|crypto)\/([^/?]+)/);
-      const raw = m ? decodeURIComponent(m[1]) : i.id;
-      const isCrypto = i.kind === 'crypto';
-      const symbol = isCrypto
-        ? raw.endsWith('USDT')
-          ? raw
-          : `${raw}USDT`
-        : raw.includes('.')
-          ? raw
-          : `${raw}.IS`;
-      return {
-        symbol,
-        display: i.label.split('·')[0].trim(),
-      };
-    }
-  ),
-  { symbol: 'PGSUS.IS', display: 'PGSUS' },
-  { symbol: 'AKBNK.IS', display: 'AKBNK' },
-];
+const KINDS: { value: AlertKind; label: string; hint: string; needsRsi: boolean }[] =
+  [
+    {
+      value: 'price_above',
+      label: 'Fiyat hedefi (üst)',
+      hint: 'Örn: Gram Altın ₺6.500 üstü · THYAO ₺350 üstü',
+      needsRsi: false,
+    },
+    {
+      value: 'price_below',
+      label: 'Fiyat hedefi (alt)',
+      hint: 'Örn: fiyat bu seviyenin altına inince',
+      needsRsi: false,
+    },
+    {
+      value: 'change_above',
+      label: 'Yüzdesel hareket',
+      hint: 'Örn: 1 seans / 24s içinde %3+ hareket',
+      needsRsi: false,
+    },
+    {
+      value: 'rsi_above',
+      label: 'RSI kırılımı (aşırı alım)',
+      hint: 'Hisse / kripto / ABD için — emtia & dövizde yok',
+      needsRsi: true,
+    },
+    {
+      value: 'rsi_below',
+      label: 'RSI kırılımı (aşırı satım)',
+      hint: 'Hisse / kripto / ABD için — emtia & dövizde yok',
+      needsRsi: true,
+    },
+  ];
 
 function defaultThreshold(kind: AlertKind): string {
   if (kind === 'rsi_above') return '70';
@@ -78,15 +67,43 @@ function defaultThreshold(kind: AlertKind): string {
 
 export default function AlertsPage() {
   const { alerts, addAlert, removeAlert, ready } = useAlerts();
-  const [symbol, setSymbol] = useState(ASSET_OPTIONS[0]?.symbol ?? 'THYAO.IS');
+  const [query, setQuery] = useState('');
+  const [symbol, setSymbol] = useState('ALTIN');
   const [kind, setKind] = useState<AlertKind>('price_above');
-  const [threshold, setThreshold] = useState('350');
-  const [pushStatus, setPushStatus] = useState<string>('');
+  const [threshold, setThreshold] = useState('');
+  const [pushStatus, setPushStatus] = useState('');
 
-  const selected = useMemo(
-    () => ASSET_OPTIONS.find((a) => a.symbol === symbol),
-    [symbol]
-  );
+  const filtered = useMemo(() => filterAlertAssets(query), [query]);
+
+  const grouped = useMemo(() => {
+    const map = new Map<string, AlertAssetOption[]>();
+    for (const g of ALERT_ASSET_GROUPS) map.set(g, []);
+    for (const a of filtered) {
+      map.get(a.group)?.push(a);
+    }
+    return ALERT_ASSET_GROUPS.map((g) => ({
+      group: g,
+      items: map.get(g) ?? [],
+    })).filter((g) => g.items.length > 0);
+  }, [filtered]);
+
+  const selected = findAlertAsset(symbol);
+  const rsiOk = assetSupportsRsi(symbol);
+  const kindOptions = KINDS.filter((k) => !k.needsRsi || rsiOk);
+
+  useEffect(() => {
+    if (filtered.length && !filtered.some((a) => a.symbol === symbol)) {
+      setSymbol(filtered[0].symbol);
+    }
+  }, [filtered, symbol]);
+
+  function onSymbolChange(next: string) {
+    setSymbol(next);
+    if (!assetSupportsRsi(next) && kind.startsWith('rsi')) {
+      setKind('price_above');
+      setThreshold('');
+    }
+  }
 
   function onKindChange(k: AlertKind) {
     setKind(k);
@@ -98,6 +115,7 @@ export default function AlertsPage() {
     e.preventDefault();
     const n = Number(threshold.replace(',', '.'));
     if (!Number.isFinite(n)) return;
+    if (kind.startsWith('rsi') && !rsiOk) return;
     const displaySymbol =
       selected?.display ?? symbol.replace('.IS', '').replace('USDT', '');
     addAlert({ symbol, displaySymbol, kind, threshold: n });
@@ -124,8 +142,7 @@ export default function AlertsPage() {
           Akıllı Piyasa Alarmları
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Fiyat hedefi, volatilite spike ve RSI kırılımları — tarayıcı bildirimi
-          + (yapılandırıldıysa) e-posta
+          Gram altın, gümüş, döviz, BİST, ABD, kripto, fon &amp; ETF — ara ve kur
         </p>
         <p className="mt-2 max-w-2xl rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-xs leading-relaxed text-zinc-400">
           Giriş yapmışken alarm tetiklenirse e-posta da gider. Sekme kapalıyken
@@ -138,50 +155,84 @@ export default function AlertsPage() {
         className="space-y-3 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4"
       >
         <p className="text-sm font-medium">Yeni alarm kur</p>
+
+        <label className="block text-xs text-[var(--muted)]">
+          Varlık ara
+          <div className="relative mt-1">
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[var(--muted)]" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Altın, GUMUS, THYAO, AAPL, BTC, AFT…"
+              className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] py-2 pl-9 pr-3 text-sm text-[var(--foreground)]"
+            />
+          </div>
+        </label>
+
+        <label className="block text-xs text-[var(--muted)]">
+          Varlık ({filtered.length} sonuç)
+          <select
+            value={
+              filtered.some((a) => a.symbol === symbol)
+                ? symbol
+                : (filtered[0]?.symbol ?? symbol)
+            }
+            onChange={(e) => onSymbolChange(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]"
+            size={Math.min(10, Math.max(4, filtered.length))}
+          >
+            {grouped.map(({ group, items }) => (
+              <optgroup key={group} label={group}>
+                {items.map((a) => (
+                  <option key={a.symbol} value={a.symbol}>
+                    {a.display}
+                    {a.display !== a.symbol ? ` · ${a.symbol}` : ''}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </label>
+
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="block text-xs text-[var(--muted)]">
-            Varlık
-            <select
-              value={symbol}
-              onChange={(e) => setSymbol(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]"
-            >
-              {ASSET_OPTIONS.map((a) => (
-                <option key={a.symbol} value={a.symbol}>
-                  {a.display}
-                </option>
-              ))}
-            </select>
-          </label>
           <label className="block text-xs text-[var(--muted)]">
             Tetikleyici
             <select
-              value={kind}
+              value={kindOptions.some((k) => k.value === kind) ? kind : 'price_above'}
               onChange={(e) => onKindChange(e.target.value as AlertKind)}
               className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]"
             >
-              {KINDS.map((k) => (
+              {kindOptions.map((k) => (
                 <option key={k.value} value={k.value}>
                   {k.label}
                 </option>
               ))}
             </select>
           </label>
+          <label className="block text-xs text-[var(--muted)]">
+            Eşik değeri
+            <input
+              type="number"
+              step="any"
+              value={threshold}
+              onChange={(e) => setThreshold(e.target.value)}
+              placeholder={
+                kind.startsWith('change')
+                  ? 'Örn: 3'
+                  : kind.startsWith('rsi')
+                    ? 'Örn: 70'
+                    : 'Canlı fiyata göre hedef'
+              }
+              className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
+              required
+            />
+          </label>
         </div>
         <p className="text-[11px] text-[var(--muted)]">
           {KINDS.find((k) => k.value === kind)?.hint}
+          {selected ? ` · Seçili: ${selected.group} / ${selected.display}` : null}
         </p>
-        <label className="block text-xs text-[var(--muted)]">
-          Eşik değeri
-          <input
-            type="number"
-            step="any"
-            value={threshold}
-            onChange={(e) => setThreshold(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
-            required
-          />
-        </label>
+
         <div className="flex flex-wrap gap-2">
           <Button type="submit" className="gap-1.5">
             <Plus className="size-4" /> Alarm kur
@@ -201,7 +252,7 @@ export default function AlertsPage() {
         <EmptyState
           icon={Bell}
           title="Henüz alarm yok"
-          description="Yukarıdaki formdan fiyat, % hareket veya RSI alarmı kurun."
+          description="Gram altın, gümüş, hisse veya kripto için yukarıdan alarm kurun."
         />
       ) : (
         <ul className="space-y-2">

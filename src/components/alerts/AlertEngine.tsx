@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAlerts } from '@/hooks/useAlerts';
-import { useBist, useCrypto } from '@/hooks/useMarketData';
+import { useFx } from '@/hooks/useMarketData';
+import { useMarketScanner } from '@/hooks/useMarketScanner';
 import type { AlertKind, ApiResponse, PriceAlert } from '@/types';
 
 async function getJson<T>(url: string): Promise<T> {
@@ -69,12 +70,22 @@ async function notify(title: string, body: string) {
   }
 }
 
+function indexSnap(
+  map: Map<string, LiveQuoteSnap>,
+  snap: LiveQuoteSnap
+) {
+  map.set(snap.symbol.toUpperCase(), snap);
+  map.set(snap.displaySymbol.toUpperCase(), snap);
+  const bare = snap.symbol.replace(/\.IS$/i, '').toUpperCase();
+  if (bare !== snap.symbol.toUpperCase()) map.set(bare, snap);
+}
+
 /** Background alert checker — mount once in dashboard layout. */
 export function AlertEngine() {
   const { alerts, markTriggered, resetTriggered } = useAlerts();
   const active = alerts.length > 0;
-  const bist = useBist(undefined, { enabled: active });
-  const crypto = useCrypto(undefined, undefined, { enabled: active });
+  const scanner = useMarketScanner();
+  const fx = useFx(undefined, { enabled: active });
   const firedRef = useRef<Set<string>>(new Set());
 
   const rsiSymbols = useMemo(
@@ -104,36 +115,68 @@ export function AlertEngine() {
     const map = new Map<string, number | null>();
     for (const it of rsiQuery.data?.items ?? []) {
       map.set(it.symbol, it.rsi);
+      map.set(it.symbol.toUpperCase(), it.rsi);
     }
     return map;
   }, [rsiQuery.data?.items]);
 
   const snaps = useMemo(() => {
     const map = new Map<string, LiveQuoteSnap>();
-    for (const q of bist.data?.quotes ?? []) {
-      map.set(q.symbol, {
-        symbol: q.symbol,
-        displaySymbol: q.symbol.replace('.IS', ''),
-        price: q.price,
-        changePercent: q.changePercent,
-        rsi: rsiMap.get(q.symbol) ?? null,
+
+    for (const item of scanner.data ?? []) {
+      indexSnap(map, {
+        symbol: item.symbol,
+        displaySymbol: item.displaySymbol,
+        price: item.price,
+        changePercent: item.changePercent,
+        rsi:
+          rsiMap.get(item.symbol) ??
+          rsiMap.get(item.symbol.toUpperCase()) ??
+          null,
       });
     }
-    for (const t of crypto.data?.tickers ?? []) {
-      map.set(t.symbol, {
-        symbol: t.symbol,
-        displaySymbol: t.symbol.replace('USDT', ''),
-        price: t.price,
-        changePercent: t.changePercent,
-        rsi: rsiMap.get(t.symbol) ?? null,
+
+    for (const c of scanner.commodities ?? []) {
+      indexSnap(map, {
+        symbol: c.symbol,
+        displaySymbol: c.name,
+        price: c.price,
+        changePercent: c.changePercent,
+        rsi: null,
       });
     }
+
+    for (const r of fx.data?.rates ?? []) {
+      indexSnap(map, {
+        symbol: r.code,
+        displaySymbol: `${r.code}/TRY`,
+        price: r.forexSelling,
+        changePercent: 0,
+        rsi: null,
+      });
+      if (r.code === 'USD') {
+        indexSnap(map, {
+          symbol: 'USDTRY',
+          displaySymbol: 'USD/TRY',
+          price: r.forexSelling,
+          changePercent: 0,
+          rsi: null,
+        });
+      }
+    }
+
     return map;
-  }, [bist.data?.quotes, crypto.data?.tickers, rsiMap]);
+  }, [scanner.data, scanner.commodities, fx.data?.rates, rsiMap]);
 
   useEffect(() => {
+    if (!active) return;
+
     for (const alert of alerts) {
-      const snap = snaps.get(alert.symbol);
+      const key = alert.symbol.toUpperCase();
+      const snap =
+        snaps.get(key) ??
+        snaps.get(alert.displaySymbol.toUpperCase()) ??
+        snaps.get(alert.symbol.replace(/\.IS$/i, '').toUpperCase());
       if (!snap) continue;
 
       const hit = evaluate(alert, snap);
@@ -144,12 +187,11 @@ export function AlertEngine() {
           alert.kind.includes('above') || alert.kind === 'change_above'
             ? '▲'
             : '▼';
-        const detail =
-          alert.kind.startsWith('rsi')
-            ? `RSI ${snap.rsi?.toFixed(1) ?? '—'} (hedef: ${alert.threshold})`
-            : alert.kind.startsWith('change')
-              ? `%${snap.changePercent.toFixed(2)} (hedef: %${alert.threshold})`
-              : `${snap.price.toLocaleString('tr-TR')} (hedef: ${alert.threshold})`;
+        const detail = alert.kind.startsWith('rsi')
+          ? `RSI ${snap.rsi?.toFixed(1) ?? '—'} (hedef: ${alert.threshold})`
+          : alert.kind.startsWith('change')
+            ? `%${snap.changePercent.toFixed(2)} (hedef: %${alert.threshold})`
+            : `${snap.price.toLocaleString('tr-TR')} (hedef: ${alert.threshold})`;
         void notify(
           `${dir} ${alert.displaySymbol} · ${kindLabel(alert.kind)}`,
           `${alert.displaySymbol}: ${detail}`
@@ -169,7 +211,7 @@ export function AlertEngine() {
         resetTriggered(alert.id);
       }
     }
-  }, [alerts, snaps, markTriggered, resetTriggered]);
+  }, [active, alerts, snaps, markTriggered, resetTriggered]);
 
   return null;
 }

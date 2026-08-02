@@ -13,7 +13,7 @@ export interface CommodityQuote {
   yahooSymbol?: string;
 }
 
-const CACHE_KEY = 'commodities:live:v1';
+const CACHE_KEY = 'commodities:live:v2';
 const CACHE_TTL = 60;
 
 /**
@@ -75,6 +75,21 @@ export async function fetchCommodities(): Promise<CommodityQuote[]> {
       changePercent: silver.changePercent,
       currency: 'USD',
       unit: '$/oz',
+      yahooSymbol: 'SI=F',
+    });
+  }
+
+  if (silver && usdtry && silver.price > 0 && usdtry.price > 0) {
+    const gramTry = (silver.price / TROY_OZ_GRAMS) * usdtry.price;
+    const changePercent =
+      silver.changePercent + (usdtry.changePercent ?? 0) * 0.35;
+    out.push({
+      symbol: 'GUMUS_GR',
+      name: 'Gram Gümüş',
+      price: gramTry,
+      changePercent,
+      currency: 'TRY',
+      unit: '₺/gr',
       yahooSymbol: 'SI=F',
     });
   }
