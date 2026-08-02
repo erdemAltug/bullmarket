@@ -224,6 +224,26 @@ export default function TrLocaleLanding() {
           }),
         }}
       />
+
+      <footer className="mt-16 border-t border-zinc-800 pt-8 text-center text-xs text-zinc-600">
+        <p className="mx-auto mb-4 max-w-xl text-[11px] leading-relaxed text-amber-200/80">
+          Yatırım tavsiyesi değildir. Sermaye piyasası işlemleri risk içerir.
+        </p>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link href="/kvkk" className="hover:text-emerald-400">
+            KVKK
+          </Link>
+          <Link href="/gizlilik" className="hover:text-emerald-400">
+            Gizlilik
+          </Link>
+          <Link href="/kosullar" className="hover:text-emerald-400">
+            Koşullar
+          </Link>
+          <Link href="/yatirim-uyarisi" className="hover:text-emerald-400">
+            Yatırım uyarısı
+          </Link>
+        </div>
+      </footer>
     </main>
   );
 }

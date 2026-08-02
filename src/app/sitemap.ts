@@ -32,7 +32,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/egitim',
     '/blog',
     '/fx/USD-TRY',
+    '/kvkk',
+    '/gizlilik',
+    '/kosullar',
+    '/yatirim-uyarisi',
   ];
+
+  const legalPaths = new Set([
+    '/kvkk',
+    '/gizlilik',
+    '/kosullar',
+    '/yatirim-uyarisi',
+  ]);
 
   const staticRoutes: MetadataRoute.Sitemap = staticPaths.map((path) => ({
     url: `${SITE_URL}${path}`,
@@ -42,13 +53,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ? ('always' as const)
         : path === '/egitim' || path === '/blog'
           ? ('weekly' as const)
-          : ('hourly' as const),
+          : legalPaths.has(path)
+            ? ('monthly' as const)
+            : ('hourly' as const),
     priority:
       path === '' || path === '/tr' || path === '/en'
         ? 1.0
         : path === '/egitim' || path === '/blog'
           ? 0.9
-          : 0.8,
+          : legalPaths.has(path)
+            ? 0.4
+            : 0.8,
     alternates: sitemapLanguageAlternates(
       path === '/tr' || path === '/en' ? '' : path
     ),

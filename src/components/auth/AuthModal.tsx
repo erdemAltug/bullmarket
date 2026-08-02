@@ -267,6 +267,22 @@ export function AuthModal({
               {pending ? <Loader2 className="size-4 animate-spin" /> : null}
               {tab === 'login' ? 'Giriş Yap' : 'Hesap Oluştur'}
             </button>
+
+            <p className="text-center text-[10px] leading-relaxed text-zinc-600">
+              Devam ederek{' '}
+              <a href="/kosullar" className="text-zinc-400 underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+                Kullanım Koşulları
+              </a>
+              ,{' '}
+              <a href="/gizlilik" className="text-zinc-400 underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+                Gizlilik
+              </a>{' '}
+              ve{' '}
+              <a href="/kvkk" className="text-zinc-400 underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+                KVKK
+              </a>{' '}
+              metinlerini kabul etmiş olursunuz.
+            </p>
           </form>
         </div>
       </DialogContent>

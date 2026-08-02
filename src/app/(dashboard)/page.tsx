@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { AIDailyVisionPanel } from '@/components/dashboard/AIDailyVisionPanel';
 import { AIPotentialRadar } from '@/components/dashboard/AIPotentialRadar';
 import { CommoditiesStrip } from '@/components/dashboard/CommoditiesStrip';
+import { HabitCue } from '@/components/dashboard/HabitCue';
 import { MarketSentimentMeter } from '@/components/dashboard/MarketSentimentMeter';
 import { AlertModal } from '@/components/alerts/AlertModal';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
@@ -342,6 +343,7 @@ export default function OverviewPage() {
         currencySymbol="₺"
       />
       <CalendarTickerBanner />
+      <HabitCue />
       <TickerTape items={tapeItems} />
       <CommoditiesStrip />
 

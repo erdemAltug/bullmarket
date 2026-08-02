@@ -110,6 +110,28 @@ export function MobileNavDrawer() {
             </div>
           ))}
         </nav>
+        <div className="mt-auto border-t border-[var(--border)] p-4">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)]/70">
+            Hukuki
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { href: '/kvkk', label: 'KVKK' },
+              { href: '/gizlilik', label: 'Gizlilik' },
+              { href: '/kosullar', label: 'Koşullar' },
+              { href: '/yatirim-uyarisi', label: 'Risk' },
+            ].map((l) => (
+              <FastLink
+                key={l.href}
+                href={l.href}
+                onClick={close}
+                className="rounded-md border border-[var(--border)] px-2 py-1 text-[11px] text-[var(--muted)]"
+              >
+                {l.label}
+              </FastLink>
+            ))}
+          </div>
+        </div>
       </SheetContent>
     </Sheet>
   );

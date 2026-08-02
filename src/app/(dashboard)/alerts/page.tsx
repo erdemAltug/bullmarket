@@ -124,7 +124,12 @@ export default function AlertsPage() {
           Akıllı Piyasa Alarmları
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Fiyat hedefi, volatilite spike ve RSI kırılımları için canlı tetikleyiciler
+          Fiyat hedefi, volatilite spike ve RSI kırılımları — tarayıcı bildirimi
+          + (yapılandırıldıysa) e-posta
+        </p>
+        <p className="mt-2 max-w-2xl rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-xs leading-relaxed text-zinc-400">
+          Giriş yapmışken alarm tetiklenirse e-posta da gider. Sekme kapalıyken
+          tarayıcı bildirimi çalışmaz; e-posta için oturumu açık tutun.
         </p>
       </div>
 

@@ -154,6 +154,16 @@ export function AlertEngine() {
           `${dir} ${alert.displaySymbol} · ${kindLabel(alert.kind)}`,
           `${alert.displaySymbol}: ${detail}`
         );
+        void fetch('/api/alerts/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            alertId: alert.id,
+            displaySymbol: alert.displaySymbol,
+            kindLabel: kindLabel(alert.kind),
+            detail: `${alert.displaySymbol}: ${detail}`,
+          }),
+        }).catch(() => undefined);
       } else if (!hit && alert.triggered) {
         firedRef.current.delete(alert.id);
         resetTriggered(alert.id);
