@@ -91,7 +91,7 @@ export function AssetDetailDrawer({
                     </span>
                   </div>
                 </div>
-                <HintTooltip content={SCORE_TIP} title="Bullsye Skoru">
+              <HintTooltip content={SCORE_TIP} title="Bullsye Skoru" withIcon={false}>
                   <div
                     className={cn(
                       'shrink-0 rounded-xl border px-3 py-2 text-center',

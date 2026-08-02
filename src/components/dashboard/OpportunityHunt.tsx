@@ -136,8 +136,7 @@ export function OpportunityHunt() {
           AI Fırsat Alımları
         </h1>
         <p className="max-w-2xl text-sm text-[var(--muted)]">
-          Canlı tarama skoru, gün içi bant ve hacim ivmesi — yüksek skorlu
-          kartlara tıkla, alarm kur, listene ekle. Bu masa her{' '}
+          Canlı skor, gün içi bant ve hacim ivmesi. Masa her{' '}
           <span className="font-mono text-emerald-400">{countdown}s</span>{' '}
           yenilenir.
         </p>
@@ -189,20 +188,19 @@ export function OpportunityHunt() {
 
       <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/60 p-5 text-sm leading-relaxed text-[var(--muted)]">
         <h2 className="mb-2 text-base font-semibold text-[var(--foreground)]">
-          Bu masa nasıl çalışır?
+          Metodoloji
         </h2>
         <ul className="list-disc space-y-1.5 pl-5">
           <li>
             Skor; canlı F/K, hacim ivmesi ve gün içi bant pozisyonundan
-            üretilir — uydurma hedef fiyat yok.
+            üretilir.
           </li>
           <li>
-            Kartı aç → mikro inceleme, watchlist ve fiyat alarmı. Alarm kuran
-            dönüş nedeni yaratır.
+            Her kartta mikro inceleme, izleme listesi ve fiyat alarmı bulunur.
           </li>
           <li>
-            Üst üste gün gel → seri büyür, misafir önizleme genişler. Hesapla
-            tam radar + hedefler açılır.
+            Günlük ziyaret serisi misafir önizlemeyi genişletir; hesap ile tam
+            radar açılır.
           </li>
         </ul>
         <div className="mt-4 flex flex-wrap gap-3 text-xs">
@@ -241,7 +239,7 @@ export function OpportunityHunt() {
               ) : null}
             </p>
             <p className="truncate text-[11px] text-[var(--muted)]">
-              Kartı aç → alarm kur · kaçırma · sonraki tarama {countdown}s
+              Sonraki tarama {countdown}s
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-2">

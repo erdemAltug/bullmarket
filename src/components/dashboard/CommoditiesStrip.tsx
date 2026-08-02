@@ -46,7 +46,7 @@ export function CommoditiesStrip() {
         <h2 className="text-sm font-semibold tracking-tight text-[var(--foreground)]">
           Emtia &amp; Kıymetli Maden
         </h2>
-        <span className="text-[10px] text-[var(--muted)]">Canlı · Yahoo</span>
+        <span className="text-[10px] text-[var(--muted)]">Canlı</span>
       </div>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
         {items.map((c) => {

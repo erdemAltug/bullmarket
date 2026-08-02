@@ -365,7 +365,7 @@ export default function OverviewPage() {
       <ExpandableSection
         id="opportunity-radar"
         title="Canlı Fırsat Radarı"
-        subtitle="Karta tıkla → detay · skor/F/K/mesafe → tooltip"
+        subtitle="Skor, değerleme ve gün içi bant — anlık sıralama"
         collapsedHint={
           potentialCards.length
             ? `${potentialCards.length} kart`

@@ -21,7 +21,7 @@ export function HintTooltip({
   children,
   className,
   side = 'top',
-  withIcon = true,
+  withIcon = false,
 }: HintTooltipProps) {
   return (
     <Tooltip.Provider delayDuration={180}>
@@ -30,7 +30,7 @@ export function HintTooltip({
           <button
             type="button"
             className={cn(
-              'inline-flex max-w-full items-center gap-1 text-left text-inherit',
+              'inline-flex max-w-full cursor-help items-center gap-1 text-left text-inherit',
               className
             )}
             onClick={(e) => e.stopPropagation()}

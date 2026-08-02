@@ -69,7 +69,7 @@ export function AIPotentialRadar({
             Canlı Fırsat Radarı
           </h2>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Karta tıkla → detay drawer · skor/F/K/mesafe üzerine gel → tooltip
+            Canlı skor sıralaması · gün içi bant ve değerleme
           </p>
         </div>
       ) : null}
@@ -118,7 +118,7 @@ export function AIPotentialRadar({
                   </span>
                 </p>
               </div>
-              <HintTooltip content={SCORE_TIP} title="Bullsye Skoru">
+              <HintTooltip content={SCORE_TIP} title="Bullsye Skoru" withIcon={false}>
                 <div
                   className={cn(
                     'shrink-0 rounded-xl border px-2.5 py-1.5 text-center',
@@ -144,7 +144,8 @@ export function AIPotentialRadar({
               <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)]/50 p-2">
                 <HintTooltip
                   content={DIST_TIP}
-                  title="Mesafe"
+                  title="Zirve mesafesi"
+                  withIcon={false}
                   className="text-[var(--muted)]"
                 >
                   Zirve mesafe
@@ -163,7 +164,8 @@ export function AIPotentialRadar({
               <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)]/50 p-2">
                 <HintTooltip
                   content={DIST_TIP}
-                  title="Mesafe"
+                  title="Dip mesafesi"
+                  withIcon={false}
                   className="text-[var(--muted)]"
                 >
                   Dip mesafe
@@ -182,7 +184,8 @@ export function AIPotentialRadar({
               <div className="col-span-2 rounded-lg border border-[var(--border)] bg-[var(--surface)]/50 p-2 sm:col-span-1">
                 <HintTooltip
                   content={PE_TIP}
-                  title="F/K Oranı"
+                  title="F/K oranı"
+                  withIcon={false}
                   className="text-[var(--muted)]"
                 >
                   F/K
@@ -210,9 +213,6 @@ export function AIPotentialRadar({
                   </li>
                 ))}
               </ul>
-              <p className="mt-2 text-[10px] font-medium text-emerald-400/80">
-                Detay için tıkla →
-              </p>
             </div>
           </article>
         ))}
