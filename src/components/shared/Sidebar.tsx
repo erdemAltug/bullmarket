@@ -22,8 +22,8 @@ export function Sidebar() {
   }, [router]);
 
   return (
-    <aside className="hidden w-52 shrink-0 border-r border-[var(--border)] bg-[var(--sidebar)] backdrop-blur-xl md:block">
-      <nav className="flex h-full flex-col gap-4 overflow-y-auto p-3">
+    <aside className="hidden h-full w-52 shrink-0 overflow-y-auto border-r border-[var(--border)] bg-[var(--sidebar)] backdrop-blur-xl md:block">
+      <nav className="flex flex-col gap-4 p-3">
         {NAV_GROUPS.map(({ group, items }) => (
           <div key={group} className="space-y-1">
             <p className="px-3 pb-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]/70">
