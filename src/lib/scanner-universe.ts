@@ -1,4 +1,4 @@
-import { BIST30_SYMBOLS } from '@/lib/api/yahoo';
+import { BIST30_SYMBOLS } from '@/lib/bist-symbols';
 
 /** Expanded BİST universe for Market Scanner (≈ BIST 30 + liquid midcaps) */
 export const SCANNER_BIST_SYMBOLS = [

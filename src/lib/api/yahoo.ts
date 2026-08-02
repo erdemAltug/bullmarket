@@ -6,6 +6,11 @@ import {
 } from '@/lib/chart-timeframes';
 import type { HistoricalPricePoint, Quote, StockFundamentals } from '@/types';
 
+export {
+  BIST30_SYMBOLS,
+  DEFAULT_BIST_SYMBOLS,
+} from '@/lib/bist-symbols';
+
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey'] });
 
 function toQuote(raw: {
@@ -185,48 +190,3 @@ export async function fetchDividendSnapshot(
     return null;
   }
 }
-
-export const DEFAULT_BIST_SYMBOLS = [
-  'XU100.IS',
-  'THYAO.IS',
-  'GARAN.IS',
-  'ASELS.IS',
-  'EREGL.IS',
-];
-
-export const BIST30_SYMBOLS = [
-  'AKBNK.IS',
-  'ALARK.IS',
-  'ARCLK.IS',
-  'ASELS.IS',
-  'ASTOR.IS',
-  'BIMAS.IS',
-  'BRSAN.IS',
-  'DOAS.IS',
-  'EKGYO.IS',
-  'ENKAI.IS',
-  'EREGL.IS',
-  'FROTO.IS',
-  'GARAN.IS',
-  'GUBRF.IS',
-  'HEKTS.IS',
-  'ISCTR.IS',
-  'KCHOL.IS',
-  'KONTR.IS',
-  'KOZAL.IS',
-  'KRDMD.IS',
-  'ODAS.IS',
-  'PETKM.IS',
-  'PGSUS.IS',
-  'SAHOL.IS',
-  'SASA.IS',
-  'SISE.IS',
-  'TAVHL.IS',
-  'TCELL.IS',
-  'THYAO.IS',
-  'TOASO.IS',
-  'TUPRS.IS',
-  'ULKER.IS',
-  'VESTL.IS',
-  'YKBNK.IS',
-];
