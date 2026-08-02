@@ -40,8 +40,8 @@ export function EconomicCalendar() {
       ) : !events.length ? (
         <EmptyState
           icon={CalendarClock}
-          title="Canlı takvim yok"
-          description="Ekonomik takvim yakında aktif olacak."
+          title="Takvim yüklenemedi"
+          description="Makro olaylar geçici olarak alınamadı — birazdan yeniden dene."
           className="py-8"
         />
       ) : (
@@ -71,6 +71,11 @@ export function EconomicCalendar() {
                       hour: '2-digit',
                       minute: '2-digit',
                     })}
+                    {e.detail ? (
+                      <span className="mt-0.5 block text-zinc-600">
+                        {e.detail}
+                      </span>
+                    ) : null}
                   </p>
                 </div>
                 <div className="text-right">

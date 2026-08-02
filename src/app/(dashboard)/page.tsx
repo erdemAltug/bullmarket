@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { AIDailyVisionPanel } from '@/components/dashboard/AIDailyVisionPanel';
 import { AIPotentialRadar } from '@/components/dashboard/AIPotentialRadar';
+import { CommoditiesStrip } from '@/components/dashboard/CommoditiesStrip';
 import { MarketSentimentMeter } from '@/components/dashboard/MarketSentimentMeter';
 import { AlertModal } from '@/components/alerts/AlertModal';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
@@ -342,6 +343,7 @@ export default function OverviewPage() {
       />
       <CalendarTickerBanner />
       <TickerTape items={tapeItems} />
+      <CommoditiesStrip />
 
       <ExpandableSection
         id="daily-vision"

@@ -1,18 +1,31 @@
 import { NextResponse } from 'next/server';
+import { fetchEconomicCalendar } from '@/lib/api/calendar';
 
-/**
- * Live economic calendar feed is not wired yet.
- * Returning empty avoids showing fabricated TCMB/CPI dates to users.
- */
 export async function GET() {
-  return NextResponse.json({
-    success: true,
-    data: {
-      events: [],
-      live: false,
-      generatedAt: new Date().toISOString(),
-      notice:
-        'Canlı ekonomik takvim henüz bağlanmadı — uydurma tarihler gösterilmiyor.',
-    },
-  });
+  try {
+    const events = await fetchEconomicCalendar();
+    return NextResponse.json({
+      success: true,
+      data: {
+        events,
+        live: true,
+        generatedAt: new Date().toISOString(),
+        source: 'forex-factory-week',
+      },
+    });
+  } catch (e) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: e instanceof Error ? e.message : 'Calendar fetch failed',
+        data: {
+          events: [],
+          live: false,
+          generatedAt: new Date().toISOString(),
+          notice: 'Ekonomik takvim geçici olarak alınamadı.',
+        },
+      },
+      { status: 502 }
+    );
+  }
 }

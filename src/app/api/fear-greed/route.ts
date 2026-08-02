@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import axios from 'axios';
 import { fetchHistory } from '@/lib/api/yahoo';
+import { fetchCryptoFearGreed } from '@/lib/api/sentiment';
 import { appCache } from '@/lib/cache';
 import { rsi } from '@/lib/indicators';
 import type { FearGreedData } from '@/types';
@@ -25,7 +25,6 @@ function bistNote(v: number): string {
   return 'Tarihsel olarak köpük/kâr alma bölgesi; aşırı iyimserlik riski.';
 }
 
-/** Simple BİST proxy from XU100 RSI + recent return */
 async function bistFearGreed(): Promise<{ value: number; note: string }> {
   try {
     const pts = await fetchHistory('XU100.IS', '6M');
@@ -37,7 +36,6 @@ async function bistFearGreed(): Promise<{ value: number; note: string }> {
       const b = closes[closes.length - 1];
       if (a > 0) ret20 = ((b - a) / a) * 100;
     }
-    // Map RSI ~0-100 + return boost into 0-100 fear/greed
     let value = r;
     value += Math.max(-15, Math.min(15, ret20));
     value = Math.round(Math.max(0, Math.min(100, value)));
@@ -48,28 +46,22 @@ async function bistFearGreed(): Promise<{ value: number; note: string }> {
 }
 
 export async function GET() {
-  const cacheKey = 'fear-greed:v1';
+  const cacheKey = 'fear-greed:v2';
   const hit = appCache.get<FearGreedData>(cacheKey);
   if (hit) {
     return NextResponse.json({ success: true, data: hit, cached: true });
   }
 
   try {
-    const [cryptoRes, bist] = await Promise.all([
-      axios.get<{ data: { value: string; value_classification: string }[] }>(
-        'https://api.alternative.me/fng/?limit=1',
-        { timeout: 10_000 }
-      ),
+    const [crypto, bist] = await Promise.all([
+      fetchCryptoFearGreed(),
       bistFearGreed(),
     ]);
 
-    const row = cryptoRes.data.data?.[0];
-    const cryptoVal = Number(row?.value ?? 50);
-
     const data: FearGreedData = {
       crypto: {
-        value: cryptoVal,
-        classification: row?.value_classification ?? classify(cryptoVal),
+        value: crypto.value,
+        classification: crypto.status,
       },
       bist: {
         value: bist.value,

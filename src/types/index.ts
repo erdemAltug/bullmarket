@@ -84,6 +84,8 @@ export interface NewsItem {
   publishedAt: string;
   category: 'bist' | 'crypto' | 'macro';
   source?: string;
+  /** Detected ticker when present in headline */
+  ticker?: string;
 }
 
 export type SignalKind =
@@ -108,6 +110,7 @@ export interface EconomicEvent {
   region: 'TR' | 'US' | 'EU' | 'GLOBAL';
   impact: 'high' | 'medium';
   at: string;
+  detail?: string;
 }
 
 export interface CryptoTicker {

@@ -90,6 +90,11 @@ export function NewsFeed({ defaultOpen = true }: NewsFeedProps) {
                       >
                         {cat.label}
                       </span>
+                      {item.ticker ? (
+                        <span className="rounded border border-zinc-700 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-emerald-400">
+                          {item.ticker}
+                        </span>
+                      ) : null}
                       <span className="text-[11px] text-zinc-500">
                         {relativeTime(item.publishedAt)}
                       </span>
