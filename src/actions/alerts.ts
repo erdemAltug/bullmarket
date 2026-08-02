@@ -1,6 +1,6 @@
 'use server';
 
-import { and, eq } from 'drizzle-orm';
+import { and, eq, ne } from 'drizzle-orm';
 import { getDb, isDatabaseConfigured } from '@/db';
 import { priceAlerts } from '@/db/schema';
 import { getCurrentUserId } from '@/lib/auth-user';
@@ -100,6 +100,58 @@ export async function deletePriceAlert(
     return getUserAlerts(uid);
   } catch (error) {
     console.error('Failed to delete alert:', error);
+    throw new Error('Database error');
+  }
+}
+
+export async function updatePriceAlert(
+  id: string,
+  input: {
+    kind: AlertKind;
+    threshold: number;
+    displaySymbol?: string;
+  },
+  userId?: string
+): Promise<AlertsResult> {
+  const uid = userId ?? (await getCurrentUserId());
+  if (!isDatabaseConfigured()) {
+    return { db: false, alerts: [] };
+  }
+
+  try {
+    const db = getDb();
+    const existing = await db
+      .select()
+      .from(priceAlerts)
+      .where(and(eq(priceAlerts.id, id), eq(priceAlerts.userId, uid)))
+      .limit(1);
+
+    const row = existing[0];
+    if (!row) return getUserAlerts(uid);
+
+    // Drop any other row that would collide on (symbol, kind)
+    await db.delete(priceAlerts).where(
+      and(
+        eq(priceAlerts.userId, uid),
+        eq(priceAlerts.symbol, row.symbol),
+        eq(priceAlerts.condition, input.kind),
+        ne(priceAlerts.id, id)
+      )
+    );
+
+    await db
+      .update(priceAlerts)
+      .set({
+        condition: input.kind,
+        targetPrice: String(input.threshold),
+        displaySymbol: input.displaySymbol ?? row.displaySymbol,
+        isTriggered: false,
+      })
+      .where(and(eq(priceAlerts.id, id), eq(priceAlerts.userId, uid)));
+
+    return getUserAlerts(uid);
+  } catch (error) {
+    console.error('Failed to update alert:', error);
     throw new Error('Database error');
   }
 }

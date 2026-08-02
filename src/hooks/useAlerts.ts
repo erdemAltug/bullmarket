@@ -7,6 +7,7 @@ import {
   deletePriceAlert,
   getUserAlerts,
   setAlertTriggered,
+  updatePriceAlert,
   type AlertsResult,
 } from '@/actions/alerts';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
@@ -158,9 +159,57 @@ export function useAlerts(opts?: { enabled?: boolean }) {
     [useDb, setLsAlerts, qc, userId, writeDbCache]
   );
 
+  const updateAlert = useCallback(
+    (
+      id: string,
+      input: { kind: AlertKind; threshold: number; displaySymbol?: string }
+    ) => {
+      if (useDb) {
+        qc.setQueryData(['alerts', userId], (old: AlertsResult | undefined) => ({
+          db: true,
+          alerts: (old?.alerts ?? []).map((a) =>
+            a.id === id
+              ? {
+                  ...a,
+                  kind: input.kind,
+                  threshold: input.threshold,
+                  displaySymbol: input.displaySymbol ?? a.displaySymbol,
+                  triggered: false,
+                }
+              : a
+          ),
+        }));
+      } else {
+        setLsAlerts((prev) =>
+          prev.map((a) =>
+            a.id === id
+              ? {
+                  ...a,
+                  kind: input.kind,
+                  threshold: input.threshold,
+                  displaySymbol: input.displaySymbol ?? a.displaySymbol,
+                  triggered: false,
+                }
+              : a
+          )
+        );
+      }
+
+      void updatePriceAlert(id, input)
+        .then((data) => {
+          if (data.db) writeDbCache(data);
+        })
+        .catch(() => {
+          /* optimistic already applied locally / db path */
+        });
+    },
+    [useDb, setLsAlerts, qc, userId, writeDbCache]
+  );
+
   return {
     alerts,
     addAlert,
+    updateAlert,
     removeAlert,
     markTriggered,
     resetTriggered,
