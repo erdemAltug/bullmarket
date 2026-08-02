@@ -28,7 +28,7 @@ export function MarketSentimentMeter({
 }: MarketSentimentMeterProps) {
   if (loading && !reading) {
     return (
-      <div className="h-[280px] animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--card)]" />
+      <div className="h-40 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--card)] sm:h-[280px]" />
     );
   }
   if (!reading) return null;

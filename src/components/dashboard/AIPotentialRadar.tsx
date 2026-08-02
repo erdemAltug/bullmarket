@@ -42,11 +42,11 @@ export function AIPotentialRadar({
 
   if (loading && !cards.length) {
     return (
-      <div className="grid gap-4 md:grid-cols-2">
-        {Array.from({ length: 4 }).map((_, i) => (
+      <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+        {Array.from({ length: 2 }).map((_, i) => (
           <div
             key={i}
-            className="h-56 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--card)]"
+            className="h-44 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--card)] sm:h-56"
           />
         ))}
       </div>

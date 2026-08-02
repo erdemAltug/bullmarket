@@ -373,14 +373,15 @@ export default function OverviewPage() {
         actions={
           <Link
             href="/firsatlar"
-            className="shrink-0 text-xs font-bold text-emerald-400 hover:underline"
+            className="shrink-0 text-[11px] font-bold text-emerald-400 hover:underline sm:text-xs"
             onClick={(e) => e.stopPropagation()}
           >
-            AI Fırsat Alımları →
+            <span className="sm:hidden">Fırsatlar →</span>
+            <span className="hidden sm:inline">AI Fırsat Alımları →</span>
           </Link>
         }
       >
-        <div className="grid items-stretch gap-4 xl:grid-cols-[minmax(0,1fr)_260px]">
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_260px] xl:items-stretch">
           <AIPotentialRadar
             cards={potentialCards}
             loading={scanner.isLoading}

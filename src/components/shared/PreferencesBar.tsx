@@ -104,15 +104,15 @@ export function PreferencesBar() {
         aria-expanded={open}
         aria-label={t.header.preferences}
         className={cn(
-          'inline-flex h-9 items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--card)] px-2.5 text-xs font-medium text-[var(--foreground)] backdrop-blur-md transition-colors hover:border-[var(--accent)]/40',
+          'inline-flex h-9 items-center gap-1 rounded-lg border border-[var(--border)] bg-[var(--card)] px-2 text-xs font-medium text-[var(--foreground)] backdrop-blur-md transition-colors hover:border-[var(--accent)]/40 sm:gap-1.5 sm:px-2.5',
           open && 'border-[var(--accent)]/50'
         )}
       >
-        <Languages className="size-3.5 text-[var(--accent)]" />
+        <Languages className="size-3.5 shrink-0 text-[var(--accent)]" />
         <span className="hidden sm:inline">{language.toUpperCase()}</span>
-        <span className="text-[var(--muted)]">·</span>
+        <span className="hidden text-[var(--muted)] sm:inline">·</span>
         <span>{currency}</span>
-        <Palette className="size-3.5 text-[var(--muted)]" />
+        <Palette className="hidden size-3.5 text-[var(--muted)] sm:block" />
       </button>
 
       {open ? (

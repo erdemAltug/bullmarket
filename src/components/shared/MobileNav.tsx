@@ -2,17 +2,27 @@
 
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { Menu } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import { FastLink } from '@/components/shared/NavigationProgress';
 import { Logo } from '@/components/shared/Logo';
+import { OPEN_COMMAND_EVENT } from '@/components/shared/CommandPalette';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { usePreferences } from '@/components/providers/PreferencesProvider';
 import {
   MOBILE_BOTTOM_ITEMS,
   NAV_GROUPS,
   isNavActive,
+  type NavKey,
 } from '@/lib/nav';
 import { cn } from '@/lib/utils';
+
+/** Short labels that fit 5-col bottom bar on narrow phones */
+const MOBILE_SHORT: Partial<Record<NavKey, string>> = {
+  overview: 'Ana',
+  opportunities: 'Fırsat',
+  bist: 'BİST',
+  signals: 'Sinyal',
+};
 
 interface MobileNavContextValue {
   open: boolean;
@@ -39,23 +49,6 @@ export function MobileNavProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function MobileNavTrigger({ className }: { className?: string }) {
-  const { setOpen } = useMobileNav();
-  return (
-    <button
-      type="button"
-      onClick={() => setOpen(true)}
-      aria-label="Menüyü aç"
-      className={cn(
-        'inline-flex size-10 items-center justify-center rounded-lg border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--card)] md:hidden',
-        className
-      )}
-    >
-      <Menu className="size-5" />
-    </button>
-  );
-}
-
 export function MobileNavDrawer() {
   const { open, setOpen } = useMobileNav();
   const pathname = usePathname();
@@ -67,13 +60,24 @@ export function MobileNavDrawer() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent
         side="left"
-        className="w-[min(100vw,20rem)] max-w-[20rem] bg-[var(--sidebar)] p-0 sm:max-w-[20rem] md:hidden"
+        className="flex w-[min(100vw,20rem)] max-w-[20rem] flex-col bg-[var(--sidebar)] p-0 sm:max-w-[20rem] md:hidden"
       >
-        <div className="flex h-16 items-center border-b border-[var(--border)] px-4 pr-12">
+        <div className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--border)] px-4 pr-12">
           <SheetTitle className="sr-only">Navigasyon</SheetTitle>
-          <Logo />
+          <Logo compact />
         </div>
-        <nav className="flex flex-1 flex-col gap-4 overflow-y-auto p-3 pb-8">
+        <button
+          type="button"
+          onClick={() => {
+            close();
+            window.dispatchEvent(new Event(OPEN_COMMAND_EVENT));
+          }}
+          className="mx-3 mt-3 flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 py-2.5 text-left text-sm text-[var(--muted)]"
+        >
+          <Search className="size-4 shrink-0" />
+          Ara · hisse, fon, ETF…
+        </button>
+        <nav className="flex flex-1 flex-col gap-4 overflow-y-auto p-3 pb-10">
           {NAV_GROUPS.map(({ group, items }) => (
             <div key={group} className="space-y-1">
               <p className="px-3 pb-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]/70">
@@ -87,15 +91,15 @@ export function MobileNavDrawer() {
                     href={href}
                     onClick={close}
                     className={cn(
-                      'flex items-center gap-2 rounded-lg border-l-2 px-3 py-2.5 text-sm transition-colors',
+                      'flex items-center gap-2.5 rounded-lg border-l-2 px-3 py-2.5 text-[15px] transition-colors',
                       active
                         ? 'border-[var(--accent)] bg-gradient-to-r from-[var(--glow-up)] to-transparent font-semibold text-[var(--accent)]'
-                        : 'border-transparent text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--foreground)]'
+                        : 'border-transparent text-[var(--muted)] active:bg-[var(--card)]'
                     )}
                   >
                     <Icon
                       className={cn(
-                        'size-4 shrink-0',
+                        'size-5 shrink-0',
                         active ? 'text-[var(--accent)]' : color
                       )}
                     />
@@ -113,47 +117,56 @@ export function MobileNavDrawer() {
 
 export function MobileBottomNav() {
   const pathname = usePathname();
-  const { t } = usePreferences();
   const { setOpen } = useMobileNav();
 
   return (
     <nav
       className={cn(
-        'fixed inset-x-0 bottom-0 z-40 border-t border-[var(--border)] bg-[var(--header)]/95 backdrop-blur-xl md:hidden',
-        'pb-[max(0.35rem,env(safe-area-inset-bottom))]'
+        'fixed inset-x-0 bottom-0 z-40 border-t border-[var(--border)] bg-[var(--header)]/98 backdrop-blur-xl md:hidden',
+        'pb-[max(0.5rem,env(safe-area-inset-bottom))]'
       )}
       aria-label="Mobil gezinme"
     >
-      <div className="grid grid-cols-5 gap-0.5 px-1 pt-1">
+      <div className="grid grid-cols-5 px-1 pt-1">
         {MOBILE_BOTTOM_ITEMS.map(({ href, key, icon: Icon }) => {
           const active = isNavActive(pathname, href);
+          const label = MOBILE_SHORT[key] ?? key;
           return (
             <FastLink
               key={href}
               href={href}
               className={cn(
-                'flex min-h-[3.25rem] flex-col items-center justify-center gap-0.5 rounded-lg px-1 py-1 text-[10px] font-medium',
+                'flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl px-0.5 py-1.5 text-[11px] font-semibold leading-none',
                 active
                   ? 'text-[var(--accent)]'
                   : 'text-[var(--muted)]'
               )}
             >
-              <Icon
+              <span
                 className={cn(
-                  'size-5',
-                  active ? 'text-[var(--accent)]' : 'text-[var(--muted)]'
+                  'flex size-9 items-center justify-center rounded-xl transition-colors',
+                  active && 'bg-emerald-500/15'
                 )}
-              />
-              <span className="truncate max-w-full">{t.nav[key]}</span>
+              >
+                <Icon
+                  className={cn(
+                    'size-5',
+                    active ? 'text-[var(--accent)]' : 'text-[var(--muted)]'
+                  )}
+                />
+              </span>
+              <span className="truncate">{label}</span>
             </FastLink>
           );
         })}
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex min-h-[3.25rem] flex-col items-center justify-center gap-0.5 rounded-lg px-1 py-1 text-[10px] font-medium text-[var(--muted)]"
+          className="flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl px-0.5 py-1.5 text-[11px] font-semibold leading-none text-[var(--muted)]"
         >
-          <Menu className="size-5" />
+          <span className="flex size-9 items-center justify-center rounded-xl">
+            <Menu className="size-5" />
+          </span>
           <span>Menü</span>
         </button>
       </div>

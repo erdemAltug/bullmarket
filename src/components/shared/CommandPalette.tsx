@@ -13,6 +13,7 @@ import {
   Map,
   Plus,
   Focus,
+  Search,
 } from 'lucide-react';
 import {
   Command,
@@ -262,15 +263,25 @@ export function CommandPaletteTrigger() {
   }, []);
 
   return (
-    <button
-      type="button"
-      onClick={() => window.dispatchEvent(new Event(OPEN_COMMAND_EVENT))}
-      className="hidden items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900/80 px-2.5 py-1.5 text-xs text-zinc-400 transition-colors hover:border-zinc-700 hover:text-zinc-200 sm:inline-flex"
-    >
-      <span>Search…</span>
-      <kbd className="rounded border border-zinc-700 bg-zinc-950 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500">
-        {mod}+K
-      </kbd>
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={() => window.dispatchEvent(new Event(OPEN_COMMAND_EVENT))}
+        aria-label="Ara"
+        className="inline-flex size-9 items-center justify-center rounded-lg border border-zinc-800 bg-zinc-900/80 text-zinc-400 transition-colors hover:border-zinc-700 hover:text-zinc-200 sm:hidden"
+      >
+        <Search className="size-4" />
+      </button>
+      <button
+        type="button"
+        onClick={() => window.dispatchEvent(new Event(OPEN_COMMAND_EVENT))}
+        className="hidden items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900/80 px-2.5 py-1.5 text-xs text-zinc-400 transition-colors hover:border-zinc-700 hover:text-zinc-200 sm:inline-flex"
+      >
+        <span>Search…</span>
+        <kbd className="rounded border border-zinc-700 bg-zinc-950 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500">
+          {mod}+K
+        </kbd>
+      </button>
+    </>
   );
 }

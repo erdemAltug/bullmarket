@@ -15,10 +15,16 @@ export function AIDailyVisionPanel({
 }: AIDailyVisionPanelProps) {
   if (loading && !report) {
     return (
-      <div className="h-36 animate-pulse rounded-2xl border border-emerald-500/20 bg-zinc-950" />
+      <div className="h-28 animate-pulse rounded-2xl border border-emerald-500/20 bg-zinc-950 sm:h-36" />
     );
   }
-  if (!report) return null;
+  if (!report) {
+    return (
+      <p className="rounded-xl border border-[var(--border)] bg-[var(--card)] px-4 py-3 text-sm text-[var(--muted)]">
+        Günlük tarama henüz hazır değil — piyasa verisi bekleniyor.
+      </p>
+    );
+  }
 
   return (
     <section
@@ -56,18 +62,18 @@ export function AIDailyVisionPanel({
           {(
             [
               ['Ort. skor', `${report.avgUpsidePct.toFixed(0)}/100`],
-              ['Fırsat kartı', String(report.opportunityCount)],
-              ['Yükselen pay', `%${report.bullishShare.toFixed(0)}`],
+              ['Fırsat', String(report.opportunityCount)],
+              ['Yükselen', `%${report.bullishShare.toFixed(0)}`],
             ] as const
           ).map(([label, value]) => (
             <div
               key={label}
-              className="min-w-[88px] rounded-xl border border-emerald-500/20 bg-black/40 px-3 py-2 text-center"
+              className="min-w-0 rounded-xl border border-emerald-500/20 bg-black/40 px-2 py-2 text-center sm:min-w-[88px] sm:px-3"
             >
-              <p className="text-[10px] uppercase tracking-wide text-zinc-500">
+              <p className="truncate text-[9px] uppercase tracking-wide text-zinc-500 sm:text-[10px]">
                 {label}
               </p>
-              <p className="mt-0.5 font-mono text-lg font-bold text-emerald-400">
+              <p className="mt-0.5 font-mono text-base font-bold text-emerald-400 sm:text-lg">
                 {value}
               </p>
             </div>
