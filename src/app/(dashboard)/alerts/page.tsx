@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Bell, Plus, Search, Trash2 } from 'lucide-react';
 import { useAlerts } from '@/hooks/useAlerts';
+import { useMarketScanner } from '@/hooks/useMarketScanner';
+import { useFx } from '@/hooks/useMarketData';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
 import {
@@ -66,12 +68,16 @@ function defaultThreshold(kind: AlertKind): string {
 }
 
 export default function AlertsPage() {
-  const { alerts, addAlert, removeAlert, ready } = useAlerts();
+  const { alerts, addAlert, removeAlert, ready, source } = useAlerts();
+  const scanner = useMarketScanner();
+  const fx = useFx();
   const [query, setQuery] = useState('');
   const [symbol, setSymbol] = useState('ALTIN');
   const [kind, setKind] = useState<AlertKind>('price_above');
   const [threshold, setThreshold] = useState('');
   const [pushStatus, setPushStatus] = useState('');
+  const [formError, setFormError] = useState('');
+  const [formOk, setFormOk] = useState('');
 
   const filtered = useMemo(() => filterAlertAssets(query), [query]);
 
@@ -91,34 +97,92 @@ export default function AlertsPage() {
   const rsiOk = assetSupportsRsi(symbol);
   const kindOptions = KINDS.filter((k) => !k.needsRsi || rsiOk);
 
+  const livePrice = useMemo(() => {
+    const key = symbol.toUpperCase();
+    for (const c of scanner.commodities ?? []) {
+      if (c.symbol.toUpperCase() === key) return c.price;
+    }
+    for (const i of scanner.data ?? []) {
+      if (
+        i.symbol.toUpperCase() === key ||
+        i.displaySymbol.toUpperCase() === key ||
+        i.symbol.replace(/\.IS$/i, '').toUpperCase() === key
+      ) {
+        return i.price;
+      }
+    }
+    for (const r of fx.data?.rates ?? []) {
+      if (r.code === key || (key === 'USDTRY' && r.code === 'USD')) {
+        return r.forexSelling;
+      }
+    }
+    return null;
+  }, [symbol, scanner.commodities, scanner.data, fx.data?.rates]);
+
   useEffect(() => {
     if (filtered.length && !filtered.some((a) => a.symbol === symbol)) {
       setSymbol(filtered[0].symbol);
     }
   }, [filtered, symbol]);
 
+  // Prefill price/target when asset or kind changes
+  useEffect(() => {
+    if (kind.startsWith('rsi') || kind.startsWith('change')) {
+      const d = defaultThreshold(kind);
+      if (d) setThreshold(d);
+      return;
+    }
+    if (livePrice != null && Number.isFinite(livePrice)) {
+      setThreshold(String(Number(livePrice.toFixed(4))));
+    }
+  }, [symbol, kind, livePrice]);
+
   function onSymbolChange(next: string) {
     setSymbol(next);
+    setFormError('');
+    setFormOk('');
     if (!assetSupportsRsi(next) && kind.startsWith('rsi')) {
       setKind('price_above');
-      setThreshold('');
     }
   }
 
   function onKindChange(k: AlertKind) {
     setKind(k);
+    setFormError('');
+    setFormOk('');
     const d = defaultThreshold(k);
     if (d) setThreshold(d);
+    else if (livePrice != null) setThreshold(String(Number(livePrice.toFixed(4))));
   }
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    const n = Number(threshold.replace(',', '.'));
-    if (!Number.isFinite(n)) return;
-    if (kind.startsWith('rsi') && !rsiOk) return;
+    setFormError('');
+    setFormOk('');
+
+    const raw = threshold.trim().replace(',', '.');
+    if (!raw) {
+      setFormError('Eşik değeri girin — canlı fiyat alanına yazıldıysa kontrol edin.');
+      return;
+    }
+    const n = Number(raw);
+    if (!Number.isFinite(n)) {
+      setFormError('Geçerli bir sayı girin.');
+      return;
+    }
+    if (kind.startsWith('price') && n <= 0) {
+      setFormError('Fiyat eşiği 0’dan büyük olmalı.');
+      return;
+    }
+    if (kind.startsWith('rsi') && !rsiOk) {
+      setFormError('Bu varlık için RSI alarmı yok.');
+      return;
+    }
+
     const displaySymbol =
       selected?.display ?? symbol.replace('.IS', '').replace('USDT', '');
     addAlert({ symbol, displaySymbol, kind, threshold: n });
+    setFormOk(`${displaySymbol} alarmı kuruldu.`);
   }
 
   async function enablePush() {
@@ -231,7 +295,21 @@ export default function AlertsPage() {
         <p className="text-[11px] text-[var(--muted)]">
           {KINDS.find((k) => k.value === kind)?.hint}
           {selected ? ` · Seçili: ${selected.group} / ${selected.display}` : null}
+          {livePrice != null
+            ? ` · Canlı: ${livePrice.toLocaleString('tr-TR')}`
+            : null}
         </p>
+
+        {formError ? (
+          <p className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-300">
+            {formError}
+          </p>
+        ) : null}
+        {formOk ? (
+          <p className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-300">
+            {formOk} ({source === 'neon' ? 'hesaba kaydedildi' : 'bu cihazda'})
+          </p>
+        ) : null}
 
         <div className="flex flex-wrap gap-2">
           <Button type="submit" className="gap-1.5">

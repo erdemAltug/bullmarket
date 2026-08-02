@@ -7,12 +7,20 @@ import {
   deletePriceAlert,
   getUserAlerts,
   setAlertTriggered,
+  type AlertsResult,
 } from '@/actions/alerts';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import type { AlertKind, PriceAlert } from '@/types';
 import { authClient } from '@/lib/auth/client';
 
 const LS_KEY = 'bullmarket:alerts';
+
+function mergeAlert(list: PriceAlert[], next: PriceAlert): PriceAlert[] {
+  return [
+    ...list.filter((a) => !(a.symbol === next.symbol && a.kind === next.kind)),
+    next,
+  ];
+}
 
 export function useAlerts(opts?: { enabled?: boolean }) {
   const enabled = opts?.enabled ?? true;
@@ -37,9 +45,17 @@ export function useAlerts(opts?: { enabled?: boolean }) {
     if (query.data?.db) setPreferDb(true);
   }, [query.data?.db]);
 
-  const useDb = preferDb && query.data?.db;
+  const useDb = preferDb && Boolean(query.data?.db);
   const alerts = useDb ? (query.data?.alerts ?? []) : lsAlerts;
   const ready = useDb ? !query.isLoading : lsReady;
+
+  const writeDbCache = useCallback(
+    (data: AlertsResult) => {
+      setPreferDb(true);
+      qc.setQueryData(['alerts', userId], data);
+    },
+    [qc, userId]
+  );
 
   const addAlert = useCallback(
     (input: {
@@ -55,63 +71,91 @@ export function useAlerts(opts?: { enabled?: boolean }) {
         createdAt: new Date().toISOString(),
       };
 
-      if (!useDb) {
-        setLsAlerts((prev) => [
-          ...prev.filter(
-            (a) => !(a.symbol === local.symbol && a.kind === local.kind)
-          ),
-          local,
-        ]);
+      if (useDb) {
+        qc.setQueryData(['alerts', userId], (old: AlertsResult | undefined) => ({
+          db: true,
+          alerts: mergeAlert(old?.alerts ?? [], local),
+        }));
+      } else {
+        setLsAlerts((prev) => mergeAlert(prev, local));
       }
 
-      void createPriceAlert(input).then((data) => {
-        if (data.db) {
-          setPreferDb(true);
-          qc.setQueryData(['alerts'], data);
-        }
-      });
+      void createPriceAlert(input)
+        .then((data) => {
+          if (data.db) {
+            writeDbCache(data);
+          } else {
+            setPreferDb(false);
+            setLsAlerts((prev) => mergeAlert(prev, local));
+          }
+        })
+        .catch(() => {
+          setPreferDb(false);
+          setLsAlerts((prev) => mergeAlert(prev, local));
+        });
 
       return local;
     },
-    [useDb, setLsAlerts, qc]
+    [useDb, setLsAlerts, qc, userId, writeDbCache]
   );
 
   const removeAlert = useCallback(
     (id: string) => {
-      if (!useDb) setLsAlerts((prev) => prev.filter((a) => a.id !== id));
+      if (useDb) {
+        qc.setQueryData(['alerts', userId], (old: AlertsResult | undefined) => ({
+          db: true,
+          alerts: (old?.alerts ?? []).filter((a) => a.id !== id),
+        }));
+      } else {
+        setLsAlerts((prev) => prev.filter((a) => a.id !== id));
+      }
       void deletePriceAlert(id).then((data) => {
-        if (data.db) qc.setQueryData(['alerts'], data);
+        if (data.db) writeDbCache(data);
       });
     },
-    [useDb, setLsAlerts, qc]
+    [useDb, setLsAlerts, qc, userId, writeDbCache]
   );
 
   const markTriggered = useCallback(
     (id: string) => {
-      if (!useDb) {
+      if (useDb) {
+        qc.setQueryData(['alerts', userId], (old: AlertsResult | undefined) => ({
+          db: true,
+          alerts: (old?.alerts ?? []).map((a) =>
+            a.id === id ? { ...a, triggered: true } : a
+          ),
+        }));
+      } else {
         setLsAlerts((prev) =>
           prev.map((a) => (a.id === id ? { ...a, triggered: true } : a))
         );
       }
       void setAlertTriggered(id, true).then((data) => {
-        if (data.db) qc.setQueryData(['alerts'], data);
+        if (data.db) writeDbCache(data);
       });
     },
-    [useDb, setLsAlerts, qc]
+    [useDb, setLsAlerts, qc, userId, writeDbCache]
   );
 
   const resetTriggered = useCallback(
     (id: string) => {
-      if (!useDb) {
+      if (useDb) {
+        qc.setQueryData(['alerts', userId], (old: AlertsResult | undefined) => ({
+          db: true,
+          alerts: (old?.alerts ?? []).map((a) =>
+            a.id === id ? { ...a, triggered: false } : a
+          ),
+        }));
+      } else {
         setLsAlerts((prev) =>
           prev.map((a) => (a.id === id ? { ...a, triggered: false } : a))
         );
       }
       void setAlertTriggered(id, false).then((data) => {
-        if (data.db) qc.setQueryData(['alerts'], data);
+        if (data.db) writeDbCache(data);
       });
     },
-    [useDb, setLsAlerts, qc]
+    [useDb, setLsAlerts, qc, userId, writeDbCache]
   );
 
   return {
