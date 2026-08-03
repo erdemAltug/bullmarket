@@ -1,6 +1,7 @@
 'use client';
 
 import { computeAssetHealth, computeCryptoHealth, type AssetHealthReport } from '@/lib/health-score';
+import { CommunitySentimentPoll } from '@/components/asset/CommunitySentimentPoll';
 import { useFundamentals } from '@/hooks/useIntelligence';
 import { useCompare } from '@/hooks/useIntelligence';
 import { cn } from '@/lib/utils';
@@ -80,11 +81,15 @@ function ScorecardShell({
   report,
   loading,
   error,
+  sentimentSymbol,
+  changePercent,
 }: {
   title: string;
   report: AssetHealthReport | null;
   loading?: boolean;
   error?: string | null;
+  sentimentSymbol?: string;
+  changePercent?: number;
 }) {
   return (
     <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
@@ -94,16 +99,26 @@ function ScorecardShell({
       ) : error ? (
         <p className="text-sm text-rose-400">{error}</p>
       ) : report ? (
-        <div className="grid gap-6 md:grid-cols-[auto_1fr]">
-          <RadialScore score={report.overall} label={report.label} />
-          <div className="space-y-4">
-            <SubBars report={report} />
-            <ul className="space-y-1.5 text-sm text-[var(--muted)]">
-              {report.takeaways.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
+        <div className="space-y-5">
+          <div className="grid gap-6 md:grid-cols-[auto_1fr]">
+            <RadialScore score={report.overall} label={report.label} />
+            <div className="space-y-4">
+              <SubBars report={report} />
+              <ul className="space-y-1.5 text-sm text-[var(--muted)]">
+                {report.takeaways.map((t) => (
+                  <li key={t}>{t}</li>
+                ))}
+              </ul>
+            </div>
           </div>
+          {sentimentSymbol ? (
+            <CommunitySentimentPoll
+              symbol={sentimentSymbol}
+              changePercent={changePercent ?? 0}
+              aiScore={report.overall}
+              compact
+            />
+          ) : null}
         </div>
       ) : null}
     </section>
@@ -111,9 +126,19 @@ function ScorecardShell({
 }
 
 /** BİST sembol sayfası — Yahoo fundamentals → 360° karne */
-export function BistHealthScorecard({ yahooSymbol }: { yahooSymbol: string }) {
+export function BistHealthScorecard({
+  yahooSymbol,
+  displaySymbol,
+  changePercent = 0,
+}: {
+  yahooSymbol: string;
+  displaySymbol?: string;
+  changePercent?: number;
+}) {
   const { data, isLoading, error } = useFundamentals(yahooSymbol);
   const report = data ? computeAssetHealth(data) : null;
+  const sentimentSymbol =
+    displaySymbol ?? yahooSymbol.replace(/\.IS$/i, '');
 
   return (
     <ScorecardShell
@@ -121,6 +146,8 @@ export function BistHealthScorecard({ yahooSymbol }: { yahooSymbol: string }) {
       report={report}
       loading={isLoading}
       error={error?.message}
+      sentimentSymbol={sentimentSymbol}
+      changePercent={changePercent}
     />
   );
 }
@@ -130,10 +157,12 @@ export function CryptoHealthScorecard({
   symbol,
   changePercent,
   price,
+  displaySymbol,
 }: {
   symbol: string;
   changePercent: number;
   price: number;
+  displaySymbol?: string;
 }) {
   const pair = [symbol, symbol === 'BTCUSDT' ? 'ETHUSDT' : 'BTCUSDT'];
   const { data, isLoading, error } = useCompare(pair);
@@ -150,6 +179,8 @@ export function CryptoHealthScorecard({
       report={isLoading && !self ? null : report}
       loading={isLoading && !self}
       error={error?.message}
+      sentimentSymbol={displaySymbol ?? symbol.replace(/USDT$/i, '')}
+      changePercent={changePercent}
     />
   );
 }

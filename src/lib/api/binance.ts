@@ -165,3 +165,63 @@ export const DEFAULT_CRYPTO_SYMBOLS = [
   'SOLUSDT',
   'XRPUSDT',
 ];
+
+export interface AggTradeRow {
+  id: number;
+  symbol: string;
+  price: number;
+  qty: number;
+  quoteQty: number;
+  time: number;
+  isBuyerMaker: boolean;
+}
+
+/** Recent aggregated trades — filter client-side for large notional. */
+export async function fetchAggTrades(
+  symbol: string,
+  limit = 200
+): Promise<AggTradeRow[]> {
+  const data = await binanceGet<
+    {
+      a: number;
+      p: string;
+      q: string;
+      f: number;
+      l: number;
+      T: number;
+      m: boolean;
+    }[]
+  >('/aggTrades', { symbol: symbol.toUpperCase(), limit });
+
+  return data.map((t) => {
+    const price = Number(t.p);
+    const qty = Number(t.q);
+    return {
+      id: t.a,
+      symbol: symbol.toUpperCase(),
+      price,
+      qty,
+      quoteQty: price * qty,
+      time: t.T,
+      isBuyerMaker: t.m,
+    };
+  });
+}
+
+/** Large recent trades (default ≥ $250k — true $1M fills are rare in a short window). */
+export async function fetchLargeCryptoTrades(
+  symbols: string[] = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT'],
+  minNotionalUsd = 250_000
+): Promise<AggTradeRow[]> {
+  const batches = await Promise.all(
+    symbols.map(async (sym) => {
+      try {
+        const trades = await fetchAggTrades(sym, 500);
+        return trades.filter((t) => t.quoteQty >= minNotionalUsd);
+      } catch {
+        return [] as AggTradeRow[];
+      }
+    })
+  );
+  return batches.flat().sort((a, b) => b.time - a.time);
+}

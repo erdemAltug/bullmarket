@@ -177,6 +177,7 @@ export default async function CryptoSymbolPage({ params }: Props) {
         symbol={symbol}
         changePercent={changePercent}
         price={price}
+        displaySymbol={display}
       />
       {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
       <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-400">

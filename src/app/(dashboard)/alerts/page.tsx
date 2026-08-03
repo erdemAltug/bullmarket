@@ -34,6 +34,7 @@ const KIND_LABEL: Record<AlertKind, string> = {
   change_below: '% hareket altı',
   rsi_above: 'RSI aşırı alım',
   rsi_below: 'RSI aşırı satım',
+  score_above: 'AI skor üstü',
 };
 
 const KINDS: {
@@ -82,7 +83,9 @@ function defaultThreshold(kind: AlertKind): string {
 }
 
 function formatThreshold(a: PriceAlert): string {
-  if (a.kind.startsWith('rsi')) return String(a.threshold);
+  if (a.kind.startsWith('rsi') || a.kind === 'score_above') {
+    return String(a.threshold);
+  }
   if (a.kind.startsWith('change')) return `%${a.threshold}`;
   return formatPrice(a.threshold, 'TRY');
 }

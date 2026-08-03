@@ -32,15 +32,40 @@ export interface LiveHoldingMetrics {
   error?: string;
 }
 
+export interface CurrencyRiskMix {
+  /** BİST / TRY varlık payı */
+  tryPct: number;
+  /** ABD hisse / USD payı */
+  usdPct: number;
+  /** Kripto payı */
+  cryptoPct: number;
+}
+
 export interface PortfolioAuditResult extends PortfolioHealthReport {
   diversification: number;
   risk: number;
+  /** Ağırlıklı temettü verimi (yıllık %) */
   estimatedYieldPct: number;
+  /** Tahmini yıllık sermaye artışı (beta/pazar proxy) */
+  projectedCapitalGrowthPct: number;
+  /** Temettü + sermaye toplam projeksiyon */
+  projectedTotalYieldPct: number;
   betaIndex: number;
   sectorWeights: { sector: string; weight: number }[];
+  currencyMix: CurrencyRiskMix;
   holdings: LiveHoldingMetrics[];
   live: boolean;
 }
+
+/** Sektörel yoğunlaşmada önerilen temettü / dengeleyici hisseler */
+const DIVIDEND_BUFFER_HINTS = [
+  'AKBNK',
+  'GARAN',
+  'TUPRS',
+  'BIMAS',
+  'EREGL',
+  'SISE',
+] as const;
 
 export function fallbackSector(
   display: string,
@@ -125,6 +150,24 @@ export function auditPortfolioWeights(
   );
   betaIndex = Math.round(betaIndex * 100) / 100;
 
+  const currencyMix: CurrencyRiskMix = {
+    tryPct: Math.round(bistShare * 10) / 10,
+    usdPct: Math.round(usShare * 10) / 10,
+    cryptoPct: Math.round(cryptoShare * 10) / 10,
+  };
+
+  /** Beta + pazar karmasına dayalı kaba yıllık sermaye artışı tahmini */
+  const projectedCapitalGrowthPct =
+    Math.round(
+      (4.5 +
+        Math.max(-2, Math.min(8, (betaIndex - 1) * 6)) +
+        cryptoShare * 0.04 -
+        Math.max(0, herfindahl - 0.25) * 8) *
+        100
+    ) / 100;
+  const projectedTotalYieldPct =
+    Math.round((estimatedYieldPct + projectedCapitalGrowthPct) * 100) / 100;
+
   const risk = Math.min(
     100,
     Math.round(
@@ -141,11 +184,33 @@ export function auditPortfolioWeights(
 
   const topSector = sectorWeights[0];
   if (topSector && topSector.weight >= 40) {
+    const held = new Set(enriched.map((h) => h.symbol.toUpperCase()));
+    const hints = DIVIDEND_BUFFER_HINTS.filter((s) => !held.has(s)).slice(0, 3);
+    const hintText = hints.length
+      ? ` Sektörel riskleri azaltmak için temettü odaklı isimler ekleyebilirsiniz (${hints.join(', ')}).`
+      : ' Sektörel riskleri azaltmak için temettü hisseleri veya farklı sektörler ekleyebilirsiniz.';
     findings.push({
       id: 'sector-heavy',
       severity: topSector.weight >= 60 ? 'critical' : 'warn',
-      title: 'Sektörel Yoğunlaşma',
-      message: `Portföyünüzün %${topSector.weight.toFixed(0)}'i ${topSector.sector} — çeşitlendirin.`,
+      title: 'Sektör Yoğunlaşma Uyarısı',
+      message: `${topSector.sector} sektör ağırlığınız yüksek (%${topSector.weight.toFixed(0)}).${hintText}`,
+    });
+  }
+
+  const hardCurrency = currencyMix.usdPct + currencyMix.cryptoPct;
+  if (hardCurrency < 15 && bistShare >= 70) {
+    findings.push({
+      id: 'fx-try-heavy',
+      severity: 'warn',
+      title: 'Kur Riski — TL Yoğun',
+      message: `Portföyünüzün ~%${currencyMix.tryPct.toFixed(0)}'i TL varlık. USD / kripto tamponu düşünün.`,
+    });
+  } else if (hardCurrency >= 55) {
+    findings.push({
+      id: 'fx-hard-heavy',
+      severity: 'info',
+      title: 'Kur Riski — Sert Para Ağır',
+      message: `USD+kripto payı ~%${hardCurrency.toFixed(0)}. TL varlıklarla dengeyi kontrol edin.`,
     });
   }
 
@@ -235,8 +300,11 @@ export function auditPortfolioWeights(
     diversification,
     risk,
     estimatedYieldPct,
+    projectedCapitalGrowthPct,
+    projectedTotalYieldPct,
     betaIndex,
     sectorWeights,
+    currencyMix,
     holdings: liveMetrics ?? [],
     live,
   };

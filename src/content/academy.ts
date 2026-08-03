@@ -416,7 +416,7 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
     updatedAt: '2026-07-31',
     readingMinutes: 6,
     toolCta: {
-      href: '/smart-money',
+      href: '/whales',
       label: 'Smart Money Ekranını Aç',
       blurb:
         'Canlı hacim × momentum liderlerini BİST ve kripto için tek listede görün.',

@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Bell, GitCompare, Star } from 'lucide-react';
-import { AlertModal } from '@/components/alerts/AlertModal';
+import { SmartAlertModal } from '@/components/alerts/SmartAlertModal';
+import { CommunitySentimentPoll } from '@/components/asset/CommunitySentimentPoll';
+import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { HintTooltip } from '@/components/shared/HintTooltip';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { useWatchlist } from '@/hooks/useWatchlist';
@@ -60,10 +62,14 @@ export function AssetDetailDrawer({
           ? `TEFAS:${card.displaySymbol}`
           : card.displaySymbol;
 
+  const showChart = card.category !== 'FON';
+  const chartSource = card.category === 'CRYPTO' ? 'binance' : 'yahoo';
+  const currencySymbol = card.currency === 'USD' ? '$' : '₺';
+
   return (
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent className="w-full max-w-full border-zinc-800/80 bg-zinc-950/95 p-0 backdrop-blur-xl sm:max-w-md">
+        <SheetContent className="w-full max-w-full border-zinc-800/80 bg-zinc-950/95 p-0 backdrop-blur-xl sm:max-w-lg">
           <div className="flex h-full flex-col overflow-y-auto">
             <header className="border-b border-zinc-800/80 p-5 pr-12">
               <div className="flex items-start justify-between gap-3">
@@ -91,7 +97,7 @@ export function AssetDetailDrawer({
                     </span>
                   </div>
                 </div>
-              <HintTooltip content={SCORE_TIP} title="Bullsye Skoru" withIcon={false}>
+                <HintTooltip content={SCORE_TIP} title="Bullsye Skoru" withIcon={false}>
                   <div
                     className={cn(
                       'shrink-0 rounded-xl border px-3 py-2 text-center',
@@ -115,6 +121,24 @@ export function AssetDetailDrawer({
             </header>
 
             <div className="space-y-5 p-5">
+              {showChart ? (
+                <section>
+                  <h3 className="mb-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
+                    Canlı grafik
+                  </h3>
+                  <div className="overflow-hidden rounded-xl border border-zinc-800">
+                    <ChartPanel
+                      title={card.displaySymbol}
+                      symbol={card.symbol}
+                      source={chartSource}
+                      isPositive={card.changePercent >= 0}
+                      currencySymbol={currencySymbol}
+                      defaultTimeframe="5D"
+                    />
+                  </div>
+                </section>
+              ) : null}
+
               <section className="rounded-xl border border-emerald-500/25 bg-gradient-to-br from-emerald-500/10 to-transparent p-4 backdrop-blur-sm">
                 <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
                   AI Micro-Review
@@ -124,11 +148,18 @@ export function AssetDetailDrawer({
                 </p>
               </section>
 
+              <CommunitySentimentPoll
+                symbol={card.displaySymbol}
+                changePercent={card.changePercent}
+                aiScore={card.score}
+                compact
+              />
+
               <section>
                 <h3 className="mb-2 text-[11px] font-bold uppercase tracking-wider text-zinc-500">
                   {card.category === 'FON' || card.category === 'ETF'
                     ? 'Fon dökümü'
-                    : 'Teknik döküm'}
+                    : 'Ana metrikler'}
                 </h3>
                 <div className="grid grid-cols-2 gap-2">
                   {card.category === 'FON' || card.category === 'ETF' ? (
@@ -136,7 +167,7 @@ export function AssetDetailDrawer({
                       <Metric
                         label="Fon tipi"
                         value={card.fundStyle || card.category}
-                        tip="Fon / ETF stil etiketi — TEFAS veya küresel sınıflandırma."
+                        tip="Fon / ETF stil etiketi."
                         tipTitle="Fon tipi"
                       />
                       <Metric
@@ -155,9 +186,7 @@ export function AssetDetailDrawer({
                             ? 'TEFAS toplam portföy büyüklüğü (AUM).'
                             : 'Canlı işlem hacmi.'
                         }
-                        tipTitle={
-                          card.category === 'FON' ? 'AUM' : 'Hacim'
-                        }
+                        tipTitle={card.category === 'FON' ? 'AUM' : 'Hacim'}
                       />
                       <Metric
                         label={
@@ -176,7 +205,7 @@ export function AssetDetailDrawer({
                         }
                         tip={
                           card.category === 'FON'
-                            ? 'TEFAS bildirilen yatırımcı / katılımcı sayısı.'
+                            ? 'TEFAS bildirilen yatırımcı sayısı.'
                             : DIST_TIP
                         }
                         tipTitle={
@@ -229,7 +258,7 @@ export function AssetDetailDrawer({
                       <Metric
                         label="Hacim"
                         value={card.volume || '—'}
-                        tip="Canlı işlem hacmi. Yüksek hacim, sinyalin likidite desteğini güçlendirir."
+                        tip="Canlı işlem hacmi."
                         tipTitle="Hacim"
                       />
                     </>
@@ -280,9 +309,7 @@ export function AssetDetailDrawer({
                   <Star
                     className={cn('size-4', starred && 'fill-amber-300')}
                   />
-                  {starred
-                    ? 'İzleme Listesinde'
-                    : 'İzleme Listeme Ekle'}
+                  {starred ? 'İzleme Listesinde' : 'İzleme Listeme Ekle'}
                 </button>
                 <Link
                   href={`/compare?a=${encodeURIComponent(compareA)}`}
@@ -305,13 +332,14 @@ export function AssetDetailDrawer({
         </SheetContent>
       </Sheet>
 
-      <AlertModal
+      <SmartAlertModal
         open={alertOpen}
         onOpenChange={setAlertOpen}
         symbol={card.symbol}
         displaySymbol={card.displaySymbol}
         currentPrice={card.price}
         changePercent={card.changePercent}
+        currentScore={card.score}
       />
     </>
   );
@@ -332,7 +360,11 @@ function Metric({
 }) {
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-3">
-      <HintTooltip content={tip} title={tipTitle} className="text-[10px] uppercase tracking-wide text-zinc-500">
+      <HintTooltip
+        content={tip}
+        title={tipTitle}
+        className="text-[10px] uppercase tracking-wide text-zinc-500"
+      >
         {label}
       </HintTooltip>
       <p className="mt-1 font-mono text-sm font-semibold tabular-nums text-zinc-100">

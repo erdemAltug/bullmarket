@@ -343,7 +343,7 @@ export default function OverviewPage() {
         currencySymbol="₺"
       />
       <CalendarTickerBanner />
-      <HabitCue />
+      <HabitCue topCards={potentialCards} />
       <TickerTape items={tapeItems} />
       <CommoditiesStrip />
 

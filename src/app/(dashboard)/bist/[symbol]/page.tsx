@@ -185,7 +185,11 @@ export default async function BistSymbolPage({ params }: Props) {
         />
       </div>
 
-      <BistHealthScorecard yahooSymbol={yahoo} />
+      <BistHealthScorecard
+        yahooSymbol={yahoo}
+        displaySymbol={symbol}
+        changePercent={quote.changePercent}
+      />
 
       {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
 

@@ -149,7 +149,8 @@ export type AlertKind =
   | 'change_above'
   | 'change_below'
   | 'rsi_above'
-  | 'rsi_below';
+  | 'rsi_below'
+  | 'score_above';
 
 export interface PriceAlert {
   id: string;

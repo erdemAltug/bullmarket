@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAlerts } from '@/hooks/useAlerts';
 import { useFx } from '@/hooks/useMarketData';
 import { useMarketScanner } from '@/hooks/useMarketScanner';
+import { scoreOpportunity } from '@/lib/ai-opportunity';
 import type { AlertKind, ApiResponse, PriceAlert } from '@/types';
 
 async function getJson<T>(url: string): Promise<T> {
@@ -20,6 +21,7 @@ export interface LiveQuoteSnap {
   price: number;
   changePercent: number;
   rsi?: number | null;
+  score?: number | null;
 }
 
 function evaluate(alert: PriceAlert, snap: LiveQuoteSnap): boolean {
@@ -36,6 +38,8 @@ function evaluate(alert: PriceAlert, snap: LiveQuoteSnap): boolean {
       return snap.rsi != null && snap.rsi >= alert.threshold;
     case 'rsi_below':
       return snap.rsi != null && snap.rsi <= alert.threshold;
+    case 'score_above':
+      return snap.score != null && snap.score >= alert.threshold;
     default:
       return false;
   }
@@ -55,6 +59,8 @@ function kindLabel(kind: AlertKind): string {
       return 'RSI üstü';
     case 'rsi_below':
       return 'RSI altı';
+    case 'score_above':
+      return 'AI skor üstü';
     default:
       return kind;
   }
@@ -133,6 +139,7 @@ export function AlertEngine() {
           rsiMap.get(item.symbol) ??
           rsiMap.get(item.symbol.toUpperCase()) ??
           null,
+        score: scoreOpportunity(item),
       });
     }
 
@@ -189,9 +196,11 @@ export function AlertEngine() {
             : '▼';
         const detail = alert.kind.startsWith('rsi')
           ? `RSI ${snap.rsi?.toFixed(1) ?? '—'} (hedef: ${alert.threshold})`
-          : alert.kind.startsWith('change')
-            ? `%${snap.changePercent.toFixed(2)} (hedef: %${alert.threshold})`
-            : `${snap.price.toLocaleString('tr-TR')} (hedef: ${alert.threshold})`;
+          : alert.kind === 'score_above'
+            ? `skor ${snap.score ?? '—'} (hedef: ${alert.threshold})`
+            : alert.kind.startsWith('change')
+              ? `%${snap.changePercent.toFixed(2)} (hedef: %${alert.threshold})`
+              : `${snap.price.toLocaleString('tr-TR')} (hedef: ${alert.threshold})`;
         void notify(
           `${dir} ${alert.displaySymbol} · ${kindLabel(alert.kind)}`,
           `${alert.displaySymbol}: ${detail}`

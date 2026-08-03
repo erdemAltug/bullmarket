@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   Activity,
+  AlertTriangle,
   Loader2,
   Lightbulb,
   Plus,
@@ -35,10 +36,10 @@ type SearchHit = {
 
 const QUICK = [
   { symbol: 'THYAO', yahoo: 'THYAO.IS', market: 'bist' as const },
+  { symbol: 'AKBNK', yahoo: 'AKBNK.IS', market: 'bist' as const },
   { symbol: 'GARAN', yahoo: 'GARAN.IS', market: 'bist' as const },
   { symbol: 'AAPL', yahoo: 'AAPL', market: 'us' as const },
   { symbol: 'NVDA', yahoo: 'NVDA', market: 'us' as const },
-  { symbol: 'TSLA', yahoo: 'TSLA', market: 'us' as const },
   { symbol: 'BTC', yahoo: 'BTC-USD', market: 'crypto' as const },
   { symbol: 'ETH', yahoo: 'ETH-USD', market: 'crypto' as const },
 ];
@@ -83,14 +84,71 @@ async function fetchAudit(holdings: Row[]): Promise<PortfolioAuditResult> {
   return json.data;
 }
 
+function CurrencyRiskMeter({
+  tryPct,
+  usdPct,
+  cryptoPct,
+}: {
+  tryPct: number;
+  usdPct: number;
+  cryptoPct: number;
+}) {
+  return (
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
+      <p className="text-xs uppercase tracking-wide text-[var(--muted)]">
+        Kur Riski Ölçeri
+      </p>
+      <p className="mt-1 text-sm text-[var(--muted)]">
+        TL · USD · Kripto denge
+      </p>
+      <div className="mt-3 flex h-3 overflow-hidden rounded-full bg-zinc-800">
+        <div
+          className="bg-sky-400 transition-all"
+          style={{ width: `${tryPct}%` }}
+          title={`TL %${tryPct}`}
+        />
+        <div
+          className="bg-emerald-400 transition-all"
+          style={{ width: `${usdPct}%` }}
+          title={`USD %${usdPct}`}
+        />
+        <div
+          className="bg-violet-400 transition-all"
+          style={{ width: `${cryptoPct}%` }}
+          title={`Kripto %${cryptoPct}`}
+        />
+      </div>
+      <ul className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
+        <li>
+          <p className="text-[var(--muted)]">TL</p>
+          <p className="font-semibold tabular-nums text-sky-300">
+            %{tryPct.toFixed(0)}
+          </p>
+        </li>
+        <li>
+          <p className="text-[var(--muted)]">USD</p>
+          <p className="font-semibold tabular-nums text-emerald-300">
+            %{usdPct.toFixed(0)}
+          </p>
+        </li>
+        <li>
+          <p className="text-[var(--muted)]">Kripto</p>
+          <p className="font-semibold tabular-nums text-violet-300">
+            %{cryptoPct.toFixed(0)}
+          </p>
+        </li>
+      </ul>
+    </div>
+  );
+}
+
 export default function PortfolioAuditPage() {
   const { data: session } = authClient.useSession();
   const { openAuth } = useAuthGate();
   const [rows, setRows] = useState<Row[]>([
-    { symbol: 'THYAO', weight: 35, yahoo: 'THYAO.IS', market: 'bist' },
-    { symbol: 'AAPL', weight: 25, yahoo: 'AAPL', market: 'us' },
+    { symbol: 'THYAO', weight: 50, yahoo: 'THYAO.IS', market: 'bist' },
+    { symbol: 'AKBNK', weight: 30, yahoo: 'AKBNK.IS', market: 'bist' },
     { symbol: 'BTC', weight: 20, yahoo: 'BTC-USD', market: 'crypto' },
-    { symbol: 'NVDA', weight: 20, yahoo: 'NVDA', market: 'us' },
   ]);
   const [draft, setDraft] = useState('');
   const [debounced, setDebounced] = useState('');
@@ -170,7 +228,6 @@ export default function PortfolioAuditPage() {
       addHit(exact);
       return;
     }
-    // Last resort: treat as US ticker (Yahoo will validate on audit)
     addHit({
       symbol: q.toUpperCase(),
       yahoo: q.toUpperCase(),
@@ -194,7 +251,7 @@ export default function PortfolioAuditPage() {
     }
     openAuth({
       tab: 'register',
-      feature: 'Portföy Sağlık Raporu',
+      feature: 'AI Portföy Doktoru',
       headline: 'Raporun hazır! Ücretsiz kayıt ol',
       subtitle:
         'Canlı portföy analizini kaydet — 1 tıkla Google ile başla.',
@@ -202,15 +259,18 @@ export default function PortfolioAuditPage() {
     setUnlocked(true);
   }
 
+  const sectorWarning = report?.findings.find((f) => f.id === 'sector-heavy');
+
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div>
         <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
           <Activity className="size-6 text-rose-400" />
-          Portföy Sağlık & Risk Tarayıcısı
+          AI Portföy Doktoru
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Canlı piyasa verisi — beta, temettü, sektör ve fiyat anlık hesaplanır
+          Ağırlık girin — çeşitlendirme, sektör riski, temettü/büyüme ve kur
+          dengesi canlı hesaplanır
         </p>
       </div>
 
@@ -231,7 +291,7 @@ export default function PortfolioAuditPage() {
                 }
                 if (e.key === 'Escape') setOpen(false);
               }}
-              placeholder="Ara: THYAO, AAPL, TPIC, NVDA, BTC…"
+              placeholder="Örn. 50% THYAO, 30% AKBNK, 20% BTC — sembol ara…"
               className="min-w-[180px] flex-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-emerald-500/50"
               autoComplete="off"
             />
@@ -396,7 +456,7 @@ export default function PortfolioAuditPage() {
           {(
             [
               ['Sağlık', report.score, 'text-emerald-400'],
-              ['Çeşitlilik', report.diversification, 'text-cyan-400'],
+              ['Çeşitlendirme', report.diversification, 'text-cyan-400'],
               ['Risk', report.risk, 'text-amber-400'],
               ['Beta', report.betaIndex, 'text-violet-400'],
             ] as const
@@ -411,8 +471,25 @@ export default function PortfolioAuditPage() {
               <p className={cn('mt-1 text-3xl font-black tabular-nums', color)}>
                 {showFull ? value : '••'}
               </p>
+              {label === 'Çeşitlendirme' ? (
+                <p className="mt-0.5 text-[10px] text-[var(--muted)]">/ 100</p>
+              ) : null}
             </div>
           ))}
+        </div>
+      ) : null}
+
+      {report && showFull && sectorWarning ? (
+        <div className="flex gap-3 rounded-xl border border-amber-500/35 bg-amber-500/10 p-4">
+          <AlertTriangle className="mt-0.5 size-5 shrink-0 text-amber-400" />
+          <div>
+            <p className="text-sm font-semibold text-amber-100">
+              {sectorWarning.title}
+            </p>
+            <p className="mt-1 text-sm text-amber-100/90">
+              {sectorWarning.message}
+            </p>
+          </div>
         </div>
       ) : null}
 
@@ -421,10 +498,28 @@ export default function PortfolioAuditPage() {
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
               <p className="text-xs uppercase tracking-wide text-[var(--muted)]">
-                Tahmini yıllık temettü
+                Yıllık Projeksiyon
               </p>
-              <p className="mt-1 text-2xl font-bold tabular-nums text-emerald-400">
-                %{report.estimatedYieldPct.toFixed(2)}
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <div>
+                  <p className="text-[10px] text-[var(--muted)]">Temettü</p>
+                  <p className="text-xl font-bold tabular-nums text-emerald-400">
+                    %{report.estimatedYieldPct.toFixed(2)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-[var(--muted)]">Sermaye artışı</p>
+                  <p className="text-xl font-bold tabular-nums text-cyan-300">
+                    ~%{report.projectedCapitalGrowthPct.toFixed(1)}
+                  </p>
+                </div>
+              </div>
+              <p className="mt-3 border-t border-[var(--border)] pt-2 text-xs text-[var(--muted)]">
+                Toplam beklenen ~%
+                <span className="font-semibold text-[var(--foreground)]">
+                  {report.projectedTotalYieldPct.toFixed(1)}
+                </span>{' '}
+                (temettü + büyüme proxy — garanti değil)
               </p>
             </div>
             <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
@@ -435,7 +530,12 @@ export default function PortfolioAuditPage() {
                 {report.sectorWeights.slice(0, 5).map((s) => (
                   <li key={s.sector} className="flex justify-between gap-2">
                     <span className="text-[var(--muted)]">{s.sector}</span>
-                    <span className="tabular-nums font-medium">
+                    <span
+                      className={cn(
+                        'tabular-nums font-medium',
+                        s.weight >= 40 && 'text-amber-300'
+                      )}
+                    >
                       %{s.weight.toFixed(0)}
                     </span>
                   </li>
@@ -443,6 +543,14 @@ export default function PortfolioAuditPage() {
               </ul>
             </div>
           </div>
+
+          {report.currencyMix ? (
+            <CurrencyRiskMeter
+              tryPct={report.currencyMix.tryPct}
+              usdPct={report.currencyMix.usdPct}
+              cryptoPct={report.currencyMix.cryptoPct}
+            />
+          ) : null}
 
           <PortfolioHealthCheck report={report} />
 
@@ -453,9 +561,9 @@ export default function PortfolioAuditPage() {
             </p>
             <ul className="space-y-2 text-sm text-amber-100/90">
               {report.findings.map((f) => (
-                <li key={f.id}>
-                  {f.severity === 'critical' || f.severity === 'warn' ? '⚠️' : '💡'}{' '}
-                  {f.message}
+                <li key={f.id} className="flex gap-2">
+                  <span className="shrink-0 text-[var(--muted)]">·</span>
+                  <span>{f.message}</span>
                 </li>
               ))}
             </ul>

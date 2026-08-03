@@ -1,5 +1,7 @@
 # SEO & On-Site Retention — Bullsye
 
+> Günlük free acquisition planı: [`docs/GROWTH_PLAN_DAILY_FREE.md`](./GROWTH_PLAN_DAILY_FREE.md)
+
 ## Goal
 
 Search’ten gelen ziyaretçiyi **terminal alışkanlığına** çevirmek: içerik → canlı araç CTA → ertesi gün rutin.

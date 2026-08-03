@@ -173,7 +173,11 @@ export default async function UsSymbolPage({ params }: Props) {
         />
       </div>
 
-      <BistHealthScorecard yahooSymbol={symbol} />
+      <BistHealthScorecard
+        yahooSymbol={symbol}
+        displaySymbol={symbol}
+        changePercent={quote.changePercent}
+      />
 
       {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
 

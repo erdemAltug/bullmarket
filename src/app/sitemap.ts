@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/signals',
     '/firsatlar',
     '/targets',
-    '/smart-money',
+    '/whales',
     '/dividends',
     '/egitim',
     '/blog',

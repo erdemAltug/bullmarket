@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Portföy Sağlık Tarama',
-  description: 'Portföy risk ve çeşitlendirme analizi.',
+  title: 'AI Portföy Doktoru',
+  description:
+    'Portföy çeşitlendirme skoru, sektör riski, yıllık getiri projeksiyonu ve kur riski ölçeri.',
   robots: { index: false, follow: false },
 };
 

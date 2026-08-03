@@ -61,7 +61,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/compare', key: 'compare', icon: GitCompare, color: 'text-emerald-300' },
       { href: '/signals', key: 'signals', icon: Sparkles, color: 'text-emerald-300' },
       { href: '/targets', key: 'targets', icon: Crosshair, color: 'text-amber-300' },
-      { href: '/smart-money', key: 'smartMoney', icon: Waves, color: 'text-cyan-400' },
+      { href: '/whales', key: 'smartMoney', icon: Waves, color: 'text-cyan-400' },
       { href: '/dividends', key: 'dividends', icon: Coins, color: 'text-rose-400' },
     ],
   },
