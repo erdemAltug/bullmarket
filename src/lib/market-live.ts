@@ -1,24 +1,24 @@
-import { fetchTickers } from '@/lib/api/binance';
+import { fetchTickers, fetchTopUsdtTickers } from '@/lib/api/binance';
 import { fetchTefasLatest } from '@/lib/api/tefas';
 import { fetchQuotes } from '@/lib/api/yahoo';
 import { appCache } from '@/lib/cache';
 import {
   ETF_META,
-  SCANNER_BIST_SYMBOLS,
+  SCANNER_BIST_UNIQUE,
   SCANNER_CRYPTO_SYMBOLS,
   SCANNER_ETF_SYMBOLS,
   SCANNER_TEFAS_CODES,
   SCANNER_TEFAS_FUNDS,
-  SCANNER_US_SYMBOLS,
+  SCANNER_US_UNIQUE,
   buildSparkline,
   formatVolumeDisplay,
 } from '@/lib/scanner-universe';
 import type { ScannerItem } from '@/types/scanner';
 
-const CACHE_KEY = 'market:live:v3';
-const CACHE_TTL_SEC = 10;
+const CACHE_KEY = 'market:live:v4';
+const CACHE_TTL_SEC = 15;
 
-/** Aggregates BİST + US + ETF (Yahoo) + Crypto (Binance) + TEFAS FON. */
+/** Aggregates BİST + US + ETF (Yahoo) + Crypto (Binance max) + TEFAS FON. */
 export async function getLiveMarketItems(): Promise<{
   items: ScannerItem[];
   cached: boolean;
@@ -39,16 +39,19 @@ export async function getLiveMarketItems(): Promise<{
 
   const [bistQuotes, usQuotes, etfQuotes, cryptoTickers, tefasFunds] =
     await Promise.all([
-      fetchQuotes([...SCANNER_BIST_SYMBOLS]).catch(() => []),
-      fetchQuotes([...SCANNER_US_SYMBOLS]).catch(() => []),
+      fetchQuotes(SCANNER_BIST_UNIQUE).catch(() => []),
+      fetchQuotes(SCANNER_US_UNIQUE).catch(() => []),
       fetchQuotes([...SCANNER_ETF_SYMBOLS]).catch(() => []),
-      fetchTickers([...SCANNER_CRYPTO_SYMBOLS]).catch(() => []),
+      fetchTopUsdtTickers({ minQuoteVolumeUsd: 400_000, limit: 200 }).catch(
+        () => fetchTickers([...SCANNER_CRYPTO_SYMBOLS]).catch(() => [])
+      ),
       fetchTefasLatest(SCANNER_TEFAS_CODES, 'YAT').catch(() => []),
     ]);
 
   const items: ScannerItem[] = [];
 
   for (const q of bistQuotes) {
+    if (!q.symbol || !(q.price > 0)) continue;
     const display = q.symbol.replace('.IS', '');
     const vol = q.volume ?? 0;
     items.push({
@@ -72,6 +75,7 @@ export async function getLiveMarketItems(): Promise<{
   }
 
   for (const q of usQuotes) {
+    if (!q.symbol || !(q.price > 0)) continue;
     items.push({
       symbol: q.symbol,
       displaySymbol: q.symbol,
@@ -93,7 +97,8 @@ export async function getLiveMarketItems(): Promise<{
   }
 
   for (const q of etfQuotes) {
-    const meta = ETF_META[q.symbol as keyof typeof ETF_META];
+    if (!q.symbol || !(q.price > 0)) continue;
+    const meta = ETF_META[q.symbol];
     items.push({
       symbol: q.symbol,
       displaySymbol: q.symbol,
@@ -116,6 +121,7 @@ export async function getLiveMarketItems(): Promise<{
   }
 
   for (const t of cryptoTickers) {
+    if (!(t.price > 0)) continue;
     const display = t.symbol.replace('USDT', '');
     items.push({
       symbol: t.symbol,

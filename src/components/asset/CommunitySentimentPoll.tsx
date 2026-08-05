@@ -159,28 +159,28 @@ export function CommunitySentimentPoll({
           onClick={() => onVote('bull')}
           disabled={mutation.isPending}
           className={cn(
-            'flex items-center justify-center gap-1.5 rounded-lg border px-3 py-2.5 text-sm font-semibold transition-colors',
+            'flex flex-col items-center justify-center gap-0.5 rounded-lg border px-2 py-2.5 text-xs font-semibold transition-colors sm:flex-row sm:gap-1.5 sm:px-3 sm:text-sm',
             userVote === 'bull'
               ? 'border-emerald-500/50 bg-emerald-500/20 text-emerald-300'
               : 'border-[var(--border)] bg-[var(--surface)]/60 text-[var(--foreground)] hover:border-emerald-500/40'
           )}
         >
           <TrendingUp className="size-4 text-emerald-400" />
-          Boğa (%{bullPct})
+          <span>Boğa (%{bullPct})</span>
         </button>
         <button
           type="button"
           onClick={() => onVote('bear')}
           disabled={mutation.isPending}
           className={cn(
-            'flex items-center justify-center gap-1.5 rounded-lg border px-3 py-2.5 text-sm font-semibold transition-colors',
+            'flex flex-col items-center justify-center gap-0.5 rounded-lg border px-2 py-2.5 text-xs font-semibold transition-colors sm:flex-row sm:gap-1.5 sm:px-3 sm:text-sm',
             userVote === 'bear'
               ? 'border-rose-500/50 bg-rose-500/20 text-rose-300'
               : 'border-[var(--border)] bg-[var(--surface)]/60 text-[var(--foreground)] hover:border-rose-500/40'
           )}
         >
           <TrendingDown className="size-4 text-rose-400" />
-          Ayı (%{bearPct})
+          <span>Ayı (%{bearPct})</span>
         </button>
       </div>
 

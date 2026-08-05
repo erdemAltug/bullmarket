@@ -283,7 +283,7 @@ export function AssetDetailDrawer({
                 </ul>
               </section>
 
-              <section className="space-y-2 pb-6">
+              <section className="space-y-2 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
                 <button
                   type="button"
                   onClick={() => setAlertOpen(true)}

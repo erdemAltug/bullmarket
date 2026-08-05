@@ -51,9 +51,41 @@ function toQuote(raw: {
 }
 
 export async function fetchQuotes(symbols: string[]): Promise<Quote[]> {
-  const results = await yahooFinance.quote(symbols);
-  const list = Array.isArray(results) ? results : [results];
-  return list.map((item) => toQuote(item as Parameters<typeof toQuote>[0]));
+  const unique = [...new Set(symbols.map((s) => s.trim()).filter(Boolean))];
+  if (!unique.length) return [];
+
+  /** Yahoo batch soft-limit — chunk to avoid timeouts / partial drops */
+  const CHUNK = 40;
+  const out: Quote[] = [];
+
+  for (let i = 0; i < unique.length; i += CHUNK) {
+    const chunk = unique.slice(i, i + CHUNK);
+    try {
+      const results = await yahooFinance.quote(chunk);
+      const list = Array.isArray(results) ? results : [results];
+      out.push(
+        ...list.map((item) => toQuote(item as Parameters<typeof toQuote>[0]))
+      );
+    } catch {
+      /* try singles so one bad ticker doesn't kill the batch */
+      const singles = await Promise.all(
+        chunk.map(async (sym) => {
+          try {
+            const results = await yahooFinance.quote(sym);
+            const item = Array.isArray(results) ? results[0] : results;
+            return item
+              ? toQuote(item as Parameters<typeof toQuote>[0])
+              : null;
+          } catch {
+            return null;
+          }
+        })
+      );
+      out.push(...singles.filter((q): q is Quote => q != null));
+    }
+  }
+
+  return out;
 }
 
 export async function fetchHistory(

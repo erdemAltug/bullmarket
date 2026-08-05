@@ -111,7 +111,7 @@ export function OpportunityHunt() {
   }, [scanner.updatedAt]);
 
   return (
-    <div className="relative space-y-6 pb-28 md:pb-24">
+    <div className="relative space-y-6 pb-32 md:pb-24">
       <header className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-400">
@@ -219,13 +219,13 @@ export function OpportunityHunt() {
         </div>
       </section>
 
-      {/* Sticky FOMO bar */}
+      {/* Sticky FOMO bar — above bottom nav on mobile, no double safe-area */}
       <div
         className={cn(
-          'fixed inset-x-0 z-40 border-t border-emerald-500/25',
-          'bottom-16 md:bottom-0',
-          'bg-[var(--background)]/95 px-4 py-3 backdrop-blur-xl',
-          'pb-[max(0.75rem,env(safe-area-inset-bottom))] md:pb-[max(0.75rem,env(safe-area-inset-bottom))]'
+          'fixed inset-x-0 z-30 border-t border-emerald-500/25',
+          'bottom-[calc(3.5rem+env(safe-area-inset-bottom))] md:bottom-0',
+          'bg-[var(--background)]/95 px-3 py-2.5 backdrop-blur-xl sm:px-4 sm:py-3',
+          'md:pb-[max(0.75rem,env(safe-area-inset-bottom))]'
         )}
       >
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">
@@ -242,10 +242,10 @@ export function OpportunityHunt() {
               Sonraki tarama {countdown}s
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:shrink-0">
             <Link
               href="/alerts"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-bold text-[var(--foreground)] hover:border-emerald-500/40"
+              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-bold text-[var(--foreground)] hover:border-emerald-500/40 sm:flex-none"
             >
               <Bell className="size-3.5" />
               Alarmlar
@@ -262,14 +262,14 @@ export function OpportunityHunt() {
                       'Google ile 1 tık · tam sinyal listesi, hedefler ve alarm senkronu.',
                   })
                 }
-                className="rounded-lg bg-emerald-500 px-4 py-2 text-xs font-bold text-black shadow-[0_0_18px_rgba(16,185,129,0.35)] hover:bg-emerald-400"
+                className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-xs font-bold text-black shadow-[0_0_18px_rgba(16,185,129,0.35)] hover:bg-emerald-400 sm:flex-none"
               >
                 Tam listeyi aç
               </button>
             ) : (
               <Link
                 href="/signals"
-                className="rounded-lg bg-emerald-500 px-4 py-2 text-xs font-bold text-black hover:bg-emerald-400"
+                className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-center text-xs font-bold text-black hover:bg-emerald-400 sm:flex-none"
               >
                 Sinyal radarı
               </Link>

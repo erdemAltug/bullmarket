@@ -52,10 +52,11 @@ function SubBars({ report }: { report: AssetHealthReport }) {
         const tone = scoreTone(s.score);
         return (
           <div key={s.key}>
-            <div className="mb-1 flex justify-between text-xs">
-              <span className="text-[var(--muted)]">{s.label}</span>
-              <span className="tabular-nums text-[var(--foreground)]">
-                {s.score} · {s.takeaway}
+            <div className="mb-1 flex justify-between gap-2 text-xs">
+              <span className="shrink-0 text-[var(--muted)]">{s.label}</span>
+              <span className="min-w-0 truncate text-right tabular-nums text-[var(--foreground)]">
+                {s.score}
+                <span className="text-[var(--muted)]"> · {s.takeaway}</span>
               </span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-zinc-800">

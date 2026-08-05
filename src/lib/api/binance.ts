@@ -111,6 +111,34 @@ export async function fetchTickers(symbols: string[]): Promise<CryptoTicker[]> {
   return data.filter((t) => set.has(t.symbol)).map(toTicker);
 }
 
+const LEVERAGE_RE =
+  /(UP|DOWN|BULL|BEAR|3L|3S|2L|2S|4L|4S|5L|5S)USDT$/i;
+
+/**
+ * Max liquid USDT pairs from full 24h book (sorted by quote volume).
+ * Excludes leveraged / inverse synthetic tickers.
+ */
+export async function fetchTopUsdtTickers(options?: {
+  minQuoteVolumeUsd?: number;
+  limit?: number;
+}): Promise<CryptoTicker[]> {
+  const minQuote = options?.minQuoteVolumeUsd ?? 500_000;
+  const limit = options?.limit ?? 200;
+
+  const data = await binanceGet<Binance24hr[]>('/ticker/24hr');
+  return data
+    .filter(
+      (t) =>
+        t.symbol.endsWith('USDT') &&
+        !t.symbol.includes('_') &&
+        !LEVERAGE_RE.test(t.symbol)
+    )
+    .map(toTicker)
+    .filter((t) => Number.isFinite(t.quoteVolume) && t.quoteVolume >= minQuote)
+    .sort((a, b) => b.quoteVolume - a.quoteVolume)
+    .slice(0, limit);
+}
+
 function parseLevels(rows: [string, string][]): OrderBookLevel[] {
   return rows.map(([price, quantity]) => ({
     price: Number(price),

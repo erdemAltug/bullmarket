@@ -144,7 +144,7 @@ export function MobileBottomNav() {
   return (
     <nav
       className={cn(
-        'fixed inset-x-0 bottom-0 z-40 border-t border-[var(--border)] bg-[var(--header)]/98 backdrop-blur-xl md:hidden',
+        'fixed inset-x-0 bottom-0 z-50 border-t border-[var(--border)] bg-[var(--header)]/98 backdrop-blur-xl md:hidden',
         'pb-[max(0.5rem,env(safe-area-inset-bottom))]'
       )}
       aria-label="Mobil gezinme"

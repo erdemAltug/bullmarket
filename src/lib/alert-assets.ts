@@ -1,9 +1,9 @@
 import {
-  SCANNER_BIST_SYMBOLS,
+  SCANNER_BIST_UNIQUE,
   SCANNER_CRYPTO_SYMBOLS,
   SCANNER_ETF_SYMBOLS,
   SCANNER_TEFAS_CODES,
-  SCANNER_US_SYMBOLS,
+  SCANNER_US_UNIQUE,
 } from '@/lib/scanner-universe';
 
 export type AlertAssetGroup =
@@ -98,7 +98,7 @@ function bistDisplay(sym: string): string {
 }
 
 function buildUniverse(): AlertAssetOption[] {
-  const bist = SCANNER_BIST_SYMBOLS.map((symbol) => ({
+  const bist = SCANNER_BIST_UNIQUE.map((symbol) => ({
     symbol,
     display: bistDisplay(symbol),
     group: 'BİST' as const,
@@ -114,7 +114,7 @@ function buildUniverse(): AlertAssetOption[] {
     supportsRsi: true,
   }));
 
-  const us = SCANNER_US_SYMBOLS.map((symbol) => ({
+  const us = SCANNER_US_UNIQUE.map((symbol) => ({
     symbol,
     display: symbol,
     group: 'ABD' as const,

@@ -108,7 +108,79 @@ export function WhalesTerminal() {
               ilgi tahmin edilir.
             </p>
 
-            <div className="overflow-x-auto">
+            {/* Mobile cards */}
+            <ul className="space-y-2 md:hidden">
+              {visible.map((r) => (
+                <li
+                  key={r.symbol}
+                  className="rounded-lg bg-[var(--surface)]/50 px-3 py-2.5"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <Link
+                        href={`/bist/${r.displaySymbol}`}
+                        className="font-semibold hover:text-emerald-400 hover:underline"
+                      >
+                        {r.displaySymbol}
+                      </Link>
+                      <p className="truncate text-[10px] text-[var(--muted)]">
+                        {r.name}
+                      </p>
+                    </div>
+                    <span
+                      className={cn(
+                        'shrink-0 font-semibold tabular-nums',
+                        r.changePercent >= 0
+                          ? 'text-emerald-400'
+                          : 'text-rose-400'
+                      )}
+                    >
+                      {r.changePercent >= 0 ? '+' : ''}
+                      {r.changePercent.toFixed(2)}%
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-center gap-2">
+                    <div className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-zinc-800">
+                      <div
+                        className="h-full rounded-full bg-cyan-400"
+                        style={{ width: `${r.interestScore}%` }}
+                      />
+                    </div>
+                    <span className="tabular-nums text-xs text-[var(--muted)]">
+                      {r.interestScore}
+                    </span>
+                    <span className="text-[10px] text-[var(--muted)]">
+                      {r.volume}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                    <span
+                      className={cn(
+                        'inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase',
+                        r.bias === 'accumulation' &&
+                          'border-emerald-500/40 bg-emerald-500/10 text-emerald-300',
+                        r.bias === 'distribution' &&
+                          'border-rose-500/40 bg-rose-500/10 text-rose-300',
+                        r.bias === 'neutral' &&
+                          'border-[var(--border)] text-[var(--muted)]'
+                      )}
+                    >
+                      {r.bias === 'accumulation'
+                        ? 'Toplama'
+                        : r.bias === 'distribution'
+                          ? 'Dağıtım'
+                          : 'Nötr'}
+                    </span>
+                    <p className="min-w-0 flex-1 text-[10px] leading-snug text-[var(--muted)] line-clamp-2">
+                      {r.narrative}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            {/* Desktop table */}
+            <div className="hidden overflow-x-auto md:block">
               <table className="w-full min-w-[560px] text-left text-sm">
                 <thead>
                   <tr className="border-b border-[var(--border)] text-[10px] uppercase tracking-wider text-[var(--muted)]">
@@ -240,16 +312,16 @@ export function WhalesTerminal() {
                     key={e.id}
                     className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[var(--surface)]/50 px-3 py-2.5"
                   >
-                    <div className="flex min-w-0 items-center gap-3">
+                    <div className="flex min-w-0 flex-wrap items-center gap-2">
                       <Link
                         href={`/crypto/${e.symbol}`}
-                        className="font-semibold hover:text-emerald-400 hover:underline"
+                        className="shrink-0 font-semibold hover:text-emerald-400 hover:underline"
                       >
                         {e.display}
                       </Link>
                       <span
                         className={cn(
-                          'rounded border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide',
+                          'max-w-full truncate rounded border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide',
                           e.badge === 'whale_buy'
                             ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
                             : 'border-amber-500/40 bg-amber-500/10 text-amber-200'

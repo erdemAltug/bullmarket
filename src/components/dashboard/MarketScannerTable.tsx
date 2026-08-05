@@ -212,18 +212,20 @@ export function MarketScannerTable({
         <p className="mb-3 text-sm text-rose-400">{error}</p>
       ) : null}
 
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[720px] text-left text-xs">
+      <div className="overflow-x-auto -mx-1 px-1">
+        <table className="w-full min-w-0 text-left text-xs sm:min-w-[560px] md:min-w-[640px]">
           <thead>
             <tr className="border-b border-[var(--border)] text-[var(--muted)]">
-              <th className="px-2 py-3 font-medium">Sembol / İsim</th>
-              <th className="px-2 py-3 text-right font-medium">Fiyat</th>
-              <th className="px-2 py-3 text-right font-medium">24s</th>
+              <th className="px-1.5 py-3 font-medium sm:px-2">Sembol</th>
+              <th className="px-1.5 py-3 text-right font-medium sm:px-2">Fiyat</th>
+              <th className="px-1.5 py-3 text-right font-medium sm:px-2">24s</th>
               <th className="hidden px-2 py-3 text-right font-medium sm:table-cell">
                 Hacim
               </th>
-              <th className="px-2 py-3 text-center font-medium">7 Gün</th>
-              <th className="px-2 py-3 text-right font-medium">İşlem</th>
+              <th className="hidden px-2 py-3 text-center font-medium md:table-cell">
+                7 Gün
+              </th>
+              <th className="px-1.5 py-3 text-right font-medium sm:px-2">İşlem</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[var(--border)]/50">
@@ -237,14 +239,14 @@ export function MarketScannerTable({
                   className="group cursor-pointer transition-colors hover:bg-[var(--surface)]/60"
                   onClick={() => setChartItem(item)}
                 >
-                  <td className="px-2 py-2.5">
-                    <div className="flex items-center gap-2.5">
+                  <td className="px-1.5 py-2.5 sm:px-2">
+                    <div className="flex items-center gap-1.5 sm:gap-2.5">
                       <button
                         type="button"
                         title={starred ? 'Watchlistten çıkar' : 'Watchliste ekle'}
                         onClick={(e) => toggleWatch(item.symbol, e)}
                         className={cn(
-                          'transition-colors',
+                          'shrink-0 transition-colors',
                           starred
                             ? 'text-amber-400'
                             : 'text-[var(--muted)] hover:text-amber-400'
@@ -264,32 +266,32 @@ export function MarketScannerTable({
                             <Link
                               href={detailHref}
                               onClick={(e) => e.stopPropagation()}
-                              className="font-bold text-[var(--foreground)] hover:text-emerald-400 hover:underline"
+                              className="truncate font-bold text-[var(--foreground)] hover:text-emerald-400 hover:underline"
                             >
                               {item.displaySymbol}
                             </Link>
                           ) : (
-                            <span className="font-bold text-[var(--foreground)] group-hover:text-emerald-400">
+                            <span className="truncate font-bold text-[var(--foreground)] group-hover:text-emerald-400">
                               {item.displaySymbol}
                             </span>
                           )}
-                          <span className="rounded border border-[var(--border)] px-1 py-px text-[9px] font-semibold uppercase text-[var(--muted)]">
+                          <span className="hidden shrink-0 rounded border border-[var(--border)] px-1 py-px text-[9px] font-semibold uppercase text-[var(--muted)] sm:inline">
                             {item.market}
                           </span>
                         </div>
-                        <p className="truncate text-[10px] text-[var(--muted)]">
+                        <p className="hidden truncate text-[10px] text-[var(--muted)] sm:block">
                           {item.name}
                         </p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-2 py-2.5 text-right text-sm font-semibold tabular-nums text-[var(--foreground)]">
+                  <td className="px-1.5 py-2.5 text-right text-sm font-semibold tabular-nums text-[var(--foreground)] sm:px-2">
                     {formatPrice(item.price, item.currency)}
                   </td>
-                  <td className="px-2 py-2.5 text-right">
+                  <td className="px-1.5 py-2.5 text-right sm:px-2">
                     <span
                       className={cn(
-                        'inline-flex items-center gap-0.5 rounded-md border px-1.5 py-0.5 text-[11px] font-bold',
+                        'inline-flex items-center gap-0.5 rounded-md border px-1 py-0.5 text-[10px] font-bold sm:px-1.5 sm:text-[11px]',
                         positive
                           ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400'
                           : 'border-rose-500/20 bg-rose-500/10 text-rose-400'
@@ -307,7 +309,7 @@ export function MarketScannerTable({
                   <td className="hidden px-2 py-2.5 text-right font-mono text-[var(--muted)] sm:table-cell">
                     {item.volume}
                   </td>
-                  <td className="px-2 py-2.5">
+                  <td className="hidden px-2 py-2.5 md:table-cell">
                     <Sparkline
                       data={item.sparkline}
                       positive={positive}
@@ -315,14 +317,14 @@ export function MarketScannerTable({
                       height={28}
                     />
                   </td>
-                  <td className="px-2 py-2.5 text-right">
+                  <td className="px-1.5 py-2.5 text-right sm:px-2">
                     <button
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         setChartItem(item);
                       }}
-                      className="rounded-md bg-[var(--surface)] px-2.5 py-1 text-[10px] font-bold text-[var(--muted)] transition-all hover:bg-emerald-500 hover:text-black"
+                      className="rounded-md bg-[var(--surface)] px-2 py-1 text-[10px] font-bold text-[var(--muted)] transition-all hover:bg-emerald-500 hover:text-black sm:px-2.5"
                     >
                       Detay
                     </button>

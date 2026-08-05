@@ -108,8 +108,8 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
                   title="Mevcut fiyat"
                 />
               </div>
-              <div className="flex justify-between font-mono text-[10px] text-zinc-500">
-                <span>
+              <div className="flex flex-col gap-1 font-mono text-[10px] text-zinc-500 sm:flex-row sm:justify-between">
+                <span className="truncate">
                   {isTechnical ? '24s Dip' : 'En Düşük'}:{' '}
                   {money(data.targetPriceLow, data.currency)}
                 </span>
@@ -117,7 +117,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
                   {isTechnical ? 'Orta' : 'Ortalama'}:{' '}
                   {money(data.targetPriceMean, data.currency)}
                 </span>
-                <span>
+                <span className="truncate sm:text-right">
                   {isTechnical ? '24s Zirve' : 'En Yüksek'}:{' '}
                   {money(data.targetPriceHigh, data.currency)}
                 </span>
@@ -126,7 +126,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
           </div>
 
           {!isTechnical && totalVotes > 0 ? (
-            <div className="flex min-w-[200px] flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-5 text-center">
+            <div className="flex w-full min-w-0 flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-5 text-center sm:min-w-[200px] sm:w-auto">
               <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--muted)]">
                 Analist Konsensüsü
               </div>
@@ -147,7 +147,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
               </div>
             </div>
           ) : (
-            <div className="flex min-w-[200px] flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-5 text-center">
+            <div className="flex w-full min-w-0 flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-5 text-center sm:min-w-[200px] sm:w-auto">
               <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--muted)]">
                 Kaynak
               </div>

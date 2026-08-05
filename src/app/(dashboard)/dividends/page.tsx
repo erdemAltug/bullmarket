@@ -266,7 +266,7 @@ export default function DividendsPage() {
           </div>
 
           <div className="overflow-x-auto rounded-2xl border border-[var(--border)] bg-[var(--card)]">
-            <table className="w-full min-w-[700px] text-left text-xs">
+            <table className="w-full min-w-[520px] text-left text-xs md:min-w-[640px]">
               <thead>
                 <tr className="border-b border-[var(--border)] bg-[var(--surface)]/50 text-[var(--muted)]">
                   <th className="px-4 py-3.5 font-medium">Hisse</th>
