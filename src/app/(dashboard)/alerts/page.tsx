@@ -178,6 +178,16 @@ export default function AlertsPage() {
   const firedCount = alerts.filter((a) => a.triggered).length;
 
   useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get('symbol');
+    if (!requested) return;
+    const asset = findAlertAsset(requested);
+    if (asset) pickAsset(asset);
+    setComposerOpen(true);
+  // URL ön-doldurma yalnızca ilk açılışta çalışır.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (kind.startsWith('rsi') || kind.startsWith('change')) {
       setThreshold(defaultThreshold(kind));
       return;

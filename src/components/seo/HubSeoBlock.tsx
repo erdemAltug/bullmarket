@@ -123,6 +123,62 @@ export const SIGNALS_HUB_SEO: HubSeoContent = {
   ],
 };
 
+export const US_HUB_SEO: HubSeoContent = {
+  heading: 'NASDAQ ve ABD hisse analizi — nasıl kullanılır?',
+  paragraphs: [
+    'ABD screener’ında AAPL, NVDA, TSLA gibi likit hisseleri canlı fiyat, F/K ve analist hedefiyle izleyin. Bullsye; NASDAQ/NYSE kotlarını BİST ve kripto fırsatlarıyla aynı terminalde birleştirir.',
+    'Tek hisse riskini dağıtmak için 1v1 kıyaslama ve Fırsat Masası skorlarını birlikte kullanın; alarm ile fiyat kırılımlarını kaçırmayın.',
+  ],
+  links: [
+    { href: '/firsatlar', label: 'Fırsat Masası' },
+    { href: '/signals', label: 'AI Sinyaller' },
+    { href: '/targets', label: 'Hedef fiyatlar' },
+    { href: '/compare', label: '1v1 kıyasla' },
+    { href: '/bist', label: 'BİST screener' },
+    { href: '/egitim/borsa-temelleri/fk-orani-nedir', label: 'F/K dersi' },
+  ],
+  faqs: [
+    {
+      question: 'ABD hisselerini Bullsye’da nasıl takip ederim?',
+      answer:
+        'NASDAQ hub’ından sembole tıklayın veya arama ile açın; grafik, sağlık karnesi, analist konsensüsü ve alarm araçları aynı sayfada.',
+    },
+    {
+      question: 'ABD ve BİST aynı fırsat masasında mı?',
+      answer:
+        'Evet. Fırsat Masası ve sinyal radarı BİST, ABD ve kripto kategorilerini birlikte tarar.',
+    },
+  ],
+};
+
+export const CRYPTO_HUB_SEO: HubSeoContent = {
+  heading: 'Kripto canlı fiyat ve sinyal — nasıl kullanılır?',
+  paragraphs: [
+    'Kripto screener’ında BTC, ETH ve likit altcoinleri 24s hacim, emir defteri ve momentum karnesiyle izleyin. Sinyal radarı ve Fırsat Masası ile aynı günün fırsatlarını filtreleyin.',
+    'Kaldıraçlı ürünler indekslenmez; liste likit USDT paritelerine odaklanır. Alarm ve izleme listesi ile geri dönüş döngüsünü kurun.',
+  ],
+  links: [
+    { href: '/firsatlar', label: 'Fırsat Masası' },
+    { href: '/signals', label: 'AI Sinyaller' },
+    { href: '/whales', label: 'Balina & Takas' },
+    { href: '/egitim/teknik-analiz/rsi-indikatoru-nedir', label: 'RSI dersi' },
+    { href: '/blog/kripto-sinyal-radarinda-btc-eth', label: 'BTC/ETH rehberi' },
+    { href: '/bist', label: 'BİST screener' },
+  ],
+  faqs: [
+    {
+      question: 'Kripto fiyatları gecikmeli mi?',
+      answer:
+        'Bullsye borsa 24s ticker ve derinlik verisini düzenli yeniler. Emir iletimi bağlı olduğunuz borsadadır.',
+    },
+    {
+      question: 'Hangi coinlerle başlamalıyım?',
+      answer:
+        'Önce yüksek hacimli USDT paritelerini (BTC, ETH, SOL) izleyin; düşük likidite ve kaldıraçlı ürünlerden uzak durun.',
+    },
+  ],
+};
+
 export const FON_HUB_SEO: HubSeoContent = {
   heading: 'TEFAS fonları ve küresel ETF’ler',
   paragraphs: [

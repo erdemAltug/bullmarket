@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import { migrateAnonymousAlerts } from '@/actions/alerts';
 import { migrateAnonymousWatchlist } from '@/actions/watchlist';
 import {
   Dialog,
@@ -13,6 +15,7 @@ import { authClient } from '@/lib/auth/client';
 import { trackEvent } from '@/lib/analytics';
 import { DEFAULT_WATCHLIST } from '@/hooks/useWatchlist.shared';
 import { cn } from '@/lib/utils';
+import type { AlertKind, PriceAlert } from '@/types';
 
 type Tab = 'login' | 'register';
 
@@ -64,6 +67,29 @@ async function migrateLocalWatchlist() {
   }
 }
 
+async function migrateLocalAlerts() {
+  try {
+    const raw = localStorage.getItem('bullmarket:alerts');
+    if (!raw) return;
+    const alerts = JSON.parse(raw) as PriceAlert[];
+    if (!Array.isArray(alerts) || !alerts.length) return;
+    await migrateAnonymousAlerts(
+      alerts.map((a) => ({
+        symbol: a.symbol,
+        displaySymbol: a.displaySymbol,
+        kind: a.kind as AlertKind,
+        threshold: a.threshold,
+      }))
+    );
+    localStorage.setItem(
+      'bullmarket:alerts-migrated',
+      `user:${Date.now()}`
+    );
+  } catch (error) {
+    console.error('Alerts migrate failed:', error);
+  }
+}
+
 export function AuthModal({
   open,
   onOpenChange,
@@ -88,6 +114,7 @@ export function AuthModal({
 
   async function afterAuthSuccess() {
     await migrateLocalWatchlist();
+    await migrateLocalAlerts();
     await qc.invalidateQueries({ queryKey: ['watchlist'] });
     await qc.invalidateQueries({ queryKey: ['alerts'] });
     await qc.invalidateQueries({ queryKey: ['portfolio'] });

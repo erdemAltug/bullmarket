@@ -17,7 +17,7 @@ export function hreflangLanguages(path = ''): Record<string, string> {
   return {
     'tr-TR': `${base}${joiner}lang=tr`,
     'en-US': `${base}${joiner}lang=en`,
-    'x-default': `${base}${joiner}lang=en`,
+    'x-default': `${base}${joiner}lang=tr`,
   };
 }
 
@@ -42,7 +42,7 @@ export function sitemapLanguageAlternates(path = ''): {
     languages: {
       'tr-TR': `${base}${joiner}lang=tr`,
       'en-US': `${base}${joiner}lang=en`,
-      'x-default': `${base}${joiner}lang=en`,
+      'x-default': `${base}${joiner}lang=tr`,
     },
   };
 }

@@ -14,6 +14,7 @@ import {
   canonicalSymbol,
   formatMetaChange,
   formatMetaPrice,
+  isIndexedBistSymbol,
   toYahooSymbol,
 } from '@/lib/seo/symbols';
 
@@ -25,7 +26,7 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  return SEO_BIST_TICKERS.map((symbol) => ({ symbol }));
+  return SEO_BIST_TICKERS.slice(0, 48).map((symbol) => ({ symbol }));
 }
 
 export async function generateMetadata({
@@ -54,18 +55,23 @@ export async function generateMetadata({
 
   const price = formatMetaPrice(priceNum, 'TRY');
   const change = formatMetaChange(changeNum);
+  const hasLiveQuote = priceNum > 0;
   const path = `/bist/${symbol}`;
   const canonicalUrl = `${SITE_URL}${path}`;
 
   const title = isTr
-    ? `${symbol} Canlı Hisse Fiyatı ${price} TL (${change}), Grafik & Analiz Karnesi`
-    : `${symbol} Live Price ${price} TRY (${change}) — Chart & AI Scorecard`;
+    ? hasLiveQuote
+      ? `${symbol} Canlı Hisse Fiyatı ${price} TL (${change}), Grafik & Analiz`
+      : `${symbol} Hisse Analizi, Canlı Grafik, Yorum ve Hedef Fiyat`
+    : hasLiveQuote
+      ? `${symbol} Live Price ${price} TRY (${change}) — Chart & AI Scorecard`
+      : `${symbol} Stock Analysis, Live Chart & Price Targets`;
 
   const description = isTr
     ? `${name} (${symbol}) Borsa İstanbul anlık fiyatı, 52 haftalık zirve/dip, F/K ve PD/DD değerleri, teknik sinyaller ve alım fırsatları Bullsye'da.`
     : `Real-time ${name} (${symbol}) BIST price chart, technical indicators, analyst targets, and AI signal breakdown on Bullsye Terminal.`;
 
-  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(`₺${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent(isTr ? 'BIST' : 'BIST Live')}&type=BIST&lang=${lang}`;
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(hasLiveQuote ? `₺${price}` : 'Canlı Analiz')}&change=${encodeURIComponent(hasLiveQuote ? change : 'BİST')}&label=${encodeURIComponent(isTr ? 'BIST' : 'BIST Live')}&type=BIST&lang=${lang}`;
 
   return {
     title,
@@ -110,7 +116,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${symbol} ₺${price} ${change} | Bullsye`,
+      title: hasLiveQuote
+        ? `${symbol} ₺${price} ${change} | Bullsye`
+        : `${symbol} Hisse Analizi | Bullsye`,
       description,
       images: [ogImage],
     },
@@ -121,7 +129,9 @@ export default async function BistSymbolPage({ params }: Props) {
   const raw = (await params).symbol;
   const symbol = canonicalSymbol(raw);
 
-  if (!symbol || symbol === 'HEATMAP') notFound();
+  if (!symbol || symbol === 'HEATMAP' || !isIndexedBistSymbol(symbol)) {
+    notFound();
+  }
   if (raw !== symbol) permanentRedirect(`/bist/${symbol}`);
 
   const yahoo = toYahooSymbol(symbol);

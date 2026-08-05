@@ -177,3 +177,57 @@ export async function setAlertTriggered(
     throw new Error('Database error');
   }
 }
+
+/** Merge anonymous localStorage alerts into the authenticated user's Neon set. */
+export async function migrateAnonymousAlerts(
+  incoming: {
+    symbol: string;
+    displaySymbol: string;
+    kind: AlertKind;
+    threshold: number;
+  }[]
+): Promise<AlertsResult> {
+  const uid = await getCurrentUserId();
+  if (!isDatabaseConfigured()) {
+    return { db: false, alerts: [] };
+  }
+
+  try {
+    const db = getDb();
+    const existing = await db
+      .select()
+      .from(priceAlerts)
+      .where(eq(priceAlerts.userId, uid));
+    const have = new Set(
+      existing.map((r) => `${r.symbol.toUpperCase()}|${r.condition}`)
+    );
+
+    const toInsert = incoming
+      .filter(
+        (a) =>
+          a.symbol &&
+          a.kind &&
+          Number.isFinite(a.threshold) &&
+          !have.has(`${a.symbol.toUpperCase()}|${a.kind}`)
+      )
+      .slice(0, 50);
+
+    if (toInsert.length) {
+      await db.insert(priceAlerts).values(
+        toInsert.map((a) => ({
+          userId: uid,
+          symbol: a.symbol.toUpperCase(),
+          displaySymbol: a.displaySymbol || a.symbol,
+          targetPrice: String(a.threshold),
+          condition: a.kind,
+          isTriggered: false,
+        }))
+      );
+    }
+
+    return getUserAlerts(uid);
+  } catch (error) {
+    console.error('Failed to migrate anonymous alerts:', error);
+    return getUserAlerts(uid).catch(() => ({ db: false, alerts: [] }));
+  }
+}

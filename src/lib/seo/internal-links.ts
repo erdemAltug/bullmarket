@@ -39,7 +39,7 @@ export function assetDetailHref(
     return `/fx/${bare}`;
   }
 
-  if (SEO_US_TICKERS.includes(bare as (typeof SEO_US_TICKERS)[number])) {
+  if (SEO_US_TICKERS.includes(bare)) {
     return `/us/${bare}`;
   }
 

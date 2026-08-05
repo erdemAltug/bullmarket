@@ -1,137 +1,34 @@
+import {
+  SCANNER_BIST_UNIQUE,
+  SCANNER_CRYPTO_SYMBOLS,
+  SCANNER_ETF_SYMBOLS,
+  SCANNER_TEFAS_CODES,
+  SCANNER_US_UNIQUE,
+} from '@/lib/scanner-universe';
+
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
   'https://bullsye.app';
 
 export const BRAND = 'Bullsye';
 
-/** High-search BİST universe for sitemap + static params */
-export const SEO_BIST_TICKERS = [
-  'XU100',
-  'THYAO',
-  'GARAN',
-  'ASELS',
-  'EREGL',
-  'AKBNK',
-  'YKBNK',
-  'ISCTR',
-  'HALKB',
-  'VAKBN',
-  'SAHOL',
-  'KCHOL',
-  'BIMAS',
-  'MGROS',
-  'SISE',
-  'TUPRS',
-  'TCELL',
-  'TTKOM',
-  'PGSUS',
-  'TAVHL',
-  'FROTO',
-  'TOASO',
-  'DOAS',
-  'PETKM',
-  'SASA',
-  'HEKTS',
-  'ASTOR',
-  'KONTR',
-  'KOZAL',
-  'KOZAA',
-  'ENKAI',
-  'ULKER',
-  'ARCLK',
-  'EKGYO',
-  'EUPWR',
-  'ODAS',
-  'GESAN',
-  'CWENE',
-  'ALARK',
-  'AEFES',
-  'CCOLA',
-  'OTKAR',
-  'TKFEN',
-  'TTRAK',
-  'VESBE',
-] as const;
+/** Scanner ile tek kaynak: sitemap, static params ve dahili linkler aynı evren. */
+export const SEO_BIST_TICKERS: readonly string[] = SCANNER_BIST_UNIQUE.map(
+  (symbol) => symbol.replace(/\.IS$/i, '')
+);
 
-export const SEO_CRYPTO_SYMBOLS = [
-  'BTCUSDT',
-  'ETHUSDT',
-  'BNBUSDT',
-  'SOLUSDT',
-  'XRPUSDT',
-  'ADAUSDT',
-  'DOGEUSDT',
-  'AVAXUSDT',
-  'DOTUSDT',
-  'LINKUSDT',
-  'MATICUSDT',
-  'NEARUSDT',
-  'UNIUSDT',
-  'LTCUSDT',
-  'ATOMUSDT',
-] as const;
+export const SEO_CRYPTO_SYMBOLS: readonly string[] = [
+  ...new Set(SCANNER_CRYPTO_SYMBOLS),
+];
 
-/** High-liquidity US / NASDAQ universe for sitemap + /us/[symbol] */
-export const SEO_US_TICKERS = [
-  'AAPL',
-  'MSFT',
-  'NVDA',
-  'GOOGL',
-  'AMZN',
-  'META',
-  'TSLA',
-  'AVGO',
-  'AMD',
-  'NFLX',
-  'ORCL',
-  'CRM',
-  'ADBE',
-  'INTC',
-  'QCOM',
-  'PLTR',
-  'COIN',
-  'UBER',
-  'JPM',
-  'V',
-  'MA',
-  'BAC',
-  'WMT',
-  'COST',
-  'DIS',
-  'KO',
-  'PEP',
-  'XOM',
-  'CVX',
-  'BA',
-  'UNH',
-  'LLY',
-  'JNJ',
-  'BRK-B',
-  'HD',
-  'MCD',
-] as const;
+/** Delist / dead tickers — SEO + soft-404 allowlist dışı. */
+const SEO_US_EXCLUDED = new Set(['ATVI', 'WOLF']);
+export const SEO_US_TICKERS: readonly string[] = SCANNER_US_UNIQUE.filter(
+  (symbol) => !SEO_US_EXCLUDED.has(symbol)
+);
 
-export const SEO_ETF_TICKERS = [
-  'VOO',
-  'QQQ',
-  'SPY',
-  'SCHD',
-  'ARKK',
-  'VTI',
-  'IWM',
-  'GLD',
-] as const;
-
-export const SEO_TEFAS_CODES = [
-  'AFT',
-  'YAY',
-  'TTE',
-  'TI2',
-  'MAC',
-  'IIH',
-  'OJK',
-  'GUM',
-] as const;
+export const SEO_ETF_TICKERS: readonly string[] = [...SCANNER_ETF_SYMBOLS];
+export const SEO_TEFAS_CODES: readonly string[] = [...SCANNER_TEFAS_CODES];
 
 export const SEO_FX_PAIRS = [
   'USD-TRY',
@@ -139,6 +36,24 @@ export const SEO_FX_PAIRS = [
   'GBP-TRY',
   'XAU-TRY',
 ] as const;
+
+const BIST_SET = new Set(SEO_BIST_TICKERS);
+const US_SET = new Set(SEO_US_TICKERS);
+const CRYPTO_SET = new Set(SEO_CRYPTO_SYMBOLS);
+
+export function isIndexedBistSymbol(symbol: string): boolean {
+  return BIST_SET.has(canonicalSymbol(symbol));
+}
+
+export function isIndexedUsSymbol(symbol: string): boolean {
+  return US_SET.has(symbol.trim().toUpperCase());
+}
+
+export function isIndexedCryptoSymbol(symbol: string): boolean {
+  let s = symbol.trim().toUpperCase();
+  if (!s.endsWith('USDT') && !s.endsWith('USD')) s = `${s}USDT`;
+  return CRYPTO_SET.has(s);
+}
 
 /** /bist/THYAO → THYAO.IS */
 export function toYahooSymbol(routeSymbol: string): string {

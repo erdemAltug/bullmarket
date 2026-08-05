@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { ContentSection, ToolCta } from '@/content/types';
+import { useAuthGate } from '@/components/auth/AuthGateProvider';
 import { cn } from '@/lib/utils';
 
 export function ReadingProgressBar() {
@@ -73,18 +74,36 @@ export function ToolCtaBox({ cta }: { cta: ToolCta }) {
 }
 
 export function RegisterCtaBanner() {
+  const { openAuth } = useAuthGate();
+
   return (
     <aside className="my-8 rounded-2xl border border-zinc-700 bg-zinc-900/80 p-5 text-center">
       <p className="text-sm font-semibold text-zinc-100">
         Bu stratejiyi canlı grafiklerde uygulamak için Bullsye&apos;a ücretsiz
         kayıt olun.
       </p>
-      <Link
-        href="/?lang=tr"
+      <button
+        type="button"
+        onClick={() =>
+          openAuth({
+            tab: 'register',
+            feature: 'Eğitim → Terminal',
+            headline: 'Ücretsiz kayıt — terminali aç',
+            subtitle:
+              'Alarm, izleme listesi ve fırsat masası aynı hesaba senkronlanır.',
+          })
+        }
         className="mt-3 inline-flex rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-4 py-2 text-sm font-bold text-emerald-300 hover:bg-emerald-500/25"
       >
-        Terminale Git &amp; Başla
-      </Link>
+        Ücretsiz kayıt ol &amp; başla
+      </button>
+      <p className="mt-2 text-[11px] text-zinc-500">
+        veya{' '}
+        <Link href="/firsatlar" className="text-emerald-400 hover:underline">
+          Fırsat Masası
+        </Link>
+        &apos;na git
+      </p>
     </aside>
   );
 }

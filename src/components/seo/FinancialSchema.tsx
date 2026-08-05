@@ -42,12 +42,16 @@ export function FinancialSchema({
           name: displayName,
           description: `${displayName} canlı fiyat ve analiz — Bullsye.`,
           url: pageUrl,
-          offers: {
-            '@type': 'Offer',
-            price: Number(price.toFixed(4)),
-            priceCurrency: currency,
-            url: pageUrl,
-          },
+          ...(price > 0
+            ? {
+                offers: {
+                  '@type': 'Offer',
+                  price: Number(price.toFixed(4)),
+                  priceCurrency: currency,
+                  url: pageUrl,
+                },
+              }
+            : {}),
         };
 
   return (

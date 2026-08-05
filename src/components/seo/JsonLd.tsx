@@ -49,7 +49,7 @@ export function JsonLd() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/bist/{search_term_string}`,
+        urlTemplate: `${SITE_URL}/bist?symbol={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },

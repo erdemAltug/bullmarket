@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { permanentRedirect } from 'next/navigation';
+import { permanentRedirect, notFound } from 'next/navigation';
 import { AnalystTargetCard } from '@/components/asset/AnalystTargetCard';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { CryptoHealthScorecard } from '@/components/dashboard/AssetHealthScorecard';
@@ -14,6 +14,7 @@ import {
   SEO_CRYPTO_SYMBOLS,
   formatMetaChange,
   formatMetaPrice,
+  isIndexedCryptoSymbol,
 } from '@/lib/seo/symbols';
 
 export const revalidate = 60;
@@ -30,7 +31,7 @@ function normalizeCrypto(raw: string): string {
 }
 
 export async function generateStaticParams() {
-  return SEO_CRYPTO_SYMBOLS.map((symbol) => ({ symbol }));
+  return SEO_CRYPTO_SYMBOLS.slice(0, 36).map((symbol) => ({ symbol }));
 }
 
 export async function generateMetadata({
@@ -56,18 +57,23 @@ export async function generateMetadata({
 
   const price = formatMetaPrice(priceNum, 'USD');
   const change = formatMetaChange(changeNum);
+  const hasLiveQuote = priceNum > 0;
   const path = `/crypto/${symbol}`;
   const canonicalUrl = `${SITE_URL}${path}`;
 
   const title = isTr
-    ? `${display} Canlı Fiyatı $${price} (${change}), Grafiği & Sinyal Radarı`
-    : `${display} Live Price $${price} (${change}) — Chart & Signal Radar`;
+    ? hasLiveQuote
+      ? `${display} Canlı Fiyatı $${price} (${change}), Grafik & Analiz`
+      : `${display} Canlı Fiyat, Grafik, Yorum ve Kripto Analizi`
+    : hasLiveQuote
+      ? `${display} Live Price $${price} (${change}) — Chart & Signal Radar`
+      : `${display} Live Price, Chart & Crypto Analysis`;
 
   const description = isTr
     ? `${display} (${symbol}) 24 saatlik canlı fiyat değişimi, hacim derinliği (Order Book), RSI kırılım sinyalleri ve canlı grafik takibi Bullsye Terminal'de.`
     : `Real-time ${display} (${symbol}) price, 24h volume, order book depth, RSI breakout signals and live charts on Bullsye Terminal.`;
 
-  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(`$${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent(isTr ? 'CRYPTO' : 'Crypto Live')}&type=CRYPTO&lang=${lang}`;
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(hasLiveQuote ? `$${price}` : 'Canlı Analiz')}&change=${encodeURIComponent(hasLiveQuote ? change : 'CRYPTO')}&label=${encodeURIComponent(isTr ? 'CRYPTO' : 'Crypto Live')}&type=CRYPTO&lang=${lang}`;
 
   return {
     title,
@@ -100,7 +106,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${display} $${price} ${change} | Bullsye`,
+      title: hasLiveQuote
+        ? `${display} $${price} ${change} | Bullsye`
+        : `${display} Crypto Analysis | Bullsye`,
       images: [ogImage],
     },
   };
@@ -109,6 +117,7 @@ export async function generateMetadata({
 export default async function CryptoSymbolPage({ params }: Props) {
   const raw = (await params).symbol;
   const symbol = normalizeCrypto(raw);
+  if (!isIndexedCryptoSymbol(symbol)) notFound();
   if (raw.toUpperCase() !== symbol) permanentRedirect(`/crypto/${symbol}`);
 
   const display = symbol.replace('USDT', '');

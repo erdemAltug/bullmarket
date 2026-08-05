@@ -1,4 +1,5 @@
 ﻿import Link from 'next/link';
+import { AssetReturnLoop } from '@/components/asset/AssetReturnLoop';
 import {
   BreadcrumbSchema,
   FinancialSchema,
@@ -164,6 +165,8 @@ export function AssetSeoShell({
       </header>
 
       {children}
+
+      <AssetReturnLoop symbol={symbol} name={name} href={selfPath} />
 
       <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5">
         <h2 className="mb-3 text-base font-semibold text-zinc-100">

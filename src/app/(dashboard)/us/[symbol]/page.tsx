@@ -13,6 +13,7 @@ import {
   SEO_US_TICKERS,
   formatMetaChange,
   formatMetaPrice,
+  isIndexedUsSymbol,
 } from '@/lib/seo/symbols';
 
 export const revalidate = 60;
@@ -27,7 +28,7 @@ function canonicalUsSymbol(raw: string): string {
 }
 
 export function generateStaticParams() {
-  return SEO_US_TICKERS.map((symbol) => ({ symbol }));
+  return SEO_US_TICKERS.slice(0, 48).map((symbol) => ({ symbol }));
 }
 
 export async function generateMetadata({
@@ -55,18 +56,23 @@ export async function generateMetadata({
 
   const price = formatMetaPrice(priceNum, 'USD');
   const change = formatMetaChange(changeNum);
+  const hasLiveQuote = priceNum > 0;
   const path = `/us/${symbol}`;
   const canonicalUrl = `${SITE_URL}${path}`;
 
   const title = isTr
-    ? `${symbol} Canlı ABD Hisse Fiyatı $${price} (${change}) | NASDAQ`
-    : `${symbol} Live US Stock $${price} (${change}) — NASDAQ Chart`;
+    ? hasLiveQuote
+      ? `${symbol} Canlı ABD Hisse Fiyatı $${price} (${change}) | NASDAQ`
+      : `${symbol} Hisse Analizi, Canlı Grafik ve Hedef Fiyat | NASDAQ`
+    : hasLiveQuote
+      ? `${symbol} Live US Stock $${price} (${change}) — NASDAQ Chart`
+      : `${symbol} Stock Analysis, Live Chart & Price Targets`;
 
   const description = isTr
     ? `${name} (${symbol}) NASDAQ/NYSE anlık fiyat, F/K, analist hedef ve grafik — Bullsye.`
     : `Real-time ${name} (${symbol}) US equity chart, PE, analyst targets on Bullsye.`;
 
-  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(`$${price}`)}&change=${encodeURIComponent(change)}&label=${encodeURIComponent('NASDAQ')}&type=US&lang=${lang}`;
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(hasLiveQuote ? `$${price}` : 'Stock Analysis')}&change=${encodeURIComponent(hasLiveQuote ? change : 'NASDAQ')}&label=${encodeURIComponent('NASDAQ')}&type=US&lang=${lang}`;
 
   return {
     title,
@@ -99,7 +105,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${symbol} $${price} ${change} | Bullsye`,
+      title: hasLiveQuote
+        ? `${symbol} $${price} ${change} | Bullsye`
+        : `${symbol} Stock Analysis | Bullsye`,
       description,
       images: [ogImage],
     },
@@ -110,7 +118,7 @@ export default async function UsSymbolPage({ params }: Props) {
   const raw = (await params).symbol;
   const symbol = canonicalUsSymbol(raw);
 
-  if (!symbol) notFound();
+  if (!symbol || !isIndexedUsSymbol(symbol)) notFound();
   if (raw !== symbol) permanentRedirect(`/us/${symbol}`);
 
   let quote: {
