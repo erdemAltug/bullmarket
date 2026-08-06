@@ -64,11 +64,25 @@
   --scrollbar-thumb: #005500;
 }
 
+/* Geist ve Geist Mono U+20BA (₺) glifini içermiyor. Glif yokken tarayıcı
+   rastgele bir sistem fontuna düşüyor ve simge rakama yapışıyor. Bu alt küme
+   yalnızca ₺ karakterini taşır; size-adjust Inter cap-height'ını (0.7275)
+   Geist'inkine (0.7100) eşitler. */
+@font-face {
+  font-family: 'Lira';
+  src: url('/fonts/lira.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+20BA;
+  size-adjust: 97.6%;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Lira', var(--font-geist-sans);
+  --font-mono: 'Lira', var(--font-geist-mono);
 }
 
 body {
@@ -80,7 +94,7 @@ body {
 
 .terminal body,
 html.terminal body {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-family: var(--font-mono), ui-monospace, monospace;
 }
 
 .terminal {
