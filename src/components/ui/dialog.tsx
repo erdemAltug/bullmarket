@@ -16,7 +16,7 @@ export function DialogOverlay({
   return (
     <DialogPrimitive.Overlay
       className={cn(
-        'fixed inset-0 z-50 bg-black/70 data-[state=open]:animate-in data-[state=closed]:animate-out',
+        'fixed inset-0 z-50 bg-[var(--background)]/70 data-[state=open]:animate-in data-[state=closed]:animate-out',
         className
       )}
       {...props}
@@ -34,13 +34,13 @@ export function DialogContent({
       <DialogOverlay />
       <DialogPrimitive.Content
         className={cn(
-          'fixed left-1/2 top-[20%] z-50 w-full max-w-lg -translate-x-1/2 rounded-xl border border-zinc-800 bg-zinc-950 p-0 shadow-2xl outline-none',
+          'fixed left-1/2 top-[20%] z-50 w-full max-w-lg -translate-x-1/2 rounded-xl border border-[var(--border)] bg-[var(--popover-bg)] p-0 shadow-2xl outline-none',
           className
         )}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-3 top-3 rounded-md p-1 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-200">
+        <DialogPrimitive.Close className="absolute right-3 top-3 rounded-md p-1 text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--foreground)]">
           <X className="size-4" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
@@ -55,7 +55,7 @@ export function DialogTitle({
 }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
-      className={cn('text-base font-semibold text-zinc-100', className)}
+      className={cn('text-base font-semibold text-[var(--foreground)]', className)}
       {...props}
     />
   );

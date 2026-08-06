@@ -175,15 +175,15 @@ export function AuthModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md overflow-hidden border-zinc-800/80 bg-zinc-950/90 p-0 backdrop-blur-xl">
-        <div className="border-b border-zinc-800/80 bg-gradient-to-r from-emerald-500/10 via-transparent to-violet-500/10 px-5 py-4">
-          <DialogTitle className="text-lg font-semibold tracking-tight text-zinc-50">
+      <DialogContent className="max-w-md overflow-hidden border-[var(--border)] bg-[var(--popover-bg)] p-0 backdrop-blur-xl">
+        <div className="border-b border-[var(--border)] bg-gradient-to-r from-[var(--glow-up)] via-transparent to-[var(--glow-violet)] px-5 py-4">
+          <DialogTitle className="text-lg font-semibold tracking-tight text-[var(--foreground)]">
             {headline ??
               (growthMode
                 ? 'Ücretsiz Kayıt Ol & Kilidi Aç'
                 : 'Bullsye Hesabı')}
           </DialogTitle>
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className="mt-1 text-xs text-[var(--muted)]">
             {subtitle ??
               (growthMode
                 ? '1 tıkla Google ile devam et — AI sinyalleri ve hedef fiyatlar açılır.'
@@ -192,7 +192,7 @@ export function AuthModal({
         </div>
 
         <div className="space-y-4 px-5 py-4">
-          <div className="grid grid-cols-2 gap-1 rounded-lg border border-zinc-800 bg-zinc-900/60 p-1">
+          <div className="grid grid-cols-2 gap-1 rounded-lg border border-[var(--border)] bg-[var(--surface)]/80 p-1">
             {(
               [
                 ['login', 'Giriş Yap'],
@@ -209,8 +209,8 @@ export function AuthModal({
                 className={cn(
                   'rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
                   tab === id
-                    ? 'bg-emerald-500/20 text-emerald-300'
-                    : 'text-zinc-400 hover:text-zinc-200'
+                    ? 'bg-[var(--glow-up)] text-[var(--accent)]'
+                    : 'text-[var(--muted)] hover:text-[var(--foreground)]'
                 )}
               >
                 {label}
@@ -222,7 +222,7 @@ export function AuthModal({
             type="button"
             onClick={() => void onGoogle()}
             disabled={pending}
-            className="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/80 px-4 py-2.5 text-sm font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-800 disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--card)] px-4 py-2.5 text-sm font-semibold text-[var(--foreground)] transition hover:border-[var(--accent)]/35 hover:bg-[var(--surface)] disabled:opacity-60"
           >
             <GoogleIcon className="size-4" />
             {growthMode || tab === 'register'
@@ -230,15 +230,15 @@ export function AuthModal({
               : 'Google ile Devam Et'}
           </button>
 
-          <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-zinc-600">
-            <div className="h-px flex-1 bg-zinc-800" />
+          <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-[var(--muted)]/70">
+            <div className="h-px flex-1 bg-[var(--border)]" />
             veya e-posta
-            <div className="h-px flex-1 bg-zinc-800" />
+            <div className="h-px flex-1 bg-[var(--border)]" />
           </div>
 
           <form onSubmit={(e) => void onSubmit(e)} className="space-y-3">
             {tab === 'register' ? (
-              <label className="block text-xs text-zinc-400">
+              <label className="block text-xs text-[var(--muted)]">
                 Ad
                 <input
                   value={name}
@@ -246,12 +246,12 @@ export function AuthModal({
                   type="text"
                   autoComplete="name"
                   placeholder="Adınız"
-                  className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-emerald-500/50"
+                  className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)] outline-none focus:border-[var(--accent)]/50"
                 />
               </label>
             ) : null}
 
-            <label className="block text-xs text-zinc-400">
+            <label className="block text-xs text-[var(--muted)]">
               E-Posta adresi
               <input
                 value={email}
@@ -260,11 +260,11 @@ export function AuthModal({
                 required
                 autoComplete="email"
                 placeholder="ornek@mail.com"
-                className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-emerald-500/50"
+                className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)] outline-none focus:border-[var(--accent)]/50"
               />
             </label>
 
-            <label className="block text-xs text-zinc-400">
+            <label className="block text-xs text-[var(--muted)]">
               Şifre
               <input
                 value={password}
@@ -276,12 +276,12 @@ export function AuthModal({
                   tab === 'login' ? 'current-password' : 'new-password'
                 }
                 placeholder="En az 8 karakter"
-                className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 outline-none focus:border-emerald-500/50"
+                className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)] outline-none focus:border-[var(--accent)]/50"
               />
             </label>
 
             {error ? (
-              <p className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-300">
+              <p className="rounded-lg border border-[var(--down)]/30 bg-[var(--glow-down)] px-3 py-2 text-xs text-[var(--down)]">
                 {error}
               </p>
             ) : null}
@@ -289,23 +289,23 @@ export function AuthModal({
             <button
               type="submit"
               disabled={pending}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-bold text-black transition hover:bg-emerald-400 disabled:opacity-60"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--accent)] px-4 py-2.5 text-sm font-bold text-[#042f2e] transition hover:brightness-110 disabled:opacity-60"
             >
               {pending ? <Loader2 className="size-4 animate-spin" /> : null}
               {tab === 'login' ? 'Giriş Yap' : 'Hesap Oluştur'}
             </button>
 
-            <p className="text-center text-[10px] leading-relaxed text-zinc-600">
+            <p className="text-center text-[10px] leading-relaxed text-[var(--muted)]/70">
               Devam ederek{' '}
-              <a href="/kosullar" className="text-zinc-400 underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+              <a href="/kosullar" className="text-[var(--muted)] underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
                 Kullanım Koşulları
               </a>
               ,{' '}
-              <a href="/gizlilik" className="text-zinc-400 underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+              <a href="/gizlilik" className="text-[var(--muted)] underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
                 Gizlilik
               </a>{' '}
               ve{' '}
-              <a href="/kvkk" className="text-zinc-400 underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
+              <a href="/kvkk" className="text-[var(--muted)] underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
                 KVKK
               </a>{' '}
               metinlerini kabul etmiş olursunuz.

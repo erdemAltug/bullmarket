@@ -31,8 +31,8 @@ export function MetricCard({
       className={cn(
         'relative overflow-hidden bg-[var(--card)]',
         positive
-          ? 'shadow-[0_0_20px_var(--glow-up)]'
-          : 'shadow-[0_0_20px_var(--glow-down)]',
+          ? 'border-[var(--up)]/25'
+          : 'border-[var(--down)]/25',
         onClick && 'cursor-pointer hover:border-[var(--accent)]/40'
       )}
       onClick={onClick}
@@ -53,8 +53,8 @@ export function MetricCard({
         className={cn(
           'absolute inset-x-0 top-0 h-px bg-gradient-to-r',
           positive
-            ? 'from-transparent via-emerald-400/80 to-transparent'
-            : 'from-transparent via-rose-400/80 to-transparent'
+            ? 'from-transparent via-[var(--up)]/70 to-transparent'
+            : 'from-transparent via-[var(--down)]/70 to-transparent'
         )}
       />
       <CardHeader>
@@ -72,8 +72,8 @@ export function MetricCard({
             className={cn(
               'inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-bold',
               positive
-                ? 'border-emerald-500/30 bg-emerald-500/15 text-emerald-400'
-                : 'border-rose-500/30 bg-rose-500/15 text-rose-400'
+                ? 'border-[var(--up)]/30 bg-[var(--glow-up)] text-[var(--up)]'
+                : 'border-[var(--down)]/30 bg-[var(--glow-down)] text-[var(--down)]'
             )}
           >
             {positive ? (
@@ -84,7 +84,7 @@ export function MetricCard({
             {formatPercent(changePercent)}
           </span>
           {subtitle ? (
-            <span className="text-xs font-normal text-zinc-500">{subtitle}</span>
+            <span className="text-xs font-normal text-[var(--muted)]">{subtitle}</span>
           ) : null}
         </div>
         {onClick ? (

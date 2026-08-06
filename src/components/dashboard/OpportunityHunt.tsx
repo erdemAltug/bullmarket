@@ -114,7 +114,7 @@ export function OpportunityHunt() {
     <div className="relative space-y-6 pb-32 md:pb-24">
       <header className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-400">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/35 bg-[var(--glow-up)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--accent)]">
             <Radio className="size-3.5 animate-pulse" />
             ANLIK FIRSAT MASASI
           </span>
@@ -137,7 +137,7 @@ export function OpportunityHunt() {
         </h1>
         <p className="max-w-2xl text-sm text-[var(--muted)]">
           Canlı skor, gün içi bant ve hacim ivmesi. Masa her{' '}
-          <span className="font-mono text-emerald-400">{countdown}s</span>{' '}
+          <span className="font-mono text-[var(--accent)]">{countdown}s</span>{' '}
           yenilenir.
         </p>
       </header>
@@ -174,7 +174,7 @@ export function OpportunityHunt() {
           </div>
           <Link
             href="/signals"
-            className="text-xs font-medium text-emerald-400 hover:underline"
+            className="text-xs font-medium text-[var(--accent)] hover:underline"
           >
             Tam sinyal radarı →
           </Link>
@@ -204,16 +204,16 @@ export function OpportunityHunt() {
           </li>
         </ul>
         <div className="mt-4 flex flex-wrap gap-3 text-xs">
-          <Link href="/targets" className="text-emerald-400 hover:underline">
+          <Link href="/targets" className="text-[var(--accent)] hover:underline">
             Analist hedefleri
           </Link>
-          <Link href="/compare" className="text-emerald-400 hover:underline">
+          <Link href="/compare" className="text-[var(--accent)] hover:underline">
             1v1 kıyasla
           </Link>
-          <Link href="/alerts" className="text-emerald-400 hover:underline">
+          <Link href="/alerts" className="text-[var(--accent)] hover:underline">
             Alarmlar
           </Link>
-          <Link href="/egitim" className="text-emerald-400 hover:underline">
+          <Link href="/egitim" className="text-[var(--accent)] hover:underline">
             Eğitim
           </Link>
         </div>
@@ -222,9 +222,9 @@ export function OpportunityHunt() {
       {/* Sticky FOMO bar — above bottom nav on mobile, no double safe-area */}
       <div
         className={cn(
-          'fixed inset-x-0 z-30 border-t border-emerald-500/25',
+          'fixed inset-x-0 z-30 border-t border-[var(--accent)]/20',
           'bottom-[calc(3.5rem+env(safe-area-inset-bottom))] md:bottom-0',
-          'bg-[var(--background)]/95 px-3 py-2.5 backdrop-blur-xl sm:px-4 sm:py-3',
+          'bg-[var(--surface)]/95 px-3 py-2.5 backdrop-blur-xl sm:px-4 sm:py-3',
           'md:pb-[max(0.75rem,env(safe-area-inset-bottom))]'
         )}
       >
@@ -245,7 +245,7 @@ export function OpportunityHunt() {
           <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:shrink-0">
             <Link
               href="/alerts"
-              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-bold text-[var(--foreground)] hover:border-emerald-500/40 sm:flex-none"
+              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--accent)]/40 sm:flex-none"
             >
               <Bell className="size-3.5" />
               Alarmlar
@@ -262,14 +262,14 @@ export function OpportunityHunt() {
                       'Google ile 1 tık · tam sinyal listesi, hedefler ve alarm senkronu.',
                   })
                 }
-                className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-xs font-bold text-black shadow-[0_0_18px_rgba(16,185,129,0.35)] hover:bg-emerald-400 sm:flex-none"
+                className="flex-1 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-bold text-[#042f2e] hover:brightness-110 sm:flex-none"
               >
                 Tam listeyi aç
               </button>
             ) : (
               <Link
                 href="/signals"
-                className="flex-1 rounded-lg bg-emerald-500 px-4 py-2 text-center text-xs font-bold text-black hover:bg-emerald-400 sm:flex-none"
+                className="flex-1 rounded-lg bg-[var(--accent)] px-4 py-2 text-center text-xs font-bold text-[#042f2e] hover:brightness-110 sm:flex-none"
               >
                 Sinyal radarı
               </Link>

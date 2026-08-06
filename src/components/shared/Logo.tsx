@@ -25,16 +25,16 @@ export function Logo({
     >
       <div
         className={cn(
-          'relative flex shrink-0 items-center justify-center rounded-xl border border-emerald-500/30 bg-gradient-to-tr from-emerald-600 via-zinc-900 to-zinc-950 p-[1px] shadow-[0_0_15px_rgba(16,185,129,0.2)] transition-all duration-300 group-hover:border-emerald-400/60 group-hover:shadow-[0_0_22px_rgba(16,185,129,0.35)]',
+          'relative flex shrink-0 items-center justify-center rounded-xl border border-[var(--accent)]/35 bg-gradient-to-tr from-[var(--accent)]/25 via-[var(--surface)] to-[var(--surface)] p-[1px] transition-colors duration-300 group-hover:border-[var(--accent)]/55',
           compact ? 'h-9 w-9' : 'h-11 w-11'
         )}
       >
-        <div className="flex h-full w-full items-center justify-center rounded-[11px] bg-black">
+        <div className="flex h-full w-full items-center justify-center rounded-[11px] bg-[var(--surface)]">
           <svg
             viewBox="0 0 32 32"
             fill="none"
             className={cn(
-              'text-emerald-400 transition-transform duration-300 group-hover:scale-105',
+              'text-[var(--accent)] transition-transform duration-300 group-hover:scale-105',
               compact ? 'h-5 w-5' : 'h-7 w-7'
             )}
           >
@@ -62,24 +62,22 @@ export function Logo({
       <div className="flex min-w-0 flex-col leading-none">
         <span
           className={cn(
-            'font-black tracking-tighter text-zinc-100',
+            'font-black tracking-tighter text-[var(--foreground)]',
             compact ? 'text-base sm:text-xl' : 'text-xl'
           )}
         >
           BULLS
-          <span className="text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">
-            YE
-          </span>
+          <span className="text-[var(--accent)]">YE</span>
           {showBadge ? (
             <span className="relative ml-1.5 inline-flex h-1.5 w-1.5 align-middle sm:ml-2 sm:h-2 sm:w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex h-full w-full rounded-full bg-emerald-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-60" />
+              <span className="relative inline-flex h-full w-full rounded-full bg-[var(--accent)]" />
             </span>
           ) : null}
         </span>
         <span
           className={cn(
-            'mt-1 font-mono font-semibold uppercase tracking-[0.28em] text-emerald-500/80',
+            'mt-1 font-mono font-semibold uppercase tracking-[0.28em] text-[var(--accent)]/75',
             compact
               ? 'hidden text-[8px] sm:block sm:text-[9px]'
               : 'text-[9px]'

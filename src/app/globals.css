@@ -1,67 +1,67 @@
 @import "tailwindcss";
 
-/* Dark Glass — default */
+/* Soft Dark — default (slate charcoal + teal) */
 :root,
 .dark {
-  --background: #050508;
-  --foreground: #fafafa;
-  --muted: #a1a1aa;
-  --card: rgba(24, 24, 27, 0.6);
-  --popover-bg: rgba(9, 9, 11, 0.95);
-  --border: rgba(39, 39, 42, 0.8);
-  --up: #34d399;
-  --down: #fb7185;
-  --accent: #10b981;
-  --glow-up: rgba(16, 185, 129, 0.12);
-  --glow-down: rgba(244, 63, 94, 0.12);
-  --glow-violet: rgba(139, 92, 246, 0.15);
-  --sidebar: rgba(9, 9, 11, 0.8);
-  --header: rgba(9, 9, 11, 0.8);
-  --surface: #09090b;
-  --scrollbar-track: #050508;
-  --scrollbar-thumb: #27272a;
+  --background: #12151c;
+  --foreground: #e8edf5;
+  --muted: #94a3b8;
+  --card: rgba(30, 35, 46, 0.78);
+  --popover-bg: rgba(22, 26, 35, 0.96);
+  --border: rgba(148, 163, 184, 0.14);
+  --up: #2dd4bf;
+  --down: #f43f5e;
+  --accent: #14b8a6;
+  --glow-up: rgba(20, 184, 166, 0.07);
+  --glow-down: rgba(244, 63, 94, 0.07);
+  --glow-violet: rgba(129, 140, 248, 0.08);
+  --sidebar: rgba(22, 26, 35, 0.92);
+  --header: rgba(22, 26, 35, 0.92);
+  --surface: #181c25;
+  --scrollbar-track: #12151c;
+  --scrollbar-thumb: #334155;
 }
 
-/* Light Mode */
+/* Light Mode — teal-aligned */
 .light {
-  --background: #f4f6f8;
-  --foreground: #09090b;
-  --muted: #71717a;
-  --card: rgba(255, 255, 255, 0.85);
+  --background: #f1f5f9;
+  --foreground: #0f172a;
+  --muted: #64748b;
+  --card: rgba(255, 255, 255, 0.9);
   --popover-bg: rgba(255, 255, 255, 0.98);
-  --border: rgba(228, 228, 231, 0.95);
-  --up: #059669;
+  --border: rgba(148, 163, 184, 0.28);
+  --up: #0d9488;
   --down: #e11d48;
-  --accent: #059669;
-  --glow-up: rgba(5, 150, 105, 0.1);
-  --glow-down: rgba(225, 29, 72, 0.08);
-  --glow-violet: rgba(124, 58, 237, 0.1);
-  --sidebar: rgba(255, 255, 255, 0.9);
-  --header: rgba(255, 255, 255, 0.92);
+  --accent: #0d9488;
+  --glow-up: rgba(13, 148, 136, 0.08);
+  --glow-down: rgba(225, 29, 72, 0.06);
+  --glow-violet: rgba(99, 102, 241, 0.08);
+  --sidebar: rgba(255, 255, 255, 0.92);
+  --header: rgba(255, 255, 255, 0.94);
   --surface: #ffffff;
-  --scrollbar-track: #e4e4e7;
-  --scrollbar-thumb: #a1a1aa;
+  --scrollbar-track: #e2e8f0;
+  --scrollbar-thumb: #94a3b8;
 }
 
-/* High-contrast Bloomberg Terminal */
+/* Terminal — softer green, still high-contrast */
 .terminal {
-  --background: #000000;
-  --foreground: #e8ffe8;
-  --muted: #3d8f3d;
-  --card: rgba(0, 20, 0, 0.92);
-  --popover-bg: rgba(0, 12, 0, 0.98);
-  --border: rgba(0, 180, 0, 0.35);
-  --up: #00ff66;
-  --down: #ff3355;
-  --accent: #00ff66;
-  --glow-up: rgba(0, 255, 102, 0.12);
-  --glow-down: rgba(255, 51, 85, 0.12);
-  --glow-violet: rgba(0, 255, 170, 0.1);
-  --sidebar: rgba(0, 8, 0, 0.95);
-  --header: rgba(0, 8, 0, 0.95);
-  --surface: #001400;
-  --scrollbar-track: #000000;
-  --scrollbar-thumb: #005500;
+  --background: #020805;
+  --foreground: #d8f5e0;
+  --muted: #4a9a5c;
+  --card: rgba(4, 28, 12, 0.9);
+  --popover-bg: rgba(2, 16, 8, 0.98);
+  --border: rgba(34, 197, 94, 0.28);
+  --up: #4ade80;
+  --down: #fb7185;
+  --accent: #22c55e;
+  --glow-up: rgba(34, 197, 94, 0.08);
+  --glow-down: rgba(251, 113, 133, 0.08);
+  --glow-violet: rgba(52, 211, 153, 0.08);
+  --sidebar: rgba(2, 14, 8, 0.95);
+  --header: rgba(2, 14, 8, 0.95);
+  --surface: #04140a;
+  --scrollbar-track: #020805;
+  --scrollbar-thumb: #14532d;
 }
 
 /* Geist ve Geist Mono U+20BA (₺) glifini içermiyor. Glif yokken tarayıcı
@@ -81,20 +81,60 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-up: var(--up);
+  --color-down: var(--down);
   --font-sans: 'Lira', var(--font-geist-sans);
   --font-mono: 'Lira', var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(
+      ellipse 90% 55% at 50% -10%,
+      rgba(20, 184, 166, 0.07),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 70% 40% at 100% 100%,
+      rgba(51, 65, 85, 0.35),
+      transparent 50%
+    );
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+.light body,
+html.light body {
+  background-image:
+    radial-gradient(
+      ellipse 90% 50% at 50% -8%,
+      rgba(13, 148, 136, 0.06),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 60% 35% at 100% 100%,
+      rgba(148, 163, 184, 0.18),
+      transparent 50%
+    );
+}
+
 .terminal body,
 html.terminal body {
   font-family: var(--font-mono), ui-monospace, monospace;
+  background-image:
+    radial-gradient(
+      ellipse 80% 45% at 50% -5%,
+      rgba(34, 197, 94, 0.06),
+      transparent 50%
+    );
 }
 
 .terminal {

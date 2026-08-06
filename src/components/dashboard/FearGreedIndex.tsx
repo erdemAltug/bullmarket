@@ -17,7 +17,7 @@ function statusTone(value: number) {
   if (value <= 45) return 'orange';
   if (value <= 55) return 'zinc';
   if (value <= 75) return 'lime';
-  return 'emerald';
+  return 'teal';
 }
 
 function Dial({
@@ -31,24 +31,18 @@ function Dial({
 }) {
   const angle = -90 + (value / 100) * 180;
   const tone = statusTone(value);
-  const glow =
-    value <= 25
-      ? 'drop-shadow-[0_0_12px_rgba(244,63,94,0.5)]'
-      : value >= 75
-        ? 'drop-shadow-[0_0_12px_rgba(16,185,129,0.5)]'
-        : 'drop-shadow-[0_0_8px_rgba(250,204,21,0.25)]';
 
   return (
-    <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/80 p-5 backdrop-blur-xl">
-      <p className="mb-3 text-center text-xs font-medium tracking-wide text-zinc-400">
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 backdrop-blur-xl">
+      <p className="mb-3 text-center text-xs font-medium tracking-wide text-[var(--muted)]">
         {label}
       </p>
-      <div className={cn('relative mx-auto h-20 w-40 overflow-hidden', glow)}>
+      <div className="relative mx-auto h-20 w-40 overflow-hidden">
         <div
           className="absolute inset-x-0 bottom-0 h-20 rounded-t-full"
           style={{
             background:
-              'conic-gradient(from 180deg at 50% 100%, #f43f5e 0deg, #f59e0b 60deg, #eab308 90deg, #22c55e 140deg, #10b981 180deg)',
+              'conic-gradient(from 180deg at 50% 100%, #f43f5e 0deg, #f59e0b 60deg, #eab308 90deg, #2dd4bf 140deg, #14b8a6 180deg)',
             maskImage:
               'radial-gradient(circle at 50% 100%, transparent 52%, black 54%)',
             WebkitMaskImage:
@@ -56,12 +50,12 @@ function Dial({
           }}
         />
         <div
-          className="absolute bottom-0 left-1/2 h-16 w-0.5 origin-bottom bg-white shadow-[0_0_8px_rgba(255,255,255,0.6)]"
+          className="absolute bottom-0 left-1/2 h-16 w-0.5 origin-bottom bg-[var(--foreground)]"
           style={{ transform: `translateX(-50%) rotate(${angle}deg)` }}
         />
-        <div className="absolute bottom-0 left-1/2 size-2.5 -translate-x-1/2 translate-y-1/2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+        <div className="absolute bottom-0 left-1/2 size-2.5 -translate-x-1/2 translate-y-1/2 rounded-full bg-[var(--foreground)]" />
       </div>
-      <p className="mt-2 text-center text-2xl font-black tabular-nums text-white">
+      <p className="mt-2 text-center text-2xl font-black tabular-nums text-[var(--foreground)]">
         {value}
       </p>
       <div className="mt-2 flex justify-center">
@@ -69,23 +63,25 @@ function Dial({
           className={cn(
             'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold',
             tone === 'rose' &&
-              'border-rose-500/40 bg-rose-500/15 text-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.2)]',
+              'border-[var(--down)]/40 bg-[var(--glow-down)] text-[var(--down)]',
             tone === 'orange' &&
-              'border-orange-500/40 bg-orange-500/15 text-orange-400',
-            tone === 'zinc' && 'border-zinc-600 bg-zinc-800/80 text-zinc-300',
-            tone === 'lime' && 'border-lime-500/40 bg-lime-500/15 text-lime-400',
-            tone === 'emerald' &&
-              'border-emerald-500/40 bg-emerald-500/15 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+              'border-orange-500/40 bg-orange-500/10 text-orange-400',
+            tone === 'zinc' &&
+              'border-[var(--border)] bg-[var(--surface)] text-[var(--muted)]',
+            tone === 'lime' &&
+              'border-lime-500/35 bg-lime-500/10 text-lime-400',
+            tone === 'teal' &&
+              'border-[var(--up)]/40 bg-[var(--glow-up)] text-[var(--up)]'
           )}
         >
           <span
             className={cn(
               'size-1.5 animate-pulse rounded-full',
-              tone === 'rose' && 'bg-rose-400',
+              tone === 'rose' && 'bg-[var(--down)]',
               tone === 'orange' && 'bg-orange-400',
-              tone === 'zinc' && 'bg-zinc-400',
+              tone === 'zinc' && 'bg-[var(--muted)]',
               tone === 'lime' && 'bg-lime-400',
-              tone === 'emerald' && 'bg-emerald-400'
+              tone === 'teal' && 'bg-[var(--up)]'
             )}
           />
           {classification}
@@ -104,16 +100,16 @@ export function FearGreedIndex() {
   });
 
   return (
-    <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/60 p-4 backdrop-blur-xl">
-      <div className="mb-4 border-b border-zinc-800/60 pb-3">
-        <h2 className="bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-sm font-semibold text-transparent">
+    <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 backdrop-blur-xl">
+      <div className="mb-4 border-b border-[var(--border)] pb-3">
+        <h2 className="text-sm font-semibold text-[var(--foreground)]">
           Fear & Greed Index
         </h2>
       </div>
       {isLoading && !data ? (
         <ListSkeleton rows={2} />
       ) : error ? (
-        <p className="text-sm text-rose-400">{error.message}</p>
+        <p className="text-sm text-[var(--down)]">{error.message}</p>
       ) : data ? (
         <>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -128,10 +124,10 @@ export function FearGreedIndex() {
               classification={data.bist.classification}
             />
           </div>
-          <p className="mt-4 text-xs leading-relaxed text-zinc-400">
+          <p className="mt-4 text-xs leading-relaxed text-[var(--muted)]">
             {data.bist.note}
           </p>
-          <p className="mt-2 text-[10px] text-zinc-600">
+          <p className="mt-2 text-[10px] text-[var(--muted)]/70">
             0–25 Aşırı Korku · 75–100 Aşırı Açgözlülük
           </p>
         </>

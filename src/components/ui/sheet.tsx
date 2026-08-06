@@ -30,10 +30,10 @@ export function SheetContent({
 }) {
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm" />
+      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-[var(--background)]/60 backdrop-blur-sm" />
       <DialogPrimitive.Content
         className={cn(
-          'fixed inset-y-0 z-50 flex w-full max-w-full flex-col border-zinc-800 bg-zinc-950/95 shadow-2xl outline-none backdrop-blur-xl sm:max-w-md',
+          'fixed inset-y-0 z-50 flex w-full max-w-full flex-col border-[var(--border)] bg-[var(--popover-bg)] shadow-2xl outline-none backdrop-blur-xl sm:max-w-md',
           'transition-transform duration-300 ease-out',
           side === 'left'
             ? 'left-0 border-r'
@@ -43,7 +43,7 @@ export function SheetContent({
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-3 top-3 rounded-md p-1 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-200">
+        <DialogPrimitive.Close className="absolute right-3 top-3 rounded-md p-1 text-[var(--muted)] hover:bg-[var(--card)] hover:text-[var(--foreground)]">
           <X className="size-4" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>

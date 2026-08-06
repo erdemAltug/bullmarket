@@ -120,19 +120,19 @@ export function HabitCue({ topCards }: HabitCueProps) {
 
   return (
     <>
-      <div className="relative overflow-hidden rounded-2xl border border-emerald-500/25 bg-zinc-950/80 px-4 py-3 sm:px-5">
+      <div className="relative overflow-hidden rounded-2xl border border-[var(--accent)]/25 bg-[var(--card)] px-4 py-3 sm:px-5">
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-8 -top-10 size-32 rounded-full bg-emerald-500/10 blur-2xl"
+          className="pointer-events-none absolute -right-8 -top-10 size-32 rounded-full bg-[var(--glow-up)] blur-2xl"
         />
         <div className="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex gap-3">
-            <div className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl border border-emerald-500/30 bg-emerald-500/10">
-              <Sparkles className="size-4 text-emerald-400" />
+            <div className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl border border-[var(--accent)]/30 bg-[var(--glow-up)]">
+              <Sparkles className="size-4 text-[var(--accent)]" />
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <p className="text-sm font-semibold text-zinc-100">
+                <p className="text-sm font-semibold text-[var(--foreground)]">
                   Bugünün 10 dakikalık ritüeli
                 </p>
                 {streak.count > 0 ? (
@@ -142,13 +142,13 @@ export function HabitCue({ topCards }: HabitCueProps) {
                   </span>
                 ) : null}
                 {doneToday ? (
-                  <span className="inline-flex items-center gap-1 rounded-md border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-bold uppercase text-emerald-400">
+                  <span className="inline-flex items-center gap-1 rounded-md border border-[var(--accent)]/30 bg-[var(--glow-up)] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[var(--accent)]">
                     <Check className="size-3" />
                     Bugün tamam
                   </span>
                 ) : null}
               </div>
-              <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">
+              <p className="mt-0.5 text-xs leading-relaxed text-[var(--muted)]">
                 {doneToday
                   ? 'Ritüel tamam — yarın aynı saatte geri gel, seriyi bozma.'
                   : 'Top 3 fırsat kartını incele → bitir → seri kazan. Genişlik + alarm opsiyonel.'}
@@ -160,14 +160,14 @@ export function HabitCue({ topCards }: HabitCueProps) {
               type="button"
               onClick={openRitual}
               disabled={!cards.length}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold text-black hover:bg-emerald-400 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-bold text-[#042f2e] hover:brightness-110 disabled:opacity-50"
             >
               {doneToday ? 'Tekrar gözden geçir' : 'Fırsatları aç'}
               <ArrowRight className="size-3.5" />
             </button>
             <Link
               href="/firsatlar"
-              className="rounded-lg px-2 py-2 text-xs text-zinc-500 hover:text-zinc-300"
+              className="rounded-lg px-2 py-2 text-xs text-[var(--muted)] hover:text-[var(--foreground)]"
             >
               Masa
             </Link>
@@ -177,7 +177,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
 
       <Dialog open={ritualOpen} onOpenChange={setRitualOpen}>
         <DialogContent className="max-w-md p-0 overflow-hidden">
-          <div className="border-b border-zinc-800 px-5 py-4 pr-12">
+          <div className="border-b border-[var(--border)] px-5 py-4 pr-12">
             <DialogTitle className="text-base font-semibold">
               Günlük ritüel · Adım {Math.min(step + 1, totalSteps)}/{totalSteps}
             </DialogTitle>
@@ -187,7 +187,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
                   key={i}
                   className={cn(
                     'h-1 flex-1 rounded-full',
-                    i <= step ? 'bg-emerald-500' : 'bg-zinc-800'
+                    i <= step ? 'bg-[var(--accent)]' : 'bg-[var(--border)]'
                   )}
                 />
               ))}
@@ -198,17 +198,17 @@ export function HabitCue({ topCards }: HabitCueProps) {
             <div className="space-y-4 px-5 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-lg font-bold text-zinc-50">
+                  <p className="text-lg font-bold text-[var(--foreground)]">
                     {current.displaySymbol}
                   </p>
-                  <p className="text-xs text-zinc-500">{current.name}</p>
-                  <p className="mt-1 font-mono text-sm tabular-nums text-zinc-300">
+                  <p className="text-xs text-[var(--muted)]">{current.name}</p>
+                  <p className="mt-1 font-mono text-sm tabular-nums text-[var(--foreground)]/80">
                     {money(current.price, current.currency)}{' '}
                     <span
                       className={
                         current.changePercent >= 0
-                          ? 'text-emerald-400'
-                          : 'text-rose-400'
+                          ? 'text-[var(--up)]'
+                          : 'text-[var(--down)]'
                       }
                     >
                       {current.changePercent >= 0 ? '+' : ''}
@@ -216,19 +216,19 @@ export function HabitCue({ topCards }: HabitCueProps) {
                     </span>
                   </p>
                 </div>
-                <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1.5 text-center">
-                  <p className="text-[9px] uppercase text-emerald-400/80">Skor</p>
-                  <p className="font-mono text-lg font-black text-emerald-300">
+                <div className="rounded-xl border border-[var(--accent)]/30 bg-[var(--glow-up)] px-2.5 py-1.5 text-center">
+                  <p className="text-[9px] uppercase text-[var(--accent)]/80">Skor</p>
+                  <p className="font-mono text-lg font-black text-[var(--up)]">
                     {current.score}
                     <span className="text-xs">/100</span>
                   </p>
                 </div>
               </div>
 
-              <ul className="space-y-1.5 text-xs text-zinc-400">
+              <ul className="space-y-1.5 text-xs text-[var(--muted)]">
                 {current.catalysts.slice(0, 2).map((c) => (
                   <li key={c} className="flex gap-1.5">
-                    <span className="text-emerald-500">+</span>
+                    <span className="text-[var(--accent)]">+</span>
                     <span>{c}</span>
                   </li>
                 ))}
@@ -241,7 +241,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
                     setDrawerCard(current);
                     setDrawerOpen(true);
                   }}
-                  className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-zinc-700 px-3 py-2 text-xs font-semibold text-zinc-200 hover:border-emerald-500/40"
+                  className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-semibold text-[var(--foreground)] hover:border-[var(--accent)]/40"
                 >
                   <Bell className="size-3.5" />
                   Detay / alarm
@@ -250,7 +250,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
                   <button
                     type="button"
                     onClick={() => setStep((s) => s + 1)}
-                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold text-black hover:bg-emerald-400"
+                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-bold text-[#042f2e] hover:brightness-110"
                   >
                     Sonraki
                     <ArrowRight className="size-3.5" />
@@ -259,7 +259,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
                   <button
                     type="button"
                     onClick={completeRitual}
-                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold text-black hover:bg-emerald-400"
+                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-bold text-[#042f2e] hover:brightness-110"
                   >
                     <Check className="size-3.5" />
                     Ritüeli bitir
@@ -268,7 +268,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
               </div>
             </div>
           ) : (
-            <p className="px-5 py-8 text-center text-sm text-zinc-500">
+            <p className="px-5 py-8 text-center text-sm text-[var(--muted)]">
               Canlı fırsat kartı yok — piyasa verisi bekleniyor.
             </p>
           )}
