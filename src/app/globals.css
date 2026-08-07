@@ -239,9 +239,24 @@ html.terminal body {
   animation: landing-float 7s ease-in-out infinite;
 }
 
+@keyframes landing-pill-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(20, 184, 166, 0);
+  }
+}
+
+.landing-pill-glow {
+  animation: landing-pill-glow 2.4s ease-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .landing-fade-up,
-  .landing-float {
+  .landing-float,
+  .landing-pill-glow {
     animation: none;
   }
 }

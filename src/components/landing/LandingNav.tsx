@@ -8,9 +8,9 @@ import { cn } from '@/lib/utils';
 
 const LINKS = [
   { href: '#ozellikler', label: 'Özellikler' },
-  { href: '/signals', label: 'AI Sinyalleri' },
+  { href: '#skor-kontrol', label: 'Skor dene' },
   { href: '/targets', label: 'Analist Hedefleri' },
-  { href: '/egitim', label: 'Blog & Eğitim' },
+  { href: '#sss', label: 'SSS' },
 ] as const;
 
 export function LandingNav() {

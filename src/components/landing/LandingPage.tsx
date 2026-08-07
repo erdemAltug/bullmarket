@@ -3,12 +3,17 @@ import Link from 'next/link';
 import {
   Activity,
   ArrowRight,
+  Bot,
   Crosshair,
-  GitCompare,
-  LineChart,
+  Newspaper,
+  Smartphone,
+  Sparkles,
+  Waves,
   Zap,
 } from 'lucide-react';
 import { AssetChecker } from '@/components/landing/AssetChecker';
+import { FaqAccordion } from '@/components/landing/FaqAccordion';
+import { HeroLiveBadges } from '@/components/landing/HeroLiveBadges';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingTicker } from '@/components/landing/LandingTicker';
 import {
@@ -16,58 +21,96 @@ import {
   TOP_CRYPTO_FOR_HUB,
   TOP_US_FOR_HUB,
 } from '@/lib/seo/internal-links';
+import { SITE_URL } from '@/lib/seo/symbols';
 
 const FAQ = [
   {
-    q: 'Bullsye ile BİST hisse analizi nasıl yapılır?',
-    a: 'Hisse sayfasında canlı fiyat, AI sağlık karnesi, F/K–PD/DD, analist hedef fiyatları ve kurum yorumlarını tek ekranda görürsünüz. Terminale girip BİST veya arama ile başlayın.',
+    q: 'Bullsye AI Fırsat Skoru neye göre hesaplanır?',
+    a: 'Canlı F/K rasyoları, 24 saatlik hacim ivmesi, teknik indikatörler (RSI, hareketli ortalamalar) ve gün içi bant pozisyonlarının ağırlıklı algoritmasıyla 100 üzerinden hesaplanır.',
   },
   {
-    q: 'Alım fırsatları ve AI sinyaller gerçek zamanlı mı?',
-    a: 'Evet. Fırsat masası ve sinyal radarı canlı tarama skorları, gün içi bant ve hacim ivmesiyle güncellenir. Alarm kurarak kaçırmadan takip edebilirsiniz.',
+    q: 'Bullsye terminalini kullanmak ücretsiz mi?',
+    a: 'Evet! Canlı borsa verilerini, AI fırsat skorlarını ve analist hedef fiyatlarını ücretsiz terminalimiz üzerinden anında takip edebilirsiniz.',
   },
   {
-    q: 'Temettü takvimi ve NASDAQ analizi ücretsiz mi?',
-    a: 'Temel terminal, BİST/NASDAQ/kripto canlı fiyatlar, temettü karnesi ve eğitim içerikleri ücretsizdir. Hesap ile watchlist ve alarmlar senkronlanır.',
+    q: 'Hangi borsaların verileri yer alıyor?',
+    a: 'BİST 100, NASDAQ, S&P 500, Kripto (Binance) ve TEFAS yatırım fonları canlı olarak taranmaktadır.',
   },
   {
     q: 'Bullsye yatırım tavsiyesi verir mi?',
-    a: 'Hayır. Bullsye bir analiz terminalidir; yatırım tavsiyesi değildir. Kararlarınızı kendi araştırmanız ve risk profilinizle alın.',
+    a: "Hayır. Bullsye'da yer alan hiçbir veri yatırım tavsiyesi niteliğinde değildir. Kararlarınızı kendi araştırmanız ve risk profilinizle alın.",
   },
 ] as const;
 
-const FEATURES = [
+const PILLARS = [
   {
     href: '/firsatlar',
     icon: Zap,
     title: 'AI Fırsat Radarı',
-    desc: 'Canlı F/K, hacim ve bant analizine dayalı 100 üzerinden otomatik potansiyel skorlama.',
+    subtitle: 'Karmaşaya son verin',
+    bullets: [
+      {
+        t: '100 üzerinden net büyüme skoru',
+        d: 'Yüzlerce indikatörü saatlerce incelemek yerine her varlık için anlık potansiyel skorunu (örn. 90/100) görün.',
+      },
+      {
+        t: 'Zirve ve dip bandı analizi',
+        d: 'Gün içi dip/zirve uzaklığını yüzdesel hesaplayın; tepki noktalarını yakalayın.',
+      },
+      {
+        t: 'Neden bu varlık?',
+        d: 'Algoritmanın öne çıkarma gerekçelerini 3 net satırda görün (F/K iskontosu, hacim patlaması…).',
+      },
+    ],
   },
   {
     href: '/targets',
     icon: Crosshair,
-    title: 'Analist Hedef Fiyatları',
-    desc: 'Aracı kurumların 12 aylık hedef fiyat konsensüsleri ve potansiyel prim oranları.',
-  },
-  {
-    href: '/compare',
-    icon: GitCompare,
-    title: 'Multi-Asset Kıyaslama (1v1)',
-    desc: 'İki hisse veya kripto varlığı kafa kafaya çarpanlarıyla karşılaştırma motoru.',
+    title: '12 Aylık Analist Hedefleri',
+    subtitle: 'Kurumsal akıl',
+    bullets: [
+      {
+        t: 'Aracı kurum konsensüsü',
+        d: 'Kurumların 12 aylık hedef fiyatları ve AL / TUT dağılımını tek ekranda toplayın.',
+      },
+      {
+        t: 'Potansiyel prim oranı',
+        d: 'Güncel fiyat ile konsensüs hedefi arasındaki yükseliş potansiyelini (örn. +%42) anında görün.',
+      },
+    ],
   },
   {
     href: '/portfolio-audit',
     icon: Activity,
     title: 'AI Portföy Doktoru',
-    desc: 'Risk yoğunlaşmasını tespit eden ve sektör dağılım önerisi sunan akıllı tarayıcı.',
+    subtitle: 'Sektörel risk taraması',
+    bullets: [
+      {
+        t: 'Risk yığılması uyarısı',
+        d: 'Tek sektöre veya varlığa aşırı yüklenip yüklenmediğinizi anında tespit edin.',
+      },
+      {
+        t: 'Gelecek varlık simülatörü',
+        d: 'Temettü birikimi ve portföy büyüme projeksiyonunu izleyin.',
+      },
+    ],
   },
-] as const;
-
-const HERO_BADGES = [
-  { label: 'THYAO', hint: 'BİST' },
-  { label: 'GARAN', hint: 'BİST' },
-  { label: 'BTC', hint: 'Kripto' },
-  { label: 'NVDA', hint: 'NASDAQ' },
+  {
+    href: '/whales',
+    icon: Waves,
+    title: 'Haber, KAP & Balina',
+    subtitle: 'Canlı takip akışı',
+    bullets: [
+      {
+        t: 'Anlık şirket gelişmeleri',
+        d: 'Kritik haber ve bilanço notlarını kısa AI özetleriyle okuyun.',
+      },
+      {
+        t: 'Kripto balina radar',
+        d: 'Büyük cüzdan hareketlerini ve kurumsal takas değişimlerini canlı izleyin.',
+      },
+    ],
+  },
 ] as const;
 
 export function LandingPage() {
@@ -89,60 +132,65 @@ export function LandingPage() {
       />
       <LandingNav />
 
+      {/* Hero */}
       <section className="relative isolate pt-24">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              'radial-gradient(ellipse 80% 50% at 50% -5%, rgba(20,184,166,0.14), transparent 55%), radial-gradient(ellipse 60% 40% at 85% 40%, rgba(51,65,85,0.35), transparent 50%)',
+              'radial-gradient(ellipse 80% 50% at 50% -5%, rgba(20,184,166,0.16), transparent 55%), radial-gradient(ellipse 55% 40% at 90% 30%, rgba(51,65,85,0.4), transparent 50%)',
           }}
         />
 
         <div className="mx-auto flex max-w-6xl flex-col px-4 sm:px-6">
-          <div className="mx-auto max-w-3xl pt-6 text-center sm:pt-10">
-            <p className="landing-fade-up text-[11px] font-semibold uppercase tracking-[0.28em] text-[var(--accent)]">
-              Bullsye · HIT THE MARKET
+          <div className="mx-auto max-w-3xl pt-4 text-center sm:pt-8">
+            <p className="landing-fade-up landing-pill-glow mx-auto inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--accent)]/35 bg-[var(--glow-up)] px-3 py-1.5 text-[11px] font-semibold text-[var(--accent)] sm:text-xs">
+              <Sparkles className="size-3.5 shrink-0" />
+              <span className="truncate">
+                Yapay Zeka v2.4 yayında — BİST, NASDAQ ve Kripto radarı canlı
+              </span>
             </p>
-            <h1 className="landing-fade-up landing-delay-1 mt-4 text-3xl font-black tracking-tight text-[var(--foreground)] sm:text-5xl md:text-[3.25rem] md:leading-[1.1]">
-              Yapay Zeka Destekli Canlı Piyasa &amp; Borsa Terminali
+
+            <h1 className="landing-fade-up landing-delay-1 mt-5 text-3xl font-black tracking-tight text-[var(--foreground)] sm:text-4xl md:text-[2.75rem] md:leading-[1.15]">
+              Piyasaları sadece izlemeyin.{' '}
+              <span className="text-[var(--accent)]">
+                Yapay zeka destekli terminal
+              </span>{' '}
+              ile piyasanın önüne geçin.
             </h1>
+
             <p className="landing-fade-up landing-delay-2 mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-              BİST 100, NASDAQ, Kripto ve Fon piyasalarını anlık verilerle takip
-              edin. Yapay zeka skorları ve analist hedef fiyatları ile
-              kararlarınızı güçlendirin.
+              BİST 100, NASDAQ, Kripto ve Fon piyasalarındaki binlerce varlığı
+              anlık tarayın. Karmaşık teknik analizleri 100 üzerinden net AI
+              skorlarına ve analist hedef fiyatlarına dönüştürün.
             </p>
+
             <div className="landing-fade-up landing-delay-3 mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/terminal"
                 prefetch
-                className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-bold text-[#042f2e] transition hover:brightness-110"
+                className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-bold text-[#042f2e] shadow-[0_0_28px_rgba(20,184,166,0.28)] transition hover:brightness-110"
               >
-                Canlı Terminali Aç
+                Canlı Terminale Geç
                 <ArrowRight className="size-4" />
               </Link>
               <Link
-                href="#skor-kontrol"
+                href="#uygulama"
                 className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--card)] px-5 py-3 text-sm font-semibold text-[var(--foreground)] transition hover:border-[var(--accent)]/40"
               >
-                Ücretsiz skor dene
+                <Smartphone className="size-4" />
+                iOS / Android
               </Link>
             </div>
-            <div className="landing-fade-up landing-delay-3 mt-6 flex flex-wrap items-center justify-center gap-2">
-              {HERO_BADGES.map((b) => (
-                <span
-                  key={b.label}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--surface)]/80 px-2.5 py-1 text-[11px] font-semibold text-[var(--foreground)]"
-                >
-                  <span className="text-[var(--accent)]">{b.label}</span>
-                  <span className="text-[var(--muted)]">{b.hint}</span>
-                </span>
-              ))}
-            </div>
+            <p className="landing-fade-up landing-delay-3 mt-3 text-[11px] text-[var(--muted)]">
+              Kredi kartı gerekmez · Ücretsiz canlı veriler · 10 saniyede keşfedin
+            </p>
           </div>
 
-          <div className="landing-fade-up landing-delay-4 relative mt-12 sm:mt-14">
-            <div className="landing-float relative mx-auto max-w-5xl overflow-hidden rounded-t-2xl border border-b-0 border-[var(--border)] bg-[var(--surface)] shadow-[0_-20px_80px_rgba(20,184,166,0.08)]">
+          {/* Terminal preview frame */}
+          <div className="landing-fade-up landing-delay-4 relative mx-auto mt-12 w-full max-w-5xl sm:mt-14">
+            <div className="landing-float relative overflow-hidden rounded-2xl border border-[var(--accent)]/25 bg-[var(--surface)] shadow-[0_0_60px_rgba(20,184,166,0.12)]">
               <div className="flex items-center gap-2 border-b border-[var(--border)] px-4 py-2.5">
                 <span className="size-2.5 rounded-full bg-[#f43f5e]/70" />
                 <span className="size-2.5 rounded-full bg-amber-400/70" />
@@ -151,57 +199,91 @@ export function LandingPage() {
                   bullsye.app/terminal
                 </span>
               </div>
-              <Image
-                src="/images/landing/terminal-hero.png"
-                alt="Bullsye canlı terminal — fırsat radarı, skor kartları ve piyasa genişlik metresi"
-                width={1024}
-                height={490}
-                priority
-                className="h-auto w-full object-cover object-top"
-                sizes="(max-width: 1024px) 100vw, 1024px"
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[var(--background)] to-transparent"
-              />
+
+              <div className="relative space-y-3 p-3 sm:p-4">
+                <HeroLiveBadges />
+                <div className="relative overflow-hidden rounded-xl border border-[var(--border)]">
+                  <Image
+                    src="/images/landing/terminal-hero.png"
+                    alt="Bullsye canlı terminal önizlemesi — fırsat radarı ve skor kartları"
+                    width={1024}
+                    height={490}
+                    priority
+                    className="h-auto w-full object-cover object-top"
+                    sizes="(max-width: 1024px) 100vw, 1024px"
+                  />
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[var(--surface)] to-transparent"
+                  />
+                </div>
+
+                <div className="absolute bottom-6 left-4 right-4 sm:bottom-8 sm:left-auto sm:right-6 sm:max-w-sm">
+                  <div className="flex gap-2 rounded-xl border border-[var(--accent)]/30 bg-[var(--popover-bg)]/95 p-3 shadow-lg backdrop-blur-md">
+                    <Bot className="mt-0.5 size-4 shrink-0 text-[var(--accent)]" />
+                    <p className="text-xs leading-relaxed text-[var(--foreground)]">
+                      <span className="font-semibold text-[var(--accent)]">
+                        Bullsye AI:
+                      </span>{' '}
+                      AKBNK son 24 saatte güçlü hacim kırılımı tespit etti.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <LandingTicker />
+      <div className="mt-10">
+        <LandingTicker />
+      </div>
 
+      {/* Value pillars */}
       <section
         id="ozellikler"
-        className="scroll-mt-20 border-b border-[var(--border)] bg-[var(--surface)]/40 py-20 sm:py-24"
+        className="scroll-mt-20 border-b border-[var(--border)] py-20 sm:py-24"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="max-w-2xl">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-              Karara dönüşen 4 sütun
+              Terminalde neler var?
             </h2>
             <p className="mt-3 text-[var(--muted)]">
-              Soğuk fiyat listesi değil — skor, hedef, kıyas ve portföy sağlığı.
+              AI skor, analist hedefleri, portföy riski ve haber/balina akışı.
             </p>
           </div>
-          <ul className="mt-12 grid gap-4 sm:grid-cols-2">
-            {FEATURES.map((f) => (
-              <li key={f.href}>
+
+          <ul className="mt-12 grid gap-6 lg:grid-cols-2">
+            {PILLARS.map((p) => (
+              <li key={p.href}>
                 <Link
-                  href={f.href}
-                  className="group flex h-full gap-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 transition hover:border-[var(--accent)]/40"
+                  href={p.href}
+                  className="group flex h-full flex-col rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 transition hover:border-[var(--accent)]/40 sm:p-6"
                 >
-                  <div className="grid size-10 shrink-0 place-items-center rounded-xl border border-[var(--accent)]/30 bg-[var(--glow-up)]">
-                    <f.icon className="size-5 text-[var(--accent)]" />
+                  <div className="flex items-start gap-3">
+                    <div className="grid size-10 shrink-0 place-items-center rounded-xl border border-[var(--accent)]/30 bg-[var(--glow-up)]">
+                      <p.icon className="size-5 text-[var(--accent)]" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold group-hover:text-[var(--accent)]">
+                        {p.title}
+                      </h3>
+                      <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
+                        {p.subtitle}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-base font-semibold group-hover:text-[var(--accent)]">
-                      {f.title}
-                    </h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-[var(--muted)]">
-                      {f.desc}
-                    </p>
-                  </div>
+                  <ul className="mt-5 space-y-3">
+                    {p.bullets.map((b) => (
+                      <li key={b.t} className="text-sm leading-relaxed">
+                        <p className="font-semibold text-[var(--foreground)]">
+                          {b.t}
+                        </p>
+                        <p className="mt-0.5 text-[var(--muted)]">{b.d}</p>
+                      </li>
+                    ))}
+                  </ul>
                 </Link>
               </li>
             ))}
@@ -209,21 +291,19 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* SEO quick checker */}
       <section
         id="skor-kontrol"
         className="scroll-mt-20 mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24"
       >
         <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)]">
-              Try before terminal
-            </p>
-            <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">
-              Giriş yapmadan AI fırsat skorunu gör
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+              Giriş yapmadan AI skorunu dene
             </h2>
-            <p className="mt-4 text-[var(--muted)] leading-relaxed">
-              Canlı evrenden sembol seç; F/K, hacim ve gün içi bant ile üretilen
-              0–100 skor anında gelir. Beğendiysen tek tıkla terminale geç.
+            <p className="mt-4 leading-relaxed text-[var(--muted)]">
+              THYAO, GARAN veya BTC yazın — canlı evrenden skor, fiyat ve değişim
+              anında gelir. Beğendiyseniz tek tıkla terminale geçin.
             </p>
             <Link
               href="/terminal"
@@ -238,26 +318,52 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* App section */}
+      <section
+        id="uygulama"
+        className="scroll-mt-20 border-y border-[var(--border)] bg-[var(--surface)]/50 py-16 sm:py-20"
+      >
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 text-center sm:px-6 md:flex-row md:text-left">
+          <div className="grid size-16 shrink-0 place-items-center rounded-2xl border border-[var(--accent)]/30 bg-[var(--glow-up)]">
+            <Smartphone className="size-7 text-[var(--accent)]" />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
+              iOS / Android uygulaması yakında
+            </h2>
+            <p className="mt-2 max-w-xl text-sm text-[var(--muted)]">
+              Mobil bildirim ve alarm senkronu üzerinde çalışıyoruz. Şimdilik web
+              terminali telefonda da çalışır — favorilere ekleyin.
+            </p>
+          </div>
+          <Link
+            href="/terminal"
+            prefetch
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-bold text-[#042f2e] hover:brightness-110"
+          >
+            Web terminalini aç
+            <ArrowRight className="size-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Symbol SEO */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <h2 className="text-xl font-bold tracking-tight sm:text-2xl">
           Popüler analiz sayfaları
         </h2>
         <p className="mt-2 text-sm text-[var(--muted)]">
-          Canlı fiyat, grafik ve sağlık karnesi — doğrudan hisse / kripto
-          detayına gidin.
+          Canlı fiyat, grafik ve sağlık karnesi — doğrudan detaya gidin.
         </p>
-        <div className="mt-8 space-y-8">
+        <div className="mt-8 grid gap-8 md:grid-cols-3">
           <div>
-            <h3 className="flex items-center gap-2 text-sm font-semibold">
-              <LineChart className="size-4 text-[var(--accent)]" />
-              BİST
-            </h3>
+            <h3 className="text-sm font-semibold">BİST</h3>
             <ul className="mt-3 flex flex-wrap gap-2">
               {TOP_BIST_FOR_HUB.map((sym) => (
                 <li key={sym}>
                   <Link
                     href={`/bist/${sym}`}
-                    className="inline-block rounded-md border border-[var(--border)] px-2.5 py-1 text-sm text-[var(--accent)] transition hover:border-[var(--accent)]/40"
+                    className="inline-block rounded-md border border-[var(--border)] px-2.5 py-1 text-sm text-[var(--accent)] hover:border-[var(--accent)]/40"
                   >
                     {sym}
                   </Link>
@@ -266,13 +372,13 @@ export function LandingPage() {
             </ul>
           </div>
           <div>
-            <h3 className="text-sm font-semibold">NASDAQ / ABD</h3>
+            <h3 className="text-sm font-semibold">NASDAQ</h3>
             <ul className="mt-3 flex flex-wrap gap-2">
               {TOP_US_FOR_HUB.map((sym) => (
                 <li key={sym}>
                   <Link
                     href={`/us/${sym}`}
-                    className="inline-block rounded-md border border-[var(--border)] px-2.5 py-1 text-sm text-sky-300 transition hover:border-sky-400/40"
+                    className="inline-block rounded-md border border-[var(--border)] px-2.5 py-1 text-sm text-sky-300 hover:border-sky-400/40"
                   >
                     {sym}
                   </Link>
@@ -287,7 +393,7 @@ export function LandingPage() {
                 <li key={sym}>
                   <Link
                     href={`/crypto/${sym}`}
-                    className="inline-block rounded-md border border-[var(--border)] px-2.5 py-1 text-sm text-[var(--up)] transition hover:border-[var(--up)]/40"
+                    className="inline-block rounded-md border border-[var(--border)] px-2.5 py-1 text-sm text-[var(--up)] hover:border-[var(--up)]/40"
                   >
                     {sym.replace('USDT', '')}
                   </Link>
@@ -298,78 +404,78 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="border-t border-[var(--border)] bg-[var(--surface)]/40 py-20 sm:py-24">
+      {/* FAQ */}
+      <section
+        id="sss"
+        className="scroll-mt-20 border-t border-[var(--border)] bg-[var(--surface)]/40 py-20 sm:py-24"
+      >
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
           <h2 className="text-center text-2xl font-bold tracking-tight">
             Sık sorulanlar
           </h2>
-          <dl className="mt-10 space-y-8">
-            {FAQ.map((f) => (
-              <div key={f.q}>
-                <dt className="text-base font-semibold">{f.q}</dt>
-                <dd className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-                  {f.a}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <div className="mt-10">
+            <FaqAccordion items={FAQ} />
+          </div>
         </div>
       </section>
 
+      {/* Final CTA */}
       <section className="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-28">
         <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
-          Piyasayı kaçırmadan izle
+          10 saniyede keşfedin
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-[var(--muted)]">
-          Ücretsiz terminal — BİST, fırsat masası, sinyaller ve temettü karnesi
-          hazır.
+          Ücretsiz canlı veriler — kredi kartı yok. AI skor, hedef fiyat ve
+          balina akışı hazır.
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            href="/terminal"
-            prefetch
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-bold text-[#042f2e] transition hover:brightness-110"
-          >
-            Canlı Terminale Geç
-            <ArrowRight className="size-4" />
-          </Link>
-          <Link
-            href="/egitim"
-            className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] px-6 py-3 text-sm font-semibold transition hover:border-[var(--accent)]/40"
-          >
-            Eğitim Hub
-          </Link>
-        </div>
-        <p className="mt-10 text-[11px] text-[var(--muted)]/80">
-          Yatırım tavsiyesi değildir.{' '}
-          <Link href="/yatirim-uyarisi" className="underline-offset-2 hover:underline">
-            Yatırım uyarısı
-          </Link>
-        </p>
+        <Link
+          href="/terminal"
+          prefetch
+          className="mt-8 inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-bold text-[#042f2e] shadow-[0_0_28px_rgba(20,184,166,0.28)] hover:brightness-110"
+        >
+          Canlı Terminale Geç
+          <ArrowRight className="size-4" />
+        </Link>
       </section>
 
-      <footer className="border-t border-[var(--border)] py-8">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 text-xs text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>© {new Date().getFullYear()} Bullsye</p>
-          <div className="flex flex-wrap gap-4">
-            <Link href="/terminal" className="hover:text-[var(--accent)]">
-              Terminal
-            </Link>
-            <Link href="/tr" className="hover:text-[var(--accent)]">
-              TR
-            </Link>
-            <Link href="/en" className="hover:text-[var(--accent)]">
-              EN
-            </Link>
-            <Link href="/kvkk" className="hover:text-[var(--accent)]">
-              KVKK
-            </Link>
-            <Link href="/gizlilik" className="hover:text-[var(--accent)]">
-              Gizlilik
-            </Link>
-            <Link href="/kosullar" className="hover:text-[var(--accent)]">
-              Koşullar
-            </Link>
+      {/* YMYL / E-E-A-T footer */}
+      <footer className="border-t border-[var(--border)] bg-[var(--surface)]/80 py-10">
+        <div className="mx-auto max-w-6xl space-y-6 px-4 text-xs leading-relaxed text-[var(--muted)] sm:px-6">
+          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
+            <p className="flex items-start gap-2 font-semibold text-[var(--foreground)]">
+              <Newspaper className="mt-0.5 size-3.5 shrink-0 text-[var(--accent)]" />
+              Yatırım uyarısı (YMYL)
+            </p>
+            <p className="mt-2">
+              Bullsye&apos;da yer alan hiçbir veri yatırım tavsiyesi niteliğinde
+              değildir. Fiyatlar, AI skorları ve analist hedefleri bilgilendirme
+              amaçlıdır; kararlarınızı kendi araştırmanız ve risk toleransınızla
+              alın. Metodoloji: canlı F/K, hacim ivmesi, gün içi bant ve teknik
+              ortalamalar ağırlıklı skorlama.
+            </p>
+          </div>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} Bullsye · {SITE_URL.replace('https://', '')}</p>
+            <div className="flex flex-wrap gap-4">
+              <Link href="/terminal" className="hover:text-[var(--accent)]">
+                Terminal
+              </Link>
+              <Link href="/sitemap.xml" className="hover:text-[var(--accent)]">
+                Sitemap
+              </Link>
+              <Link href="/yatirim-uyarisi" className="hover:text-[var(--accent)]">
+                Yatırım uyarısı
+              </Link>
+              <Link href="/kvkk" className="hover:text-[var(--accent)]">
+                KVKK
+              </Link>
+              <Link href="/gizlilik" className="hover:text-[var(--accent)]">
+                Gizlilik
+              </Link>
+              <Link href="/kosullar" className="hover:text-[var(--accent)]">
+                Koşullar
+              </Link>
+            </div>
           </div>
         </div>
       </footer>
