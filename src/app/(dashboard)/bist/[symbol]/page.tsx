@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { AnalystTargetCard } from '@/components/asset/AnalystTargetCard';
+import { AssetFundamentalsStrip } from '@/components/asset/AssetFundamentalsStrip';
 import { BistHealthScorecard } from '@/components/dashboard/AssetHealthScorecard';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { MetricCard } from '@/components/dashboard/MetricCard';
@@ -161,13 +162,17 @@ export default async function BistSymbolPage({ params }: Props) {
     /* show page shell anyway */
   }
 
+  let fundamentals = null;
   let analystCard = null;
   try {
-    const fundamentals = await fetchFundamentals(yahoo);
+    fundamentals = await fetchFundamentals(yahoo);
     analystCard = fromLiveFundamentals(fundamentals);
   } catch {
+    fundamentals = null;
     analystCard = null;
   }
+
+  const currencySymbol = quote.currency === 'USD' ? '$' : '₺';
 
   return (
     <AssetSeoShell
@@ -176,43 +181,58 @@ export default async function BistSymbolPage({ params }: Props) {
       price={quote.price}
       changePercent={quote.changePercent}
       currency={quote.currency}
-      currencySymbol={quote.currency === 'USD' ? '$' : '₺'}
+      currencySymbol={currencySymbol}
       kind="bist"
     >
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(240px,320px)]">
+        <ChartPanel
+          title={`${symbol} · Canlı grafik`}
+          symbol={yahoo}
+          source="yahoo"
+          isPositive={quote.changePercent >= 0}
+          currencySymbol={currencySymbol}
+          defaultTimeframe="1M"
+          height={400}
+          detailed
+        />
         <MetricCard
           title={quote.name}
           value={quote.price}
           changePercent={quote.changePercent}
           currency={quote.currency}
-        />
-        <ChartPanel
-          title={symbol}
-          symbol={yahoo}
-          source="yahoo"
-          isPositive={quote.changePercent >= 0}
-          defaultTimeframe="5D"
+          subtitle="Borsa İstanbul"
         />
       </div>
 
-      <BistHealthScorecard
-        yahooSymbol={yahoo}
-        displaySymbol={symbol}
-        changePercent={quote.changePercent}
-      />
+      {fundamentals ? (
+        <AssetFundamentalsStrip
+          data={fundamentals}
+          currencySymbol={currencySymbol}
+        />
+      ) : null}
 
-      {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <BistHealthScorecard
+          yahooSymbol={yahoo}
+          displaySymbol={symbol}
+          changePercent={quote.changePercent}
+        />
+        {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
+      </div>
 
-      <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-400">
-        <h2 className="mb-2 text-base font-semibold text-zinc-100">
-          {symbol} hakkında
+      <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 text-sm leading-relaxed text-[var(--muted)]">
+        <h2 className="mb-2 text-base font-semibold text-[var(--foreground)]">
+          {symbol} detaylı analiz
         </h2>
         <p>
-          {quote.name} ({symbol}) Borsa İstanbul&apos;da işlem gören bir
-          menkul kıymettir. Bu sayfada canlı fiyat, AI sağlık karnesi, 12 aylık
-          analist hedef fiyat konsensüsü, kurum raporları ve interaktif grafik
-          yer alır. Alarm kurmak için fiyat kartına tıklayabilir veya Overview
-          üzerinden watchlist&apos;inize ekleyebilirsiniz.
+          {quote.name} ({symbol}) Borsa İstanbul&apos;da işlem görür. Bu
+          sayfada canlı grafik (SMA 20/50 + hacim), F/K–PD/DD çarpanları, 52
+          haftalık aralık, AI sağlık karnesi ve 12 aylık analist hedef
+          konsensüsü bulunur. Alarm için fiyat kartına tıklayın; kıyas için{' '}
+          <a href="/compare" className="text-[var(--accent)] hover:underline">
+            1v1 Kıyasla
+          </a>
+          .
         </p>
       </section>
     </AssetSeoShell>

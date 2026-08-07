@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { AnalystTargetCard } from '@/components/asset/AnalystTargetCard';
+import { AssetFundamentalsStrip } from '@/components/asset/AssetFundamentalsStrip';
 import { BistHealthScorecard } from '@/components/dashboard/AssetHealthScorecard';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { MetricCard } from '@/components/dashboard/MetricCard';
@@ -147,11 +148,13 @@ export default async function UsSymbolPage({ params }: Props) {
     /* show page shell anyway */
   }
 
+  let fundamentals = null;
   let analystCard = null;
   try {
-    const fundamentals = await fetchFundamentals(symbol);
+    fundamentals = await fetchFundamentals(symbol);
     analystCard = fromLiveFundamentals(fundamentals);
   } catch {
+    fundamentals = null;
     analystCard = null;
   }
 
@@ -165,39 +168,51 @@ export default async function UsSymbolPage({ params }: Props) {
       currencySymbol="$"
       kind="us"
     >
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(240px,320px)]">
+        <ChartPanel
+          title={`${symbol} · Live chart`}
+          symbol={symbol}
+          source="yahoo"
+          isPositive={quote.changePercent >= 0}
+          currencySymbol="$"
+          defaultTimeframe="1M"
+          height={400}
+          detailed
+        />
         <MetricCard
           title={quote.name}
           value={quote.price}
           changePercent={quote.changePercent}
           currency="USD"
-        />
-        <ChartPanel
-          title={symbol}
-          symbol={symbol}
-          source="yahoo"
-          isPositive={quote.changePercent >= 0}
-          defaultTimeframe="5D"
+          subtitle="NASDAQ / NYSE"
         />
       </div>
 
-      <BistHealthScorecard
-        yahooSymbol={symbol}
-        displaySymbol={symbol}
-        changePercent={quote.changePercent}
-      />
+      {fundamentals ? (
+        <AssetFundamentalsStrip data={fundamentals} currencySymbol="$" />
+      ) : null}
 
-      {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <BistHealthScorecard
+          yahooSymbol={symbol}
+          displaySymbol={symbol}
+          changePercent={quote.changePercent}
+        />
+        {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
+      </div>
 
-      <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-400">
-        <h2 className="mb-2 text-base font-semibold text-zinc-100">
-          {symbol} hakkında
+      <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 text-sm leading-relaxed text-[var(--muted)]">
+        <h2 className="mb-2 text-base font-semibold text-[var(--foreground)]">
+          {symbol} detailed analysis
         </h2>
         <p>
-          {quote.name} ({symbol}) ABD piyasalarında (NASDAQ/NYSE) işlem gören bir
-          hisse senedidir. Bu sayfada canlı fiyat, sağlık karnesi, 12
-          aylık analist hedef konsensüsü ve interaktif grafik yer alır. Alarm
-          ve izleme listesi Overview üzerinden kullanılabilir.
+          {quote.name} ({symbol}) ABD piyasalarında işlem görür. Canlı grafik
+          (SMA 20/50 + hacim), çarpanlar, AI sağlık karnesi ve analist hedef
+          konsensüsü bu sayfada bir arada. Kıyas için{' '}
+          <a href="/compare" className="text-[var(--accent)] hover:underline">
+            1v1 Compare
+          </a>
+          .
         </p>
       </section>
     </AssetSeoShell>
