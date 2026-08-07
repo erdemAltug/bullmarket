@@ -64,7 +64,7 @@ export function MobileNavDrawer() {
       >
         <div className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--border)] px-4 pr-12">
           <SheetTitle className="sr-only">Navigasyon</SheetTitle>
-          <Logo compact />
+          <Logo compact href="/terminal" />
         </div>
         <button
           type="button"

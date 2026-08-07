@@ -8,16 +8,18 @@ interface LogoProps {
   showBadge?: boolean;
   /** Smaller mark + hide tagline — mobile header */
   compact?: boolean;
+  href?: string;
 }
 
 export function Logo({
   className = '',
   showBadge = true,
   compact = false,
+  href = '/',
 }: LogoProps) {
   return (
     <Link
-      href="/"
+      href={href}
       className={cn(
         'group flex min-w-0 select-none items-center gap-2 py-1 transition-all duration-300 sm:gap-3',
         className

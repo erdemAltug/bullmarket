@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og';
 
-export const size = { width: 32, height: 32 };
+/** ≥48px recommended for Google Search favicon. */
+export const size = { width: 96, height: 96 };
 export const contentType = 'image/png';
 
 export default function Icon() {
@@ -13,25 +14,30 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#050508',
-          borderRadius: 8,
-          border: '1px solid rgba(16,185,129,0.35)',
+          background: '#181c25',
+          borderRadius: 20,
+          border: '3px solid rgba(20,184,166,0.5)',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#34d399',
-            fontSize: 14,
-            fontWeight: 900,
-            letterSpacing: -1,
-            fontFamily: 'system-ui, sans-serif',
-          }}
-        >
-          BY
-        </div>
+        <svg width="64" height="64" viewBox="0 0 32 32" fill="none">
+          <circle
+            cx="16"
+            cy="16"
+            r="12"
+            stroke="#2dd4bf"
+            strokeWidth="1.75"
+            opacity="0.35"
+          />
+          <circle
+            cx="16"
+            cy="16"
+            r="7.5"
+            stroke="#2dd4bf"
+            strokeWidth="1.75"
+            opacity="0.7"
+          />
+          <circle cx="16" cy="16" r="3" fill="#2dd4bf" />
+        </svg>
       </div>
     ),
     { ...size }

@@ -48,7 +48,7 @@ export type Dictionary = {
 
 const tr: Dictionary = {
   nav: {
-    overview: 'Overview',
+    overview: 'Dashboard',
     opportunities: 'AI Fırsatlar',
     bist: 'BİST',
     heatmap: 'Isı Haritası',
@@ -94,7 +94,7 @@ const tr: Dictionary = {
 
 const en: Dictionary = {
   nav: {
-    overview: 'Overview',
+    overview: 'Dashboard',
     opportunities: 'AI Opportunities',
     bist: 'BIST',
     heatmap: 'Heatmap',

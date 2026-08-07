@@ -40,7 +40,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     group: 'terminal',
     items: [
-      { href: '/', key: 'overview', icon: LayoutDashboard, color: 'text-emerald-400' },
+      { href: '/terminal', key: 'overview', icon: LayoutDashboard, color: 'text-emerald-400' },
       { href: '/firsatlar', key: 'opportunities', icon: Zap, color: 'text-emerald-400' },
     ],
   },
@@ -84,14 +84,16 @@ export const NAV_GROUPS: NavGroup[] = [
 
 /** Primary destinations for mobile bottom bar */
 export const MOBILE_BOTTOM_ITEMS: NavLink[] = [
-  { href: '/', key: 'overview', icon: LayoutDashboard, color: 'text-emerald-400' },
+  { href: '/terminal', key: 'overview', icon: LayoutDashboard, color: 'text-emerald-400' },
   { href: '/firsatlar', key: 'opportunities', icon: Zap, color: 'text-emerald-400' },
   { href: '/bist', key: 'bist', icon: LineChart, color: 'text-blue-400' },
   { href: '/signals', key: 'signals', icon: Sparkles, color: 'text-emerald-300' },
 ];
 
 export function isNavActive(pathname: string, href: string) {
-  if (href === '/') return pathname === '/';
+  if (href === '/terminal') {
+    return pathname === '/terminal' || pathname === '/dashboard';
+  }
   if (href === '/bist') {
     return pathname === '/bist' || /^\/bist\/(?!heatmap)/.test(pathname);
   }

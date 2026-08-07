@@ -12,9 +12,9 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
   {
     id: 'nav-overview',
     label: 'Overview',
-    keywords: 'home dashboard overview',
+    keywords: 'home dashboard overview terminal',
     kind: 'nav',
-    href: '/',
+    href: '/terminal',
   },
   {
     id: 'nav-bist',

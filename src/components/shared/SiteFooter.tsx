@@ -9,6 +9,7 @@ const LEGAL_LINKS = [
 ] as const;
 
 const PRODUCT_LINKS = [
+  { href: '/terminal', label: 'Terminal' },
   { href: '/firsatlar', label: 'Fırsat Masası' },
   { href: '/bist', label: 'BİST' },
   { href: '/us', label: 'NASDAQ' },

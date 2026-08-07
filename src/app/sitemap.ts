@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticPaths = [
     '',
+    '/terminal',
     '/tr',
     '/en',
     '/bist',
@@ -59,11 +60,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:
       path === '' || path === '/tr' || path === '/en'
         ? 1.0
-        : path === '/egitim' || path === '/blog'
-          ? 0.9
-          : legalPaths.has(path)
-            ? 0.4
-            : 0.8,
+        : path === '/terminal' || path === '/firsatlar'
+          ? 0.95
+          : path === '/egitim' || path === '/blog'
+            ? 0.9
+            : legalPaths.has(path)
+              ? 0.4
+              : 0.8,
     alternates: sitemapLanguageAlternates(
       path === '/tr' || path === '/en' ? '' : path
     ),

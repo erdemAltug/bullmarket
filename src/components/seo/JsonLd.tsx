@@ -15,15 +15,16 @@ export function JsonLd() {
     areaServed: ['TR', 'Worldwide'],
   };
 
-  const webAppSchema = {
+  const softwareSchema = {
     '@context': 'https://schema.org',
-    '@type': 'WebApplication',
+    '@type': 'SoftwareApplication',
     name: 'Bullsye Terminal',
-    url: SITE_URL,
     applicationCategory: 'FinanceApplication',
     operatingSystem: 'Web',
-    browserRequirements: 'Requires JavaScript. Requires HTML5.',
-    inLanguage: ['tr-TR', 'en-US'],
+    url: `${SITE_URL}/terminal`,
+    image: `${SITE_URL}/images/landing/terminal-hero.png`,
+    description:
+      'BİST, NASDAQ ve Kripto için yapay zeka skorları, analist hedef fiyatları ve canlı borsa terminali.',
     offers: {
       '@type': 'Offer',
       price: '0',
@@ -36,7 +37,24 @@ export function JsonLd() {
       'Kripto radar',
       'Temettü takvimi',
       '1v1 varlık kıyaslama',
+      'AI Portföy Doktoru',
     ],
+  };
+
+  const financialProductSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FinancialProduct',
+    name: 'Bullsye Canlı Piyasa Terminali',
+    description:
+      'Ücretsiz canlı BİST, NASDAQ, kripto ve fon izleme; AI fırsat skoru ve analist hedefleri.',
+    url: SITE_URL,
+    provider: {
+      '@type': 'Organization',
+      name: 'Bullsye',
+      url: SITE_URL,
+    },
+    feesAndCommissionsSpecification: 'Ücretsiz kullanım',
+    category: 'Market data & analytics',
   };
 
   const websiteSchema = {
@@ -65,7 +83,13 @@ export function JsonLd() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(financialProductSchema),
+        }}
       />
       <script
         type="application/ld+json"

@@ -32,7 +32,7 @@ function asFaqs(v: unknown): ContentFaq[] {
 function asToolCta(v: unknown): ToolCta {
   const o = (v ?? {}) as Record<string, unknown>;
   return {
-    href: String(o.href ?? '/'),
+    href: String(o.href ?? '/terminal'),
     label: String(o.label ?? 'Terminale git'),
     blurb: String(o.blurb ?? ''),
   };

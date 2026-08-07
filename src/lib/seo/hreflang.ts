@@ -29,7 +29,7 @@ export function rootHreflangLanguages(): Record<string, string> {
   return {
     'tr-TR': `${SITE_URL}/tr`,
     'en-US': `${SITE_URL}/en`,
-    'x-default': `${SITE_URL}/tr`,
+    'x-default': SITE_URL,
   };
 }
 

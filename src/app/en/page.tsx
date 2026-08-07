@@ -83,8 +83,8 @@ export default function EnLocaleLanding() {
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
-          href="/?lang=en"
-          className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
+          href="/terminal?lang=en"
+          className="rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[#042f2e] hover:brightness-110"
         >
           Open Terminal
         </Link>

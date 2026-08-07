@@ -197,6 +197,55 @@ html.terminal body {
   transform-origin: left;
 }
 
+@keyframes landing-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.landing-fade-up {
+  animation: landing-fade-up 0.7s ease-out both;
+}
+
+.landing-delay-1 {
+  animation-delay: 80ms;
+}
+.landing-delay-2 {
+  animation-delay: 160ms;
+}
+.landing-delay-3 {
+  animation-delay: 240ms;
+}
+.landing-delay-4 {
+  animation-delay: 320ms;
+}
+
+.landing-float {
+  animation: landing-float 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-fade-up,
+  .landing-float {
+    animation: none;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

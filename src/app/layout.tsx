@@ -53,14 +53,16 @@ export const metadata: Metadata = {
     languages: {
       'tr-TR': `${SITE_URL}/tr`,
       'en-US': `${SITE_URL}/en`,
-      'x-default': `${SITE_URL}/tr`,
+      'x-default': SITE_URL,
     },
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon', type: 'image/png', sizes: '96x96' },
+      { url: '/favicon.ico', sizes: '48x48' },
     ],
+    shortcut: '/favicon.ico',
     apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {

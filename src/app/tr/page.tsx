@@ -86,8 +86,8 @@ export default function TrLocaleLanding() {
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
-          href="/?lang=tr"
-          className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
+          href="/terminal?lang=tr"
+          className="rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[#042f2e] hover:brightness-110"
         >
           Terminale Gir
         </Link>

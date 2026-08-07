@@ -13,6 +13,18 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/dashboard',
+        destination: '/terminal',
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return [{ source: '/og-image.png', destination: '/og-image' }];
+  },
   async headers() {
     return [
       {
@@ -26,7 +38,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Keep visited/prefetched tab pages in the client router cache → instant back/forth
   experimental: {
     staleTimes: {
       dynamic: 60,
