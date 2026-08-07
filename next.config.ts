@@ -23,7 +23,13 @@ const nextConfig: NextConfig = {
     ];
   },
   async rewrites() {
-    return [{ source: '/og-image.png', destination: '/og-image' }];
+    return [
+      {
+        source: '/og-image.png',
+        destination:
+          '/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Hit%20The%20Market',
+      },
+    ];
   },
   async headers() {
     return [
