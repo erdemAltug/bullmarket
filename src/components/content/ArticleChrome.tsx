@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import type { ContentSection, ToolCta } from '@/content/types';
 import { useAuthGate } from '@/components/auth/AuthGateProvider';
@@ -54,6 +54,55 @@ export function ArticleToc({ sections }: { sections: ContentSection[] }) {
       </ol>
     </nav>
   );
+}
+
+function renderInlineMarkdown(text: string): ReactNode {
+  const parts: ReactNode[] = [];
+  const re = /(\*\*[^*]+\*\*|\[([^\]]+)\]\(([^)]+)\))/g;
+  let last = 0;
+  let match: RegExpExecArray | null;
+  let key = 0;
+  while ((match = re.exec(text)) !== null) {
+    if (match.index > last) {
+      parts.push(text.slice(last, match.index));
+    }
+    const token = match[0];
+    if (token.startsWith('**')) {
+      parts.push(
+        <strong key={key++} className="font-semibold text-zinc-200">
+          {token.slice(2, -2)}
+        </strong>
+      );
+    } else {
+      const href = match[3]!;
+      const label = match[2]!;
+      const external = href.startsWith('http');
+      parts.push(
+        external ? (
+          <a
+            key={key++}
+            href={href}
+            className="font-medium text-emerald-400 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {label}
+          </a>
+        ) : (
+          <Link
+            key={key++}
+            href={href}
+            className="font-medium text-emerald-400 hover:underline"
+          >
+            {label}
+          </Link>
+        )
+      );
+    }
+    last = match.index + token.length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts.length ? parts : text;
 }
 
 export function ToolCtaBox({ cta }: { cta: ToolCta }) {
@@ -181,13 +230,13 @@ export function ArticleBody({
                 key={p.slice(0, 24)}
                 className="mt-3 text-sm leading-relaxed text-zinc-400"
               >
-                {p}
+                {renderInlineMarkdown(p)}
               </p>
             ))}
             {section.bullets?.length ? (
               <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-zinc-400">
                 {section.bullets.map((b) => (
-                  <li key={b}>{b}</li>
+                  <li key={b}>{renderInlineMarkdown(b)}</li>
                 ))}
               </ul>
             ) : null}

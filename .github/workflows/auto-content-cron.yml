@@ -1,0 +1,59 @@
+name: Auto Content Cron
+
+on:
+  schedule:
+    # Tuesday & Friday 06:00 UTC
+    - cron: '0 6 * * 2,5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-content-cron
+  cancel-in-progress: false
+
+jobs:
+  generate-seo-post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate SEO blog post
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+        run: npm run content:generate
+
+      - name: Commit & push
+        run: |
+          if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo "No content changes"
+            exit 0
+          fi
+          git config user.name "bullsye-content-bot"
+          git config user.email "bot@bullsye.app"
+          git add content/blog/*.md
+          git commit -m "$(cat <<'EOF'
+          content: publish scheduled SEO blog post
+
+          Automated Tue/Fri generation for Turkish finance search queries.
+          EOF
+          )"
+          git push
