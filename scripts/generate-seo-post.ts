@@ -180,40 +180,62 @@ Yanıtı SADECE şu JSON şemasında ver (markdown yok):
 }`;
 }
 
+const GEMINI_MODEL_FALLBACKS = [
+  'gemini-2.5-flash',
+  'gemini-flash-latest',
+  'gemini-2.5-flash-lite',
+  'gemini-1.5-flash',
+] as const;
+
+function resolveGeminiModels(): string[] {
+  // GitHub Actions sets GEMINI_MODEL="" when vars.GEMINI_MODEL is unset —
+  // empty string must NOT win over the default (?? only skips null/undefined).
+  const preferred = (process.env.GEMINI_MODEL ?? '').trim().replace(/^models\//, '');
+  const ordered = preferred
+    ? [preferred, ...GEMINI_MODEL_FALLBACKS.filter((m) => m !== preferred)]
+    : [...GEMINI_MODEL_FALLBACKS];
+  return [...new Set(ordered)];
+}
+
 async function callGemini(prompt: string): Promise<string> {
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error('GEMINI_API_KEY missing');
-  // gemini-2.0-flash retired (404). Prefer env override, else stable Flash.
-  const model = (process.env.GEMINI_MODEL ?? 'gemini-2.5-flash').replace(
-    /^models\//,
-    ''
-  );
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 8192,
-        responseMimeType: 'application/json',
-      },
-    }),
+
+  const body = JSON.stringify({
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      temperature: 0.7,
+      maxOutputTokens: 8192,
+      responseMimeType: 'application/json',
+    },
   });
-  if (!res.ok) {
-    throw new Error(
-      `Gemini ${res.status} [${model}]: ${(await res.text()).slice(0, 400)}`
-    );
+
+  const errors: string[] = [];
+  for (const model of resolveGeminiModels()) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+    console.log(`Gemini model: ${model}`);
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+    });
+    if (!res.ok) {
+      const detail = (await res.text()).slice(0, 300);
+      errors.push(`${model} → ${res.status}: ${detail}`);
+      if (res.status === 404) continue;
+      throw new Error(`Gemini ${res.status} [${model}]: ${detail}`);
+    }
+    const data = (await res.json()) as {
+      candidates?: { content?: { parts?: { text?: string }[] } }[];
+    };
+    const text = data.candidates?.[0]?.content?.parts
+      ?.map((p) => p.text ?? '')
+      .join('');
+    if (!text) throw new Error(`Gemini boş yanıt [${model}]`);
+    return text;
   }
-  const data = (await res.json()) as {
-    candidates?: { content?: { parts?: { text?: string }[] } }[];
-  };
-  const text = data.candidates?.[0]?.content?.parts
-    ?.map((p) => p.text ?? '')
-    .join('');
-  if (!text) throw new Error('Gemini boş yanıt döndü');
-  return text;
+
+  throw new Error(`Gemini 404 — hiçbir model bulunamadı:\n${errors.join('\n')}`);
 }
 
 async function callOpenAI(prompt: string): Promise<string> {
