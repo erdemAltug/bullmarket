@@ -183,7 +183,11 @@ Yanıtı SADECE şu JSON şemasında ver (markdown yok):
 async function callGemini(prompt: string): Promise<string> {
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error('GEMINI_API_KEY missing');
-  const model = process.env.GEMINI_MODEL ?? 'gemini-2.0-flash';
+  // gemini-2.0-flash retired (404). Prefer env override, else stable Flash.
+  const model = (process.env.GEMINI_MODEL ?? 'gemini-2.5-flash').replace(
+    /^models\//,
+    ''
+  );
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
   const res = await fetch(url, {
     method: 'POST',
@@ -198,7 +202,9 @@ async function callGemini(prompt: string): Promise<string> {
     }),
   });
   if (!res.ok) {
-    throw new Error(`Gemini ${res.status}: ${(await res.text()).slice(0, 400)}`);
+    throw new Error(
+      `Gemini ${res.status} [${model}]: ${(await res.text()).slice(0, 400)}`
+    );
   }
   const data = (await res.json()) as {
     candidates?: { content?: { parts?: { text?: string }[] } }[];
