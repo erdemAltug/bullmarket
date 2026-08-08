@@ -38,7 +38,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}
-        run: npm run content:generate
+        run: |
+          echo "SHA=$(git rev-parse --short HEAD)"
+          npm run content:generate
 
       - name: Commit & push
         run: |

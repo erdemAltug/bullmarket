@@ -185,6 +185,7 @@ const GEMINI_MODEL_FALLBACKS = [
   'gemini-flash-latest',
   'gemini-2.5-flash-lite',
   'gemini-1.5-flash',
+  'gemini-pro-latest',
 ] as const;
 
 function resolveGeminiModels(): string[] {
@@ -197,9 +198,53 @@ function resolveGeminiModels(): string[] {
   return [...new Set(ordered)];
 }
 
+async function listGeminiGenerateModels(apiKey: string): Promise<string[]> {
+  const url =
+    'https://generativelanguage.googleapis.com/v1beta/models?pageSize=100';
+  const res = await fetch(url, {
+    headers: { 'x-goog-api-key': apiKey },
+  });
+  if (!res.ok) {
+    console.warn(`ListModels ${res.status}: ${(await res.text()).slice(0, 200)}`);
+    return [];
+  }
+  const data = (await res.json()) as {
+    models?: { name?: string; supportedGenerationMethods?: string[] }[];
+  };
+  return (data.models ?? [])
+    .filter((m) => m.supportedGenerationMethods?.includes('generateContent'))
+    .map((m) => (m.name ?? '').replace(/^models\//, ''))
+    .filter(Boolean);
+}
+
 async function callGemini(prompt: string): Promise<string> {
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error('GEMINI_API_KEY missing');
+
+  const discovered = await listGeminiGenerateModels(key);
+  if (discovered.length) {
+    console.log(`Gemini ListModels: ${discovered.slice(0, 8).join(', ')}…`);
+  } else {
+    console.warn('Gemini ListModels boş/başarısız — fallback listesine düşülüyor');
+  }
+
+  const preferred = resolveGeminiModels();
+  const models = [
+    ...preferred.filter((m) => !discovered.length || discovered.includes(m)),
+    ...discovered.filter((m) => !preferred.includes(m)),
+  ];
+  // Prefer flash-class models when discovering
+  models.sort((a, b) => {
+    const score = (m: string) =>
+      /flash/i.test(m) ? 0 : /pro/i.test(m) ? 1 : 2;
+    return score(a) - score(b);
+  });
+
+  if (!models.length) {
+    throw new Error(
+      'Gemini: generateContent destekleyen model yok (API key / Generative Language API kontrol et)'
+    );
+  }
 
   const body = JSON.stringify({
     contents: [{ parts: [{ text: prompt }] }],
@@ -211,18 +256,21 @@ async function callGemini(prompt: string): Promise<string> {
   });
 
   const errors: string[] = [];
-  for (const model of resolveGeminiModels()) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
-    console.log(`Gemini model: ${model}`);
+  for (const model of models.slice(0, 6)) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+    console.log(`Gemini try: ${model}`);
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': key,
+      },
       body,
     });
     if (!res.ok) {
       const detail = (await res.text()).slice(0, 300);
       errors.push(`${model} → ${res.status}: ${detail}`);
-      if (res.status === 404) continue;
+      if (res.status === 404 || res.status === 400) continue;
       throw new Error(`Gemini ${res.status} [${model}]: ${detail}`);
     }
     const data = (await res.json()) as {
@@ -231,11 +279,17 @@ async function callGemini(prompt: string): Promise<string> {
     const text = data.candidates?.[0]?.content?.parts
       ?.map((p) => p.text ?? '')
       .join('');
-    if (!text) throw new Error(`Gemini boş yanıt [${model}]`);
+    if (!text) {
+      errors.push(`${model} → boş aday`);
+      continue;
+    }
+    console.log(`Gemini OK: ${model}`);
     return text;
   }
 
-  throw new Error(`Gemini 404 — hiçbir model bulunamadı:\n${errors.join('\n')}`);
+  throw new Error(
+    `Gemini başarısız (denenen: ${models.slice(0, 6).join(', ')}):\n${errors.join('\n')}`
+  );
 }
 
 async function callOpenAI(prompt: string): Promise<string> {
@@ -274,9 +328,23 @@ async function callOpenAI(prompt: string): Promise<string> {
 }
 
 async function generateWithLLM(prompt: string): Promise<string> {
-  if (process.env.GEMINI_API_KEY) return callGemini(prompt);
-  if (process.env.OPENAI_API_KEY) return callOpenAI(prompt);
-  throw new Error('GEMINI_API_KEY veya OPENAI_API_KEY gerekli');
+  const hasGemini = Boolean(process.env.GEMINI_API_KEY?.trim());
+  const hasOpenAI = Boolean(process.env.OPENAI_API_KEY?.trim());
+  if (!hasGemini && !hasOpenAI) {
+    throw new Error('GEMINI_API_KEY veya OPENAI_API_KEY gerekli');
+  }
+
+  if (hasGemini) {
+    try {
+      return await callGemini(prompt);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(`Gemini failed → ${msg}`);
+      if (!hasOpenAI) throw err;
+      console.warn('Falling back to OpenAI…');
+    }
+  }
+  return callOpenAI(prompt);
 }
 
 function ensureInlineCta(body: string): string {
@@ -369,6 +437,9 @@ function parseGenerated(
 }
 
 async function main() {
+  console.log(
+    `content:generate @ ${new Date().toISOString()} | gemini=${Boolean(process.env.GEMINI_API_KEY?.trim())} openai=${Boolean(process.env.OPENAI_API_KEY?.trim())}`
+  );
   fs.mkdirSync(BLOG_DIR, { recursive: true });
   const used = existingSlugs();
   const topic = pickTopic(used);
