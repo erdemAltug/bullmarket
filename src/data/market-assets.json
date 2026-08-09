@@ -1,0 +1,4736 @@
+[
+  {
+    "symbol": "1INCH",
+    "name": "1INCH",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "1INCHUSDT",
+    "href": "/crypto/1INCHUSDT"
+  },
+  {
+    "symbol": "A",
+    "name": "A",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "A",
+    "href": "/us/A"
+  },
+  {
+    "symbol": "AAL",
+    "name": "AAL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AAL",
+    "href": "/us/AAL"
+  },
+  {
+    "symbol": "AAPL",
+    "name": "Apple",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AAPL",
+    "href": "/us/AAPL"
+  },
+  {
+    "symbol": "AAVE",
+    "name": "AAVE",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "AAVEUSDT",
+    "href": "/crypto/AAVEUSDT"
+  },
+  {
+    "symbol": "ABBV",
+    "name": "ABBV",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ABBV",
+    "href": "/us/ABBV"
+  },
+  {
+    "symbol": "ABNB",
+    "name": "ABNB",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ABNB",
+    "href": "/us/ABNB"
+  },
+  {
+    "symbol": "ABT",
+    "name": "ABT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ABT",
+    "href": "/us/ABT"
+  },
+  {
+    "symbol": "ACT",
+    "name": "ACT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ACTUSDT",
+    "href": "/crypto/ACTUSDT"
+  },
+  {
+    "symbol": "ADA",
+    "name": "Cardano",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ADAUSDT",
+    "href": "/crypto/ADAUSDT"
+  },
+  {
+    "symbol": "ADBE",
+    "name": "ADBE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ADBE",
+    "href": "/us/ADBE"
+  },
+  {
+    "symbol": "ADI",
+    "name": "ADI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ADI",
+    "href": "/us/ADI"
+  },
+  {
+    "symbol": "AEFES",
+    "name": "Anadolu Efes",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "AEFES.IS",
+    "href": "/bist/AEFES"
+  },
+  {
+    "symbol": "AEP",
+    "name": "AEP",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AEP",
+    "href": "/us/AEP"
+  },
+  {
+    "symbol": "AFRM",
+    "name": "AFRM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AFRM",
+    "href": "/us/AFRM"
+  },
+  {
+    "symbol": "AFT",
+    "name": "Ak Portföy · Yabancı Teknoloji Hisse",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:AFT",
+    "href": "/fon/AFT"
+  },
+  {
+    "symbol": "AGHOL",
+    "name": "AGHOL",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "AGHOL.IS",
+    "href": "/bist/AGHOL"
+  },
+  {
+    "symbol": "AI",
+    "name": "AI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AI",
+    "href": "/us/AI"
+  },
+  {
+    "symbol": "AI16Z",
+    "name": "AI16Z",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "AI16ZUSDT",
+    "href": "/crypto/AI16ZUSDT"
+  },
+  {
+    "symbol": "AK2",
+    "name": "Ak Portföy · Borçlanma Araçları",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:AK2",
+    "href": "/fon/AK2"
+  },
+  {
+    "symbol": "AKBNK",
+    "name": "Akbank",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "AKBNK.IS",
+    "href": "/bist/AKBNK"
+  },
+  {
+    "symbol": "AKCNS",
+    "name": "AKCNS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "AKCNS.IS",
+    "href": "/bist/AKCNS"
+  },
+  {
+    "symbol": "AKSA",
+    "name": "AKSA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "AKSA.IS",
+    "href": "/bist/AKSA"
+  },
+  {
+    "symbol": "AKSEN",
+    "name": "AKSEN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "AKSEN.IS",
+    "href": "/bist/AKSEN"
+  },
+  {
+    "symbol": "ALARK",
+    "name": "ALARK",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ALARK.IS",
+    "href": "/bist/ALARK"
+  },
+  {
+    "symbol": "ALGO",
+    "name": "ALGO",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ALGOUSDT",
+    "href": "/crypto/ALGOUSDT"
+  },
+  {
+    "symbol": "ALGYO",
+    "name": "ALGYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ALGYO.IS",
+    "href": "/bist/ALGYO"
+  },
+  {
+    "symbol": "ALKIM",
+    "name": "ALKIM",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ALKIM.IS",
+    "href": "/bist/ALKIM"
+  },
+  {
+    "symbol": "AMAT",
+    "name": "AMAT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AMAT",
+    "href": "/us/AMAT"
+  },
+  {
+    "symbol": "AMD",
+    "name": "AMD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AMD",
+    "href": "/us/AMD"
+  },
+  {
+    "symbol": "AMGN",
+    "name": "AMGN",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AMGN",
+    "href": "/us/AMGN"
+  },
+  {
+    "symbol": "AMT",
+    "name": "AMT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AMT",
+    "href": "/us/AMT"
+  },
+  {
+    "symbol": "AMZN",
+    "name": "Amazon",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AMZN",
+    "href": "/us/AMZN"
+  },
+  {
+    "symbol": "ANET",
+    "name": "ANET",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ANET",
+    "href": "/us/ANET"
+  },
+  {
+    "symbol": "ANHYT",
+    "name": "ANHYT",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ANHYT.IS",
+    "href": "/bist/ANHYT"
+  },
+  {
+    "symbol": "ANKR",
+    "name": "ANKR",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ANKRUSDT",
+    "href": "/crypto/ANKRUSDT"
+  },
+  {
+    "symbol": "ANSGR",
+    "name": "ANSGR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ANSGR.IS",
+    "href": "/bist/ANSGR"
+  },
+  {
+    "symbol": "APH",
+    "name": "APH",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "APH",
+    "href": "/us/APH"
+  },
+  {
+    "symbol": "API3",
+    "name": "API3",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "API3USDT",
+    "href": "/crypto/API3USDT"
+  },
+  {
+    "symbol": "APO",
+    "name": "APO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "APO",
+    "href": "/us/APO"
+  },
+  {
+    "symbol": "APT",
+    "name": "APT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "APTUSDT",
+    "href": "/crypto/APTUSDT"
+  },
+  {
+    "symbol": "ARB",
+    "name": "ARB",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ARBUSDT",
+    "href": "/crypto/ARBUSDT"
+  },
+  {
+    "symbol": "ARCLK",
+    "name": "ARCLK",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ARCLK.IS",
+    "href": "/bist/ARCLK"
+  },
+  {
+    "symbol": "ARKK",
+    "name": "İnovasyon / Büyüme",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "ARKK",
+    "href": "/fon/ARKK"
+  },
+  {
+    "symbol": "ARM",
+    "name": "ARM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ARM",
+    "href": "/us/ARM"
+  },
+  {
+    "symbol": "ASELS",
+    "name": "Aselsan",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ASELS.IS",
+    "href": "/bist/ASELS"
+  },
+  {
+    "symbol": "ASML",
+    "name": "ASML",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ASML",
+    "href": "/us/ASML"
+  },
+  {
+    "symbol": "ASTOR",
+    "name": "ASTOR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ASTOR.IS",
+    "href": "/bist/ASTOR"
+  },
+  {
+    "symbol": "ASTR",
+    "name": "ASTR",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ASTRUSDT",
+    "href": "/crypto/ASTRUSDT"
+  },
+  {
+    "symbol": "ASUZU",
+    "name": "ASUZU",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ASUZU.IS",
+    "href": "/bist/ASUZU"
+  },
+  {
+    "symbol": "ATOM",
+    "name": "ATOM",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ATOMUSDT",
+    "href": "/crypto/ATOMUSDT"
+  },
+  {
+    "symbol": "AVAX",
+    "name": "Avalanche",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "AVAXUSDT",
+    "href": "/crypto/AVAXUSDT"
+  },
+  {
+    "symbol": "AVGO",
+    "name": "AVGO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AVGO",
+    "href": "/us/AVGO"
+  },
+  {
+    "symbol": "AXP",
+    "name": "AXP",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AXP",
+    "href": "/us/AXP"
+  },
+  {
+    "symbol": "AXS",
+    "name": "AXS",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "AXSUSDT",
+    "href": "/crypto/AXSUSDT"
+  },
+  {
+    "symbol": "AYDEM",
+    "name": "AYDEM",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "AYDEM.IS",
+    "href": "/bist/AYDEM"
+  },
+  {
+    "symbol": "BA",
+    "name": "BA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BA",
+    "href": "/us/BA"
+  },
+  {
+    "symbol": "BABA",
+    "name": "BABA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BABA",
+    "href": "/us/BABA"
+  },
+  {
+    "symbol": "BAC",
+    "name": "BAC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BAC",
+    "href": "/us/BAC"
+  },
+  {
+    "symbol": "BANVT",
+    "name": "BANVT",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BANVT.IS",
+    "href": "/bist/BANVT"
+  },
+  {
+    "symbol": "BAT",
+    "name": "BAT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "BATUSDT",
+    "href": "/crypto/BATUSDT"
+  },
+  {
+    "symbol": "BCH",
+    "name": "BCH",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "BCHUSDT",
+    "href": "/crypto/BCHUSDT"
+  },
+  {
+    "symbol": "BE",
+    "name": "BE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BE",
+    "href": "/us/BE"
+  },
+  {
+    "symbol": "BERA",
+    "name": "BERA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BERA.IS",
+    "href": "/bist/BERA"
+  },
+  {
+    "symbol": "BERA",
+    "name": "BERA",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "BERAUSDT",
+    "href": "/crypto/BERAUSDT"
+  },
+  {
+    "symbol": "BEYAZ",
+    "name": "BEYAZ",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BEYAZ.IS",
+    "href": "/bist/BEYAZ"
+  },
+  {
+    "symbol": "BIDU",
+    "name": "BIDU",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BIDU",
+    "href": "/us/BIDU"
+  },
+  {
+    "symbol": "BIMAS",
+    "name": "BİM",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BIMAS.IS",
+    "href": "/bist/BIMAS"
+  },
+  {
+    "symbol": "BINHO",
+    "name": "BINHO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BINHO.IS",
+    "href": "/bist/BINHO"
+  },
+  {
+    "symbol": "BIO",
+    "name": "İş Portföy · Sürdürülebilirlik Hisse",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:BIO",
+    "href": "/fon/BIO"
+  },
+  {
+    "symbol": "BIOEN",
+    "name": "BIOEN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BIOEN.IS",
+    "href": "/bist/BIOEN"
+  },
+  {
+    "symbol": "BIZIM",
+    "name": "BIZIM",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BIZIM.IS",
+    "href": "/bist/BIZIM"
+  },
+  {
+    "symbol": "BLK",
+    "name": "BLK",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BLK",
+    "href": "/us/BLK"
+  },
+  {
+    "symbol": "BLUR",
+    "name": "BLUR",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "BLURUSDT",
+    "href": "/crypto/BLURUSDT"
+  },
+  {
+    "symbol": "BMY",
+    "name": "BMY",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BMY",
+    "href": "/us/BMY"
+  },
+  {
+    "symbol": "BNB",
+    "name": "BNB",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "BNBUSDT",
+    "href": "/crypto/BNBUSDT"
+  },
+  {
+    "symbol": "BND",
+    "name": "ABD Tahvil",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "BND",
+    "href": "/fon/BND"
+  },
+  {
+    "symbol": "BNTX",
+    "name": "BNTX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BNTX",
+    "href": "/us/BNTX"
+  },
+  {
+    "symbol": "BOME",
+    "name": "BOME",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "BOMEUSDT",
+    "href": "/crypto/BOMEUSDT"
+  },
+  {
+    "symbol": "BRISA",
+    "name": "BRISA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BRISA.IS",
+    "href": "/bist/BRISA"
+  },
+  {
+    "symbol": "BRK-B",
+    "name": "BRK-B",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BRK-B",
+    "href": "/us/BRK-B"
+  },
+  {
+    "symbol": "BRSAN",
+    "name": "BRSAN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BRSAN.IS",
+    "href": "/bist/BRSAN"
+  },
+  {
+    "symbol": "BSX",
+    "name": "BSX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BSX",
+    "href": "/us/BSX"
+  },
+  {
+    "symbol": "BTC",
+    "name": "Bitcoin",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "BTCUSDT",
+    "href": "/crypto/BTCUSDT"
+  },
+  {
+    "symbol": "BUCIM",
+    "name": "BUCIM",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BUCIM.IS",
+    "href": "/bist/BUCIM"
+  },
+  {
+    "symbol": "BX",
+    "name": "BX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "BX",
+    "href": "/us/BX"
+  },
+  {
+    "symbol": "C",
+    "name": "C",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "C",
+    "href": "/us/C"
+  },
+  {
+    "symbol": "CAKE",
+    "name": "CAKE",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "CAKEUSDT",
+    "href": "/crypto/CAKEUSDT"
+  },
+  {
+    "symbol": "CANTE",
+    "name": "CANTE",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "CANTE.IS",
+    "href": "/bist/CANTE"
+  },
+  {
+    "symbol": "CAT",
+    "name": "CAT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CAT",
+    "href": "/us/CAT"
+  },
+  {
+    "symbol": "CCI",
+    "name": "CCI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CCI",
+    "href": "/us/CCI"
+  },
+  {
+    "symbol": "CCOLA",
+    "name": "Coca-Cola İçecek",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "CCOLA.IS",
+    "href": "/bist/CCOLA"
+  },
+  {
+    "symbol": "CDNS",
+    "name": "CDNS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CDNS",
+    "href": "/us/CDNS"
+  },
+  {
+    "symbol": "CELO",
+    "name": "CELO",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "CELOUSDT",
+    "href": "/crypto/CELOUSDT"
+  },
+  {
+    "symbol": "CELR",
+    "name": "CELR",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "CELRUSDT",
+    "href": "/crypto/CELRUSDT"
+  },
+  {
+    "symbol": "CEMTS",
+    "name": "CEMTS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "CEMTS.IS",
+    "href": "/bist/CEMTS"
+  },
+  {
+    "symbol": "CFLT",
+    "name": "CFLT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CFLT",
+    "href": "/us/CFLT"
+  },
+  {
+    "symbol": "CFX",
+    "name": "CFX",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "CFXUSDT",
+    "href": "/crypto/CFXUSDT"
+  },
+  {
+    "symbol": "CHTR",
+    "name": "CHTR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CHTR",
+    "href": "/us/CHTR"
+  },
+  {
+    "symbol": "CHZ",
+    "name": "CHZ",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "CHZUSDT",
+    "href": "/crypto/CHZUSDT"
+  },
+  {
+    "symbol": "CI",
+    "name": "CI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CI",
+    "href": "/us/CI"
+  },
+  {
+    "symbol": "CIMSA",
+    "name": "CIMSA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "CIMSA.IS",
+    "href": "/bist/CIMSA"
+  },
+  {
+    "symbol": "CL",
+    "name": "CL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CL",
+    "href": "/us/CL"
+  },
+  {
+    "symbol": "CLEBI",
+    "name": "CLEBI",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "CLEBI.IS",
+    "href": "/bist/CLEBI"
+  },
+  {
+    "symbol": "CMCSA",
+    "name": "CMCSA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CMCSA",
+    "href": "/us/CMCSA"
+  },
+  {
+    "symbol": "CMI",
+    "name": "CMI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CMI",
+    "href": "/us/CMI"
+  },
+  {
+    "symbol": "COIN",
+    "name": "COIN",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "COIN",
+    "href": "/us/COIN"
+  },
+  {
+    "symbol": "COMP",
+    "name": "COMP",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "COMPUSDT",
+    "href": "/crypto/COMPUSDT"
+  },
+  {
+    "symbol": "COP",
+    "name": "COP",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "COP",
+    "href": "/us/COP"
+  },
+  {
+    "symbol": "COST",
+    "name": "COST",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "COST",
+    "href": "/us/COST"
+  },
+  {
+    "symbol": "CPNG",
+    "name": "CPNG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CPNG",
+    "href": "/us/CPNG"
+  },
+  {
+    "symbol": "CPU",
+    "name": "Aktif Portföy · Teknoloji Katılım",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:CPU",
+    "href": "/fon/CPU"
+  },
+  {
+    "symbol": "CRM",
+    "name": "CRM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CRM",
+    "href": "/us/CRM"
+  },
+  {
+    "symbol": "CRV",
+    "name": "CRV",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "CRVUSDT",
+    "href": "/crypto/CRVUSDT"
+  },
+  {
+    "symbol": "CRWD",
+    "name": "CRWD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CRWD",
+    "href": "/us/CRWD"
+  },
+  {
+    "symbol": "CSCO",
+    "name": "CSCO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CSCO",
+    "href": "/us/CSCO"
+  },
+  {
+    "symbol": "CSX",
+    "name": "CSX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CSX",
+    "href": "/us/CSX"
+  },
+  {
+    "symbol": "CVS",
+    "name": "CVS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CVS",
+    "href": "/us/CVS"
+  },
+  {
+    "symbol": "CVX",
+    "name": "CVX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CVX",
+    "href": "/us/CVX"
+  },
+  {
+    "symbol": "CWENE",
+    "name": "CWENE",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "CWENE.IS",
+    "href": "/bist/CWENE"
+  },
+  {
+    "symbol": "D",
+    "name": "D",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "D",
+    "href": "/us/D"
+  },
+  {
+    "symbol": "DAL",
+    "name": "DAL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DAL",
+    "href": "/us/DAL"
+  },
+  {
+    "symbol": "DASH",
+    "name": "DASH",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DASH",
+    "href": "/us/DASH"
+  },
+  {
+    "symbol": "DASH",
+    "name": "DASH",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "DASHUSDT",
+    "href": "/crypto/DASHUSDT"
+  },
+  {
+    "symbol": "DDOG",
+    "name": "DDOG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DDOG",
+    "href": "/us/DDOG"
+  },
+  {
+    "symbol": "DE",
+    "name": "DE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DE",
+    "href": "/us/DE"
+  },
+  {
+    "symbol": "DELL",
+    "name": "DELL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DELL",
+    "href": "/us/DELL"
+  },
+  {
+    "symbol": "DESA",
+    "name": "DESA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "DESA.IS",
+    "href": "/bist/DESA"
+  },
+  {
+    "symbol": "DHR",
+    "name": "DHR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DHR",
+    "href": "/us/DHR"
+  },
+  {
+    "symbol": "DIA",
+    "name": "Dow Jones 30",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "DIA",
+    "href": "/fon/DIA"
+  },
+  {
+    "symbol": "DIS",
+    "name": "DIS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DIS",
+    "href": "/us/DIS"
+  },
+  {
+    "symbol": "DLR",
+    "name": "DLR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DLR",
+    "href": "/us/DLR"
+  },
+  {
+    "symbol": "DOAS",
+    "name": "DOAS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "DOAS.IS",
+    "href": "/bist/DOAS"
+  },
+  {
+    "symbol": "DOCU",
+    "name": "DOCU",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DOCU",
+    "href": "/us/DOCU"
+  },
+  {
+    "symbol": "DOGE",
+    "name": "Dogecoin",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "DOGEUSDT",
+    "href": "/crypto/DOGEUSDT"
+  },
+  {
+    "symbol": "DOHOL",
+    "name": "DOHOL",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "DOHOL.IS",
+    "href": "/bist/DOHOL"
+  },
+  {
+    "symbol": "DOT",
+    "name": "DOT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "DOTUSDT",
+    "href": "/crypto/DOTUSDT"
+  },
+  {
+    "symbol": "DUK",
+    "name": "DUK",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DUK",
+    "href": "/us/DUK"
+  },
+  {
+    "symbol": "DXCM",
+    "name": "DXCM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DXCM",
+    "href": "/us/DXCM"
+  },
+  {
+    "symbol": "DYDX",
+    "name": "DYDX",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "DYDXUSDT",
+    "href": "/crypto/DYDXUSDT"
+  },
+  {
+    "symbol": "EA",
+    "name": "EA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "EA",
+    "href": "/us/EA"
+  },
+  {
+    "symbol": "EEM",
+    "name": "Gelişmekte Olan Ülkeler",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "EEM",
+    "href": "/fon/EEM"
+  },
+  {
+    "symbol": "EGEEN",
+    "name": "EGEEN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "EGEEN.IS",
+    "href": "/bist/EGEEN"
+  },
+  {
+    "symbol": "EGLD",
+    "name": "EGLD",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "EGLDUSDT",
+    "href": "/crypto/EGLDUSDT"
+  },
+  {
+    "symbol": "EIGEN",
+    "name": "EIGEN",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "EIGENUSDT",
+    "href": "/crypto/EIGENUSDT"
+  },
+  {
+    "symbol": "EKGYO",
+    "name": "EKGYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "EKGYO.IS",
+    "href": "/bist/EKGYO"
+  },
+  {
+    "symbol": "EL",
+    "name": "EL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "EL",
+    "href": "/us/EL"
+  },
+  {
+    "symbol": "ELV",
+    "name": "ELV",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ELV",
+    "href": "/us/ELV"
+  },
+  {
+    "symbol": "EMR",
+    "name": "EMR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "EMR",
+    "href": "/us/EMR"
+  },
+  {
+    "symbol": "ENA",
+    "name": "ENA",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ENAUSDT",
+    "href": "/crypto/ENAUSDT"
+  },
+  {
+    "symbol": "ENJ",
+    "name": "ENJ",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ENJUSDT",
+    "href": "/crypto/ENJUSDT"
+  },
+  {
+    "symbol": "ENJSA",
+    "name": "ENJSA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ENJSA.IS",
+    "href": "/bist/ENJSA"
+  },
+  {
+    "symbol": "ENKAI",
+    "name": "Enka İnşaat",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ENKAI.IS",
+    "href": "/bist/ENKAI"
+  },
+  {
+    "symbol": "ENPH",
+    "name": "ENPH",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ENPH",
+    "href": "/us/ENPH"
+  },
+  {
+    "symbol": "ENTG",
+    "name": "ENTG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ENTG",
+    "href": "/us/ENTG"
+  },
+  {
+    "symbol": "EOG",
+    "name": "EOG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "EOG",
+    "href": "/us/EOG"
+  },
+  {
+    "symbol": "EOS",
+    "name": "EOS",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "EOSUSDT",
+    "href": "/crypto/EOSUSDT"
+  },
+  {
+    "symbol": "EQIX",
+    "name": "EQIX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "EQIX",
+    "href": "/us/EQIX"
+  },
+  {
+    "symbol": "EREGL",
+    "name": "Ereğli Demir Çelik",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "EREGL.IS",
+    "href": "/bist/EREGL"
+  },
+  {
+    "symbol": "ESTC",
+    "name": "ESTC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ESTC",
+    "href": "/us/ESTC"
+  },
+  {
+    "symbol": "ETC",
+    "name": "ETC",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ETCUSDT",
+    "href": "/crypto/ETCUSDT"
+  },
+  {
+    "symbol": "ETH",
+    "name": "Ethereum",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ETHUSDT",
+    "href": "/crypto/ETHUSDT"
+  },
+  {
+    "symbol": "ETHA",
+    "name": "Ethereum Spot ETF",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "ETHA",
+    "href": "/fon/ETHA"
+  },
+  {
+    "symbol": "ETHFI",
+    "name": "ETHFI",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ETHFIUSDT",
+    "href": "/crypto/ETHFIUSDT"
+  },
+  {
+    "symbol": "ETN",
+    "name": "ETN",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ETN",
+    "href": "/us/ETN"
+  },
+  {
+    "symbol": "EUPWR",
+    "name": "EUPWR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "EUPWR.IS",
+    "href": "/bist/EUPWR"
+  },
+  {
+    "symbol": "EUREN",
+    "name": "EUREN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "EUREN.IS",
+    "href": "/bist/EUREN"
+  },
+  {
+    "symbol": "EW",
+    "name": "EW",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "EW",
+    "href": "/us/EW"
+  },
+  {
+    "symbol": "EXC",
+    "name": "EXC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "EXC",
+    "href": "/us/EXC"
+  },
+  {
+    "symbol": "FDX",
+    "name": "FDX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "FDX",
+    "href": "/us/FDX"
+  },
+  {
+    "symbol": "FET",
+    "name": "FET",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "FETUSDT",
+    "href": "/crypto/FETUSDT"
+  },
+  {
+    "symbol": "FIL",
+    "name": "FIL",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "FILUSDT",
+    "href": "/crypto/FILUSDT"
+  },
+  {
+    "symbol": "FLOW",
+    "name": "FLOW",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "FLOWUSDT",
+    "href": "/crypto/FLOWUSDT"
+  },
+  {
+    "symbol": "FOX",
+    "name": "FOX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "FOX",
+    "href": "/us/FOX"
+  },
+  {
+    "symbol": "FOXA",
+    "name": "FOXA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "FOXA",
+    "href": "/us/FOXA"
+  },
+  {
+    "symbol": "FROTO",
+    "name": "Ford Otosan",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "FROTO.IS",
+    "href": "/bist/FROTO"
+  },
+  {
+    "symbol": "FSLR",
+    "name": "FSLR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "FSLR",
+    "href": "/us/FSLR"
+  },
+  {
+    "symbol": "FTNT",
+    "name": "FTNT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "FTNT",
+    "href": "/us/FTNT"
+  },
+  {
+    "symbol": "GALA",
+    "name": "GALA",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "GALAUSDT",
+    "href": "/crypto/GALAUSDT"
+  },
+  {
+    "symbol": "GARAN",
+    "name": "Garanti BBVA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GARAN.IS",
+    "href": "/bist/GARAN"
+  },
+  {
+    "symbol": "GD",
+    "name": "GD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "GD",
+    "href": "/us/GD"
+  },
+  {
+    "symbol": "GE",
+    "name": "GE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "GE",
+    "href": "/us/GE"
+  },
+  {
+    "symbol": "GENIL",
+    "name": "GENIL",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GENIL.IS",
+    "href": "/bist/GENIL"
+  },
+  {
+    "symbol": "GESAN",
+    "name": "GESAN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GESAN.IS",
+    "href": "/bist/GESAN"
+  },
+  {
+    "symbol": "GFS",
+    "name": "GFS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "GFS",
+    "href": "/us/GFS"
+  },
+  {
+    "symbol": "GILD",
+    "name": "GILD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "GILD",
+    "href": "/us/GILD"
+  },
+  {
+    "symbol": "GIS",
+    "name": "GIS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "GIS",
+    "href": "/us/GIS"
+  },
+  {
+    "symbol": "GLD",
+    "name": "Altın",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "GLD",
+    "href": "/fon/GLD"
+  },
+  {
+    "symbol": "GLYHO",
+    "name": "GLYHO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GLYHO.IS",
+    "href": "/bist/GLYHO"
+  },
+  {
+    "symbol": "GMX",
+    "name": "GMX",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "GMXUSDT",
+    "href": "/crypto/GMXUSDT"
+  },
+  {
+    "symbol": "GOAT",
+    "name": "GOAT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "GOATUSDT",
+    "href": "/crypto/GOATUSDT"
+  },
+  {
+    "symbol": "GOODY",
+    "name": "GOODY",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GOODY.IS",
+    "href": "/bist/GOODY"
+  },
+  {
+    "symbol": "GOOG",
+    "name": "GOOG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "GOOG",
+    "href": "/us/GOOG"
+  },
+  {
+    "symbol": "GOOGL",
+    "name": "Alphabet",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "GOOGL",
+    "href": "/us/GOOGL"
+  },
+  {
+    "symbol": "GRT",
+    "name": "GRT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "GRTUSDT",
+    "href": "/crypto/GRTUSDT"
+  },
+  {
+    "symbol": "GRTHO",
+    "name": "GRTHO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GRTHO.IS",
+    "href": "/bist/GRTHO"
+  },
+  {
+    "symbol": "GS",
+    "name": "GS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "GS",
+    "href": "/us/GS"
+  },
+  {
+    "symbol": "GSDHO",
+    "name": "GSDHO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GSDHO.IS",
+    "href": "/bist/GSDHO"
+  },
+  {
+    "symbol": "GUBRF",
+    "name": "GUBRF",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GUBRF.IS",
+    "href": "/bist/GUBRF"
+  },
+  {
+    "symbol": "GUM",
+    "name": "Ak Portföy · Gümüş Fon Sepeti",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:GUM",
+    "href": "/fon/GUM"
+  },
+  {
+    "symbol": "HALKB",
+    "name": "HALKB",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "HALKB.IS",
+    "href": "/bist/HALKB"
+  },
+  {
+    "symbol": "HBAR",
+    "name": "HBAR",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "HBARUSDT",
+    "href": "/crypto/HBARUSDT"
+  },
+  {
+    "symbol": "HD",
+    "name": "HD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "HD",
+    "href": "/us/HD"
+  },
+  {
+    "symbol": "HEKTS",
+    "name": "HEKTS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "HEKTS.IS",
+    "href": "/bist/HEKTS"
+  },
+  {
+    "symbol": "HON",
+    "name": "HON",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "HON",
+    "href": "/us/HON"
+  },
+  {
+    "symbol": "HOOD",
+    "name": "HOOD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "HOOD",
+    "href": "/us/HOOD"
+  },
+  {
+    "symbol": "HOT",
+    "name": "HOT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "HOTUSDT",
+    "href": "/crypto/HOTUSDT"
+  },
+  {
+    "symbol": "HPE",
+    "name": "HPE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "HPE",
+    "href": "/us/HPE"
+  },
+  {
+    "symbol": "HPQ",
+    "name": "HPQ",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "HPQ",
+    "href": "/us/HPQ"
+  },
+  {
+    "symbol": "HUBS",
+    "name": "HUBS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "HUBS",
+    "href": "/us/HUBS"
+  },
+  {
+    "symbol": "HUM",
+    "name": "HUM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "HUM",
+    "href": "/us/HUM"
+  },
+  {
+    "symbol": "HYG",
+    "name": "Yüksek Getirili Tahvil",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "HYG",
+    "href": "/fon/HYG"
+  },
+  {
+    "symbol": "HYPE",
+    "name": "HYPE",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "HYPEUSDT",
+    "href": "/crypto/HYPEUSDT"
+  },
+  {
+    "symbol": "IBIT",
+    "name": "Bitcoin Spot ETF",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "IBIT",
+    "href": "/fon/IBIT"
+  },
+  {
+    "symbol": "IBM",
+    "name": "IBM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "IBM",
+    "href": "/us/IBM"
+  },
+  {
+    "symbol": "ICBCT",
+    "name": "ICBCT",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ICBCT.IS",
+    "href": "/bist/ICBCT"
+  },
+  {
+    "symbol": "ICP",
+    "name": "ICP",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ICPUSDT",
+    "href": "/crypto/ICPUSDT"
+  },
+  {
+    "symbol": "ICX",
+    "name": "ICX",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ICXUSDT",
+    "href": "/crypto/ICXUSDT"
+  },
+  {
+    "symbol": "IDXX",
+    "name": "IDXX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "IDXX",
+    "href": "/us/IDXX"
+  },
+  {
+    "symbol": "IEMG",
+    "name": "EM Geniş",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "IEMG",
+    "href": "/fon/IEMG"
+  },
+  {
+    "symbol": "IHLAS",
+    "name": "IHLAS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "IHLAS.IS",
+    "href": "/bist/IHLAS"
+  },
+  {
+    "symbol": "IIH",
+    "name": "İstanbul Portföy · Hisse Senedi Yoğun",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:IIH",
+    "href": "/fon/IIH"
+  },
+  {
+    "symbol": "IMX",
+    "name": "IMX",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "IMXUSDT",
+    "href": "/crypto/IMXUSDT"
+  },
+  {
+    "symbol": "INDES",
+    "name": "INDES",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "INDES.IS",
+    "href": "/bist/INDES"
+  },
+  {
+    "symbol": "INJ",
+    "name": "INJ",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "INJUSDT",
+    "href": "/crypto/INJUSDT"
+  },
+  {
+    "symbol": "INTC",
+    "name": "Intel",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "INTC",
+    "href": "/us/INTC"
+  },
+  {
+    "symbol": "INTU",
+    "name": "INTU",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "INTU",
+    "href": "/us/INTU"
+  },
+  {
+    "symbol": "IOTA",
+    "name": "IOTA",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "IOTAUSDT",
+    "href": "/crypto/IOTAUSDT"
+  },
+  {
+    "symbol": "IP",
+    "name": "IP",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "IPUSDT",
+    "href": "/crypto/IPUSDT"
+  },
+  {
+    "symbol": "IPB",
+    "name": "İstanbul Portföy · Değişken",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:IPB",
+    "href": "/fon/IPB"
+  },
+  {
+    "symbol": "IPEKE",
+    "name": "IPEKE",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "IPEKE.IS",
+    "href": "/bist/IPEKE"
+  },
+  {
+    "symbol": "IQV",
+    "name": "IQV",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "IQV",
+    "href": "/us/IQV"
+  },
+  {
+    "symbol": "ISCTR",
+    "name": "İş Bankası (C)",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ISCTR.IS",
+    "href": "/bist/ISCTR"
+  },
+  {
+    "symbol": "ISDMR",
+    "name": "ISDMR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ISDMR.IS",
+    "href": "/bist/ISDMR"
+  },
+  {
+    "symbol": "ISGYO",
+    "name": "ISGYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ISGYO.IS",
+    "href": "/bist/ISGYO"
+  },
+  {
+    "symbol": "ISRG",
+    "name": "ISRG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ISRG",
+    "href": "/us/ISRG"
+  },
+  {
+    "symbol": "ITW",
+    "name": "ITW",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ITW",
+    "href": "/us/ITW"
+  },
+  {
+    "symbol": "IWM",
+    "name": "Russell 2000 · Küçük Şirket",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "IWM",
+    "href": "/fon/IWM"
+  },
+  {
+    "symbol": "JD",
+    "name": "JD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "JD",
+    "href": "/us/JD"
+  },
+  {
+    "symbol": "JEPI",
+    "name": "Opsiyon Gelir / Temettü",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "JEPI",
+    "href": "/fon/JEPI"
+  },
+  {
+    "symbol": "JNJ",
+    "name": "JNJ",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "JNJ",
+    "href": "/us/JNJ"
+  },
+  {
+    "symbol": "JPM",
+    "name": "JPM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "JPM",
+    "href": "/us/JPM"
+  },
+  {
+    "symbol": "JTO",
+    "name": "JTO",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "JTOUSDT",
+    "href": "/crypto/JTOUSDT"
+  },
+  {
+    "symbol": "JUP",
+    "name": "JUP",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "JUPUSDT",
+    "href": "/crypto/JUPUSDT"
+  },
+  {
+    "symbol": "KAITO",
+    "name": "KAITO",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "KAITOUSDT",
+    "href": "/crypto/KAITOUSDT"
+  },
+  {
+    "symbol": "KAREL",
+    "name": "KAREL",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KAREL.IS",
+    "href": "/bist/KAREL"
+  },
+  {
+    "symbol": "KARSN",
+    "name": "KARSN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KARSN.IS",
+    "href": "/bist/KARSN"
+  },
+  {
+    "symbol": "KAVA",
+    "name": "KAVA",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "KAVAUSDT",
+    "href": "/crypto/KAVAUSDT"
+  },
+  {
+    "symbol": "KCAER",
+    "name": "KCAER",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KCAER.IS",
+    "href": "/bist/KCAER"
+  },
+  {
+    "symbol": "KCHOL",
+    "name": "Koç Holding",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KCHOL.IS",
+    "href": "/bist/KCHOL"
+  },
+  {
+    "symbol": "KERVT",
+    "name": "KERVT",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KERVT.IS",
+    "href": "/bist/KERVT"
+  },
+  {
+    "symbol": "KHC",
+    "name": "KHC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "KHC",
+    "href": "/us/KHC"
+  },
+  {
+    "symbol": "KKR",
+    "name": "KKR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "KKR",
+    "href": "/us/KKR"
+  },
+  {
+    "symbol": "KLAC",
+    "name": "KLAC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "KLAC",
+    "href": "/us/KLAC"
+  },
+  {
+    "symbol": "KLSER",
+    "name": "KLSER",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KLSER.IS",
+    "href": "/bist/KLSER"
+  },
+  {
+    "symbol": "KMPUR",
+    "name": "KMPUR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KMPUR.IS",
+    "href": "/bist/KMPUR"
+  },
+  {
+    "symbol": "KO",
+    "name": "KO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "KO",
+    "href": "/us/KO"
+  },
+  {
+    "symbol": "KONTR",
+    "name": "KONTR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KONTR.IS",
+    "href": "/bist/KONTR"
+  },
+  {
+    "symbol": "KONYA",
+    "name": "KONYA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KONYA.IS",
+    "href": "/bist/KONYA"
+  },
+  {
+    "symbol": "KORDS",
+    "name": "KORDS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KORDS.IS",
+    "href": "/bist/KORDS"
+  },
+  {
+    "symbol": "KOZAA",
+    "name": "KOZAA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KOZAA.IS",
+    "href": "/bist/KOZAA"
+  },
+  {
+    "symbol": "KOZAL",
+    "name": "Koza Altın",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KOZAL.IS",
+    "href": "/bist/KOZAL"
+  },
+  {
+    "symbol": "KRDMD",
+    "name": "KRDMD",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KRDMD.IS",
+    "href": "/bist/KRDMD"
+  },
+  {
+    "symbol": "KSM",
+    "name": "KSM",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "KSMUSDT",
+    "href": "/crypto/KSMUSDT"
+  },
+  {
+    "symbol": "LCID",
+    "name": "LCID",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "LCID",
+    "href": "/us/LCID"
+  },
+  {
+    "symbol": "LDO",
+    "name": "LDO",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "LDOUSDT",
+    "href": "/crypto/LDOUSDT"
+  },
+  {
+    "symbol": "LI",
+    "name": "LI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "LI",
+    "href": "/us/LI"
+  },
+  {
+    "symbol": "LINK",
+    "name": "LINK",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "LINKUSDT",
+    "href": "/crypto/LINKUSDT"
+  },
+  {
+    "symbol": "LLY",
+    "name": "LLY",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "LLY",
+    "href": "/us/LLY"
+  },
+  {
+    "symbol": "LMT",
+    "name": "LMT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "LMT",
+    "href": "/us/LMT"
+  },
+  {
+    "symbol": "LOGO",
+    "name": "LOGO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "LOGO.IS",
+    "href": "/bist/LOGO"
+  },
+  {
+    "symbol": "LOW",
+    "name": "LOW",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "LOW",
+    "href": "/us/LOW"
+  },
+  {
+    "symbol": "LPT",
+    "name": "LPT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "LPTUSDT",
+    "href": "/crypto/LPTUSDT"
+  },
+  {
+    "symbol": "LRCX",
+    "name": "LRCX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "LRCX",
+    "href": "/us/LRCX"
+  },
+  {
+    "symbol": "LTC",
+    "name": "LTC",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "LTCUSDT",
+    "href": "/crypto/LTCUSDT"
+  },
+  {
+    "symbol": "LULU",
+    "name": "LULU",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "LULU",
+    "href": "/us/LULU"
+  },
+  {
+    "symbol": "LUV",
+    "name": "LUV",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "LUV",
+    "href": "/us/LUV"
+  },
+  {
+    "symbol": "MA",
+    "name": "MA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MA",
+    "href": "/us/MA"
+  },
+  {
+    "symbol": "MAC",
+    "name": "Marmara Capital · Hisse Senedi Yoğun",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:MAC",
+    "href": "/fon/MAC"
+  },
+  {
+    "symbol": "MANA",
+    "name": "MANA",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "MANAUSDT",
+    "href": "/crypto/MANAUSDT"
+  },
+  {
+    "symbol": "MASK",
+    "name": "MASK",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "MASKUSDT",
+    "href": "/crypto/MASKUSDT"
+  },
+  {
+    "symbol": "MAVI",
+    "name": "MAVI",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "MAVI.IS",
+    "href": "/bist/MAVI"
+  },
+  {
+    "symbol": "MCD",
+    "name": "MCD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MCD",
+    "href": "/us/MCD"
+  },
+  {
+    "symbol": "MCHP",
+    "name": "MCHP",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MCHP",
+    "href": "/us/MCHP"
+  },
+  {
+    "symbol": "MDB",
+    "name": "MDB",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MDB",
+    "href": "/us/MDB"
+  },
+  {
+    "symbol": "MDLZ",
+    "name": "MDLZ",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MDLZ",
+    "href": "/us/MDLZ"
+  },
+  {
+    "symbol": "MDT",
+    "name": "MDT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MDT",
+    "href": "/us/MDT"
+  },
+  {
+    "symbol": "MELI",
+    "name": "MELI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MELI",
+    "href": "/us/MELI"
+  },
+  {
+    "symbol": "META",
+    "name": "Meta Platforms",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "META",
+    "href": "/us/META"
+  },
+  {
+    "symbol": "MGROS",
+    "name": "Migros",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "MGROS.IS",
+    "href": "/bist/MGROS"
+  },
+  {
+    "symbol": "MIATK",
+    "name": "MIATK",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "MIATK.IS",
+    "href": "/bist/MIATK"
+  },
+  {
+    "symbol": "MINA",
+    "name": "MINA",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "MINAUSDT",
+    "href": "/crypto/MINAUSDT"
+  },
+  {
+    "symbol": "MKR",
+    "name": "MKR",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "MKRUSDT",
+    "href": "/crypto/MKRUSDT"
+  },
+  {
+    "symbol": "MKSI",
+    "name": "MKSI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MKSI",
+    "href": "/us/MKSI"
+  },
+  {
+    "symbol": "MMM",
+    "name": "MMM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MMM",
+    "href": "/us/MMM"
+  },
+  {
+    "symbol": "MO",
+    "name": "MO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MO",
+    "href": "/us/MO"
+  },
+  {
+    "symbol": "MOVE",
+    "name": "MOVE",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "MOVEUSDT",
+    "href": "/crypto/MOVEUSDT"
+  },
+  {
+    "symbol": "MPC",
+    "name": "MPC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MPC",
+    "href": "/us/MPC"
+  },
+  {
+    "symbol": "MPWR",
+    "name": "MPWR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MPWR",
+    "href": "/us/MPWR"
+  },
+  {
+    "symbol": "MRK",
+    "name": "MRK",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MRK",
+    "href": "/us/MRK"
+  },
+  {
+    "symbol": "MRNA",
+    "name": "MRNA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MRNA",
+    "href": "/us/MRNA"
+  },
+  {
+    "symbol": "MRVL",
+    "name": "MRVL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MRVL",
+    "href": "/us/MRVL"
+  },
+  {
+    "symbol": "MS",
+    "name": "MS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MS",
+    "href": "/us/MS"
+  },
+  {
+    "symbol": "MSFT",
+    "name": "Microsoft",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MSFT",
+    "href": "/us/MSFT"
+  },
+  {
+    "symbol": "MU",
+    "name": "MU",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MU",
+    "href": "/us/MU"
+  },
+  {
+    "symbol": "NEAR",
+    "name": "NEAR",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "NEARUSDT",
+    "href": "/crypto/NEARUSDT"
+  },
+  {
+    "symbol": "NEE",
+    "name": "NEE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NEE",
+    "href": "/us/NEE"
+  },
+  {
+    "symbol": "NEO",
+    "name": "NEO",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "NEOUSDT",
+    "href": "/crypto/NEOUSDT"
+  },
+  {
+    "symbol": "NET",
+    "name": "NET",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NET",
+    "href": "/us/NET"
+  },
+  {
+    "symbol": "NETAS",
+    "name": "NETAS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "NETAS.IS",
+    "href": "/bist/NETAS"
+  },
+  {
+    "symbol": "NFLX",
+    "name": "Netflix",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NFLX",
+    "href": "/us/NFLX"
+  },
+  {
+    "symbol": "NIO",
+    "name": "NIO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NIO",
+    "href": "/us/NIO"
+  },
+  {
+    "symbol": "NKE",
+    "name": "NKE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NKE",
+    "href": "/us/NKE"
+  },
+  {
+    "symbol": "NNF",
+    "name": "Hedef Portföy · Hisse Senedi Yoğun",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:NNF",
+    "href": "/fon/NNF"
+  },
+  {
+    "symbol": "NOC",
+    "name": "NOC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NOC",
+    "href": "/us/NOC"
+  },
+  {
+    "symbol": "NOT",
+    "name": "NOT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "NOTUSDT",
+    "href": "/crypto/NOTUSDT"
+  },
+  {
+    "symbol": "NOW",
+    "name": "NOW",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NOW",
+    "href": "/us/NOW"
+  },
+  {
+    "symbol": "NSC",
+    "name": "NSC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NSC",
+    "href": "/us/NSC"
+  },
+  {
+    "symbol": "NTHOL",
+    "name": "NTHOL",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "NTHOL.IS",
+    "href": "/bist/NTHOL"
+  },
+  {
+    "symbol": "NU",
+    "name": "NU",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NU",
+    "href": "/us/NU"
+  },
+  {
+    "symbol": "NUGYO",
+    "name": "NUGYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "NUGYO.IS",
+    "href": "/bist/NUGYO"
+  },
+  {
+    "symbol": "NVDA",
+    "name": "NVIDIA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NVDA",
+    "href": "/us/NVDA"
+  },
+  {
+    "symbol": "NXPI",
+    "name": "NXPI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NXPI",
+    "href": "/us/NXPI"
+  },
+  {
+    "symbol": "O",
+    "name": "O",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "O",
+    "href": "/us/O"
+  },
+  {
+    "symbol": "OBAMS",
+    "name": "OBAMS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "OBAMS.IS",
+    "href": "/bist/OBAMS"
+  },
+  {
+    "symbol": "ODAS",
+    "name": "ODAS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ODAS.IS",
+    "href": "/bist/ODAS"
+  },
+  {
+    "symbol": "OJK",
+    "name": "QNB Portföy · Altın",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:OJK",
+    "href": "/fon/OJK"
+  },
+  {
+    "symbol": "OKTA",
+    "name": "OKTA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "OKTA",
+    "href": "/us/OKTA"
+  },
+  {
+    "symbol": "ON",
+    "name": "ON",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ON",
+    "href": "/us/ON"
+  },
+  {
+    "symbol": "ONDO",
+    "name": "ONDO",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ONDOUSDT",
+    "href": "/crypto/ONDOUSDT"
+  },
+  {
+    "symbol": "ONE",
+    "name": "ONE",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ONEUSDT",
+    "href": "/crypto/ONEUSDT"
+  },
+  {
+    "symbol": "ONT",
+    "name": "ONT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ONTUSDT",
+    "href": "/crypto/ONTUSDT"
+  },
+  {
+    "symbol": "OP",
+    "name": "OP",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "OPUSDT",
+    "href": "/crypto/OPUSDT"
+  },
+  {
+    "symbol": "ORCL",
+    "name": "ORCL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ORCL",
+    "href": "/us/ORCL"
+  },
+  {
+    "symbol": "ORDI",
+    "name": "ORDI",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ORDIUSDT",
+    "href": "/crypto/ORDIUSDT"
+  },
+  {
+    "symbol": "OTKAR",
+    "name": "OTKAR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "OTKAR.IS",
+    "href": "/bist/OTKAR"
+  },
+  {
+    "symbol": "OXY",
+    "name": "OXY",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "OXY",
+    "href": "/us/OXY"
+  },
+  {
+    "symbol": "OYAKC",
+    "name": "OYAKC",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "OYAKC.IS",
+    "href": "/bist/OYAKC"
+  },
+  {
+    "symbol": "OYLUM",
+    "name": "OYLUM",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "OYLUM.IS",
+    "href": "/bist/OYLUM"
+  },
+  {
+    "symbol": "PANW",
+    "name": "PANW",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PANW",
+    "href": "/us/PANW"
+  },
+  {
+    "symbol": "PAPIL",
+    "name": "PAPIL",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "PAPIL.IS",
+    "href": "/bist/PAPIL"
+  },
+  {
+    "symbol": "PARA",
+    "name": "PARA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PARA",
+    "href": "/us/PARA"
+  },
+  {
+    "symbol": "PARSN",
+    "name": "PARSN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "PARSN.IS",
+    "href": "/bist/PARSN"
+  },
+  {
+    "symbol": "PASEU",
+    "name": "PASEU",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "PASEU.IS",
+    "href": "/bist/PASEU"
+  },
+  {
+    "symbol": "PATH",
+    "name": "PATH",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PATH",
+    "href": "/us/PATH"
+  },
+  {
+    "symbol": "PCAR",
+    "name": "PCAR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PCAR",
+    "href": "/us/PCAR"
+  },
+  {
+    "symbol": "PDD",
+    "name": "PDD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PDD",
+    "href": "/us/PDD"
+  },
+  {
+    "symbol": "PEKGY",
+    "name": "PEKGY",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "PEKGY.IS",
+    "href": "/bist/PEKGY"
+  },
+  {
+    "symbol": "PENDLE",
+    "name": "PENDLE",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "PENDLEUSDT",
+    "href": "/crypto/PENDLEUSDT"
+  },
+  {
+    "symbol": "PENGU",
+    "name": "PENGU",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "PENGUUSDT",
+    "href": "/crypto/PENGUUSDT"
+  },
+  {
+    "symbol": "PEP",
+    "name": "PEP",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PEP",
+    "href": "/us/PEP"
+  },
+  {
+    "symbol": "PEPE",
+    "name": "PEPE",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "PEPEUSDT",
+    "href": "/crypto/PEPEUSDT"
+  },
+  {
+    "symbol": "PETKM",
+    "name": "PETKM",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "PETKM.IS",
+    "href": "/bist/PETKM"
+  },
+  {
+    "symbol": "PFE",
+    "name": "PFE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PFE",
+    "href": "/us/PFE"
+  },
+  {
+    "symbol": "PG",
+    "name": "PG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PG",
+    "href": "/us/PG"
+  },
+  {
+    "symbol": "PGSUS",
+    "name": "Pegasus",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "PGSUS.IS",
+    "href": "/bist/PGSUS"
+  },
+  {
+    "symbol": "PH",
+    "name": "PH",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PH",
+    "href": "/us/PH"
+  },
+  {
+    "symbol": "PINS",
+    "name": "PINS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PINS",
+    "href": "/us/PINS"
+  },
+  {
+    "symbol": "PLD",
+    "name": "PLD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PLD",
+    "href": "/us/PLD"
+  },
+  {
+    "symbol": "PLTR",
+    "name": "PLTR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PLTR",
+    "href": "/us/PLTR"
+  },
+  {
+    "symbol": "PLUG",
+    "name": "PLUG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PLUG",
+    "href": "/us/PLUG"
+  },
+  {
+    "symbol": "PM",
+    "name": "PM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PM",
+    "href": "/us/PM"
+  },
+  {
+    "symbol": "PNSUT",
+    "name": "PNSUT",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "PNSUT.IS",
+    "href": "/bist/PNSUT"
+  },
+  {
+    "symbol": "PNUT",
+    "name": "PNUT",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "PNUTUSDT",
+    "href": "/crypto/PNUTUSDT"
+  },
+  {
+    "symbol": "POL",
+    "name": "POL",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "POLUSDT",
+    "href": "/crypto/POLUSDT"
+  },
+  {
+    "symbol": "PPN",
+    "name": "Nurol Portföy · Para Piyasası",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:PPN",
+    "href": "/fon/PPN"
+  },
+  {
+    "symbol": "PRKME",
+    "name": "PRKME",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "PRKME.IS",
+    "href": "/bist/PRKME"
+  },
+  {
+    "symbol": "PSX",
+    "name": "PSX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PSX",
+    "href": "/us/PSX"
+  },
+  {
+    "symbol": "PYPL",
+    "name": "PYPL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PYPL",
+    "href": "/us/PYPL"
+  },
+  {
+    "symbol": "PYTH",
+    "name": "PYTH",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "PYTHUSDT",
+    "href": "/crypto/PYTHUSDT"
+  },
+  {
+    "symbol": "QCOM",
+    "name": "QCOM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "QCOM",
+    "href": "/us/QCOM"
+  },
+  {
+    "symbol": "QQQ",
+    "name": "Invesco QQQ Trust",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "QQQ",
+    "href": "/fon/QQQ"
+  },
+  {
+    "symbol": "QQQM",
+    "name": "Nasdaq 100 · Maliyet Etkin",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "QQQM",
+    "href": "/fon/QQQM"
+  },
+  {
+    "symbol": "QRVO",
+    "name": "QRVO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "QRVO",
+    "href": "/us/QRVO"
+  },
+  {
+    "symbol": "QTUM",
+    "name": "QTUM",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "QTUMUSDT",
+    "href": "/crypto/QTUMUSDT"
+  },
+  {
+    "symbol": "QUAGR",
+    "name": "QUAGR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "QUAGR.IS",
+    "href": "/bist/QUAGR"
+  },
+  {
+    "symbol": "RBLX",
+    "name": "RBLX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "RBLX",
+    "href": "/us/RBLX"
+  },
+  {
+    "symbol": "REEDR",
+    "name": "REEDR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "REEDR.IS",
+    "href": "/bist/REEDR"
+  },
+  {
+    "symbol": "REGN",
+    "name": "REGN",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "REGN",
+    "href": "/us/REGN"
+  },
+  {
+    "symbol": "RENDER",
+    "name": "RENDER",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "RENDERUSDT",
+    "href": "/crypto/RENDERUSDT"
+  },
+  {
+    "symbol": "RIVN",
+    "name": "RIVN",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "RIVN",
+    "href": "/us/RIVN"
+  },
+  {
+    "symbol": "RMBS",
+    "name": "RMBS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "RMBS",
+    "href": "/us/RMBS"
+  },
+  {
+    "symbol": "ROK",
+    "name": "ROK",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ROK",
+    "href": "/us/ROK"
+  },
+  {
+    "symbol": "ROKU",
+    "name": "ROKU",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ROKU",
+    "href": "/us/ROKU"
+  },
+  {
+    "symbol": "ROSE",
+    "name": "ROSE",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ROSEUSDT",
+    "href": "/crypto/ROSEUSDT"
+  },
+  {
+    "symbol": "ROST",
+    "name": "ROST",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ROST",
+    "href": "/us/ROST"
+  },
+  {
+    "symbol": "RPL",
+    "name": "RPL",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "RPLUSDT",
+    "href": "/crypto/RPLUSDT"
+  },
+  {
+    "symbol": "RTX",
+    "name": "RTX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "RTX",
+    "href": "/us/RTX"
+  },
+  {
+    "symbol": "RUN",
+    "name": "RUN",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "RUN",
+    "href": "/us/RUN"
+  },
+  {
+    "symbol": "RUNE",
+    "name": "RUNE",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "RUNEUSDT",
+    "href": "/crypto/RUNEUSDT"
+  },
+  {
+    "symbol": "RVN",
+    "name": "RVN",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "RVNUSDT",
+    "href": "/crypto/RVNUSDT"
+  },
+  {
+    "symbol": "RYSAS",
+    "name": "RYSAS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "RYSAS.IS",
+    "href": "/bist/RYSAS"
+  },
+  {
+    "symbol": "S",
+    "name": "S",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "SUSDT",
+    "href": "/crypto/SUSDT"
+  },
+  {
+    "symbol": "SAHOL",
+    "name": "Sabancı Holding",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "SAHOL.IS",
+    "href": "/bist/SAHOL"
+  },
+  {
+    "symbol": "SAND",
+    "name": "SAND",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "SANDUSDT",
+    "href": "/crypto/SANDUSDT"
+  },
+  {
+    "symbol": "SASA",
+    "name": "SASA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "SASA.IS",
+    "href": "/bist/SASA"
+  },
+  {
+    "symbol": "SBUX",
+    "name": "SBUX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SBUX",
+    "href": "/us/SBUX"
+  },
+  {
+    "symbol": "SCHD",
+    "name": "Schwab US Dividend Equity",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "SCHD",
+    "href": "/fon/SCHD"
+  },
+  {
+    "symbol": "SCHW",
+    "name": "SCHW",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SCHW",
+    "href": "/us/SCHW"
+  },
+  {
+    "symbol": "SDTTR",
+    "name": "SDTTR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "SDTTR.IS",
+    "href": "/bist/SDTTR"
+  },
+  {
+    "symbol": "SE",
+    "name": "SE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SE",
+    "href": "/us/SE"
+  },
+  {
+    "symbol": "SEDG",
+    "name": "SEDG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SEDG",
+    "href": "/us/SEDG"
+  },
+  {
+    "symbol": "SEI",
+    "name": "SEI",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "SEIUSDT",
+    "href": "/crypto/SEIUSDT"
+  },
+  {
+    "symbol": "SELEC",
+    "name": "SELEC",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "SELEC.IS",
+    "href": "/bist/SELEC"
+  },
+  {
+    "symbol": "SHIB",
+    "name": "SHIB",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "SHIBUSDT",
+    "href": "/crypto/SHIBUSDT"
+  },
+  {
+    "symbol": "SHOP",
+    "name": "SHOP",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SHOP",
+    "href": "/us/SHOP"
+  },
+  {
+    "symbol": "SISE",
+    "name": "Şişecam",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "SISE.IS",
+    "href": "/bist/SISE"
+  },
+  {
+    "symbol": "SKBNK",
+    "name": "SKBNK",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "SKBNK.IS",
+    "href": "/bist/SKBNK"
+  },
+  {
+    "symbol": "SLB",
+    "name": "SLB",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SLB",
+    "href": "/us/SLB"
+  },
+  {
+    "symbol": "SMCI",
+    "name": "SMCI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SMCI",
+    "href": "/us/SMCI"
+  },
+  {
+    "symbol": "SMH",
+    "name": "Yarı İletken",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "SMH",
+    "href": "/fon/SMH"
+  },
+  {
+    "symbol": "SMRTG",
+    "name": "SMRTG",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "SMRTG.IS",
+    "href": "/bist/SMRTG"
+  },
+  {
+    "symbol": "SNAP",
+    "name": "SNAP",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SNAP",
+    "href": "/us/SNAP"
+  },
+  {
+    "symbol": "SNGYO",
+    "name": "SNGYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "SNGYO.IS",
+    "href": "/bist/SNGYO"
+  },
+  {
+    "symbol": "SNOW",
+    "name": "SNOW",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SNOW",
+    "href": "/us/SNOW"
+  },
+  {
+    "symbol": "SNPS",
+    "name": "SNPS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SNPS",
+    "href": "/us/SNPS"
+  },
+  {
+    "symbol": "SNX",
+    "name": "SNX",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "SNXUSDT",
+    "href": "/crypto/SNXUSDT"
+  },
+  {
+    "symbol": "SO",
+    "name": "SO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SO",
+    "href": "/us/SO"
+  },
+  {
+    "symbol": "SOFI",
+    "name": "SOFI",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SOFI",
+    "href": "/us/SOFI"
+  },
+  {
+    "symbol": "SOKM",
+    "name": "Şok Marketler",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "SOKM.IS",
+    "href": "/bist/SOKM"
+  },
+  {
+    "symbol": "SOL",
+    "name": "Solana",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "SOLUSDT",
+    "href": "/crypto/SOLUSDT"
+  },
+  {
+    "symbol": "SOXX",
+    "name": "Yarı İletken (iShares)",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "SOXX",
+    "href": "/fon/SOXX"
+  },
+  {
+    "symbol": "SPG",
+    "name": "SPG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SPG",
+    "href": "/us/SPG"
+  },
+  {
+    "symbol": "SPOT",
+    "name": "SPOT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SPOT",
+    "href": "/us/SPOT"
+  },
+  {
+    "symbol": "SPY",
+    "name": "SPDR S&P 500 ETF",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "SPY",
+    "href": "/fon/SPY"
+  },
+  {
+    "symbol": "SRE",
+    "name": "SRE",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SRE",
+    "href": "/us/SRE"
+  },
+  {
+    "symbol": "SSV",
+    "name": "SSV",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "SSVUSDT",
+    "href": "/crypto/SSVUSDT"
+  },
+  {
+    "symbol": "ST1",
+    "name": "Strateji Portföy · Hisse Senedi Yoğun",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:ST1",
+    "href": "/fon/ST1"
+  },
+  {
+    "symbol": "STRK",
+    "name": "STRK",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "STRKUSDT",
+    "href": "/crypto/STRKUSDT"
+  },
+  {
+    "symbol": "STX",
+    "name": "STX",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "STXUSDT",
+    "href": "/crypto/STXUSDT"
+  },
+  {
+    "symbol": "SUI",
+    "name": "SUI",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "SUIUSDT",
+    "href": "/crypto/SUIUSDT"
+  },
+  {
+    "symbol": "SWKS",
+    "name": "SWKS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SWKS",
+    "href": "/us/SWKS"
+  },
+  {
+    "symbol": "SYK",
+    "name": "SYK",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SYK",
+    "href": "/us/SYK"
+  },
+  {
+    "symbol": "T",
+    "name": "T",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "T",
+    "href": "/us/T"
+  },
+  {
+    "symbol": "TAO",
+    "name": "TAO",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "TAOUSDT",
+    "href": "/crypto/TAOUSDT"
+  },
+  {
+    "symbol": "TATGD",
+    "name": "TATGD",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TATGD.IS",
+    "href": "/bist/TATGD"
+  },
+  {
+    "symbol": "TAVHL",
+    "name": "TAV Havalimanları",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TAVHL.IS",
+    "href": "/bist/TAVHL"
+  },
+  {
+    "symbol": "TCD",
+    "name": "Tacirler Portföy · Değişken",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:TCD",
+    "href": "/fon/TCD"
+  },
+  {
+    "symbol": "TCELL",
+    "name": "Turkcell",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TCELL.IS",
+    "href": "/bist/TCELL"
+  },
+  {
+    "symbol": "TEAM",
+    "name": "TEAM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TEAM",
+    "href": "/us/TEAM"
+  },
+  {
+    "symbol": "TER",
+    "name": "TER",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TER",
+    "href": "/us/TER"
+  },
+  {
+    "symbol": "TGT",
+    "name": "TGT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TGT",
+    "href": "/us/TGT"
+  },
+  {
+    "symbol": "THETA",
+    "name": "THETA",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "THETAUSDT",
+    "href": "/crypto/THETAUSDT"
+  },
+  {
+    "symbol": "THYAO",
+    "name": "Türk Hava Yolları",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "THYAO.IS",
+    "href": "/bist/THYAO"
+  },
+  {
+    "symbol": "TI2",
+    "name": "İş Portföy · Hisse Senedi Yoğun",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:TI2",
+    "href": "/fon/TI2"
+  },
+  {
+    "symbol": "TIA",
+    "name": "TIA",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "TIAUSDT",
+    "href": "/crypto/TIAUSDT"
+  },
+  {
+    "symbol": "TJX",
+    "name": "TJX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TJX",
+    "href": "/us/TJX"
+  },
+  {
+    "symbol": "TKFEN",
+    "name": "TKFEN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TKFEN.IS",
+    "href": "/bist/TKFEN"
+  },
+  {
+    "symbol": "TKNSA",
+    "name": "TKNSA",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TKNSA.IS",
+    "href": "/bist/TKNSA"
+  },
+  {
+    "symbol": "TLT",
+    "name": "Uzun Vadeli Hazine",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "TLT",
+    "href": "/fon/TLT"
+  },
+  {
+    "symbol": "TMO",
+    "name": "TMO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TMO",
+    "href": "/us/TMO"
+  },
+  {
+    "symbol": "TMSN",
+    "name": "TMSN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TMSN.IS",
+    "href": "/bist/TMSN"
+  },
+  {
+    "symbol": "TMUS",
+    "name": "TMUS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TMUS",
+    "href": "/us/TMUS"
+  },
+  {
+    "symbol": "TOASO",
+    "name": "Tofaş",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TOASO.IS",
+    "href": "/bist/TOASO"
+  },
+  {
+    "symbol": "TON",
+    "name": "TON",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "TONUSDT",
+    "href": "/crypto/TONUSDT"
+  },
+  {
+    "symbol": "TRUMP",
+    "name": "TRUMP",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "TRUMPUSDT",
+    "href": "/crypto/TRUMPUSDT"
+  },
+  {
+    "symbol": "TRX",
+    "name": "TRX",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "TRXUSDT",
+    "href": "/crypto/TRXUSDT"
+  },
+  {
+    "symbol": "TSKB",
+    "name": "TSKB",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TSKB.IS",
+    "href": "/bist/TSKB"
+  },
+  {
+    "symbol": "TSLA",
+    "name": "Tesla",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TSLA",
+    "href": "/us/TSLA"
+  },
+  {
+    "symbol": "TSM",
+    "name": "TSM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TSM",
+    "href": "/us/TSM"
+  },
+  {
+    "symbol": "TTD",
+    "name": "TTD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TTD",
+    "href": "/us/TTD"
+  },
+  {
+    "symbol": "TTE",
+    "name": "İş Portföy · BIST Teknoloji Hisse Yoğun",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:TTE",
+    "href": "/fon/TTE"
+  },
+  {
+    "symbol": "TTKOM",
+    "name": "Türk Telekom",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TTKOM.IS",
+    "href": "/bist/TTKOM"
+  },
+  {
+    "symbol": "TTRAK",
+    "name": "TTRAK",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TTRAK.IS",
+    "href": "/bist/TTRAK"
+  },
+  {
+    "symbol": "TTWO",
+    "name": "TTWO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TTWO",
+    "href": "/us/TTWO"
+  },
+  {
+    "symbol": "TUPRS",
+    "name": "Tüpraş",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TUPRS.IS",
+    "href": "/bist/TUPRS"
+  },
+  {
+    "symbol": "TURSG",
+    "name": "TURSG",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TURSG.IS",
+    "href": "/bist/TURSG"
+  },
+  {
+    "symbol": "TXN",
+    "name": "TXN",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TXN",
+    "href": "/us/TXN"
+  },
+  {
+    "symbol": "U",
+    "name": "U",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "U",
+    "href": "/us/U"
+  },
+  {
+    "symbol": "UAL",
+    "name": "UAL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "UAL",
+    "href": "/us/UAL"
+  },
+  {
+    "symbol": "UBER",
+    "name": "UBER",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "UBER",
+    "href": "/us/UBER"
+  },
+  {
+    "symbol": "ULKER",
+    "name": "ULKER",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ULKER.IS",
+    "href": "/bist/ULKER"
+  },
+  {
+    "symbol": "UMC",
+    "name": "UMC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "UMC",
+    "href": "/us/UMC"
+  },
+  {
+    "symbol": "UNH",
+    "name": "UNH",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "UNH",
+    "href": "/us/UNH"
+  },
+  {
+    "symbol": "UNI",
+    "name": "UNI",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "UNIUSDT",
+    "href": "/crypto/UNIUSDT"
+  },
+  {
+    "symbol": "UNP",
+    "name": "UNP",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "UNP",
+    "href": "/us/UNP"
+  },
+  {
+    "symbol": "UPS",
+    "name": "UPS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "UPS",
+    "href": "/us/UPS"
+  },
+  {
+    "symbol": "UPST",
+    "name": "UPST",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "UPST",
+    "href": "/us/UPST"
+  },
+  {
+    "symbol": "USUAL",
+    "name": "USUAL",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "USUALUSDT",
+    "href": "/crypto/USUALUSDT"
+  },
+  {
+    "symbol": "V",
+    "name": "V",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "V",
+    "href": "/us/V"
+  },
+  {
+    "symbol": "VAKBN",
+    "name": "VAKBN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "VAKBN.IS",
+    "href": "/bist/VAKBN"
+  },
+  {
+    "symbol": "VEEV",
+    "name": "VEEV",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "VEEV",
+    "href": "/us/VEEV"
+  },
+  {
+    "symbol": "VESBE",
+    "name": "VESBE",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "VESBE.IS",
+    "href": "/bist/VESBE"
+  },
+  {
+    "symbol": "VESTL",
+    "name": "VESTL",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "VESTL.IS",
+    "href": "/bist/VESTL"
+  },
+  {
+    "symbol": "VET",
+    "name": "VET",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "VETUSDT",
+    "href": "/crypto/VETUSDT"
+  },
+  {
+    "symbol": "VIG",
+    "name": "Temettü Büyüme",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "VIG",
+    "href": "/fon/VIG"
+  },
+  {
+    "symbol": "VIRTUAL",
+    "name": "VIRTUAL",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "VIRTUALUSDT",
+    "href": "/crypto/VIRTUALUSDT"
+  },
+  {
+    "symbol": "VKGYO",
+    "name": "VKGYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "VKGYO.IS",
+    "href": "/bist/VKGYO"
+  },
+  {
+    "symbol": "VLO",
+    "name": "VLO",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "VLO",
+    "href": "/us/VLO"
+  },
+  {
+    "symbol": "VOO",
+    "name": "Vanguard S&P 500 ETF",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "VOO",
+    "href": "/fon/VOO"
+  },
+  {
+    "symbol": "VRTX",
+    "name": "VRTX",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "VRTX",
+    "href": "/us/VRTX"
+  },
+  {
+    "symbol": "VTI",
+    "name": "Toplam ABD Piyasası",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "VTI",
+    "href": "/fon/VTI"
+  },
+  {
+    "symbol": "VXUS",
+    "name": "Uluslararası Hisse",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "VXUS",
+    "href": "/fon/VXUS"
+  },
+  {
+    "symbol": "VZ",
+    "name": "VZ",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "VZ",
+    "href": "/us/VZ"
+  },
+  {
+    "symbol": "WAVES",
+    "name": "WAVES",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "WAVESUSDT",
+    "href": "/crypto/WAVESUSDT"
+  },
+  {
+    "symbol": "WBD",
+    "name": "WBD",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "WBD",
+    "href": "/us/WBD"
+  },
+  {
+    "symbol": "WDAY",
+    "name": "WDAY",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "WDAY",
+    "href": "/us/WDAY"
+  },
+  {
+    "symbol": "WELL",
+    "name": "WELL",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "WELL",
+    "href": "/us/WELL"
+  },
+  {
+    "symbol": "WFC",
+    "name": "WFC",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "WFC",
+    "href": "/us/WFC"
+  },
+  {
+    "symbol": "WIF",
+    "name": "WIF",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "WIFUSDT",
+    "href": "/crypto/WIFUSDT"
+  },
+  {
+    "symbol": "WLD",
+    "name": "WLD",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "WLDUSDT",
+    "href": "/crypto/WLDUSDT"
+  },
+  {
+    "symbol": "WMT",
+    "name": "WMT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "WMT",
+    "href": "/us/WMT"
+  },
+  {
+    "symbol": "XLE",
+    "name": "Enerji Sektörü",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "XLE",
+    "href": "/fon/XLE"
+  },
+  {
+    "symbol": "XLF",
+    "name": "Finans Sektörü",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "XLF",
+    "href": "/fon/XLF"
+  },
+  {
+    "symbol": "XLK",
+    "name": "Teknoloji Sektörü",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "XLK",
+    "href": "/fon/XLK"
+  },
+  {
+    "symbol": "XLM",
+    "name": "XLM",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "XLMUSDT",
+    "href": "/crypto/XLMUSDT"
+  },
+  {
+    "symbol": "XLV",
+    "name": "Sağlık Sektörü",
+    "exchange": "ETF",
+    "category": "etf",
+    "logo": null,
+    "quoteId": "XLV",
+    "href": "/fon/XLV"
+  },
+  {
+    "symbol": "XMR",
+    "name": "XMR",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "XMRUSDT",
+    "href": "/crypto/XMRUSDT"
+  },
+  {
+    "symbol": "XOM",
+    "name": "XOM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "XOM",
+    "href": "/us/XOM"
+  },
+  {
+    "symbol": "XPEV",
+    "name": "XPEV",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "XPEV",
+    "href": "/us/XPEV"
+  },
+  {
+    "symbol": "XRP",
+    "name": "XRP",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "XRPUSDT",
+    "href": "/crypto/XRPUSDT"
+  },
+  {
+    "symbol": "XTZ",
+    "name": "XTZ",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "XTZUSDT",
+    "href": "/crypto/XTZUSDT"
+  },
+  {
+    "symbol": "XYZ",
+    "name": "XYZ",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "XYZ",
+    "href": "/us/XYZ"
+  },
+  {
+    "symbol": "YAY",
+    "name": "Yapı Kredi Portföy · Yabancı Teknoloji Hisse",
+    "exchange": "TEFAS",
+    "category": "fon",
+    "logo": null,
+    "quoteId": "TEFAS:YAY",
+    "href": "/fon/YAY"
+  },
+  {
+    "symbol": "YEOTK",
+    "name": "YEOTK",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "YEOTK.IS",
+    "href": "/bist/YEOTK"
+  },
+  {
+    "symbol": "YGGYO",
+    "name": "YGGYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "YGGYO.IS",
+    "href": "/bist/YGGYO"
+  },
+  {
+    "symbol": "YKBNK",
+    "name": "Yapı Kredi",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "YKBNK.IS",
+    "href": "/bist/YKBNK"
+  },
+  {
+    "symbol": "ZEC",
+    "name": "ZEC",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ZECUSDT",
+    "href": "/crypto/ZECUSDT"
+  },
+  {
+    "symbol": "ZEN",
+    "name": "ZEN",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ZENUSDT",
+    "href": "/crypto/ZENUSDT"
+  },
+  {
+    "symbol": "ZIL",
+    "name": "ZIL",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ZILUSDT",
+    "href": "/crypto/ZILUSDT"
+  },
+  {
+    "symbol": "ZK",
+    "name": "ZK",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ZKUSDT",
+    "href": "/crypto/ZKUSDT"
+  },
+  {
+    "symbol": "ZM",
+    "name": "ZM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ZM",
+    "href": "/us/ZM"
+  },
+  {
+    "symbol": "ZOREN",
+    "name": "ZOREN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ZOREN.IS",
+    "href": "/bist/ZOREN"
+  },
+  {
+    "symbol": "ZRX",
+    "name": "ZRX",
+    "exchange": "BINANCE",
+    "category": "crypto",
+    "logo": null,
+    "quoteId": "ZRXUSDT",
+    "href": "/crypto/ZRXUSDT"
+  },
+  {
+    "symbol": "ZS",
+    "name": "ZS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ZS",
+    "href": "/us/ZS"
+  },
+  {
+    "symbol": "ZTS",
+    "name": "ZTS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "ZTS",
+    "href": "/us/ZTS"
+  }
+]

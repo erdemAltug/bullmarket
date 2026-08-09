@@ -5,7 +5,7 @@ import {
   MobileNavDrawer,
   MobileNavProvider,
 } from '@/components/shared/MobileNav';
-import { CommandPalette } from '@/components/shared/CommandPalette';
+import { UniversalSearch } from '@/components/search/UniversalSearch';
 import { NavigationProgress } from '@/components/shared/NavigationProgress';
 import { TabTitleEngine } from '@/components/shared/TabTitleEngine';
 import { SiteFooter } from '@/components/shared/SiteFooter';
@@ -22,7 +22,7 @@ export default function DashboardLayout({
         <NavigationProgress />
         <TabTitleEngine />
         <Header />
-        <CommandPalette />
+        <UniversalSearch />
         <AlertEngine />
         <MobileNavDrawer />
         <div className="flex min-h-0 flex-1">
