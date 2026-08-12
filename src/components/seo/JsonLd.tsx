@@ -15,32 +15,6 @@ export function JsonLd() {
     areaServed: ['TR', 'Worldwide'],
   };
 
-  const softwareSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'Bullsye Terminal',
-    applicationCategory: 'FinanceApplication',
-    operatingSystem: 'Web',
-    url: `${SITE_URL}/terminal`,
-    image: `${SITE_URL}/images/landing/terminal-hero.png`,
-    description:
-      'BİST, NASDAQ ve Kripto için yapay zeka skorları, analist hedef fiyatları ve canlı borsa terminali.',
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'TRY',
-    },
-    featureList: [
-      'BİST canlı hisse fiyatı',
-      'Analist hedef fiyat konsensüsü',
-      'AI alım satım sinyalleri',
-      'Kripto radar',
-      'Temettü takvimi',
-      '1v1 varlık kıyaslama',
-      'AI Portföy Doktoru',
-    ],
-  };
-
   const financialProductSchema = {
     '@context': 'https://schema.org',
     '@type': 'FinancialProduct',
@@ -80,10 +54,6 @@ export function JsonLd() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(organizationSchema),
         }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
       />
       <script
         type="application/ld+json"

@@ -5,13 +5,15 @@ import { rootHreflangLanguages } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Bullsye - Canlı Borsa, Kripto & Yapay Zeka Analiz Terminali',
+    absolute: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
   },
   description:
-    'BİST 100, NASDAQ ve Kripto piyasalarında yapay zeka sinyalleri, analist hedef fiyatları ve canlı borsa verileri. Ücretsiz canlı terminale hemen katılın.',
+    'BİST 100 ve Kripto varlıkları için 100 üzerinden canlı AI fırsat skorları, analist hedef fiyatları ve portföy risk taraması. Hemen ücretsiz terminale katılın.',
   keywords: [
     'canlı borsa',
     'bist 100',
+    'ai fırsat skoru',
+    'ücretsiz bist analizi',
     'hedef fiyatlar',
     'ai borsa sinyalleri',
     'kripto radar',
@@ -28,9 +30,9 @@ export const metadata: Metadata = {
   openGraph: {
     locale: 'tr_TR',
     alternateLocale: ['en_US'],
-    title: 'Bullsye - Hit The Market | AI Finansal Analiz Terminali',
+    title: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
     description:
-      'BİST, NASDAQ ve Kripto varlıkları için canlı AI skorlaması ve analist konsensüsleri.',
+      'BİST 100 ve Kripto varlıkları için 100 üzerinden canlı AI fırsat skorları, analist hedef fiyatları ve portföy risk taraması. Hemen ücretsiz terminale katılın.',
     url: SITE_URL,
     siteName: 'Bullsye',
     type: 'website',
@@ -39,15 +41,15 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'Bullsye — AI finansal analiz terminali',
+        alt: 'Bullsye — AI Fırsat Radarı ve canlı BİST terminali',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bullsye - Hit The Market | AI Finansal Analiz Terminali',
+    title: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
     description:
-      'BİST, NASDAQ ve Kripto varlıkları için canlı AI skorlaması ve analist konsensüsleri.',
+      'BİST 100 ve Kripto için canlı AI fırsat skorları, analist hedefleri ve portföy risk taraması. Ücretsiz terminale katılın.',
     images: [`${SITE_URL}/og-image.png`],
   },
 };

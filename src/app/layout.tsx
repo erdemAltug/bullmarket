@@ -2,6 +2,7 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 import { MicrosoftClarity } from '@/components/analytics/MicrosoftClarity';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { Providers } from './providers';
 import { SITE_URL } from '@/lib/seo/symbols';
 import './globals.css';
@@ -21,15 +22,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default:
-      'Bullsye — Canlı BİST Hisse Analizi, Kripto Sinyal & Temettü Terminali',
+    default: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
     template: '%s | Bullsye',
   },
   description:
-    'Borsa İstanbul canlı hisse fiyatı, temel analiz karnesi, analist hedef fiyatları, kripto sinyal radarı ve temettü takvimi. Türkiye ve global piyasalar için ücretsiz finans analiz terminali.',
+    'BİST 100 ve Kripto varlıkları için 100 üzerinden canlı AI fırsat skorları, analist hedef fiyatları ve portföy risk taraması. Hemen ücretsiz terminale katılın.',
   keywords: [
     'Bullsye',
     'BİST canlı',
+    'AI fırsat skoru',
+    'ücretsiz BİST analizi',
     'Borsa İstanbul hisse analizi',
     'hisse fiyatı',
     'temel analiz',
@@ -66,9 +68,9 @@ export const metadata: Metadata = {
     apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {
-    title: 'Bullsye — Canlı BİST, Kripto & Finans Analiz Terminali',
+    title: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
     description:
-      'Hisse analizi, analist hedefleri, AI alım sinyalleri ve temettü takibi — tek terminalde.',
+      'BİST 100 ve Kripto varlıkları için 100 üzerinden canlı AI fırsat skorları, analist hedef fiyatları ve portföy risk taraması. Hemen ücretsiz terminale katılın.',
     url: SITE_URL,
     siteName: 'Bullsye',
     locale: 'tr_TR',
@@ -87,9 +89,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@bullsyeapp',
     creator: '@bullsyeapp',
-    title: 'Bullsye — BİST Hisse Analizi & Kripto Sinyaller',
+    title: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
     description:
-      'Canlı BİST, analist hedef fiyatları, AI trading signals ve temettü takvimi.',
+      'BİST 100 ve Kripto için canlı AI fırsat skorları, analist hedefleri ve portföy risk taraması. Ücretsiz terminale katılın.',
     images: [
       `${SITE_URL}/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Financial%20Terminal`,
     ],
@@ -134,6 +136,7 @@ export default function RootLayout({
       >
         <MicrosoftClarity />
         <JsonLd />
+        <SchemaMarkup />
         <Providers>{children}</Providers>
       </body>
     </html>
