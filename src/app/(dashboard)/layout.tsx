@@ -18,7 +18,7 @@ export default function DashboardLayout({
 }) {
   return (
     <MobileNavProvider>
-      <div className="flex h-dvh flex-col overflow-hidden bg-[var(--background)]">
+      <div className="flex h-[calc(100dvh-var(--launch-banner-h,0px))] flex-col overflow-hidden bg-[var(--background)]">
         <NavigationProgress />
         <TabTitleEngine />
         <Header />

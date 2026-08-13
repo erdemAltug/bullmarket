@@ -3,6 +3,7 @@
 import { Lock } from 'lucide-react';
 import { useAuthGate } from '@/components/auth/AuthGateProvider';
 import { authClient } from '@/lib/auth/client';
+import { BETA_AUTH_HEADLINE, BETA_AUTH_SUBTITLE } from '@/lib/beta';
 import { cn } from '@/lib/utils';
 
 interface ProtectedFeatureProps {
@@ -54,11 +55,10 @@ export function ProtectedFeature({
           <Lock className="size-4" />
         </div>
         <h3 className="mb-1 text-base font-bold text-[var(--foreground)]">
-          {featureTitle} için Ücretsiz Hesap Oluşturun
+          {featureTitle}
         </h3>
         <p className="mb-4 max-w-xs text-xs text-[var(--muted)]">
-          Canlı sinyaller, analist hedefleri ve hacim liderlerini ücretsiz
-          hesapla inceleyin.
+          {BETA_AUTH_SUBTITLE}
         </p>
         <button
           type="button"
@@ -66,9 +66,8 @@ export function ProtectedFeature({
             openAuth({
               tab: 'register',
               feature: featureTitle,
-              headline: `Ücretsiz Kayıt Ol & ${featureTitle}`,
-              subtitle:
-                '1 tıkla Google ile devam et — sinyaller, hedefler ve canlı tarama açılır.',
+              headline: BETA_AUTH_HEADLINE,
+              subtitle: BETA_AUTH_SUBTITLE,
             })
           }
           className="rounded-lg bg-emerald-500 px-5 py-2 text-xs font-bold text-black shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all hover:bg-emerald-400"
@@ -104,8 +103,8 @@ export function LockedValue({
         openAuth({
           tab: 'register',
           feature,
-          headline: 'Ücretsiz Kayıt Ol & Kilidi Aç',
-          subtitle: `${feature} bilgisini görmek için hesap oluşturun.`,
+          headline: BETA_AUTH_HEADLINE,
+          subtitle: BETA_AUTH_SUBTITLE,
         })
       }
       className={cn(

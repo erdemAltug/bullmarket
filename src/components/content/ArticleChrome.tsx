@@ -137,9 +137,6 @@ export function RegisterCtaBanner() {
           openAuth({
             tab: 'register',
             feature: 'Eğitim → Terminal',
-            headline: 'Ücretsiz kayıt — terminali aç',
-            subtitle:
-              'Alarm, izleme listesi ve fırsat masası aynı hesaba senkronlanır.',
           })
         }
         className="mt-3 inline-flex rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-4 py-2 text-sm font-bold text-emerald-300 hover:bg-emerald-500/25"

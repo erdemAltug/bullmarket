@@ -16,6 +16,7 @@ import {
   computeMarketSentiment,
 } from '@/lib/ai-opportunity';
 import { cn } from '@/lib/utils';
+import { BETA_AUTH_HEADLINE, BETA_AUTH_SUBTITLE } from '@/lib/beta';
 
 const LS_SEEN = 'bullsye:firsat:seen';
 const LS_STREAK = 'bullsye:firsat:streak';
@@ -78,9 +79,6 @@ export function OpportunityHunt() {
 
   const hotCount = potentialCards.filter((c) => c.score >= 75).length;
 
-  // Streak unlock: 3+ days → 8 free signal cards; else 6 (vs /signals default 3)
-  const freeSignalCount = unlocked ? 99 : streak >= 3 ? 8 : 6;
-
   useEffect(() => {
     setStreak(readStreak());
   }, []);
@@ -122,7 +120,6 @@ export function OpportunityHunt() {
             <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-bold text-amber-300">
               <Flame className="size-3.5" />
               {streak} gün seri
-              {streak >= 3 && !unlocked ? ' · +2 ücretsiz kart' : ''}
             </span>
           ) : null}
           {newCount > 0 ? (
@@ -166,10 +163,7 @@ export function OpportunityHunt() {
               Anlık AL sinyalleri
             </h2>
             <p className="text-xs text-[var(--muted)]">
-              Fırsat kartlarından sonra teknik momentum —{' '}
-              {unlocked
-                ? 'tam liste açık'
-                : `misafir önizleme: ${freeSignalCount} kart`}
+              Fırsat kartlarından sonra teknik momentum — tam liste açık beta
             </p>
           </div>
           <Link
@@ -182,7 +176,6 @@ export function OpportunityHunt() {
         <AISignalRadar
           marketItems={marketItems}
           isLoading={scanner.isLoading}
-          freeCount={freeSignalCount}
         />
       </section>
 
@@ -199,8 +192,8 @@ export function OpportunityHunt() {
             Her kartta mikro inceleme, izleme listesi ve fiyat alarmı bulunur.
           </li>
           <li>
-            Günlük ziyaret serisi misafir önizlemeyi genişletir; hesap ile tam
-            radar açılır.
+            Açık Beta’da AI fırsat skorları ve canlı sinyaller ücretsizdir;
+            özel alarmlar için 2 saniyede kayıt yeter.
           </li>
         </ul>
         <div className="mt-4 flex flex-wrap gap-3 text-xs">
@@ -257,14 +250,13 @@ export function OpportunityHunt() {
                   openAuth({
                     tab: 'register',
                     feature: 'AI Fırsat Masası',
-                    headline: 'Ücretsiz kayıt — tüm fırsatları aç',
-                    subtitle:
-                      'Google ile 1 tık · tam sinyal listesi, hedefler ve alarm senkronu.',
+                    headline: BETA_AUTH_HEADLINE,
+                    subtitle: BETA_AUTH_SUBTITLE,
                   })
                 }
                 className="flex-1 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-bold text-[#042f2e] hover:brightness-110 sm:flex-none"
               >
-                Tam listeyi aç
+                Terminale katıl
               </button>
             ) : (
               <Link

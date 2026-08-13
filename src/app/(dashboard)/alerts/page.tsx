@@ -25,6 +25,9 @@ import {
   type AlertAssetOption,
 } from '@/lib/alert-assets';
 import { cn, formatPrice } from '@/lib/utils';
+import { useAuthGate } from '@/components/auth/AuthGateProvider';
+import { authClient } from '@/lib/auth/client';
+import { BETA_AUTH_HEADLINE, BETA_AUTH_SUBTITLE } from '@/lib/beta';
 import type { AlertKind, PriceAlert } from '@/types';
 
 const KIND_LABEL: Record<AlertKind, string> = {
@@ -127,6 +130,8 @@ function liveFor(symbol: string, map: Map<string, number>): number | null {
 }
 
 export default function AlertsPage() {
+  const { data: session } = authClient.useSession();
+  const { openAuth } = useAuthGate();
   const {
     alerts,
     addAlert,
@@ -206,6 +211,15 @@ export default function AlertsPage() {
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!session?.user) {
+      openAuth({
+        tab: 'register',
+        feature: 'Özel Alarmlar',
+        headline: BETA_AUTH_HEADLINE,
+        subtitle: BETA_AUTH_SUBTITLE,
+      });
+      return;
+    }
     setFormError('');
     setFormOk('');
     const raw = threshold.trim().replace(',', '.');

@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   Activity,
-  ArrowRight,
   Bot,
   Crosshair,
   Newspaper,
@@ -16,6 +15,7 @@ import { FaqAccordion } from '@/components/landing/FaqAccordion';
 import { HeroLiveBadges } from '@/components/landing/HeroLiveBadges';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingTicker } from '@/components/landing/LandingTicker';
+import { TerminalCtaButton } from '@/components/landing/TerminalCtaButton';
 import {
   TOP_BIST_FOR_HUB,
   TOP_CRYPTO_FOR_HUB,
@@ -133,7 +133,7 @@ export function LandingPage() {
       <LandingNav />
 
       {/* Hero */}
-      <section className="relative isolate pt-24">
+      <section className="relative isolate pt-[calc(6rem+var(--launch-banner-h,0px))]">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
@@ -167,14 +167,7 @@ export function LandingPage() {
             </p>
 
             <div className="landing-fade-up landing-delay-3 mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link
-                href="/terminal"
-                prefetch
-                className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-bold text-[#042f2e] shadow-[0_0_28px_rgba(20,184,166,0.28)] transition hover:brightness-110"
-              >
-                Canlı Terminale Geç
-                <ArrowRight className="size-4" />
-              </Link>
+              <TerminalCtaButton>Canlı Terminale Geç</TerminalCtaButton>
               <Link
                 href="#uygulama"
                 className="inline-flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--card)] px-5 py-3 text-sm font-semibold text-[var(--foreground)] transition hover:border-[var(--accent)]/40"
@@ -305,14 +298,12 @@ export function LandingPage() {
               THYAO, GARAN veya BTC yazın — canlı evrenden skor, fiyat ve değişim
               anında gelir. Beğendiyseniz tek tıkla terminale geçin.
             </p>
-            <Link
-              href="/terminal"
-              prefetch
+            <TerminalCtaButton
+              compact
               className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent)] hover:underline"
             >
               Canlı Terminale Geç
-              <ArrowRight className="size-4" />
-            </Link>
+            </TerminalCtaButton>
           </div>
           <AssetChecker />
         </div>
@@ -336,14 +327,7 @@ export function LandingPage() {
               terminali telefonda da çalışır — favorilere ekleyin.
             </p>
           </div>
-          <Link
-            href="/terminal"
-            prefetch
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-bold text-[#042f2e] hover:brightness-110"
-          >
-            Web terminalini aç
-            <ArrowRight className="size-4" />
-          </Link>
+          <TerminalCtaButton>Web terminalini aç</TerminalCtaButton>
         </div>
       </section>
 
@@ -428,14 +412,9 @@ export function LandingPage() {
           Ücretsiz canlı veriler — kredi kartı yok. AI skor, hedef fiyat ve
           balina akışı hazır.
         </p>
-        <Link
-          href="/terminal"
-          prefetch
-          className="mt-8 inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-bold text-[#042f2e] shadow-[0_0_28px_rgba(20,184,166,0.28)] hover:brightness-110"
-        >
+        <TerminalCtaButton className="mt-8 inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-bold text-[#042f2e] shadow-[0_0_28px_rgba(20,184,166,0.28)] hover:brightness-110">
           Canlı Terminale Geç
-          <ArrowRight className="size-4" />
-        </Link>
+        </TerminalCtaButton>
       </section>
 
       {/* YMYL / E-E-A-T footer */}

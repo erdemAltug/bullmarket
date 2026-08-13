@@ -323,7 +323,6 @@ export default function OverviewPage() {
           <AISignalRadar
             marketItems={scanner.data ?? []}
             isLoading={scanner.isLoading}
-            freeCount={3}
             hideHeader
           />
         );

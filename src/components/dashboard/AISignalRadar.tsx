@@ -3,11 +3,6 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
-import {
-  LockedValue,
-  ProtectedFeature,
-} from '@/components/auth/ProtectedFeature';
-import { authClient } from '@/lib/auth/client';
 import { generateRealTimeSignals } from '@/lib/signals';
 import { assetDetailHref } from '@/lib/seo/internal-links';
 import type { ScannerItem } from '@/types/scanner';
@@ -27,8 +22,6 @@ const FILTERS: { id: Filter; label: string }[] = [
 interface AISignalRadarProps {
   marketItems: ScannerItem[];
   isLoading?: boolean;
-  /** Free preview cards before soft paywall */
-  freeCount?: number;
   /** Parent section already shows the title */
   hideHeader?: boolean;
 }
@@ -36,11 +29,8 @@ interface AISignalRadarProps {
 export function AISignalRadar({
   marketItems,
   isLoading,
-  freeCount = 3,
   hideHeader = false,
 }: AISignalRadarProps) {
-  const { data: session } = authClient.useSession();
-  const unlocked = Boolean(session?.user);
   const [filter, setFilter] = useState<Filter>('ALL');
 
   const allSignals = useMemo(
@@ -59,9 +49,6 @@ export function AISignalRadar({
       return true;
     });
   }, [allSignals, filter]);
-
-  const free = unlocked ? filteredSignals : filteredSignals.slice(0, freeCount);
-  const gated = unlocked ? [] : filteredSignals.slice(freeCount);
 
   return (
     <div className="w-full space-y-4">
@@ -116,7 +103,7 @@ export function AISignalRadar({
       ) : null}
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {free.map((sig) => {
+        {filteredSignals.map((sig) => {
           const isBuy =
             sig.signalType === 'BUY' || sig.signalType === 'STRONG_BUY';
           const currency =
@@ -189,17 +176,8 @@ export function AISignalRadar({
                     Stop-Loss
                   </div>
                   <div className="mt-0.5 text-xs font-bold text-rose-400">
-                    {unlocked ? (
-                      <>
-                        {currency}
-                        {fmt(sig.stopLoss)}
-                      </>
-                    ) : (
-                      <LockedValue feature="AI Stop-Loss">
-                        {currency}
-                        {fmt(sig.stopLoss)}
-                      </LockedValue>
-                    )}
+                    {currency}
+                    {fmt(sig.stopLoss)}
                   </div>
                 </div>
                 <div>
@@ -207,17 +185,8 @@ export function AISignalRadar({
                     Hedef
                   </div>
                   <div className="mt-0.5 text-xs font-bold text-emerald-400">
-                    {unlocked ? (
-                      <>
-                        {currency}
-                        {fmt(sig.targetPrice)}
-                      </>
-                    ) : (
-                      <LockedValue feature="AI Hedef Fiyat">
-                        {currency}
-                        {fmt(sig.targetPrice)}
-                      </LockedValue>
-                    )}
+                    {currency}
+                    {fmt(sig.targetPrice)}
                   </div>
                 </div>
               </div>
@@ -235,26 +204,6 @@ export function AISignalRadar({
           );
         })}
       </div>
-
-      {gated.length > 0 ? (
-        <ProtectedFeature featureTitle="AI Signal Radar">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {gated.slice(0, 9).map((sig) => (
-              <div
-                key={sig.id}
-                className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4"
-              >
-                <p className="font-bold">{sig.displaySymbol}</p>
-                <p className="text-xs text-[var(--muted)]">{sig.strategyName}</p>
-                <p className="mt-2 text-sm tabular-nums">
-                  Giriş {sig.entryPrice.toFixed(2)} · SL{' '}
-                  {sig.stopLoss.toFixed(2)} · TP {sig.targetPrice.toFixed(2)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </ProtectedFeature>
-      ) : null}
 
       {!isLoading && filteredSignals.length === 0 ? (
         <p className="py-8 text-center text-sm text-[var(--muted)]">

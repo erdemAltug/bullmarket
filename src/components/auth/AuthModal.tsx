@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -99,6 +100,7 @@ export function AuthModal({
   growthMode = false,
 }: AuthModalProps) {
   const qc = useQueryClient();
+  const router = useRouter();
   const [tab, setTab] = useState<Tab>(defaultTab);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -122,6 +124,10 @@ export function AuthModal({
     onOpenChange(false);
     setPassword('');
     setError(null);
+    const path = window.location.pathname;
+    if (path === '/' || path === '/tr' || path === '/en') {
+      router.push('/terminal');
+    }
   }
 
   async function onGoogle() {
@@ -180,13 +186,13 @@ export function AuthModal({
           <DialogTitle className="text-lg font-semibold tracking-tight text-[var(--foreground)]">
             {headline ??
               (growthMode
-                ? 'Ücretsiz Kayıt Ol & Kilidi Aç'
+                ? 'Açık Beta — tüm Pro AI ücretsiz'
                 : 'Bullsye Hesabı')}
           </DialogTitle>
           <p className="mt-1 text-xs text-[var(--muted)]">
             {subtitle ??
               (growthMode
-                ? '1 tıkla Google ile devam et — AI sinyalleri ve hedef fiyatlar açılır.'
+                ? 'Açık Beta dönemimizde tüm Pro AI özelliklerimiz ücretsizdir. Terminal deneyimini başlatmak için 2 saniyede kaydolun.'
                 : 'Watchlist, alarm ve portföy hesabınızda güvende')}
           </p>
         </div>

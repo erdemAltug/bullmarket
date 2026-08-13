@@ -11,7 +11,6 @@ export function SignalsHubClient() {
       <AISignalRadar
         marketItems={scanner.data ?? []}
         isLoading={scanner.isLoading}
-        freeCount={3}
       />
       {scanner.error ? (
         <p className="text-sm text-rose-400">{scanner.error.message}</p>

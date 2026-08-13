@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { trackEvent } from '@/lib/analytics';
+import { BETA_AUTH_HEADLINE, BETA_AUTH_SUBTITLE } from '@/lib/beta';
 
 type AuthTab = 'login' | 'register';
 
@@ -33,8 +34,8 @@ export function AuthGateProvider({ children }: { children: React.ReactNode }) {
 
   const openAuth = useCallback((opts?: OpenAuthOptions) => {
     setTab(opts?.tab ?? 'register');
-    setHeadline(opts?.headline);
-    setSubtitle(opts?.subtitle);
+    setHeadline(opts?.headline ?? BETA_AUTH_HEADLINE);
+    setSubtitle(opts?.subtitle ?? BETA_AUTH_SUBTITLE);
     if (opts?.feature) {
       trackEvent('feature_gate_clicked', { feature: opts.feature });
     }

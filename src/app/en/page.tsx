@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { TerminalCtaButton } from '@/components/landing/TerminalCtaButton';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { rootHreflangLanguages } from '@/lib/seo/hreflang';
 import {
@@ -82,12 +83,7 @@ export default function EnLocaleLanding() {
       </p>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <Link
-          href="/terminal?lang=en"
-          className="rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[#042f2e] hover:brightness-110"
-        >
-          Open Terminal
-        </Link>
+        <TerminalCtaButton>Open Terminal</TerminalCtaButton>
         <Link
           href="/signals?lang=en"
           className="rounded-lg border border-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:border-zinc-500"
