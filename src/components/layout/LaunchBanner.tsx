@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { X } from 'lucide-react';
 import { useAuthGate } from '@/components/auth/AuthGateProvider';
 import { authClient } from '@/lib/auth/client';
@@ -14,8 +13,9 @@ const BANNER_H = '2.5rem';
 export function LaunchBanner() {
   const [visible, setVisible] = useState(false);
   const { openAuth } = useAuthGate();
-  const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
   const signedIn = Boolean(session?.user);
+  const show = visible && !signedIn && !isPending;
 
   useEffect(() => {
     try {
@@ -28,12 +28,12 @@ export function LaunchBanner() {
   useEffect(() => {
     document.documentElement.style.setProperty(
       '--launch-banner-h',
-      visible ? BANNER_H : '0px'
+      show ? BANNER_H : '0px'
     );
     return () => {
       document.documentElement.style.setProperty('--launch-banner-h', '0px');
     };
-  }, [visible]);
+  }, [show]);
 
   function dismiss() {
     try {
@@ -45,7 +45,6 @@ export function LaunchBanner() {
   }
 
   function join() {
-    if (signedIn) return;
     openAuth({
       tab: 'register',
       feature: 'Açık Beta',
@@ -54,7 +53,7 @@ export function LaunchBanner() {
     });
   }
 
-  if (!visible) return null;
+  if (!show) return null;
 
   return (
     <div
@@ -76,44 +75,26 @@ export function LaunchBanner() {
 
         <p className="min-w-0 flex-1 truncate sm:hidden">
           ⚡ Açık Beta: Tüm AI Özellikleri Lansmana Özel Ücretsiz{' '}
-          {signedIn ? (
-            <Link
-              href="/terminal"
-              className="font-bold text-emerald-300 underline-offset-2 hover:underline"
-            >
-              [Terminale Katıl →]
-            </Link>
-          ) : (
-            <button
-              type="button"
-              onClick={join}
-              className="font-bold text-emerald-300 underline-offset-2 hover:underline"
-            >
-              [Giriş Yap →]
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={join}
+            className="font-bold text-emerald-300 underline-offset-2 hover:underline"
+          >
+            [Giriş Yap →]
+          </button>
         </p>
 
         <p className="hidden min-w-0 flex-1 truncate sm:block">
           ⚡ <strong className="font-semibold text-white">Bullsye Terminal Açık Beta&apos;da:</strong>{' '}
           Lansmana özel tüm AI Fırsat Skorları, Canlı Sinyaller ve Portföy
           Taraması tamamen ücretsiz.{' '}
-          {signedIn ? (
-            <Link
-              href="/terminal"
-              className="font-bold text-emerald-300 underline-offset-2 hover:underline"
-            >
-              [Terminale Katıl →]
-            </Link>
-          ) : (
-            <button
-              type="button"
-              onClick={join}
-              className="font-bold text-emerald-300 underline-offset-2 hover:underline"
-            >
-              [Terminale Katıl →]
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={join}
+            className="font-bold text-emerald-300 underline-offset-2 hover:underline"
+          >
+            [Terminale Katıl →]
+          </button>
         </p>
 
         <button
