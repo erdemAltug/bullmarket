@@ -270,7 +270,15 @@ async function callGemini(prompt: string): Promise<string> {
     if (!res.ok) {
       const detail = (await res.text()).slice(0, 300);
       errors.push(`${model} → ${res.status}: ${detail}`);
-      if (res.status === 404 || res.status === 400) continue;
+      // 404/400 = wrong model; 429/5xx = capacity — try next model, don't abort the chain
+      if (
+        res.status === 404 ||
+        res.status === 400 ||
+        res.status === 429 ||
+        res.status >= 500
+      ) {
+        continue;
+      }
       throw new Error(`Gemini ${res.status} [${model}]: ${detail}`);
     }
     const data = (await res.json()) as {
@@ -290,6 +298,54 @@ async function callGemini(prompt: string): Promise<string> {
   throw new Error(
     `Gemini başarısız (denenen: ${models.slice(0, 6).join(', ')}):\n${errors.join('\n')}`
   );
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isTransientError(msg: string): boolean {
+  return /503|429|502|500|UNAVAILABLE|high demand|overloaded|capacity|rate limit/i.test(
+    msg
+  );
+}
+
+async function callGroq(prompt: string): Promise<string> {
+  const key = process.env.GROQ_API_KEY;
+  if (!key) throw new Error('GROQ_API_KEY missing');
+  const model = process.env.GROQ_MODEL ?? 'llama-3.3-70b-versatile';
+  console.log(`Groq try: ${model}`);
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${key}`,
+    },
+    body: JSON.stringify({
+      model,
+      temperature: 0.7,
+      max_tokens: 8192,
+      response_format: { type: 'json_object' },
+      messages: [
+        {
+          role: 'system',
+          content:
+            'Türkçe finans SEO editörüsün. Yalnızca geçerli JSON döndür.',
+        },
+        { role: 'user', content: prompt },
+      ],
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`Groq ${res.status}: ${(await res.text()).slice(0, 400)}`);
+  }
+  const data = (await res.json()) as {
+    choices?: { message?: { content?: string } }[];
+  };
+  const text = data.choices?.[0]?.message?.content;
+  if (!text) throw new Error('Groq boş yanıt döndü');
+  console.log(`Groq OK: ${model}`);
+  return text;
 }
 
 async function callOpenAI(prompt: string): Promise<string> {
@@ -328,23 +384,45 @@ async function callOpenAI(prompt: string): Promise<string> {
 }
 
 async function generateWithLLM(prompt: string): Promise<string> {
-  const hasGemini = Boolean(process.env.GEMINI_API_KEY?.trim());
-  const hasOpenAI = Boolean(process.env.OPENAI_API_KEY?.trim());
-  if (!hasGemini && !hasOpenAI) {
-    throw new Error('GEMINI_API_KEY veya OPENAI_API_KEY gerekli');
+  const providers: { name: string; fn: () => Promise<string> }[] = [];
+  if (process.env.GEMINI_API_KEY?.trim()) {
+    providers.push({ name: 'Gemini', fn: () => callGemini(prompt) });
+  }
+  if (process.env.GROQ_API_KEY?.trim()) {
+    providers.push({ name: 'Groq', fn: () => callGroq(prompt) });
+  }
+  if (process.env.OPENAI_API_KEY?.trim()) {
+    providers.push({ name: 'OpenAI', fn: () => callOpenAI(prompt) });
+  }
+  if (!providers.length) {
+    throw new Error('GEMINI_API_KEY, GROQ_API_KEY veya OPENAI_API_KEY gerekli');
   }
 
-  if (hasGemini) {
-    try {
-      return await callGemini(prompt);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      console.error(`Gemini failed → ${msg}`);
-      if (!hasOpenAI) throw err;
-      console.warn('Falling back to OpenAI…');
+  const errors: string[] = [];
+  for (let i = 0; i < providers.length; i++) {
+    const { name, fn } = providers[i]!;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        return await fn();
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        errors.push(`${name} #${attempt}: ${msg}`);
+        console.error(`${name} failed (try ${attempt}/3) → ${msg}`);
+        if (isTransientError(msg) && attempt < 3) {
+          const wait = 2000 * attempt;
+          console.warn(`${name} kapasite hatası, ${wait}ms sonra tekrar…`);
+          await sleep(wait);
+          continue;
+        }
+        break;
+      }
+    }
+    if (i < providers.length - 1) {
+      console.warn(`Falling back from ${name} → ${providers[i + 1]!.name}…`);
     }
   }
-  return callOpenAI(prompt);
+
+  throw new Error(`Tüm LLM sağlayıcıları başarısız:\n${errors.join('\n')}`);
 }
 
 function ensureInlineCta(body: string): string {
@@ -438,7 +516,7 @@ function parseGenerated(
 
 async function main() {
   console.log(
-    `content:generate @ ${new Date().toISOString()} | gemini=${Boolean(process.env.GEMINI_API_KEY?.trim())} openai=${Boolean(process.env.OPENAI_API_KEY?.trim())}`
+    `content:generate @ ${new Date().toISOString()} | gemini=${Boolean(process.env.GEMINI_API_KEY?.trim())} groq=${Boolean(process.env.GROQ_API_KEY?.trim())} openai=${Boolean(process.env.OPENAI_API_KEY?.trim())}`
   );
   fs.mkdirSync(BLOG_DIR, { recursive: true });
   const used = existingSlugs();
@@ -452,7 +530,15 @@ async function main() {
   console.log(`Slug: ${slug}`);
 
   const prompt = buildPrompt(topic, slug);
-  const raw = await generateWithLLM(prompt);
+  let raw: string;
+  try {
+    raw = await generateWithLLM(prompt);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`content:generate skipped (providers exhausted):\n${msg}`);
+    // Cron should stay green — retry next scheduled run.
+    process.exit(0);
+  }
   const post = parseGenerated(raw, topic, slug);
   const words = wordCount(post.bodyMarkdown);
   console.log(`Words: ${words}`);
