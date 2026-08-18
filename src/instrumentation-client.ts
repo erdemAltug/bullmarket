@@ -9,7 +9,6 @@ if (token) {
     defaults: '2025-05-24',
     capture_pageview: 'history_change',
     capture_pageleave: true,
-    skip_trailing_slash: true,
     persistence: 'localStorage+cookie',
   });
 }
