@@ -151,25 +151,50 @@ function extractJson(raw: string): unknown {
   return JSON.parse(candidate.slice(start, end + 1));
 }
 
+const MIN_WORDS = 1100;
+const MAX_WORDS = 1700;
+
+class QualityError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'QualityError';
+  }
+}
+
 function buildPrompt(topic: TopicSeed, slug: string): string {
-  return `Sen Bullsye (https://bullsye.app) için Türkçe finans editörüsün.
+  return `Sen Bullsye (https://bullsye.app) için kıdemli Türkçe finans editörüsün.
 Hedef arama sorgusu: "${topic.query}"
 Slug: ${slug}
 
-Kurallar:
-- 1200–1500 kelime Türkçe makale yaz (yatırım tavsiyesi verme; eğitim/rehber tonu).
-- Sadece ## alt başlıkları kullan (H1 yok; title frontmatter'da).
-- En az 6 bölüm: giriş, kavram, adım adım uygulama, yaygın hatalar, Bullsye ile pratik, sonuç.
-- Gerçekçi TR piyasa bağlamı (BİST/kripto/fon) kullan; sahte fiyat/getiri uydurma.
-- Vendor marka (Yahoo, TradingView vb.) kullanıcı metninde geçmesin.
-- Makale gövdesinin ORTA bölümlerinden birinin hemen ardından şu satırı AYNEN ekle (ayrı bir paragraf olarak):
-${INLINE_CTA}
-- FAQ: tam 4 soru-cevap, arama niyetine uygun, kısa cevaplar.
-- keywords: 5–8 TR arama terimi.
-- description: max 155 karakter, tıklanabilir SEO özeti.
-- readingMinutes: kelime/200 yuvarlanmış (6–10 arası).
+ZORUNLU UZUNLUK:
+- bodyMarkdown EN AZ 1300, EN FAZLA 1600 kelime olmalı (hedef ~1400).
+- 1100 kelimenin altı GEÇERSİZDIR — kısa yazma, her bölümü aç.
+- Her ## bölümünde en az 3 dolu paragraf (her paragraf 4–7 cümle).
+- En az 8 ## bölümü kullan.
 
-Yanıtı SADECE şu JSON şemasında ver (markdown yok):
+Bölüm iskeleti (bu sırayla, başlıkları konuya uyarla):
+1. Giriş ve arama niyeti
+2. Kavramın tanımı
+3. Neden önemli (TR yatırımcı bağlamı)
+4. Adım adım uygulama (numaralı liste + açıklama)
+5. Örnek senaryo (uydurma fiyat yok; yöntem anlat)
+6. Yaygın hatalar
+7. Bullsye terminalinde pratik
+8. Sonuç ve kontrol listesi
+
+Diğer kurallar:
+- Yatırım tavsiyesi yok; eğitim/rehber tonu.
+- Sadece ## başlık (H1 yok).
+- Gerçekçi BİST / kripto / fon bağlamı; sahte getiri uydurma.
+- Vendor marka (Yahoo, TradingView vb.) metinde geçmesin.
+- Gövdenin ORTA bölümünden hemen sonra şu satırı AYNEN ekle (ayrı paragraf):
+${INLINE_CTA}
+- faqs: tam 4 kısa soru-cevap.
+- keywords: 5–8 TR terim.
+- description: max 155 karakter.
+- readingMinutes: 7–9.
+
+Yanıt SADECE JSON (başka metin yok):
 {
   "title": string,
   "description": string,
@@ -183,10 +208,22 @@ Yanıtı SADECE şu JSON şemasında ver (markdown yok):
 const GEMINI_MODEL_FALLBACKS = [
   'gemini-2.5-flash',
   'gemini-flash-latest',
-  'gemini-2.5-flash-lite',
   'gemini-1.5-flash',
+  'gemini-1.5-pro',
   'gemini-pro-latest',
 ] as const;
+
+function geminiModelScore(model: string): number {
+  const m = model.toLowerCase();
+  if (/lite/.test(m)) return 6;
+  if (/1\.0|gemini-pro(?!-)/.test(m) && !/1\.5|2\./.test(m)) return 5;
+  if (/2\.5-pro|2\.0-pro/.test(m)) return 1;
+  if (/2\.5-flash|2\.0-flash|flash-latest/.test(m)) return 0;
+  if (/1\.5-pro/.test(m)) return 2;
+  if (/1\.5-flash|flash/.test(m)) return 3;
+  if (/pro/.test(m)) return 2;
+  return 4;
+}
 
 function resolveGeminiModels(): string[] {
   // GitHub Actions sets GEMINI_MODEL="" when vars.GEMINI_MODEL is unset —
@@ -233,12 +270,9 @@ async function callGemini(prompt: string): Promise<string> {
     ...preferred.filter((m) => !discovered.length || discovered.includes(m)),
     ...discovered.filter((m) => !preferred.includes(m)),
   ];
-  // Prefer flash-class models when discovering
-  models.sort((a, b) => {
-    const score = (m: string) =>
-      /flash/i.test(m) ? 0 : /pro/i.test(m) ? 1 : 2;
-    return score(a) - score(b);
-  });
+  models.sort((a, b) => geminiModelScore(a) - geminiModelScore(b));
+  const withoutLite = models.filter((m) => !/lite/i.test(m));
+  const queue = (withoutLite.length ? withoutLite : models).slice(0, 6);
 
   if (!models.length) {
     throw new Error(
@@ -249,14 +283,14 @@ async function callGemini(prompt: string): Promise<string> {
   const body = JSON.stringify({
     contents: [{ parts: [{ text: prompt }] }],
     generationConfig: {
-      temperature: 0.7,
-      maxOutputTokens: 8192,
+      temperature: 0.65,
+      maxOutputTokens: 16384,
       responseMimeType: 'application/json',
     },
   });
 
   const errors: string[] = [];
-  for (const model of models.slice(0, 6)) {
+  for (const model of queue) {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
     console.log(`Gemini try: ${model}`);
     const res = await fetch(url, {
@@ -324,7 +358,7 @@ async function callGroq(prompt: string): Promise<string> {
     body: JSON.stringify({
       model,
       temperature: 0.7,
-      max_tokens: 8192,
+      max_tokens: 16000,
       response_format: { type: 'json_object' },
       messages: [
         {
@@ -383,7 +417,11 @@ async function callOpenAI(prompt: string): Promise<string> {
   return text;
 }
 
-async function generateWithLLM(prompt: string): Promise<string> {
+async function generateWithLLM(
+  prompt: string,
+  topic: TopicSeed,
+  slug: string
+): Promise<GeneratedPost> {
   const providers: { name: string; fn: () => Promise<string> }[] = [];
   if (process.env.GEMINI_API_KEY?.trim()) {
     providers.push({ name: 'Gemini', fn: () => callGemini(prompt) });
@@ -401,14 +439,20 @@ async function generateWithLLM(prompt: string): Promise<string> {
   const errors: string[] = [];
   for (let i = 0; i < providers.length; i++) {
     const { name, fn } = providers[i]!;
-    for (let attempt = 1; attempt <= 3; attempt++) {
+    for (let attempt = 1; attempt <= 2; attempt++) {
       try {
-        return await fn();
+        const raw = await fn();
+        const post = parseGenerated(raw, topic, slug);
+        const words = wordCount(post.bodyMarkdown);
+        console.log(`${name} OK · ${words} kelime`);
+        return post;
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         errors.push(`${name} #${attempt}: ${msg}`);
-        console.error(`${name} failed (try ${attempt}/3) → ${msg}`);
-        if (isTransientError(msg) && attempt < 3) {
+        console.error(`${name} failed (try ${attempt}/2) → ${msg}`);
+        const quality = err instanceof QualityError || /kelime sayısı/i.test(msg);
+        if (quality) break;
+        if (isTransientError(msg) && attempt < 2) {
           const wait = 2000 * attempt;
           console.warn(`${name} kapasite hatası, ${wait}ms sonra tekrar…`);
           await sleep(wait);
@@ -478,13 +522,22 @@ function parseGenerated(
     };
   });
   if (faqs.length < 2) {
-    throw new Error('En az 2 FAQ gerekli');
+    throw new QualityError('En az 2 FAQ gerekli');
   }
 
   let body = ensureInlineCta(String(parsed.bodyMarkdown ?? ''));
+  const sections = (body.match(/^##\s+/gm) ?? []).length;
+  if (sections < 6) {
+    throw new QualityError(`Bölüm sayısı düşük: ${sections} (min 6)`);
+  }
   const words = wordCount(body);
-  if (words < 900) {
-    throw new Error(`Kelime sayısı düşük: ${words} (hedef 1200–1500)`);
+  if (words < MIN_WORDS) {
+    throw new QualityError(
+      `Kelime sayısı düşük: ${words} (min ${MIN_WORDS}, hedef 1300–1500)`
+    );
+  }
+  if (words > MAX_WORDS) {
+    console.warn(`Kelime sayısı yüksek: ${words} — kabul ediliyor`);
   }
 
   const title = String(parsed.title ?? topic.query).trim();
@@ -530,18 +583,15 @@ async function main() {
   console.log(`Slug: ${slug}`);
 
   const prompt = buildPrompt(topic, slug);
-  let raw: string;
+  let post: GeneratedPost;
   try {
-    raw = await generateWithLLM(prompt);
+    post = await generateWithLLM(prompt, topic, slug);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error(`content:generate skipped (providers exhausted):\n${msg}`);
-    // Cron should stay green — retry next scheduled run.
     process.exit(0);
   }
-  const post = parseGenerated(raw, topic, slug);
-  const words = wordCount(post.bodyMarkdown);
-  console.log(`Words: ${words}`);
+  console.log(`Words: ${wordCount(post.bodyMarkdown)}`);
 
   const outPath = path.join(BLOG_DIR, `${slug}.md`);
   if (fs.existsSync(outPath)) {
