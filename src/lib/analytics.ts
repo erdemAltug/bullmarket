@@ -1,18 +1,21 @@
+import posthog from 'posthog-js';
+
 type AnalyticsProps = Record<string, string | number | boolean | undefined>;
 
 declare global {
   interface Window {
     clarity?: (action: string, ...args: unknown[]) => void;
-    posthog?: { capture: (event: string, props?: AnalyticsProps) => void };
   }
 }
 
-/** Fire product analytics (Clarity custom tags + optional PostHog). */
+/** Fire product analytics (PostHog + Clarity custom tags). */
 export function trackEvent(event: string, props: AnalyticsProps = {}) {
   if (typeof window === 'undefined') return;
 
   try {
-    window.posthog?.capture(event, props);
+    if (process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN) {
+      posthog.capture(event, props);
+    }
   } catch {
     /* ignore */
   }

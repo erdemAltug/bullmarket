@@ -2,6 +2,8 @@ import type { NextConfig } from 'next';
 import path from 'path';
 
 const nextConfig: NextConfig = {
+  // PostHog ingest proxy (trailing slash must stay on the rewrite)
+  skipTrailingSlashRedirect: true,
   // Avoid Turbopack panic on non-ASCII path segments (e.g. Masaüstü)
   turbopack: {
     root: path.join(__dirname),
@@ -28,6 +30,14 @@ const nextConfig: NextConfig = {
         source: '/og-image.png',
         destination:
           '/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Hit%20The%20Market',
+      },
+      {
+        source: '/ingest/static/:path*',
+        destination: 'https://eu-assets.i.posthog.com/static/:path*',
+      },
+      {
+        source: '/ingest/:path*',
+        destination: 'https://eu.i.posthog.com/:path*',
       },
     ];
   },

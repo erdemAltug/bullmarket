@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
+import { PostHogProvider } from '@/components/analytics/PostHogProvider';
 import { AuthGateProvider } from '@/components/auth/AuthGateProvider';
 import { LaunchBanner } from '@/components/layout/LaunchBanner';
 import { AuthToast } from '@/components/layout/AuthToast';
@@ -26,13 +27,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={client}>
-      <PreferencesProvider>
-        <AuthGateProvider>
-          <LaunchBanner />
-          {children}
-          <AuthToast />
-        </AuthGateProvider>
-      </PreferencesProvider>
+      <PostHogProvider>
+        <PreferencesProvider>
+          <AuthGateProvider>
+            <LaunchBanner />
+            {children}
+            <AuthToast />
+          </AuthGateProvider>
+        </PreferencesProvider>
+      </PostHogProvider>
     </QueryClientProvider>
   );
 }
