@@ -1,0 +1,97 @@
+---
+title: 'MACD ve RSI Birlikte Nasıl Kullanılır? Hatalı Sinyalleri Filtreleme ve Uyuşmazlık Stratejisi'
+slug: macd-ve-rsi-kombinasyonu-ile-al-sat-stratejisi
+description: 'RSI 14 ve MACD 12-26-9 matematiği, divergence tablosu, bull/bear trap filtresi ve BIST ATR disiplini.'
+date: '2026-08-19'
+category: Teknik Analiz
+tags: [RSI, MACD, divergence, ATR, al-sat, sinyaller]
+readTime: 12
+author: Bullsye Research Team
+keywords:
+  - MACD RSI birlikte
+  - RSI divergence
+  - MACD 12 26 9
+  - bull trap
+  - ATR stop
+publishedAt: '2026-08-19'
+updatedAt: '2026-08-19'
+readingMinutes: 12
+toolCta:
+  href: /signals
+  label: Canlı İndikatör Alarmları
+  blurb: RSI ve MACD eşik ihlallerini sinyal motorunda izleyin.
+faqs:
+  - question: RSI 30 altı her zaman alım mıdır?
+    answer: Hayır. Trendde RSI 30’da kalabilir. MACD histogramı negatif ve fiyat düşük dip yapıyorsa değer değil momentum çöküşüdür.
+  - question: MACD kesişi yeterli midir?
+    answer: Değil. Sıfır altı altın kesiş zayıf onarım olabilir. RSI teyidi ve hacim olmadan whipsaw üretir.
+  - question: ATR stop nasıl kurulur?
+    answer: Stop = giriş − k×ATR(14), k=1.5–2.5. Hedef 1:2.5 için mesafe ×2.5. Boyut = risk TL / mesafe.
+  - question: Divergence dönüş müdür?
+    answer: Regular divergence dönüş adayıdır; hidden trend devamı. Yapı kırılımı (MSS) olmadan erken sinyaldir.
+---
+
+## RSI ve MACD birlikte ne işe yarar?
+
+RSI ve MACD birleşimi, aşırı alım/satımı (RSI) trend momentumu (MACD) ile aynı anda doğrular. Tek indikatör gürültü üretir; ikisi hizalanınca sahte kesiş ve bull trap olasılığı düşer, divergence dönüşü erken işaretler.
+
+BIST likit payda 1D laboratuvardır. 5 dakikada MACD kesişleri sıklaşır. Protokol: MACD sıfır çizgisi rejim, RSI 30/70 veya divergence tetik, ATR stop. [Sinyaller](/signals) iki eşiği kartta birleştirir.
+
+## Formülasyon
+
+$RS=\frac{\text{Ort. kazanç}_{14}}{\text{Ort. kayıp}_{14}},\quad RSI=100-\frac{100}{1+RS}$
+
+Wilder: $Avg_t=(Avg_{t-1}\times 13+x_t)/14$.
+
+$MACD=EMA_{12}-EMA_{26},\quad Sinyal=EMA_9(MACD),\quad H=MACD-Sinyal$
+
+$EMA_n=P_t k + EMA_{t-1}(1-k),\ k=2/(n+1)$
+
+k12≈0.1538, k26≈0.0741, k9≈0.2000. Histogram eksi bölgeden sıfıra, RSI 40 üstü aynı bar → momentum onayı.
+
+RSI 70+ ve histogram hâlâ genişliyorsa aşırı alım trend sonu demek değildir.
+
+## Divergence tablosu
+
+| Tip | Fiyat | RSI/MACD | Yorum |
+| --- | --- | --- | --- |
+| Regular bearish | HH | LH | Zayıflayan alım |
+| Regular bullish | LL | HL | Zayıflayan satım |
+| Hidden bullish | HL | LL | Trend devam |
+| Hidden bearish | LH | HH | Düşüş devam |
+
+İkinci tepede histogram daralması olmadan “dönüş” ilan edilmez. RSI 5 divergence gürültüsü, 14 daha az ve daha anlamlıdır. Hacim ikinci tepede rekor ise divergence iptal.
+
+## Bull trap ve bear trap
+
+Bull trap: direnç üstü kapanış, gövde içine dönüş, MACD kesişinin 1–3 barda iptali.
+
+Filtre: kırılım gövdesi ≥0.3 ATR; RSI ≥50 kapanış; histogram genişlemeli; sonraki bar kırılım %50’sinin altında kapanırsa trap.
+
+Bear trap simetrik. BIST açılış gap’i trap üretir; günlükde ertesi bar teyidi.
+
+Sıfır altı hızlı altın kesiş + RSI<35 düşen = dead-cat. Kural: kesiş + RSI>40 + swing high kapanışı.
+
+## BIST icra ve ATR
+
+Giriş uzun: regular bullish divergence veya RSI<30’dan 40 üstü + histogram negatiften artıya. Stop $P-2\,ATR_{14}$. Hedef $P+2.5(P-Stop)$. 1R’de stop girişe.
+
+Örnek: 100, ATR=2.4 → stop 95.2, hedef 112, risk 4.8. $Q=0.005E/4.8$.
+
+Beklenti: p %38–45 ve b=2.5 ile pozitif olabilir. p<%35 ve ortalama R<2 sistem ölür. İnce payda slippage ATR’yi şişirir.
+
+[Alerts](/alerts) eşik, [terminal](/terminal) ATR ve yapı, [heatmap](/bist/heatmap) sektör beta’sı.
+
+## Rejim
+
+MACD sıfır üstü 20 bar ve fiyat>EMA50: RSI 70 satışı trend karşıtı. ADX>25 trend, <20 yatay (RSI 30/70 mean-reversion). 1D rejim, 4H tetik. Bilanço/TCMB günü gap>1.5 ATR → protokol kapalı.
+
+## Vaka
+
+(1) 48 gün düşüş, RSI 36, zayıf kesiş → yok. (2) Dipler 12.40/12.05, RSI 32/41 → uzun, stop 2 ATR. (3) 86.4 kırılım RSI 47 dar histogram, ertesi 85.1 → trap.
+
+[Signals](/signals) yanabilir; emir ATR’siz açılmaz.
+
+## Özet
+
+MACD+RSI kutsal kesiş değil filtredir. Çelişkide nakit, teyitte 2 ATR / 2.5R. Alarm [signals](/signals) ve [alerts](/alerts); icra grafikte.

@@ -1,0 +1,143 @@
+---
+title: 'Smart Money Concepts (SMC): Order Block ve Likidite Havuzları Nasıl Tespit Edilir?'
+slug: order-block-ve-likidite-avciligi-nedir
+description: 'Order block anatomisi, FVG, likidite süpürme, MSS ve OTE giriş protokolü — BIST ve kripto.'
+date: '2026-08-19'
+category: Teknik Analiz
+tags: [SMC, order-block, FVG, likidite, OTE, heatmap]
+readTime: 10
+author: Bullsye Research Team
+keywords:
+  - order block nedir
+  - likidite avı
+  - fair value gap
+  - smart money concepts
+  - OTE
+publishedAt: '2026-08-19'
+updatedAt: '2026-08-19'
+readingMinutes: 10
+toolCta:
+  href: /bist/heatmap
+  label: Isı Haritası
+  blurb: Sektör ve likidite yoğunluğunu BIST ısı haritasında görün.
+faqs:
+  - question: Her talep bölgesi order block mudur?
+    answer: Hayır. OB, likidite süpürmesi veya FVG bırakan itici hareketi başlatan son karşıt yönlü mumdur. Rastgele destek çizgisi OB değildir.
+  - question: FVG doldurulmadan işleme girilir mi?
+    answer: Agresif giriş OTE’de FVG içine limit koyar. Muhafazakâr protokol, FVG’nin kısmen doldurulması ve MSS teyidini bekler.
+  - question: Likidite süpürme stop avı mıdır?
+    answer: Eşit tepelerin üstündeki stop havuzu sıkça alınır. Süpürme + kapanışın aralığa geri dönmesi, tuzak; kapanışın dışında kalması trend kırılımı olabilir.
+  - question: SMC BIST’te çalışır mı?
+    answer: Likit pay ve endeks vadeli daha temiz yapı verir. İnce payda OB gürültüdür. Heatmap ve hacim olmadan SMC ezoterik çizimdir.
+---
+
+## Order block ve likidite avı nedir?
+
+Order block (OB), kurumsal emir birikiminin fiyatı itici harekete çevirdiği son karşıt yönlü mum bölgesidir. Likidite avı, eşit tepeler/dipler üzerindeki stop havuzunun süpürülmesidir. SMC, bu iki yapıyı FVG ve market structure shift (MSS) ile birleştirerek perakende likiditesinin nerede durduğunu haritalar.
+
+BIST ve US likit enstrümanlarda 1H/4H/1D OB anlamlıdır; 1 dakikada her mum “blok” değildir. [Isı haritası](https://bullsye.app/bist/heatmap) sektör likiditesini gösterir; ince payda OB teorisi uygulanmaz.
+
+## Bullish ve bearish OB anatomisi
+
+Bullish OB: düşen (veya doji) mum, ardından güçlü yükseliş impulse. Blok aralığı o mumun yüksek–düşüğü, agresif trader gövdeyi (open–close) kullanır. Geçerlilik:
+
+- Impulse en az 1 FVG bırakmalı.
+- Impulse, önceki swing high’ı kırmalı (MSS) veya net kırılım niyeti göstermeli.
+- OB, süpürülen likiditenin hemen altında/yanında olmalı.
+
+Bearish OB simetrik: son yükselen mum + düşen impulse.
+
+$OB_{bull} \in [Low_{ref}, High_{ref}],\quad \text{giriş} \approx OTE_{0.62-0.79}(impulse)$
+
+Mitigation: fiyat OB’ye döner, kapanışlar bloğun ortasını delmeden tepki. Orta nokta ($50\%$) kırılıp kapanırsa blok “mitigate edilmiş / zayıf” sayılır.
+
+Mum gövdesi kuralı: gölgesi uzun, gövdesi ince ref mum zayıf OB’dir. Gövde, toplam aralığın %50+ ise emir yoğunluğu tezi güçlenir.
+
+## Fair Value Gap (FVG) / dengesizlik
+
+3 mumluk FVG (yukarı): mum 1 high < mum 3 low (ara boşluk). Aşağı FVG tersi.
+
+$\text{FVG}_{up} = [High_{t-1},\ Low_{t+1}]\ \text{eğer}\ High_{t-1} < Low_{t+1}$
+
+Fiyat mıknatısı: doldurulmamış FVG, ortalama fiyata dönüş eğilimi taşır. Kısmi doldurma (50%) sık; tam doldurma bloğu iptal edebilir.
+
+Impulse içinde birden fazla FVG varsa en taze (CE — consequent encroachment / orta) ilk mıknatıstır. OB + FVG çakışması “konfluent bölge”dir; yalnızca FVG’de karşı trend alım, BIST gap günlerinde stop avıdır.
+
+[Canlı terminal](https://bullsye.app/terminal)de boşluğu fiyata işaretleyin; [sinyaller](https://bullsye.app/signals) momentum teyidi verir, FVG’nin yerini tutmaz.
+
+## Likidite süpürme ve MSS
+
+Likidite havuzu: eşit tepeler (BSL — buy-side) veya eşit dipler (SSL — sell-side). Perakende stop’ları bu seviyelerin milimetrik ötesindedir.
+
+Sweep: fitil havuzu geçer, gövde içeri kapanır. Bu, OB/FVG girişinin ön koşuludur. Sweep + gövdenin dışında kapanış = gerçek kırılım, tuzak değil.
+
+MSS: sweep sonrası yapı kırılımı — bearish’te son higher low’un altına kapanış. MSS yoksa “OB” yalnızca destek çizgisidir.
+
+Sıra: likidite alınır → MSS → premium/discount’ta OB’ye dönüş → OTE. Sırayı ters çevirmek, süpürmeden önce bloğa girmektir; sizi havuzun parçası yapar.
+
+BIST açılışında endeks gap’i sweep üretir. İlk 10 dakikada OB çizmek yerine [ısı haritası](https://bullsye.app/bist/heatmap) ile sektörün gerçekten akış alıp almadığına bakın.
+
+## OTE giriş ve risk tablosu
+
+Optimal Trade Entry: impulse Fibonacci 0.62–0.79 bandı (bazen 0.705). Limit, FVG/OB kesişimine konur.
+
+| Parametre | Muhafazakâr | Standart | Agresif |
+| --- | --- | --- | --- |
+| Teyit | Sweep + MSS + OB dokunuşu | Sweep + FVG | Yalnız FVG |
+| Giriş | 0.705–0.79 | 0.62–0.705 | Impulse %50 |
+| Stop | OB dışı + 0.25–0.5 ATR | OB low/high | Fitil dışı |
+| Hedef 1 | Karşı FVG / eşit likidite | 1:2 R | 1:1 ölçek |
+| Hedef 2 | Günlük OB / zıt havuz | 1:3+ | Runner |
+| Boyut | %0.25–0.5 risk | %0.5–1 | %1+ (önerilmez) |
+
+Örnek: impulse 80→100, OTE 0.705 ≈ 85.9. Bullish OB 84–87. Limit 86, stop 83.2 (risk 2.8). Hedef 1:2.5 → 93. Hedef 2 eşit tepeler 100. R/R tablosu ATR genişlerse stop 83.2 yerine 82.5’e kayar; boyutu küçült.
+
+İşlem yok koşulları: haber boşluğu, [screener](https://bullsye.app/bist)de hacimsiz pay, heatmap’te sektör kırmızı ve sen tek kâğıtta bullish OB.
+
+## Heatmap ile yoğunluk
+
+[Bullsye ısı haritası](https://bullsye.app/bist/heatmap) SMC’nin “nerede işlem olacağı” sorusuna makro cevap verir:
+
+1. Yeşil yoğun sektörde bullish OB’ler trend yönündedir.
+2. Kırmızı sektörde bullish OB, karşı trend scalping’dir — stop dar, boyut küçük.
+3. Tek kâğıt yeşil, sektör kırmızı: likidite illüzyonu; sweep daha derin olabilir.
+4. Alarm: [alerts](https://bullsye.app/alerts) ile OB seviyesine fiyat yaklaşınca grafik aç; bildirim emir değildir.
+
+SMC, heatmap + hacim olmadan çizim koleksiyonudur. Kurumsal akış sektör rotasyonunda görünür.
+
+## Premium, discount ve dengesizlik
+
+Impulse aralığının %50’si denge. Altı discount (uzun için), üstü premium (kısa için). Discount dışı bullish OB, FOMO bloğudur. Premium’da bearish OB, panik satışına satış ekler.
+
+ICT OTE 0.62–0.79, Fibonacci’den ödünçtür; sihirli değil. 0.5 tepkisi trend gücüdür, 0.79 derinliği zayıflıktır. 0.88+ dönüş impulse’u geçersiz kılabilir (deep retrace = reversal riski).
+
+Killzone iddiası (Londra/NY) BIST seansına birebir taşınmaz. Yerel likidite: açılış 10:00–10:30, kapanış 17:30–18:10. Sweep bu pencerelerde yoğundur. Öğle ince hacminde OB doldurmak kayma üretir.
+
+Emir defteri: gerçek order block, borsanın “block trade” raporu değildir. SMC’deki OB fiyattan çıkarsanır. Doğrulama hacim profili / [heatmap](https://bullsye.app/bist/heatmap) rotasyonu iledir, gizemli kurum listesi ile değil.
+
+## Yanlış pozitifler
+
+- Her pin bar OB değildir.
+- Her gap FVG değildir (hafta sonu BIST gap’i yapısal boşluktur, 3 mum kuralı ayrıdır).
+- Endeks şelalesinde tek pay MSS, beta’dır.
+- Çoklu zaman çelişkisi: 1D bearish MSS, 15m bullish OB = karşı trend; boyut yarı.
+
+Backtest SMC’yi mum açılışından “görmek” look-ahead’dir. Kurallar bar kapanışında işlenir.
+
+## Kontrol listesi
+
+- OB = impulse başlatan son karşıt mum + FVG, rastgele bölge değil.
+- Önce sweep, sonra MSS, sonra OTE.
+- Stop OB dışı; hedef zıt likidite; R en az 1:2.
+- İnce BIST payında SMC uygulama.
+- Araçlar: [heatmap](https://bullsye.app/bist/heatmap), [terminal](https://bullsye.app/terminal), [signals](https://bullsye.app/signals).
+
+## Vaka: sweep sonrası OTE
+
+4H yükseliş 72.0 → 81.5, BSL 81.2. Fitil 81.7, gövde 80.4 (sweep). Sonraki bar 79.8 altındaki swing’i kapatır (MSS). Bullish OB 73.8–75.1, FVG 75.4–76.2, OTE 0.705 ≈ 74.8.
+
+Limit 74.9, stop 73.4, risk 1.5. Hedef 1 78.6 (R≈2.5), hedef 2 81.2. [Terminal](https://bullsye.app/terminal) seviyeleri; [heatmap](https://bullsye.app/bist/heatmap) sektör yeşil değilse boyut yarı.
+
+Başarısız vaka: sweep olmadan aynı OB. Fiyat 73.2, stop, sonra 82 — haklı ama erken kayıp. Erken giriş likidite havuzunun kendisidir. SMC’nin ölçülebilir iddiası: giriş, başkasının stop’unun alınmasından sonradır.
+
+Order block, kehanet değil; duran emirlerin ve boşlukların haritasıdır. Likidite alınmadan girilen blok, avcının değil avın tarafıdır.

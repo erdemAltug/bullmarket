@@ -1,0 +1,117 @@
+---
+slug: sifirdan-borsa-ve-hisse-senedi-egitimi
+category: borsa-temelleri
+categoryTitle: Borsa & Hisse Temelleri
+title: 'Sıfırdan Borsa Eğitimi: Hisse Senedi Piyasası, Takasbank ve Emir Tipleri Rehberi'
+description: 'BIST pazar yapısı, limit/piyasa/koşullu emir, T+2 takas, Takasbank saklama ve korelasyonla çeşitlendirme matematiği.'
+keywords:
+  - sıfırdan borsa eğitimi
+  - hisse senedi nedir
+  - Takasbank T+2
+  - limit emir piyasa emri
+  - BIST Yıldız Pazar
+level: baslangic
+publishedAt: '2026-08-19'
+updatedAt: '2026-08-19'
+readingMinutes: 14
+toolCta:
+  href: /bist/heatmap
+  label: Piyasa Isı Haritasını Aç
+  blurb: Öğrendiğiniz pazar ve sektör ayrımını canlı BIST ısı haritasında uygulayın.
+faqs:
+  - question: Hisse senedi almak şirket ortağı olmak mıdır?
+    answer: Evet. Pay, şirketin özkaynağında oransal hak demektir; temettü ve (nadiren) oy hakkı pay adedine bağlıdır. Borç senedi (tahvil) faiz alacağıdır, ortaklık değildir.
+  - question: T+2 ne zaman nakit ve pay değişir?
+    answer: İşlem günü T’dir. Pay ve nakit fiilen T+2 iş gününde Takasbank nezdinde kesinleşir. Cuma alımı genellikle salı takaslanır (resmi tatil kaydırır).
+  - question: Limit emir neden piyasa emrinden güvenlidir?
+    answer: Limit, en kötü kabul fiyatını sabitler. Piyasa emri defterdeki ilk karşı tarafı yer; ince payda sapma (slippage) büyüktür.
+  - question: Çeşitlendirme kaç payda başlar?
+    answer: Sayı değil korelasyon. 10 banka payı tek faktördür. Düşük korelasyonlu 8–12 pay, sektör tavanı %30–35 ile anlamlı dağılımdır.
+---
+
+## Hisse senedi nedir?
+
+Hisse senedi, bir anonim şirketin özkaynağını temsil eden kıymetli evraktır; pay sahibi kâr payı ve tasfiye bakiyesine oransal hak sahibidir. Fiyat, ikincil piyasada arz–taleple oluşur; birincil halka arz yalnızca şirkete nakit sokar.
+
+Borsa İstanbul (BIST) bu payların düzenlenmiş ikincil piyasasıdır. Endeks (XU100, XU030) ağırlıklı ortalamadır; endeks yükselişi her payın yükseldiği anlamına gelmez. [Isı haritası](/bist/heatmap) bu ayrımı renk ve sektör bazında gösterir.
+
+Sermaye piyasası aracı kurum hesabı olmadan BIST’te işlem olmaz. Hesap, MKK sicili ve Takasbank müşteri hesabına bağlanır. “Kendi cüzdanında pay” cümlesi kripto jargonudur; hisse kaydi sistemdedir.
+
+## BIST pazar mimarisi
+
+Paylar likidite ve halka açıklığa göre pazarlara ayrılır. Yıldız Pazar, yüksek piyasa değeri ve likidite eşiğini geçen şirketlerdir; kurumsal işlem ve endeks dahiliyeti burada yoğundur. Ana Pazar bir alt basamaktır. Alt Pazar (ve ilgili yakın izleme / eski tanımlar dönem dönem yenilenir) daha düşük likidite ve daha yüksek sapma demektir.
+
+İş kuralı: günlük ortalama işlem hacmi, komisyon + yayılım maliyetinin onlarca katı değilse “fiyat” teoriktir. Yıldız dışı payda piyasa emri, son fiyattan %3–8 sapabilir. Eğitim portföyü önce XU100 likit evreninde kurulur; [screener](/bist) hacim alt sınırı bu yüzden vardır.
+
+Açılış ve kapanış seansı çok fiyatlı müzayede (call auction) mantığına yakındır; gün içi sürekli işlem defteri (continuous book) farklıdır. Açılış fiyatı, gece haberini fiyatlar; ilk 10 dakikada limit emir, piyasa emrinden daha az pişmanlık üretir.
+
+## Emir tipleri anatomisi
+
+**Piyasa emri:** Fiyat belirtilmez; defterdeki karşı tarafı yer. Beklenen fiyat ≈ son + sapma. Kullanım: likit endeks vadeli, XU30 payı, acil çıkış. Kullanmama: Alt Pazar, açılışın ilk dakikası, düşük derinlikte alım.
+
+**Limit emir:** En kötü kabul fiyatı $P_L$. Alışta gerçekleşme $\le P_L$, satışta $\ge P_L$. Deftere pasif yazılır; kuyruk önceliği fiyat–zaman’dır. BIST’te kademe (tick) pay fiyatına göre değişir; 10 TL altı kademe ile 100 TL üstü kademe aynı değildir.
+
+**Kısmi gerçekleşme:** 10.000 lot limit, 3.000 lot doldu, kalan pasifte kalır (aksi belirtilmedikçe). Iceberg / gösterilen miktar kurumsal araçtır; perakende çoğu hesapta yoktur.
+
+**Koşullu / tetiklemeli emir:** Stop, stop-limit, gerçekleşene kadar geçerli (GTC) vs seanslık. Stop-market, tetik fiyatında piyasa emrine dönüşür — ince payda tuzak. Stop-limit tetik sonrası $P_L$ koyar; boşlukta gerçekleşmeyebilir. Eğitim kuralı: likit payda stop-market, ince payda alarm + manuel ([alerts](/alerts)).
+
+**Dengeleyici / açılış kapanış emirleri:** Müzayede seansına özel, denge fiyatına katkı. Yanlış seansa piyasa emri göndermek beklenmedik fiyata yol açar.
+
+Gerçekleşme maliyeti:
+
+$\text{Toplam maliyet} \approx \text{komisyon} + \text{yayılım}/2 + \text{sapma}$
+
+100.000 TL işlem, 10 bps komisyon + 8 bps efektif yayılım = 180 TL; yılda 50 tur = 9.000 TL. Getiri iddiası bu sürtünmeyi aşmalıdır.
+
+## T+2 takas ve Takasbank
+
+İşlem günü T: emir gerçekleşir, portföyde “gerçekleşen” görünür. Nakit ve kıymet yükümlülüğü T+2 iş gününde Takasbank nezdinde kapanır. MKK, payların kaydi sahibini tutar; Takasbank takası ödüllendirir.
+
+Sonuçlar:
+
+- T günü satılan payın nakdi T+2’de serbestleşir (aracı kurum avansı vermedikçe).
+- T günü alınan pay, T+2’ye kadar teslim yükümlülüğündedir; aynı gün satmak (day trade) kurum içi netleştirme ile mümkün olabilir, kural aracıya göre değişir.
+- Temettü ve rüçhan “kayıt tarihi” takas döngüsüyle hizalanır: ex-date civarında alım, temettü hakkını kaçırabilir.
+
+Saklama: paylar müşteri adına ayrı hesapta izlenir; aracı iflasında kaydi sistem + yatırımcı tazmin mekanizmaları devreye girer (limit ve kapsam dönemsel mevzuata bağlıdır). “Borsada param kayboldu” ile “pay fiyatı düştü” farklı hukuki olgulardır.
+
+## Portföy çeşitlendirme matematiği
+
+İki varlıklı portföy varyansı:
+
+$\sigma_p^2 = w_1^2\sigma_1^2 + w_2^2\sigma_2^2 + 2 w_1 w_2 \rho_{12} \sigma_1 \sigma_2$
+
+$\rho_{12}=1$ ise çeşitlendirme yoktur. $\rho_{12}=0.8$ (iki banka) riski az indirir. $\rho_{12}=0.2$ (banka + ihracatçı sanayi + altın) indirir.
+
+| Sepet | Tipik $\rho$ | Sonuç |
+| --- | --- | --- |
+| 8 mevduat bankası | 0.75–0.90 | Tek makro faktör |
+| 5 sanayi + 3 banka | 0.45–0.65 | Kısmi |
+| Hisse + döviz mevduatı + altın | düşük–orta | Gerçek dağılım |
+| 12 pay, 4 sektör, tavan %12 | 0.3–0.5 hedef | Eğitim portföyü |
+
+Eşit ağırlık $w_i=1/N$. $N=20$ ve $\rho \approx 1$ hâlâ tek bahistir. Sektör tavanı %35, tek pay tavanı %12, nakit tampon %5–15 pratik kuralıdır.
+
+Korelasyon krizlerde 1’e yaklaşır. 2020 ve 2018 TR şoklarında “çeşitlendirilmiş” BIST sepeti birlikte düştü. Bu, çeşitlendirmenin işe yaramadığı değil, kuyrukta hisse–hisse $\rho$’nun yükseldiği anlamına gelir. Bu yüzden nakit ve döviz/altın payı kuyruk sigortasıdır; ikinci bir banka payı değildir.
+
+## İlk 30 gün protokolü
+
+1. Aracı seçimi: komisyon tarifesi, MKK/Takasbank görünürlüğü, mobil emir teyidi.
+2. Evren: [screener](/bist) ile XU100, ortalama hacim eşiği.
+3. Gözlem: 10 iş günü [ısı haritası](/bist/heatmap) — sektör rotasyonu notu.
+4. İlk emir: limit, kademenin bir üstü/altı, piyasa emri yok.
+5. Kayıt: giriş gerekçesi, stop, boyut (%1 risk, sonraki derste formül).
+6. Temettü takvimi: [temettü masası](/dividends) — ex-date’den habersiz alım hak kaybı.
+7. Sinyal meraki: [signals](/signals) eğitim amaçlı; emir gerekçesi indikatör tek başına olmasın.
+
+## Sık hatalar
+
+- Kaldıraçlı ürünle “hisse öğrenmek”.
+- Forum hissesi + piyasa emri.
+- T+2’yi anlamadan nakit ihtiyacı.
+- 4 banka payına “çeşitlendirdim” demek.
+- Endeks ETF’si ile tek payı aynı risk sanmak. ETF, bileşen betası taşır; tek pay idiosinkratik risk taşır.
+
+## Özet
+
+Borsa eğitimi fiyat tahmini değil, piyasa mikro yapısı + takas + emir maliyeti + korelasyondur. Yıldız Pazar’da limit emir, T+2’yi nakit planına yazmak ve sektör tavanı, sıfırdan başlayanın alfa arayışından önce gelen üç kuraldır. Görünümü her sabah [ısı haritası](/bist/heatmap) ile tarayın; renk, endeks cümlesinden daha hızlı öğretir.

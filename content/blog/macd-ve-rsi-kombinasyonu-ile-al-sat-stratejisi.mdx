@@ -1,0 +1,145 @@
+---
+title: 'MACD ve RSI Birlikte Nasıl Kullanılır? Hatalı Sinyalleri Filtreleme ve Uyuşmazlık Stratejisi'
+slug: macd-ve-rsi-kombinasyonu-ile-al-sat-stratejisi
+description: 'RSI 14 ve MACD 12-26-9 formülü, divergence tablosu, ATR stop ve 1:2.5 R/R ile sahte sinyal eleme.'
+date: '2026-08-19'
+category: Teknik Analiz
+tags: [RSI, MACD, divergence, ATR, al-sat, sinyaller]
+readTime: 10
+author: Bullsye Research Team
+keywords:
+  - MACD RSI birlikte
+  - RSI uyuşmazlık
+  - MACD 12 26 9
+  - bull trap
+  - ATR stop loss
+publishedAt: '2026-08-19'
+updatedAt: '2026-08-19'
+readingMinutes: 10
+toolCta:
+  href: /signals
+  label: Sinyal Radarı
+  blurb: RSI ve MACD eşik ihlallerini canlı sinyal motorunda izleyin.
+faqs:
+  - question: RSI 30 altı her zaman alım mıdır?
+    answer: Hayır. Trend piyasasında RSI 30’da uzun süre kalır. MACD histogramı hâlâ negatif ve fiyat düşük dip yapıyorsa bu değer değil, momentum çöküşüdür.
+  - question: MACD sinyal çizgisi kesişi yeterli midir?
+    answer: Değil. Sıfır çizgisinin altındaki altın kesiş, zayıf onarım olabilir. RSI divergence ve hacim teyidi olmadan kesiş, whipsaw üretir.
+  - question: ATR stop nasıl hesaplanır?
+    answer: Stop = giriş − k × ATR(14). k genellikle 1.5–2.5. Günlük BIST likit payda 2.0 ATR, 1:2.5 R/R için hedef = giriş + 2.5 × risk mesafesi.
+  - question: Divergence her zaman dönüş mü?
+    answer: Hayır. Regular divergence dönüş adayıdır; hidden divergence trend devamıdır. Yapı kırılımı olmadan divergence erken sinyaldir.
+---
+
+## RSI ve MACD birlikte ne işe yarar?
+
+RSI ve MACD birleşimi, aşırı alım/satım (RSI) ile trend momentumunun (MACD) aynı anda doğrulanmasını sağlar. Tek indikatör gürültüyü fiyatlar; ikisi aynı yönü gösterdiğinde sahte kesiş ve bull trap olasılığı düşer, divergence ise dönüşü erken işaretler.
+
+BIST likit paylarda 1D zaman dilimi varsayılan laboratuvarıdır. 5 dakikada MACD kesişleri aşırı sıklaşır; RSI 14 gürültüye biner. Protokol: rejim filtresi (MACD sıfır çizgisi) + tetik (RSI 30/70 veya divergence) + volatilite stop (ATR).
+
+## Matematiksel formülasyon
+
+Wilder RSI(14):
+
+$RS = \frac{\text{Ort. kazanç}_{14}}{\text{Ort. kayıp}_{14}},\quad RSI = 100 - \frac{100}{1+RS}$
+
+İlk 14 bar basit ortalama, sonrası Wilder düzeltmesi: $Avg_t = (Avg_{t-1} \times 13 + x_t)/14$.
+
+MACD(12,26,9):
+
+$MACD = EMA_{12}(P) - EMA_{26}(P)$
+
+$Sinyal = EMA_9(MACD)$
+
+$Histogram = MACD - Sinyal$
+
+$EMA_n = P_t \times k + EMA_{t-1} \times (1-k),\quad k=2/(n+1)$
+
+Sayısal iskelet: k12≈0.1538, k26≈0.0741, k9≈0.2000. Histogramın eksi bölgeden sıfıra yaklaşması, RSI’nin 40 üzerine çıkışıyla aynı bara denk gelirse momentum onayı vardır.
+
+RSI tek başına osilatördür; MACD trend farkıdır. RSI 70+ ve MACD histogramı hâlâ yükseliyorsa aşırı alım, trendin bitmesi demek değildir. [Sinyal radarı](https://bullsye.app/signals) bu iki eşiği aynı kartta gösterir; çelişkide işlem yok.
+
+## Divergence tespit tablosu
+
+| Tip | Fiyat | RSI / MACD | Yorum | İşlem |
+| --- | --- | --- | --- | --- |
+| Regular bearish | Yüksek yüksek (HH) | İndikatör LH | Momentum zayıflıyor | Kısa adayı, MSS teyidi |
+| Regular bullish | Düşük düşük (LL) | İndikatör HL | Satış baskısı tükeniyor | Uzun adayı |
+| Hidden bullish | HL | İndikatör LL | Trend devam | Dip alımı trend yönünde |
+| Hidden bearish | LH | İndikatör HH | Düşüş devam | Rally satışı |
+
+Kural: divergence, ikinci tepede MACD histogram küçülmesiyle teyit edilmeden “dönüş” ilan edilmez. RSI 5 periyot divergence üretir; 14 periyot daha az, daha anlamlıdır.
+
+Fiyat HH, RSI LH, MACD histogramı daralıyor, hacim ikinci tepede düşüyorsa regular bearish kalitesi yüksektir. Hacim ikinci tepede rekor ise divergence iptal, FOMO devam.
+
+## Bull trap ve sahte kırılım eleme
+
+Bull trap: direnç üstü kapanış, ardından gövdenin içine dönüş ve MACD kesişinin 1–3 barda iptali. Filtreler:
+
+1. Kırılım kapanışı, ATR(14)’ün en az 0.3’ü kadar gövde üretmeli.
+2. RSI kırılım barında 50’nin üzerinde kapanmalı; 45’te “kırılım” geçersiz.
+3. MACD histogramı kırılım barında genişlemeli, daralmamalı.
+4. Sonraki bar, kırılım mumunun %50’sinin altında kapanırsa trap; işlem yok veya ters.
+
+Bear trap simetriktir. BIST’te açılış gap’i trap üretir; ilk 15 dk (intraday) veya günlükde ertesi bar teyidi zorunludur.
+
+Sahte MACD kesişi: sıfır çizgisinin çok altında hızlı altın kesiş, RSI <35 ve hâlâ düşen. Bu, zayıf dead-cat bounce’tur. Protokol: MACD kesişi + RSI >40 + fiyat son swing high’ı kapatır.
+
+## Backtest iskeleti ve ATR riski
+
+Hipotez: 1D, BIST30 likit pay, 2019–2024, komisyon 10 bps.
+
+Giriş (uzun): regular bullish RSI divergence veya RSI 14 <30’dan 40 üstü dönüş + MACD histogramı negatiften artıya. Stop: $P_{giriş} - 2 \times ATR_{14}$. Hedef: $1:2.5$ yani $P_{giriş} + 2.5 \times (P_{giriş}-Stop)$. Trailing: kâr 1R’ye ulaşınca stop breakeven.
+
+Örnek: giriş 100, ATR=2.4 → stop 95.2 (risk 4.8). Hedef 100+12=112. R/R=12/4.8=2.5. Pozisyon: hesap riski %0.5 ise lot = $0.005 \times sermaye / 4.8$.
+
+Beklenen istatistik (disiplinli evrende, aşırı iyimser olmayan): win rate %38–45, payoff 2.5 ile beklenti pozitif olabilir; win rate %35 altı ve ortalama R <2 ise sistem ölür. Slippage ince paylarda ATR’yi fiilen 2.4’ten 3.0’a çıkarır — BIST30 dışı payda kuralı sıkılaştır.
+
+[Fiyat/RSI alarmı](https://bullsye.app/alerts) stop ve eşik için; [canlı terminal](https://bullsye.app/terminal) ATR ve kesişin aynı grafikte teyidi için kullanılır.
+
+## Bullsye sinyal motorunda alarm
+
+[Sinyal motoru](https://bullsye.app/signals) üzerinde:
+
+1. Evren: BIST / US / kripto ayrı; karışık evrende RSI 30 anlamı değişir.
+2. Koşul A: RSI 14 < 30 veya > 70.
+3. Koşul B: MACD histogram işareti değişimi (varsa sinyal kartı; yoksa kesişe proxy).
+4. Çift teyit: A ve B aynı gün — tek koşul mail bombardımanı üretir.
+5. Alarm sonrası işlem: [terminal](https://bullsye.app/terminal)de swing ve ATR; heat olmadan emir yok.
+6. Sektör: [ısı haritası](https://bullsye.app/bist/heatmap) evrenin beta’sını gösterir; tek hisse divergence’si endeks şelalesinde geçersizdir.
+
+## Rejim filtresi: trend vs yatay
+
+MACD sıfır çizgisi kaba rejimdir. Histogram 20+ bar sıfır üstünde ve EMA50 fiyatın altındaysa RSI 70 “sat” değil, trend aşırı alımıdır. Tersine sıfır altı rejimde RSI 30 “al” değil, düşüş devamı adayıdır.
+
+ADX(14) > 25 trend; <20 yatay. Yatayda MACD kesişleri sık ve değersizdir; RSI 30/70 mean-reversion daha anlamlıdır. Trendde yalnızca divergence + MSS. Karışık kural seti backtest’i şişirir, canlıda yok eder.
+
+Çoklu zaman: 1D rejim, 4H tetik. 1D MACD negatifken 4H altın kesiş, karşı trend scalping’dir; stop ATR’nin yarısı, hedef 1R. BIST seans kapanışı 1D barını tamamlar; 18:00 öncesi “günlük kesiş” henüz kesiş değildir.
+
+Haber günü (bilanço, TCMB): indikatör gecikmelidir. Gap > 1.5 ATR ise protokol kapalı. [Sinyaller](https://bullsye.app/signals) hâlâ tetikleyebilir; icra edip etmemek volatilite kuralıdır.
+
+## İstatistiksel dürüstlük
+
+Look-ahead: divergence ikinci dip kapanmadan işaretlenmez. Survivorship: BIST30 2024 listesi 2019’a uygulanmaz. Maliyet: 10 bps azdır; gerçekte yayılım + komisyon ince payda 30–80 bps.
+
+Parametre taraması (RSI 10–20, MACD 8–16) overfit üretir. Tek paket: 14 ve 12-26-9, 2019–2022 eğit, 2023–2024 test. Testte beklenti ≤0 ise sistemi yayınlama.
+
+## Kontrol listesi
+
+- RSI 14 ve MACD 12-26-9 varsayılan; 5/35/5 yalnızca scalper lab.
+- Divergence + histogram teyidi; tek başına dip avı yok.
+- Trap filtresi: gövde, RSI 50, histogram genişlemesi.
+- Stop 2 ATR, hedef 2.5R, boyut %0.5–1 hesap riski.
+- Sinyal ve alarmı [signals](https://bullsye.app/signals) ve [alerts](https://bullsye.app/alerts) ile otomatize et; icra grafikte.
+
+## Vaka: kesiş vs divergence
+
+Senaryo 1: 48 gündür düşüş, MACD sıfır altı, RSI 28’den 36’ya, histogram zayıf. İşlem yok — RSI 40 ve swing kırılımı yok.
+
+Senaryo 2: Dipler 12.40 / 12.05, RSI 32 / 41, histogram ikinci dipte daha az negatif, hacim düşük. Regular bullish. Giriş 12.55, ATR 0.42, stop 11.71 (2 ATR), hedef 14.65 (2.5R). [Terminal](https://bullsye.app/terminal)de kapanış teyidi.
+
+Senaryo 3: Direnç 86.4 kırılır, gövde zayıf, RSI 47, histogram dar. Ertesi gün 85.1. Bull trap. Kısa ancak MSS varsa.
+
+İndikatör öncelik değil, yapı ve volatilite öncelik. Kart [signals](https://bullsye.app/signals) üzerinde yanabilir; emir ATR’siz açılmaz. Hisse [ısı haritası](https://bullsye.app/bist/heatmap) sektöründe yalnız yeşilse divergence endeks beta’sıdır.
+
+MACD+RSI bir “kutsal kesiş” değil, gürültü filtresidir. Çelişkide nakit, teyitte ATR ile sınırlı risk.

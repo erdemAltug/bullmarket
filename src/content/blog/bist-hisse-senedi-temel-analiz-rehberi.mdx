@@ -1,0 +1,110 @@
+---
+title: 'Borsa İstanbul Temel Analiz Rehberi: Bilanço, Rasyolar ve Şirket Değerleme Yöntemleri'
+slug: bist-hisse-senedi-temel-analiz-rehberi
+description: 'BIST temel analiz: F/K, PD/DD, FD/FAVÖK, net borç/FAVÖK, sektörel çarpan tablosu ve DCF simülasyonu.'
+date: '2026-08-19'
+category: Temel Analiz
+tags: [BIST, temel-analiz, F/K, DCF, rasyo, screener]
+readTime: 12
+author: Bullsye Research Team
+keywords:
+  - BIST temel analiz
+  - F/K PD/DD
+  - FD/FAVÖK
+  - DCF değerleme
+  - hisse tarayıcı
+publishedAt: '2026-08-19'
+updatedAt: '2026-08-19'
+readingMinutes: 12
+toolCta:
+  href: /bist
+  label: Hisse Tarayıcı
+  blurb: F/K, PD/DD ve hacim filtrelerini canlı BIST evreninde uygulayın.
+faqs:
+  - question: F/K tek başına ucuzluk gösterir mi?
+    answer: Hayır. Sektör medyanı, kâr kalitesi ve net borç olmadan F/K yanıltır. Banka 5x ile sanayi 12x aynı sinyal değildir.
+  - question: FD/FAVÖK neden F/K’dan farklıdır?
+    answer: FD net borcu ekler; sermaye yapısı farklı firmaları işletme kârıyla kıyaslar. F/K yalnızca özkaynak kârına bakar.
+  - question: DCF’de iskonto nasıl seçilir?
+    answer: WACC = ke×E/V + kd(1−t)D/V. TR’de tahvil + beta×prim. Tek sihirli oran yoktur; ızgara şarttır.
+  - question: Net borç/FAVÖK eşiği nedir?
+    answer: Sanayide 3x üzeri kırmızı bayrak adayıdır, faiz karşılama ile birlikte. Bankada rasyo anlamsızdır.
+---
+
+## Temel analiz nedir?
+
+Temel analiz, BIST payının içsel değerini finansal tablolar, çarpanlar ve nakit üretme gücünden tahmin etme disiplinidir. Fiyat ile muhasebe kârı ve sermaye maliyeti arasındaki makası ölçer; teknik sinyalin yerine geçmez, çeliştiğinde boyutu kısar.
+
+BIST’te enflasyon muhasebesi, TMS 29, holding iskontosu ve dar serbest dolaşım küresel medyanları saptırır. “Ucuz F/K” tek başına alım değildir. [Hisse tarayıcı](/bist) evreni daraltır; tablo okuması eleyicidir.
+
+## Üç tablo birlikte
+
+Bilanço stoktur: varlık = yükümlülük + özkaynak. Gelir tablosu akıştır. Nakit akımı kârın nakde dönüp dönmediğini gösterir.
+
+$FCF = \text{Faaliyet nakit akışı} - \text{Sürdürülebilir CAPEX}$
+
+İşletme sermayesi: alacak günü + stok günü − borç günü uzadıkça FAVÖK şişer, FCF düşer. Holding iştirak kârı nakit getirmez. Finansman kaleminden temettü, payout’u borçla ödüyor olabilir.
+
+Üç yıl $(FAVÖK-FCF)/FAVÖK > 0.3$ tahakkuk şüphesi. Şartlı denetim görüşünde çarpan analizi durur.
+
+## Rasyo matematiği
+
+$PD = P \times N,\quad FD = PD + \text{Net borç}$
+
+$\text{Net borç} = \text{Finansal borç} - \text{Nakit}$
+
+$F/K = PD / \text{Net kâr},\quad PD/DD = PD / \text{Özkaynak}$
+
+$FD/FAVÖK = FD / FAVÖK,\quad \text{Net borç}/FAVÖK$
+
+Örnek: P=84, N=400 mn, net kâr=2.4 mr, özkaynak=12 mr, FAVÖK=4.0, net borç=3.2.
+
+PD=33.6 mr, FD=36.8, F/K=14.0x, PD/DD=2.8x, FD/FAVÖK=9.2x, kaldıraç=0.80x.
+
+14x, sektör 11x ise prim %27’dir; büyüme ve FCF verimi bunu doğrulamalıdır.
+
+$ROE = \text{net marj}\times\text{devir}\times\text{kaldıraç}$. BIST’te ROE şişmesi sıkça kaldıraçtır. Enflasyon özkaynağı şişirir, ROE’yi düşürür.
+
+Bankada FAVÖK anlamsızdır: NIM, ROE, NPL, SYR. GYO’da NAV iskontosu ve doluluk.
+
+## Sektör çarpan tablosu
+
+| Metrik | Banka | Sanayi | Perakende |
+| --- | --- | --- | --- |
+| Ana çarpan | F/K, PD/DD, ROE | FD/FAVÖK, F/K | FD/FAVÖK, SSS büyüme |
+| F/K bandı (çevrim ortası) | 4–8x | 8–16x | 10–18x |
+| PD/DD | 0.6–1.4x | 1.2–3.5x | 2–5x (marka) |
+| FD/FAVÖK | Yok | 6–12x | 7–14x |
+| Net borç/FAVÖK | Yok | <2.5x tercih | stok finansmanı izle |
+| Kırmızı | NPL, SYR | FCF < temettü | negatif FCF + stok |
+
+[Isı haritası](/bist/heatmap) rotasyonu gösterir: banka yeşil / sanayi kırmızı iken “ucuz sanayi” düşen bıçak olabilir.
+
+## DCF iskeleti
+
+$V_0=\sum_{t=1}^{n}\frac{FCF_t}{(1+WACC)^t}+\frac{TV}{(1+WACC)^n}$
+
+$TV=\frac{FCF_n(1+g)}{WACC-g},\quad g<WACC$
+
+Senaryo: FCF1=1.0 mr, 5 yıl %8, g=3%, WACC=18%. FCF5≈1.47, TV≈10.1, PV(TV)≈4.4, açık dönem PV≈3.3, EV≈7.7, net borç 3.2 → özkaynak 4.5 mr / 400 mn pay ≈ 11 TL. Piyasa 84 ise ya g/WACC yanlış ya da piyasa primli.
+
+WACC +200 bps veya g −100 bps TV’yi keser. Üç senaryo + çarpan çaprazı, tek nokta DCF’den üstündür.
+
+## Tarayıcı protokolü
+
+[Hisse tarayıcı](/bist):
+
+1. Evren XU100 / likit.
+2. Net borç/FAVÖK <2.5 (banka hariç).
+3. F/K sektör medyanı altı, negatif kâr dışarı.
+4. Hacim eşiği.
+5. Temettü adayıysa [temettü masası](/dividends).
+6. [Isı haritası](/bist/heatmap) teyidi.
+
+## Mini vaka
+
+A: F/K 7x, kaldıraç 3.8x, FCF negatif, stok günü 210. B: F/K 13x, kaldıraç 0.6x, FCF/net kâr 0.9. Tarama A’yı sever; nakit B’yi. Rallide A beta, durgunlukta A kredi riski. A’ya dipnot+vade okunmadan girilmez.
+
+## Özet
+
+Temel analiz BIST’te muhasebe ve nakit disiplinidir. Çarpan ucuzluğu, FCF ve kaldıraç onaylamadıkça sinyal değildir. Uygulama yeri [screener](/bist), sektör bağlamı [heatmap](/bist/heatmap), nakit dağıtımı [dividends](/dividends).

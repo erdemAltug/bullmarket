@@ -38,55 +38,75 @@ function asToolCta(v: unknown): ToolCta {
   };
 }
 
-function readDirMd(dir: string): string[] {
-  const abs = path.join(ROOT, dir);
-  if (!fs.existsSync(abs)) return [];
-  return fs
-    .readdirSync(abs)
-    .filter((f) => f.endsWith('.md'))
-    .map((f) => path.join(abs, f));
+function readDirMd(...dirs: string[]): string[] {
+  const files: string[] = [];
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir)) {
+      if (f.endsWith('.md') || f.endsWith('.mdx')) {
+        files.push(path.join(dir, f));
+      }
+    }
+  }
+  return files;
 }
 
 export function loadMdLessons(): EducationLesson[] {
-  return readDirMd('egitim').map((file) => {
+  const files = readDirMd(
+    path.join(ROOT, 'egitim'),
+    path.join(process.cwd(), 'src', 'content', 'academy')
+  );
+  const lessons = files.map((file) => {
     const raw = fs.readFileSync(file, 'utf8');
     const { data, content } = matter(raw);
-    const slug = String(data.slug ?? path.basename(file, '.md'));
+    const slug = String(
+      data.slug ?? path.basename(file).replace(/\.mdx?$/, '')
+    );
     return {
       category: String(data.category),
-      categoryTitle: String(data.categoryTitle),
+      categoryTitle: String(data.categoryTitle ?? data.categoryTitle),
       slug,
       title: String(data.title),
       description: String(data.description),
       keywords: asStringArray(data.keywords),
       level: String(data.level ?? 'orta') as ContentLevel,
-      publishedAt: String(data.publishedAt),
-      updatedAt: String(data.updatedAt ?? data.publishedAt),
-      readingMinutes: Number(data.readingMinutes ?? 6),
+      publishedAt: String(data.publishedAt ?? data.date),
+      updatedAt: String(data.updatedAt ?? data.publishedAt ?? data.date),
+      readingMinutes: Number(data.readingMinutes ?? data.readTime ?? 6),
       sections: markdownToSections(content),
       faqs: asFaqs(data.faqs),
       toolCta: asToolCta(data.toolCta),
     };
   });
+  const bySlug = new Map(lessons.map((l) => [l.slug, l]));
+  return [...bySlug.values()];
 }
 
 export function loadMdBlogPosts(): BlogPost[] {
-  return readDirMd('blog').map((file) => {
+  const files = readDirMd(
+    path.join(ROOT, 'blog'),
+    path.join(process.cwd(), 'src', 'content', 'blog')
+  );
+  const posts = files.map((file) => {
     const raw = fs.readFileSync(file, 'utf8');
     const { data, content } = matter(raw);
-    const slug = String(data.slug ?? path.basename(file, '.md'));
+    const slug = String(
+      data.slug ?? path.basename(file).replace(/\.mdx?$/, '')
+    );
     return {
       slug,
       title: String(data.title),
       description: String(data.description),
       keywords: asStringArray(data.keywords),
-      publishedAt: String(data.publishedAt),
-      updatedAt: String(data.updatedAt ?? data.publishedAt),
-      readingMinutes: Number(data.readingMinutes ?? 5),
+      publishedAt: String(data.publishedAt ?? data.date),
+      updatedAt: String(data.updatedAt ?? data.publishedAt ?? data.date),
+      readingMinutes: Number(data.readingMinutes ?? data.readTime ?? 5),
       tags: asStringArray(data.tags),
       sections: markdownToSections(content),
       faqs: asFaqs(data.faqs),
       toolCta: asToolCta(data.toolCta),
     };
   });
+  const bySlug = new Map(posts.map((p) => [p.slug, p]));
+  return [...bySlug.values()];
 }

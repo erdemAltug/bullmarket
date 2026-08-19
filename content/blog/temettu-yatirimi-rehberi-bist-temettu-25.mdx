@@ -1,0 +1,145 @@
+---
+title: 'BIST Temettü 25 ile Pasif Gelir Portföyü: Bileşik Getiri ve Kar Payı Dağıtım Stratejisi'
+slug: temettu-yatirimi-rehberi-bist-temettu-25
+description: 'Temettü verimi formülü, payout, 10 yıllık DRIP tablosu ve BIST Temettü 25 seçim kriterleri.'
+date: '2026-08-19'
+category: BIST
+tags: [temettü, BIST, Temettü-25, DRIP, payout, pasif-gelir]
+readTime: 10
+author: Bullsye Research Team
+keywords:
+  - BIST Temettü 25
+  - temettü verimi hesaplama
+  - temettü büyümesi
+  - DRIP
+  - payout oranı
+publishedAt: '2026-08-19'
+updatedAt: '2026-08-19'
+readingMinutes: 10
+readingMinutes: 10
+toolCta:
+  href: /dividends
+  label: Temettü Masası
+  blurb: Verim, payout ve nakit sürdürülebilirliğini canlı temettü masasında tarayın.
+faqs:
+  - question: Yüksek temettü verimi her zaman iyi midir?
+    answer: Hayır. %12+ verim çoğu kez fiyat çöküşü veya tek seferlik dağıtımdır. Sürdürülebilirlik FCF ve payout <%80 ile doğrulanır.
+  - question: Temettü 25’e girmek alım sinyali midir?
+    answer: Değil. Endeks tarihsel verim ve büyüme ile seçer; giriş anı pahalı olabilir. Ağırlık ve serbest dolaşım kriterini okuyun.
+  - question: DRIP BIST’te fiilen nasıl çalışır?
+    answer: Otomatik plan seyrektir. Pratikte nakit temettü ve aynı hissede yeniden alım. Komisyon ve vergi net verimi düşürür.
+  - question: Enflasyon temettüyü nasıl yer?
+    answer: Nominal %8 verim yüksek enflasyonda reel negatif olabilir. DPS büyümesi enflasyonun altında kalan kâğıt pasif gelir değil, sermaye erimesidir.
+---
+
+## Temettü verimi ile temettü büyümesi farkı nedir?
+
+Temettü verimi, hisse başına net kâr payının güncel fiyata oranıdır; temettü büyümesi ise DPS’nin yıllar içindeki artış hızıdır. Yüksek verim çoğu kez düşük fiyat veya tek seferlik dağıtımdır; sürdürülebilir pasif gelir, ılımlı verim artı istikrarlı DPS büyümesi ve FCF desteği ister.
+
+BIST’te nominal verimler küresel medyanın üstünde görünebilir çünkü iskonto oranları yüksektir. Reel metrik: DPS büyümesinin enflasyon ve kur rejimine göre ayarlanması. [Temettü masası](https://bullsye.app/dividends) verimi tek skor gibi değil, payout ve süreklilikle birlikte sunar.
+
+## Formüller: verim, payout, FCF örtüsü
+
+$TV = \frac{\text{Hisse başına net temettü}}{\text{Güncel fiyat}} \times 100$
+
+$\text{Payout} = \frac{\text{Toplam temettü}}{\text{Net kâr}}$
+
+$\text{FCF örtüsü} = \frac{FCF}{\text{Temettü nakit çıkışı}}$
+
+Örnek: net temettü 4.20 TL/pay, fiyat 70 TL → TV = 6.0%. Net kâr 10 mr, temettü 6 mr → payout %60. FCF 5.5 mr ise örtü 0.92 — kâr yeter, nakit yetmez; sürdürülebilirlik zayıf.
+
+Net temettü = brüt × (1 − stopaj). Stopaj rejimi değişir; karşılaştırmayı net bazda yapın. Bedelsiz ve temettü yerine sermaye artırımı DPS zaman serisini bozar; ayarlanmış DPS kullanın.
+
+Bankada temettü SYR’ye bağlıdır; BDDK kısıtı payout’u keser. Sanayide stok şişmesi FCF’yi yer. GYO’da kira eksi faiz eksi bakım, “kâr”dan daha önemlidir.
+
+## 10 yıllık DRIP simülasyonu
+
+Varsayım tablosu (öğretim amaçlı, getiri taahhüdü değil): başlangıç 100.000 TL, yıl 0 verim %5, DPS büyüme %10, fiyat getirisi %8, temettü %100 yeniden yatırılır, vergi/komisyon ihmal (gerçekte netleştir).
+
+Yıl t portföy kabaca:
+
+$V_t = V_{t-1} \times (1 + r_{fiyat}) + V_{t-1} \times TV_{t-1}$
+
+$TV_t \approx TV_0 \times \frac{(1+g)^{t}}{(1+r_{fiyat})^{t}}$ (DPS g ile, fiyat r ile gider)
+
+| Yıl | Yaklaşık değer (TL) | Yıllık nakit temettü (TL) | Not |
+| --- | --- | --- | --- |
+| 0 | 100.000 | 5.000 | Giriş |
+| 1 | 113.000 | ~5.7k | Fiyat+DRIP |
+| 3 | ~145.000 | ~8k | Bileşik |
+| 5 | ~186.000 | ~11k | |
+| 10 | ~310.000 | ~22k | 10y ≈ 3.1× |
+
+Bu tablo g=10% ve r=8% iyimser BIST “kaliteli temettü” rejimidir. g=0, r=5%, TV düşen fiyatla %8’e çıkarsa sermaye erir, nakit artar — verim tuzağı. Hassasiyet: g −300 bps 10y değeri ciddi keser.
+
+BIST’te ara yıllarda bedelsiz, rüçhan ve temettü kesintisi V_t yolunu kırar. Simülasyonu [temettü masası](https://bullsye.app/dividends) gerçekleşen DPS serisiyle kalibre edin; Excel’de sabit g yanıltır.
+
+## Sürdürülebilir temettü filtreleri
+
+1. FCF örtüsü ≥ 1.0, üç yılın ikisinde.
+2. Payout < %70 (banka için SYR tavanına bak).
+3. Net borç/FAVÖK < 2.5 (banka hariç) — temettü borçla ödenmesin.
+4. DPS’nin en az 5/7 yılda kesilmemesi; kesinti yılından sonra yeniden büyüme.
+5. Serbest dolaşım ve hacim: [BIST screener](https://bullsye.app/bist) ile ince payları ele.
+6. Sektör sağlığı: [ısı haritası](https://bullsye.app/bist/heatmap) holding/banka şelalesinde “yüksek verim” değer değil, beta.
+
+Kesinti, yüksek verimden daha pahalıdır. %9 verimli ve her üç yılda kesen kâğıt, %4.5 verimli ve artan DPS’li kâğıdı uzun vadede kaybeder.
+
+## BIST Temettü 25 seçim çerçevesi
+
+BIST Temettü 25, yüksek temettü verimi ve temettü istikrarı/büyümesi kriterleriyle derlenen bir endekstir. Tipik mantık (resmi bülten güncellenir, uygulamada kontrol edin):
+
+- Aday evren: BIST 50 / ilgili üst endeks ve likidite eşiği.
+- Temettü verimi sıralaması (tarihsel ortalama verim).
+- Temettü ödeme sürekliliği ve büyüme skoru.
+- Ağırlık tavanı tek payın endeksi ele geçirmesini önler.
+
+Sonuç: endeks “en yüksek anlık verim” listesi değildir. Düşen fiyatla verimi şişen problemli kâğıt, süreklilik filtresinde elenebilir veya ağırlığı kısılır. Endekse giriş, değerleme teyidi olmadan alım değildir — PD/DD ve F/K için [screener](https://bullsye.app/bist) çaprazı şarttır.
+
+Pasif ürün (fon/ETF) masrafı net verimi düşürür. Doğrudan 8–12 paylık basket, kesinti riskini dağıtır; 3 pay “temettü portföyü” yoğunlaşma riskidir.
+
+## Temettü masasında projeksiyon
+
+[Bullsye temettü masası](https://bullsye.app/dividends) üzerinde:
+
+1. Evreni Temettü 25 veya yüksek verim + likit olarak daralt.
+2. Verim ve (varsa) DPS geçmişini kesinti yıllarına göre oku.
+3. Payout ve borç için temel tarama ile [screener](https://bullsye.app/bist) aynı sembolleri aç.
+4. Nakit akış takvimi: ödeme tarihi kümesi aynı aya yığılırsa yeniden yatırım fiyatı tesadüfidir.
+5. Alarm: [alerts](https://bullsye.app/alerts) ile fiyat düşüp verim şişince “ucuzladı” sanmayın; önce kesinti haberi.
+
+## Vergi, kur ve enflasyon muhasebesi
+
+Stopaj net verimi belirler. Brüt %8, stopaj sonrası net ~%6.8 ise uluslararası “yield” karşılaştırması net bazda yapılmalıdır. Kurumlar stopaj istisnası değişirse tarihsel verim serisi kırılır.
+
+Yabancı para gelirli ihracatçı temettüyü TL basar; kur şokunda DPS sıçrar, sonraki yıl normalleşir. Bu “büyüme” değildir. Holding temettüsü iştirak nakitine bağlıdır; üst şirket payout’u yüksek, konsolide FCF zayıf olabilir.
+
+Enflasyon muhasebesi özkaynak ve kârı yeniden yazar; payout oranı bir yıl zıplar. Üç yıllık medyan payout, tek yıl yerine kullanılır. Reel DRIP: $g_{reel} \approx g_{nominal} - \pi$. π=g ise reel bileşik sıfırdır; yalnızca fiyatın reel tutulması portföyü korur.
+
+## Portföy inşası: ağırlık ve kesinti
+
+Eşit ağırlık 10 pay, tek pay %15 tavanı, sektör tavanı %35 (banka+holding ayrı sayılır). Kesinti duyurusunda kural: pozisyonu yarıya indir, 4 çeyrek FCF örtüsü <1 ise çık. “Yüksek verim avı” ile ekleme yasak.
+
+Nakit pay takvimi: BIST’te ödeme yığılması bahar aylarındadır. Yeniden yatırım aynı hafta endeks şişiyken pahalıya gelir; 20 iş gününe yayılmış alım, tek seferlik FOMO’dan iyidir.
+
+Kurumsal eylem: bedelsiz DPS’i düşürür, pay sayısını artırır; toplam nakit aynı kalabilir. Temettü masasında “verim düştü” yanılsamasına karşı ayarlanmış seri şarttır.
+
+## Kontrol listesi
+
+- TV formülünü net temettü / fiyat ile kur; brütle kıyaslama.
+- Payout ve FCF örtüsü olmadan %10 verim tuzak varsay.
+- DRIP tablosunu g ve r’ye duyarlı çalıştır; tek 10y çarpanı satma.
+- Temettü 25 = kurallar seti, sihirli liste değil.
+- Canlı teyit: [dividends](https://bullsye.app/dividends), [bist](https://bullsye.app/bist), [heatmap](https://bullsye.app/bist/heatmap).
+
+## Vaka: verim tuzağı vs büyüme
+
+Kâğıt C: TV %11.4, payout %95, FCF örtüsü 0.7, net borç/FAVÖK 3.1, son 7 yılda iki kesinti. Kâğıt D: TV %4.1, payout %45, FCF örtüsü 1.3, DPS 6/7 yıl artmış, borç 0.4x.
+
+C, tarama listesinin tepesindedir. D “pahalı” görünür. Beş yıllık senaryoda C’nin bir kesintisi nakit akışını %40 düşürür ve fiyat %25 geriler; D’nin bileşik DPS’si enflasyonun bir kısmını karşılar. Toplam getiri çoğu kez D lehine döner.
+
+İşlem: C’yi ancak kesinti sonrası yeni denge ve örtü >1 ile yeniden değerlendir. D’ye alım, [temettü masası](https://bullsye.app/dividends) takvimi ve [screener](https://bullsye.app/bist) likidite eşiği ile. Sepet 10 pay, C tipi en fazla bir pay ve ağırlık <%8.
+
+Vergi notu: net TV üzerinden C hâlâ yüksek görünebilir; reel g negatifse pasif gelir hikâyesi muhasebedir, ekonomi değil.
+
+Pasif gelir, BIST’te yüksek kupon değil; kesilmeyen ve enflasyonu kısmen karşılayan nakit akışının bileşiklenmesidir.

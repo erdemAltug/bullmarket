@@ -1,0 +1,99 @@
+---
+title: 'BIST Temettü 25 ile Pasif Gelir Portföyü: Bileşik Getiri ve Kar Payı Dağıtım Stratejisi'
+slug: temettu-yatirimi-rehberi-bist-temettu-25
+description: 'Temettü verimi ve payout formülü, 10 yıllık DRIP tablosu, FCF filtresi ve BIST Temettü 25 seçim mantığı.'
+date: '2026-08-19'
+category: BIST
+tags: [temettü, BIST, Temettü-25, DRIP, payout]
+readTime: 12
+author: Bullsye Research Team
+keywords:
+  - BIST Temettü 25
+  - temettü verimi
+  - DRIP
+  - payout
+  - temettü masası
+publishedAt: '2026-08-19'
+updatedAt: '2026-08-19'
+readingMinutes: 12
+toolCta:
+  href: /dividends
+  label: Temettü Masası
+  blurb: Verim, payout ve nakit sürdürülebilirliğini temettü masasında tarayın.
+faqs:
+  - question: Yüksek verim her zaman iyi midir?
+    answer: Hayır. %12+ çoğu kez fiyat çöküşü veya tek seferlik dağıtımdır. FCF örtüsü ve payout <%80 şarttır.
+  - question: Temettü 25’e giriş alım mıdır?
+    answer: Değil. Endeks tarihsel verim ve süreklilik seçer; an pahalı olabilir. Ağırlık tavanını okuyun.
+  - question: DRIP BIST’te nasıl işler?
+    answer: Otomatik plan seyrektir. Nakit temettü + yeniden alım. Vergi ve komisyon net verimi düşürür.
+  - question: Enflasyon temettüyü nasıl yer?
+    answer: Nominal %8, yüksek enflasyonda reel negatif olabilir. DPS büyümesi enflasyonun altındaysa sermaye erir.
+---
+
+## Temettü verimi ile büyüme farkı nedir?
+
+Temettü verimi, hisse başına net kâr payının fiyata oranıdır; temettü büyümesi DPS’nin yıllar içindeki artışıdır. Yüksek verim sıkça düşük fiyat veya tek seferlik ödemedir. Sürdürülebilir pasif gelir, ılımlı verim + DPS büyümesi + FCF ister.
+
+BIST nominal verimleri yüksek görünebilir; reel metrik DPS’nin enflasyona göre ayarıdır. [Temettü masası](/dividends) verimi payout ile birlikte okutur.
+
+## Formüller
+
+$TV=\frac{\text{Hisse başına net temettü}}{\text{Fiyat}}\times 100$
+
+$\text{Payout}=\frac{\text{Toplam temettü}}{\text{Net kâr}}$
+
+$\text{FCF örtüsü}=\frac{FCF}{\text{Temettü nakit}}$
+
+Örnek: 4.20 TL net / 70 TL → TV %6. Kâr 10 mr, temettü 6 mr → payout %60. FCF 5.5 mr → örtü 0.92 — kâr yeter, nakit yetmez.
+
+Net = brüt×(1−stopaj). Banka payout’u SYR’ye bağlıdır. Sanayide stok FCF’yi yer.
+
+## 10 yıllık DRIP tablosu
+
+Başlangıç 100.000 TL, TV0=%5, g_DPS=%10, r_fiyat=%8, tam yeniden yatırım, vergi yok (öğretim).
+
+$V_t=V_{t-1}(1+r)+V_{t-1} TV_{t-1}$
+
+| Yıl | Yaklaşık V | Nakit temettü |
+| --- | --- | --- |
+| 0 | 100.000 | 5.000 |
+| 1 | 113.000 | ~5.7k |
+| 3 | ~145.000 | ~8k |
+| 5 | ~186.000 | ~11k |
+| 10 | ~310.000 | ~22k |
+
+g=0 ve düşen fiyatla TV %8 “tuzak”: nakit artar, sermaye erir. g −300 bps 10y değeri keser. BIST bedelsiz/rüçhan seriyi kırar; [dividends](/dividends) gerçekleşen DPS ile kalibre edin.
+
+Reel: $g_{reel}\approx g_{nom}-\pi$. π=g ise reel bileşik sıfırdır.
+
+## Sürdürülebilirlik filtreleri
+
+1. FCF örtüsü ≥1, 3 yılın 2’sinde.
+2. Payout <%70 (banka: SYR).
+3. Net borç/FAVÖK <2.5 (banka hariç).
+4. 5/7 yıl kesintisiz DPS.
+5. Likidite: [screener](/bist).
+6. Sektör: [heatmap](/bist/heatmap) — yüksek verim beta olabilir.
+
+Kesinti, yüksek verimden pahalıdır. %9 ve üç yılda bir kesen, %4.5 büyüyen DPS’i uzun vadede kaybeder.
+
+## BIST Temettü 25
+
+Endeks, yüksek tarihsel verim ve ödeme sürekliliği/büyüme ile likit evrenden seçer; anlık en yüksek verim listesi değildir. Ağırlık tavanı tek pay hakimiyetini keser. Resmi bülten kriteri güncellenir.
+
+Giriş sinyali değildir. PD/DD ve F/K için [screener](/bist) çaprazı şart. 8–12 paylık sepet, 3 pay “temettü portföyünden” daha az yoğunlaşır. Fon/ETF masrafı net verimi yer.
+
+## Masada projeksiyon
+
+[Temettü masası](/dividends): evreni daralt, kesinti yıllarını oku, [screener](/bist) borç/payout, takvim yığılması, [alerts](/alerts) ile “verim şişti=ucuz” tuzak uyarısı.
+
+Ağırlık: eşit 10 pay, tek pay tavan %12, sektör %35. Kesinti: yarı pozisyon, 4 çeyrek örtü<1 ise çık. Bahar ödeme yığılmasına tek seferde FOMO alımı yok.
+
+## Vaka
+
+C: TV %11.4, payout %95, örtü 0.7, kaldıraç 3.1, iki kesinti. D: TV %4.1, payout %45, örtü 1.3, 6/7 yıl DPS artışı. Beş yılda C kesintisi nakit %40 ve fiyat %25; D bileşiklenir. C tipi sepet <%8.
+
+## Özet
+
+Pasif gelir yüksek kupon değil, kesilmeyen nakit akışının bileşiklenmesidir. Araçlar: [dividends](/dividends), [bist](/bist), [heatmap](/bist/heatmap).

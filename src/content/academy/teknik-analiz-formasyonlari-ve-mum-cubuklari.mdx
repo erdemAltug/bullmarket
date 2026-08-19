@@ -1,0 +1,117 @@
+---
+slug: teknik-analiz-formasyonlari-ve-mum-cubuklari
+category: teknik-analiz
+categoryTitle: Teknik Analiz & AI Sinyalleri
+title: 'Kapsamlı Teknik Analiz Eğitimi: Mum Çubukları, Destek-Direnç ve Dönüş Formasyonları'
+description: 'Price action, engulfing/doji/hammer, OBO-TOBO ve ikili tepe/dip, hacim profilli destek-direnç, kırılım-retest ve sahte kırılım tablosu.'
+keywords:
+  - mum çubuğu formasyonları
+  - destek direnç nasıl çizilir
+  - omuz baş omuz
+  - sahte kırılım
+  - price action
+level: orta
+publishedAt: '2026-08-19'
+updatedAt: '2026-08-19'
+readingMinutes: 14
+toolCta:
+  href: /signals
+  label: Sinyal Motorunu Aç
+  blurb: Formasyon teyidini RSI/MACD sinyalleriyle aynı evrende çaprazlayın.
+faqs:
+  - question: Tek mum formasyonu tek başına yeterli midir?
+    answer: Hayır. Hammer destek + hacim + sonraki bar teyidi ister. İzole doji, kararsızlıktır; işlem gerekçesi değildir.
+  - question: OBO nasıl onaylanır?
+    answer: Boyun çizgisinin kapanışla kırılması, retest ve sağ omuzun sol omuzdan düşük hacirli olması. Mesafe hedefi: baş–boyun projeksiyonu, ATR stop ile.
+  - question: Destek neden kırılır?
+    answer: Destek, geçmiş alıcı kümesidir. Haber, stop avı veya trend değişimi bu kümeyi tüketir. Hacimsiz kırılım sıkça sahte olur.
+  - question: Breakout mu retest mi?
+    answer: Agresif breakout, hacimli kapanış ister. Muhafazakâr protokol retest + reddi bekler. BIST’te gap breakout ertesi gün retest ile doğrulanır.
+---
+
+## Price action nedir?
+
+Price action, indikatör gecikmesi olmadan açık, yüksek, düşük ve kapanıştan yapı, likidite ve emir dengesini okuma yöntemidir. Mum çubuğu bu dört noktayı tek bara sıkıştırır; formasyon, barın bağlamı (destek, direnç, trend) olmadan istatistiksel olarak zayıftır.
+
+Japon mumunda gövde $ |C-O| $, gölge artıktır. Yeşil/kırmızı renk yön; uzun alt gölge, o aralıkta alıcı baskınlığıdır. [Sinyal motoru](/signals) osilatör üretir; mum, o osilatörün fiyatla çelişip çelişmediğini gösterir.
+
+Zaman dilimi hiyerarşisi: 1D yapı, 4H tetik, 1H icra. 5 dakikada her pin bar “hammer” değildir. BIST seans kapanışı günlük barı kilitler; 17:50’deki formasyon henüz formasyon değildir.
+
+## Mum anatomisi ve temel kalıplar
+
+**Marubozu:** Gölgesiz gövde, tek yönlü kontrol. Trend devamında anlamlı, yatay bantta yorgunluk da olabilir.
+
+**Doji:** $C \approx O$. Kararsızlık. Destek/dirençte ve uzun trend sonrası değerlidir; trend ortasında gürültüdür.
+
+**Hammer / pinbar:** Alt gölge ≥ 2× gövde, üst gölge kısa, düşüş sonrası talep bölgesinde. Teyit: sonraki barın hammer yüksekliğini geçmesi. Hacim ortalamanın üstündeyse kalite artar.
+
+**Engulfing (yutan):** Mevcut gövde önceki gövdeyi tam kaplar. Bullish engulfing düşen barı yutar. Açılış boşluğu BIST’te yutanı “görsel” yapar; gövde kapanış kuralı esastır, gölge yutması değil.
+
+**Sabah/akşam yıldızı:** Üç bar, ortada küçük gövde. Nadir ve güçlü; zoraki işaretleme overfit’tir.
+
+Tablo — teyit:
+
+| Kalıp | Konum şartı | Teyit | İptal |
+| --- | --- | --- | --- |
+| Hammer | Önceki salınım desteği | Sonraki kapanış > gövde | Düşük kapanış < gölge |
+| Bull engulfing | Düşüş ayağı sonu | Hacim + | İç bar geri dönüş |
+| Doji | Direnç/destek | Yön barı | Trend içi seri doji |
+| Pinbar | Likidite süpürmesi | Gövde içi kapanış yok | Fitilin ötesinde kapanış |
+
+## Klasik dönüş yapıları
+
+**Omuz baş omuz (OBO):** Sol omuz, daha yüksek baş, daha düşük sağ omuz, boyun çizgisi. Onay: boyun altı kapanış. Hedef: $P_{boyun} - (P_{baş}-P_{boyun})$. Stop: sağ omuz üstü veya 1.5 ATR. Hacim genelde başta yüksek, sağ omuzda düşer.
+
+**TOBO:** Ters OBO, yükseliş dönüşü. Boyun üstü kapanış. BIST’te kısa squeeze boyunu abartır; retest bekleyin.
+
+**İkili tepe / çift dip:** İki benzer ekstremum, ara boyun. İkinci tepe hacmi birinciden düşükse dağıtım hipotezi güçlenir. Mesafe kuralı aynı: boyun–tepe projeksiyonu. İkinci tepe birinciden belirgin yüksekse “ikili” değil, yükseliş yapısıdır — zoraki OBO çizmeyin.
+
+**Yükselen/alçalan üçgen:** Yatay kenar + eğik kenar. Kırılım yönü istatistiksel eğilim taşır ama garanti değildir. Hacim sıkışması (falling volume) kırılım kalitesini artırır.
+
+Yapı, [terminal](/terminal)de swing high/low ile işaretlenir. Formasyonu [signals](/signals) RSI uyumsuzluğu ile doğrulamak sahte OBO’yu eler.
+
+## Destek ve direnç: statik, dinamik, hacim
+
+Statik: önceki swing, yuvarlak sayı, boşluk kenarı, zirve/dip kümesi. Çizgi değil bölge: ATR’nin 0.3–0.5’i kalınlık.
+
+Dinamik: VWAP, 20/50/200 ortalama, trend çizgisi (en az 3 değme, 2 değme çizgi değil). 20’lik ortalama gün içi, 200’lük rejim filtresidir.
+
+Hacim profili / görünür kademe yoğunluğu: POC (point of control) ve value area. Fiyat POC’ye mıknatıs; VA dışı uzama mean-reversion veya breakout adayıdır. BIST’te profil, vadeli ve likit payda daha temizdir.
+
+Kırılım: kapanış bölge dışında + hacim > N bar ortalaması. Fitil dışı kapanış kırılım değildir.
+
+Retest: kırılan direnç desteğe döner, reddedilir. Alım retest reddindedir, ilk kırılım mumunda değil (agresif istisna: hacim patlaması + boşluk).
+
+## Sahte kırılım eleme tablosu
+
+| Gözlem | Sahte kırılım | Gerçek kırılım |
+| --- | --- | --- |
+| Gövde | Küçük, fitil uzun | Gövde ATR’nin ≥0.3’ü |
+| Hacim | Ortalama altı | Ortalama üstü |
+| Kapanış | Bölgeye geri | Bölge dışı |
+| Sonraki bar | İçeri kapanış | Retest tutması |
+| Sektör | [Isı haritası](/bist/heatmap) ters | Sektör aynı yönde |
+| Osilatör | RSI 50 altı “yukarı kırılım” | RSI 50 üstü + MACD histogram geniş |
+
+Bull trap: direnç üstü kapanış, ertesi gün %50 içi. Bear trap simetrik. Protokol: trap sonrası işlem yok veya teyitli ters yapı.
+
+## Breakout–retest icra
+
+1. Bölgeyi 1D’de çiz, 4H’de kademeleri gör.
+2. Kırılım kapanışı + hacim filtresi.
+3. Limit, eski bölge kenarına.
+4. Stop, bölge ötesi + 0.25 ATR.
+5. Hedef 1: sonraki statik; hedef 2: 2R.
+6. [Alerts](/alerts) retest fiyatına; [signals](/signals) momentum teyidi.
+
+Risk: BIST gap’i retest’i atlar. Gap > 1 ATR ise retest stratejisi iptal, yeni yapı beklenir.
+
+## Müfredat disiplini
+
+Günde 3 formasyon işaretlemek öğrenme değil, doğrulama yanlılığıdır. Haftada 5 işaretli yapı, sonuç sütunu (hedef/stop/iptal) ile günlük. Kazanan formasyon oranı %40 bile 2R ile pozitif beklenti üretir; %70 isabet 0.5R ile batırır.
+
+İndikatörsüz price action iddiası, hacimsiz chartism kadar boştur. Mum + bölge + hacim + rejim ([heatmap](/bist/heatmap)) asgari settir.
+
+## Özet
+
+Teknik analiz eğitimi kalıp ezberi değil, konum + teyit + iptal kuralıdır. Hammer desteksiz, OBO hacimsiz, kırılım fitille geçersizdir. Sinyal motoru [signals](/signals) ikinci oy; birinci oy kapanışın yapıyı kabul edip etmemesidir.

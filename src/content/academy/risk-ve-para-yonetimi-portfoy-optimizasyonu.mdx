@@ -1,0 +1,113 @@
+---
+slug: risk-ve-para-yonetimi-portfoy-optimizasyonu
+category: kripto-risk
+categoryTitle: Kripto & Risk Yönetimi
+title: 'Profesyonel Risk ve Para Yönetimi: Sermaye Koruma, R:R Oranı ve Pozisyon Büyüklüğü'
+description: 'Sabit %1–2 risk, Kelly kriteri, R:R≥1:2.5 olasılık tablosu, ATR stop ve FOMO/intikam işlem disiplini.'
+keywords:
+  - para yönetimi
+  - pozisyon büyüklüğü
+  - Kelly kriteri
+  - ATR stop
+  - risk ödül oranı
+level: ileri
+publishedAt: '2026-08-19'
+updatedAt: '2026-08-19'
+readingMinutes: 14
+toolCta:
+  href: /bist
+  label: Risk Filtreli Tarama
+  blurb: Likidite ve volatilite eşiklerini screener’da sabitleyerek pozisyon hesabını piyasa rejimine bağlayın.
+faqs:
+  - question: Hesabın yüzde kaçı tek işlemde riske atılmalı?
+    answer: Çoğu bireysel süreç %0.5–1; tavan %2. %5+ ardışık kayıplarda sermayeyi geometrik eritir. Risk, pozisyon değeri değil stop mesafesindeki TL kaybıdır.
+  - question: Kelly neden tam kullanılmaz?
+    answer: Tam Kelly, win rate ve payoff tahmin hatasına aşırı duyarlıdır ve drawdown’u büyütür. Uygulama yarım veya çeyrek Kelly’dir.
+  - question: 1:2.5 R/R ile %40 isabet yeterli midir?
+    answer: Evet, maliyet öncesi. Beklenti = 0.4×2.5 − 0.6×1 = +0.4R. Maliyet ve sapma 0.1–0.2R yer; net hâlâ pozitif olabilir.
+  - question: ATR stop her piyasada aynı k mı?
+    answer: Hayır. BIST likit pay k=2, ince pay k=2.5–3, 5 dk scalping k=1–1.5. k, boşluk istatistiğine kalibre edilir.
+---
+
+## Risk, zarar ve pozisyon değeri
+
+Risk yönetimi, tek işlemde hesabın belirli bir yüzdesinden fazlasının stop’ta yanmamasını sağlar. Pozisyon değeri (100.000 TL hisse) risk değildir; risk, giriş ile stop arasındaki TL’dir.
+
+$R_{\text{TL}} = |P_{\text{giriş}} - P_{\text{stop}}| \times Q$
+
+$R_{\%} = R_{\text{TL}} / E \le r_{\max}$
+
+$Q = \frac{r_{\max} \times E}{|P_{\text{giriş}}-P_{\text{stop}}|}$
+
+Örnek: E=200.000 TL, $r_{\max}=0.01$, giriş 48.50, stop 46.10, fark 2.40. $Q = 2000 / 2.40 \approx 833$ pay ≈ 40.400 TL notional. Notional %20, risk %1. Kaldıraç bu ayrımı yok saydırır.
+
+[Screener](/bist) likidite eşiği, Q’nun piyasayı oynatmaması içindir. 833 pay, ortalama hacmin %1’inden büyükse formül kağıt üzerinde kalır.
+
+## Sabit yüzdelik kural ve Kelly
+
+Sabit $r_{\max}=1\%$ ardışık 10 kayıpta sermayeyi $\approx 0.99^{10} \approx 90.4\%$ bırakır. %5 kuralında $0.95^{10} \approx 60\%$. Asimetri: %1 ile toparlanma mümkün, %5 ile davranış bozulur.
+
+Kelly:
+
+$f^{*} = \frac{bp - q}{b}$
+
+$b$ net ödül/risk (ör. 2.5), $p$ kazanç olasılığı, $q=1-p$. $p=0.42$, $b=2.5$ → $f^{*}=(2.5\times0.42-0.58)/2.5=0.188$. Tam Kelly %18 risktir — hesap öldürücü. Çeyrek Kelly $\approx 4.7\%$, hâlâ yüksek. Pratik: $f=\min(1\%, f^{*}/4)$.
+
+$p$ bilinmez; 30 işlemden “%42” gürültüdür. Bu yüzden Kelly tavan, sabit yüzde tabandır.
+
+## R:R ve isabet tablosu
+
+Beklenti (R birimi): $E[R] = p\cdot b - (1-p)\cdot 1$.
+
+| Win rate $p$ | b=1.0 | b=1.5 | b=2.5 | b=3.0 |
+| --- | --- | --- | --- | --- |
+| 35% | −0.30 | −0.125 | +0.225 | +0.40 |
+| 40% | −0.20 | −0.10 | +0.40 | +0.60 |
+| 50% | 0 | +0.25 | +0.75 | +1.00 |
+| 60% | +0.20 | +0.50 | +1.10 | +1.40 |
+
+$R:R \ge 1:2.5$ ve $p\ge 38\%$ teorik eşik civarıdır. %60 isabet ve 1:1, kırılgan ego sistemi üretir; tek kötü seri beklentiyi yer. Hedef 2.5R, kısmi çıkış 1.5R’de yarım, kalan trail.
+
+Maliyet: her işlem 0.05–0.15R yer (komisyon+sapma). Tablodaki +0.225, 0.10R maliyetle +0.125’e iner. İnce BIST payında maliyeti [screener](/bist) hacim sütunundan tahmin edin.
+
+## ATR ile dinamik stop ve boyut
+
+True range: $\max(H-L, |H-C_{prev}|, |L-C_{prev}|)$. ATR(14) ortalama. Stop mesafesi $k\cdot ATR$.
+
+$Q = \frac{r_{\max} E}{k \cdot ATR}$
+
+Volatilite artınca Q küçülür — aynı yüzde risk, daha az pay. Volatilite düşünce Q artar. Sabit lot, yüksek ATR gününde gizli %3 risktir.
+
+k seçimi: günlük likit BIST 2.0; açılış gap’i sık kâğıtta 2.5. 1.0 ATR stop, gürültüde sık tetiklenir ve p’yi düşürür.
+
+[Alerts](/alerts) ATR bandını fiyat alarmıyla karıştırmayın. Alarm bilgi, stop emir defterindedir (veya tetik kuralı yazılıdır).
+
+## Drawdown, kaldıraç, duygusal tuzaklar
+
+Maksimum ardışık kayıp beklentisi: $p=0.4$ için 8 kayıp zinciri nadir değil. %1 ile −8%; %3 ile −22% ve kural ihlali.
+
+FOMO: ısı haritasında [heatmap](/bist/heatmap) yeşil sektör, geç breakout, stopsuz piyasa emri. Karşı kural: sinyal [signals](/signals) + planlı Q, aksi halde işlem yok.
+
+İntikam: stop sonrası aynı kâğıtta lot artırma. Karşı kural: aynı sembol, aynı gün ikinci işlem yasak.
+
+Aşırı kaldıraç: vadeli/CFD’de Q formülü marjı değil stop TL’sini kullanır. Marj %10, risk %1 değil %10+ olabilir.
+
+Günlük kayıp tavanı: $3R$ veya %2 — hangisi önce gelirse seans kapanır. Haftalık %5. Tavan, alfa değil hayatta kalma kuralıdır.
+
+## Portföy düzeyi
+
+Tek işlem %1, 5 açık işlem korrelasyon 0.8 ise gerçek faktör riski ~%3–4. Sektör tavanı: aynı [heatmap](/bist/heatmap) rengi ≥3 pozisyon ise yeni işleme izin yok.
+
+Korelasyon matrisi aylık güncellenir; krizde 1’e gider. Bu yüzden nakit $w_c \ge 10\%$ kuyruk yastığıdır.
+
+## Uygulama sırası
+
+1. $r_{\max}$ yaz (0.01).
+2. Stop’u yapı veya ATR ile koy, sonra Q hesapla — tersi yasak.
+3. R:R < 2 ise işlem yok.
+4. Sinyal kaynağı [signals](/signals); likidite [screener](/bist).
+5. Journal: p ve b’yi 30 işlemde ölç, Kelly’yi güncelleme, $r_{\max}$’ı düşürme.
+
+## Özet
+
+Profesyonel para yönetimi, kazananı büyütmek değil kaybedeni geometrik küçültmektir. Kelly tavan, %1 taban, 2.5R hedef, ATR boyut. FOMO ve intikam, formülü değil disiplini bozar; tavan kuralları bunun içindir.
