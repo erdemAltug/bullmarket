@@ -9,6 +9,7 @@ interface TopicSeed {
   pool: TopicPool;
   query: string;
   tags: string[];
+  category: 'BIST' | 'Teknik Analiz' | 'Kripto' | 'Temel Analiz' | 'Akademi';
   toolHref: string;
   toolLabel: string;
 }
@@ -29,26 +30,38 @@ const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
 const INLINE_CTA =
   '💡 **İpucu:** Makalede bahsettiğimiz hisse ve kripto varlıkların canlı AI Fırsat Skorlarını görmek için [Bullsye Canlı Radarı\'nı İnceleyin ↗](https://bullsye.app/terminal)';
 
+const INTERNAL_LINKS: Record<TopicPool, string> = {
+  borsa:
+    '- [BİST ısı haritasında sektör rotasyonunu tarayın](https://bullsye.app/bist/heatmap)\n- [BİST screener ile F/K ve hacim filtresi uygulayın](https://bullsye.app/bist)\n- [Temettü masasında nakit akışını doğrulayın](https://bullsye.app/dividends)',
+  teknik:
+    '- [RSI ve sinyal radarında eşik ihlallerini izleyin](https://bullsye.app/signals)\n- [Fiyat/RSI alarmı kurun](https://bullsye.app/alerts)\n- [Canlı terminalde seviyeyi grafikte kilitleyin](https://bullsye.app/terminal)',
+  kripto:
+    '- [Kripto radarda hacim ve skor taraması yapın](https://bullsye.app/crypto)\n- [Fon & ETF masasında beta eşleniği bulun](https://bullsye.app/fon)\n- [AI fırsat skorunu canlı doğrulayın](https://bullsye.app/firsatlar)',
+};
+
 const TOPIC_POOLS: TopicSeed[] = [
   // Borsa & BİST
   {
     pool: 'borsa',
     query: 'Temettü verimi en yüksek hisseler',
-    tags: ['BİST', 'temettü', 'hisse'],
-    toolHref: '/firsatlar',
-    toolLabel: 'Fırsat Masası',
+    tags: ['BİST', 'temettü', 'hisse', 'nakit-akisi'],
+    category: 'BIST',
+    toolHref: '/dividends',
+    toolLabel: 'Temettü Masası',
   },
   {
     pool: 'borsa',
     query: 'F/K ve PD/DD oranı hesaplama',
-    tags: ['BİST', 'değerleme', 'temel analiz'],
+    tags: ['BİST', 'değerleme', 'temel analiz', 'F/K'],
+    category: 'Temel Analiz',
     toolHref: '/bist',
     toolLabel: 'BİST Screener',
   },
   {
     pool: 'borsa',
     query: 'BİST 100 hisse analiz rehberi',
-    tags: ['BİST', 'XU100', 'analiz'],
+    tags: ['BİST', 'XU100', 'analiz', 'screener'],
+    category: 'BIST',
     toolHref: '/bist',
     toolLabel: 'BİST Canlı',
   },
@@ -56,21 +69,24 @@ const TOPIC_POOLS: TopicSeed[] = [
   {
     pool: 'teknik',
     query: 'RSI indikatörü alım satım sinyalleri',
-    tags: ['teknik analiz', 'RSI', 'sinyal'],
+    tags: ['RSI', 'indikatör', 'al-sat', 'risk-yonetimi'],
+    category: 'Teknik Analiz',
     toolHref: '/signals',
     toolLabel: 'AI Sinyaller',
   },
   {
     pool: 'teknik',
     query: 'Golden Cross nedir?',
-    tags: ['teknik analiz', 'hareketli ortalama', 'trend'],
+    tags: ['hareketli ortalama', 'trend', 'Golden Cross', 'teknik analiz'],
+    category: 'Teknik Analiz',
     toolHref: '/signals',
     toolLabel: 'Sinyal Radarı',
   },
   {
     pool: 'teknik',
     query: 'Destek ve direnç seviyeleri çizimi',
-    tags: ['teknik analiz', 'destek', 'direnç'],
+    tags: ['destek', 'direnç', 'fiyat-aksiyonu', 'risk-yonetimi'],
+    category: 'Teknik Analiz',
     toolHref: '/terminal',
     toolLabel: 'Canlı Terminal',
   },
@@ -78,14 +94,16 @@ const TOPIC_POOLS: TopicSeed[] = [
   {
     pool: 'kripto',
     query: 'S&P 500 ETF fonları rehberi',
-    tags: ['ETF', 'S&P 500', 'fon'],
+    tags: ['ETF', 'S&P 500', 'fon', 'beta'],
+    category: 'Temel Analiz',
     toolHref: '/fon',
     toolLabel: 'Fon & ETF',
   },
   {
     pool: 'kripto',
     query: 'Kripto parada stop-loss koyma stratejileri',
-    tags: ['kripto', 'risk', 'stop-loss'],
+    tags: ['kripto', 'stop-loss', 'risk-yonetimi', 'pozisyon'],
+    category: 'Kripto',
     toolHref: '/crypto',
     toolLabel: 'Kripto Radar',
   },
@@ -162,39 +180,54 @@ class QualityError extends Error {
 }
 
 function buildPrompt(topic: TopicSeed, slug: string): string {
-  return `Sen Bullsye (https://bullsye.app) için kıdemli Türkçe finans editörüsün.
-Hedef arama sorgusu: "${topic.query}"
+  return `Sen Bullsye (https://bullsye.app) Principal Financial Analyst ve Lead Quantitative Researcher'sın.
+Hedef anahtar kelime: "${topic.query}"
 Slug: ${slug}
+Kategori: ${topic.category}
+
+GÖREV: Kurumsal kalitede, eyleme dönük, teknik derinlikli, E-E-A-T uyumlu Türkçe eğitim makalesi.
+
+HEDEF NİYET:
+- Sıfır dolgu. Mekanik, formül, risk parametresi ve icra adımına hemen gir.
+- Featured snippet: İLK ## başlığından hemen sonra 45–55 kelimelik net tanım paragrafı (tek blok).
+- Kurumsal ton: nicel trader + bireysel yatırımcı; analitik, otoriter.
 
 ZORUNLU UZUNLUK:
-- bodyMarkdown EN AZ 1300, EN FAZLA 1600 kelime olmalı (hedef ~1400).
-- 1100 kelimenin altı GEÇERSİZDIR — kısa yazma, her bölümü aç.
-- Her ## bölümünde en az 3 dolu paragraf (her paragraf 4–7 cümle).
-- En az 8 ## bölümü kullan.
+- bodyMarkdown 1300–1600 kelime (hedef ~1400). 1100 altı GEÇERSİZ.
+- En az 8 ## bölümü. Her bölümde ≥3 paragraf (4–7 cümle) VEYA formül + icra listesi.
+- En az 1 matematiksel tanım (LaTeX veya düz metin formül: RSI, F/K, stop mesafesi vb.).
+- En az 1 risk parametresi tablosu veya maddeli eşik listesi (ör. RSI 30/70, stop %1.5–3 ATR).
 
-Bölüm iskeleti (bu sırayla, başlıkları konuya uyarla):
-1. Giriş ve arama niyeti
-2. Kavramın tanımı
-3. Neden önemli (TR yatırımcı bağlamı)
-4. Adım adım uygulama (numaralı liste + açıklama)
-5. Örnek senaryo (uydurma fiyat yok; yöntem anlat)
-6. Yaygın hatalar
-7. Bullsye terminalinde pratik
-8. Sonuç ve kontrol listesi
+BAŞLIK:
+- title formatı: "${topic.query}: [eyleme dönük fayda / derin rehber]"
+- description: 50–150 karakter, birincil kelime + niyet + kanca.
 
-Diğer kurallar:
-- Yatırım tavsiyesi yok; eğitim/rehber tonu.
-- Sadece ## başlık (H1 yok).
-- Gerçekçi BİST / kripto / fon bağlamı; sahte getiri uydurma.
-- Vendor marka (Yahoo, TradingView vb.) metinde geçmesin.
-- Gövdenin ORTA bölümünden hemen sonra şu satırı AYNEN ekle (ayrı paragraf):
+İSKELET (başlıkları konuya uyarla, sıra korunur):
+1. Tanım (snippet 45–55 kelime) + mekanik
+2. Formül / hesap
+3. Piyasa bağlamı (BİST / NASDAQ / kripto — hangisi konuya uyuyorsa)
+4. Adım adım icra (emir, lot, stop, zaman dilimi)
+5. Yanlış sinyal ve tuzaklar
+6. Risk ve pozisyon boyutu
+7. Bullsye terminalinde doğrulama (araç içi linkler)
+8. Kontrol listesi + sonuç
+
+İÇ LİNK / DÖNÜŞÜM (bağlamsal, en az 3 ayrı markdown linki):
+${INTERNAL_LINKS[topic.pool]}
+Gövdenin ORTA bölümünden hemen sonra şu satırı AYNEN ekle:
 ${INLINE_CTA}
-- faqs: tam 4 kısa soru-cevap.
-- keywords: 5–8 TR terim.
-- description: max 155 karakter.
-- readingMinutes: 7–9.
 
-Yanıt SADECE JSON (başka metin yok):
+YASAK:
+- Yatırım tavsiyesi, “kesin kazanç”, sahte fiyat/getiri.
+- Vendor marka (Yahoo, TradingView, Investing).
+- H1. Sadece ##.
+- Genel “borsa nedir” girişleri.
+
+faqs: tam 4 teknik soru-cevap (snippet uzunluğunda cevap).
+keywords: 5–8 TR terim, birincil sorgu dahil.
+readingMinutes: 8.
+
+Yanıt SADECE JSON:
 {
   "title": string,
   "description": string,
@@ -484,22 +517,25 @@ function ensureInlineCta(body: string): string {
 function renderMarkdown(post: GeneratedPost, topic: TopicSeed): string {
   const today = new Date().toISOString().slice(0, 10);
   const doc = matter.stringify(post.bodyMarkdown.trim() + '\n', {
-    slug: post.slug,
     title: post.title,
+    slug: post.slug,
     description: post.description,
+    date: today,
+    category: topic.category,
+    tags: post.tags,
+    readTime: post.readingMinutes,
+    author: 'Bullsye Research Team',
     keywords: post.keywords,
     publishedAt: today,
     updatedAt: today,
     readingMinutes: post.readingMinutes,
-    tags: post.tags,
     toolCta: {
-      href: '/terminal',
-      label: "Bullsye Canlı Radarı'nı İncele",
+      href: topic.toolHref,
+      label: topic.toolLabel,
       blurb:
-        'Makalede bahsettiğimiz hisse ve kripto varlıkların canlı AI Fırsat Skorlarını terminal radarında görün.',
+        'Makaledeki yöntemi canlı veriyle doğrulayın — skor, seviye ve alarm aynı terminalde.',
     },
     faqs: post.faqs,
-    // Dynamic metadata hints consumed by blog [slug] generateMetadata
     canonical: `https://bullsye.app/blog/${post.slug}`,
     pool: topic.pool,
     seedQuery: topic.query,
@@ -527,8 +563,13 @@ function parseGenerated(
 
   let body = ensureInlineCta(String(parsed.bodyMarkdown ?? ''));
   const sections = (body.match(/^##\s+/gm) ?? []).length;
-  if (sections < 6) {
-    throw new QualityError(`Bölüm sayısı düşük: ${sections} (min 6)`);
+  if (sections < 8) {
+    throw new QualityError(`Bölüm sayısı düşük: ${sections} (min 8)`);
+  }
+  const linkCount = (body.match(/\]\(https:\/\/bullsye\.app\/[^)]+\)/g) ?? [])
+    .length;
+  if (linkCount < 3) {
+    throw new QualityError(`İç link yetersiz: ${linkCount} (min 3)`);
   }
   const words = wordCount(body);
   if (words < MIN_WORDS) {
