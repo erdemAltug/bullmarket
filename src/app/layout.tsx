@@ -24,11 +24,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
+    default:
+      'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
     template: '%s | Bullsye',
   },
   description:
-    'BİST 100 ve Kripto varlıkları için 100 üzerinden canlı AI fırsat skorları, analist hedef fiyatları ve portföy risk taraması. Hemen ücretsiz terminale katılın.',
+    'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama ve 0–100 fırsat skoru. Ücretsiz kişisel finans asistanı — kayıt envanter içindir.',
   keywords: [
     'Bullsye',
     'BİST canlı',
@@ -70,9 +71,9 @@ export const metadata: Metadata = {
     apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {
-    title: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
+    title: 'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
     description:
-      'BİST 100 ve Kripto varlıkları için 100 üzerinden canlı AI fırsat skorları, analist hedef fiyatları ve portföy risk taraması. Hemen ücretsiz terminale katılın.',
+      'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama ve fırsat skoru. Ücretsiz.',
     url: SITE_URL,
     siteName: 'Bullsye',
     locale: 'tr_TR',
@@ -91,9 +92,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@bullsyeapp',
     creator: '@bullsyeapp',
-    title: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
+    title: 'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
     description:
-      'BİST 100 ve Kripto için canlı AI fırsat skorları, analist hedefleri ve portföy risk taraması. Ücretsiz terminale katılın.',
+      'Analist tavsiyeleri ve hedef fiyatları ile BİST fırsat skoru. Ücretsiz tarama.',
     images: [
       `${SITE_URL}/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Financial%20Terminal`,
     ],

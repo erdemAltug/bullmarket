@@ -28,15 +28,15 @@ interface GeneratedPost {
 const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
 
 const INLINE_CTA =
-  '💡 **İpucu:** Makalede bahsettiğimiz hisse ve kripto varlıkların canlı AI Fırsat Skorlarını görmek için [Bullsye Canlı Radarı\'nı İnceleyin ↗](https://bullsye.app/terminal)';
+  '💡 **İpucu:** Canlı skor için [fırsat masası](https://bullsye.app/firsatlar) · kurum hedefleri için [analist hedef fiyatları](https://bullsye.app/targets).';
 
 const INTERNAL_LINKS: Record<TopicPool, string> = {
   borsa:
-    '- [BİST ısı haritasında sektör rotasyonunu tarayın](https://bullsye.app/bist/heatmap)\n- [BİST screener ile F/K ve hacim filtresi uygulayın](https://bullsye.app/bist)\n- [Temettü masasında nakit akışını doğrulayın](https://bullsye.app/dividends)',
+    '- [BİST 100 canlı tarama](https://bullsye.app/bist)\n- [Analist tavsiyeleri ve hedef fiyatları](https://bullsye.app/targets)\n- [Temettü masası](https://bullsye.app/dividends)',
   teknik:
-    '- [RSI ve sinyal radarında eşik ihlallerini izleyin](https://bullsye.app/signals)\n- [Fiyat/RSI alarmı kurun](https://bullsye.app/alerts)\n- [Canlı terminalde seviyeyi grafikte kilitleyin](https://bullsye.app/terminal)',
+    '- [Fırsat skoru (0–100)](https://bullsye.app/firsatlar)\n- [Sinyal radarı](https://bullsye.app/signals)\n- [Fırsat skoru nasıl okunur](https://bullsye.app/egitim/teknik-analiz/ai-firsat-skoru-nasil-okunur)',
   kripto:
-    '- [Kripto radarda hacim ve skor taraması yapın](https://bullsye.app/crypto)\n- [Fon & ETF masasında beta eşleniği bulun](https://bullsye.app/fon)\n- [AI fırsat skorunu canlı doğrulayın](https://bullsye.app/firsatlar)',
+    '- [Kripto tarama](https://bullsye.app/crypto)\n- [Fırsat masası](https://bullsye.app/firsatlar)\n- [Fon & ETF](https://bullsye.app/fon)',
 };
 
 const TOPIC_POOLS: TopicSeed[] = [
@@ -87,8 +87,32 @@ const TOPIC_POOLS: TopicSeed[] = [
     query: 'Destek ve direnç seviyeleri çizimi',
     tags: ['destek', 'direnç', 'fiyat-aksiyonu', 'risk-yonetimi'],
     category: 'Teknik Analiz',
-    toolHref: '/terminal',
-    toolLabel: 'Canlı Terminal',
+    toolHref: '/signals',
+    toolLabel: 'Sinyal Radarı',
+  },
+  {
+    pool: 'borsa',
+    query: 'Hisse hedef fiyatı nasıl okunur',
+    tags: ['hedef fiyat', 'analist', 'konsensüs', 'BİST'],
+    category: 'Temel Analiz',
+    toolHref: '/targets',
+    toolLabel: 'Hedef Fiyatlar',
+  },
+  {
+    pool: 'teknik',
+    query: 'BİST alım fırsatı günlük tarama',
+    tags: ['fırsat skoru', 'BİST', 'tarama', 'RSI'],
+    category: 'Teknik Analiz',
+    toolHref: '/firsatlar',
+    toolLabel: 'Fırsat Masası',
+  },
+  {
+    pool: 'borsa',
+    query: 'Sabah borsa rutini 10 dakika',
+    tags: ['rutin', 'BİST 100', 'canlı', 'alarm'],
+    category: 'Akademi',
+    toolHref: '/bist',
+    toolLabel: 'BİST Canlı',
   },
   // Kripto & Fonlar
   {

@@ -2,6 +2,8 @@
 
 > Günlük free acquisition planı: [`docs/GROWTH_PLAN_DAILY_FREE.md`](./GROWTH_PLAN_DAILY_FREE.md)
 
+> Günlük ritim: [`docs/DAILY_SEO.md`](./DAILY_SEO.md)
+
 ## Goal
 
 Search’ten gelen ziyaretçiyi **terminal alışkanlığına** çevirmek: içerik → canlı araç CTA → ertesi gün rutin.
