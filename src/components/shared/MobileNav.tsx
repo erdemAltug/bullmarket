@@ -8,10 +8,11 @@ import { Logo } from '@/components/shared/Logo';
 import { OPEN_COMMAND_EVENT } from '@/components/shared/CommandPalette';
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
 import { usePreferences } from '@/components/providers/PreferencesProvider';
+import { authClient } from '@/lib/auth/client';
 import {
   MOBILE_BOTTOM_ITEMS,
-  NAV_GROUPS,
   isNavActive,
+  navGroupsForUser,
   type NavKey,
 } from '@/lib/nav';
 import { cn } from '@/lib/utils';
@@ -53,6 +54,8 @@ export function MobileNavDrawer() {
   const { open, setOpen } = useMobileNav();
   const pathname = usePathname();
   const { t } = usePreferences();
+  const { data: session, isPending } = authClient.useSession();
+  const groups = navGroupsForUser(isPending || Boolean(session?.user));
 
   const close = useCallback(() => setOpen(false), [setOpen]);
 
@@ -78,7 +81,7 @@ export function MobileNavDrawer() {
           Ara · hisse, fon, ETF…
         </button>
         <nav className="flex flex-1 flex-col gap-4 overflow-y-auto p-3 pb-10">
-          {NAV_GROUPS.map(({ group, items }) => (
+          {groups.map(({ group, items }) => (
             <div key={group} className="space-y-1">
               <p className="px-3 pb-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]/70">
                 {t.navGroups[group]}

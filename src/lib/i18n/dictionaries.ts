@@ -48,13 +48,13 @@ export type Dictionary = {
 
 const tr: Dictionary = {
   nav: {
-    overview: 'Dashboard',
+    overview: 'Piyasa özeti',
     opportunities: 'AI Fırsatlar',
     bist: 'BİST',
     heatmap: 'Isı Haritası',
     us: 'NASDAQ / ABD',
     funds: "Fonlar & ETF'ler",
-    crypto: 'Crypto',
+    crypto: 'Kripto',
     fx: 'Döviz',
     compare: '1v1 Kıyasla',
     signals: 'AI Sinyalleri',
@@ -87,7 +87,7 @@ const tr: Dictionary = {
   common: {
     loading: 'Yükleniyor…',
     clickForAlert: 'Alarm kurmak için tıklayın',
-    tickers: 'Tickers',
+    tickers: 'Kaset',
     noOrderBook: 'Emir defteri yok',
   },
 };

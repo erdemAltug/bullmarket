@@ -58,10 +58,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
             ? ('monthly' as const)
             : ('hourly' as const),
     priority:
-      path === '' || path === '/tr' || path === '/en'
-        ? 1.0
-        : path === '/terminal' || path === '/firsatlar'
-          ? 0.95
+        path === '/targets' ||
+        path === '/firsatlar' ||
+        path === '/bist'
+          ? 1.0
+          : path === '' || path === '/tr' || path === '/en'
+          ? 1.0
+          : path === '/terminal'
+          ? 0.85
           : path === '/egitim' || path === '/blog'
             ? 0.9
             : legalPaths.has(path)

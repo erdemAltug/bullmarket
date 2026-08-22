@@ -7,8 +7,6 @@ import { AIDailyVisionPanel } from '@/components/dashboard/AIDailyVisionPanel';
 import { AIPotentialRadar } from '@/components/dashboard/AIPotentialRadar';
 import { AISignalRadar } from '@/components/dashboard/AISignalRadar';
 import { MarketSentimentMeter } from '@/components/dashboard/MarketSentimentMeter';
-import { useAuthGate } from '@/components/auth/AuthGateProvider';
-import { authClient } from '@/lib/auth/client';
 import { useMarketScanner } from '@/hooks/useMarketScanner';
 import {
   buildDailyVision,
@@ -16,7 +14,6 @@ import {
   computeMarketSentiment,
 } from '@/lib/ai-opportunity';
 import { cn } from '@/lib/utils';
-import { BETA_AUTH_HEADLINE, BETA_AUTH_SUBTITLE } from '@/lib/beta';
 
 const LS_SEEN = 'bullsye:firsat:seen';
 const LS_STREAK = 'bullsye:firsat:streak';
@@ -54,9 +51,6 @@ function readStreak(): number {
 
 export function OpportunityHunt() {
   const scanner = useMarketScanner();
-  const { data: session } = authClient.useSession();
-  const { openAuth } = useAuthGate();
-  const unlocked = Boolean(session?.user);
 
   const [streak, setStreak] = useState(0);
   const [newCount, setNewCount] = useState(0);
@@ -129,9 +123,9 @@ export function OpportunityHunt() {
             </span>
           ) : null}
         </div>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-          AI Fırsat Alımları
-        </h1>
+        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+          Canlı fırsat masası
+        </h2>
         <p className="max-w-2xl text-sm text-[var(--muted)]">
           Canlı skor, gün içi bant ve hacim ivmesi. Masa her{' '}
           <span className="font-mono text-[var(--accent)]">{countdown}s</span>{' '}
@@ -243,29 +237,12 @@ export function OpportunityHunt() {
               <Bell className="size-3.5" />
               Alarmlar
             </Link>
-            {!unlocked ? (
-              <button
-                type="button"
-                onClick={() =>
-                  openAuth({
-                    tab: 'register',
-                    feature: 'AI Fırsat Masası',
-                    headline: BETA_AUTH_HEADLINE,
-                    subtitle: BETA_AUTH_SUBTITLE,
-                  })
-                }
-                className="flex-1 rounded-lg bg-[var(--accent)] px-4 py-2 text-xs font-bold text-[#042f2e] hover:brightness-110 sm:flex-none"
-              >
-                Terminale katıl
-              </button>
-            ) : (
-              <Link
-                href="/signals"
-                className="flex-1 rounded-lg bg-[var(--accent)] px-4 py-2 text-center text-xs font-bold text-[#042f2e] hover:brightness-110 sm:flex-none"
-              >
-                Sinyal radarı
-              </Link>
-            )}
+            <Link
+              href="/signals"
+              className="flex-1 rounded-lg bg-[var(--accent)] px-4 py-2 text-center text-xs font-bold text-[#042f2e] hover:brightness-110 sm:flex-none"
+            >
+              Sinyal radarı
+            </Link>
           </div>
         </div>
       </div>

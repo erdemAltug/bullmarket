@@ -148,7 +148,15 @@ export function AssetSeoShell({
         </h1>
         <p className="max-w-2xl text-sm text-zinc-500">
           {symbol} canlı fiyat, grafik, temel analiz karnesi, analist hedef
-          fiyatları ve AI yorum — Bullsye finans terminali.
+          fiyatları ve AI yorum — Bullsye. Kaynak tarama:{' '}
+          <Link href="/bist" className="text-emerald-400 hover:underline">
+            BİST
+          </Link>
+          {' · '}
+          <Link href="/firsatlar" className="text-emerald-400 hover:underline">
+            fırsat masası
+          </Link>
+          .
         </p>
         <p
           className={`text-2xl font-semibold tabular-nums ${
@@ -215,6 +223,14 @@ export function AssetSeoShell({
               </li>
             );
           })}
+          <li>
+            <Link
+              href="/firsatlar"
+              className="rounded-lg border border-zinc-700 px-2.5 py-1 text-zinc-300 hover:border-emerald-500/40"
+            >
+              Fırsat skoru
+            </Link>
+          </li>
           <li>
             <Link
               href="/targets"

@@ -193,7 +193,7 @@ export function AuthModal({
             {subtitle ??
               (growthMode
                 ? 'Açık Beta dönemimizde tüm Pro AI özelliklerimiz ücretsizdir. Terminal deneyimini başlatmak için 2 saniyede kaydolun.'
-                : 'Watchlist, alarm ve portföy hesabınızda güvende')}
+                : 'İzleme listesi, alarm ve portföy hesabınızda güvende')}
           </p>
         </div>
 

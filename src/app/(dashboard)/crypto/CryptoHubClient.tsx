@@ -97,7 +97,7 @@ function CryptoPageInner() {
 
 export function CryptoHubClient() {
   return (
-    <Suspense fallback={<p className="text-sm text-[var(--muted)]">Loading…</p>}>
+    <Suspense fallback={<p className="text-sm text-[var(--muted)]">Yükleniyor…</p>}>
       <CryptoPageInner />
     </Suspense>
   );

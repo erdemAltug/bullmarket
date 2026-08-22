@@ -24,6 +24,7 @@ import { FxConverter } from '@/components/dashboard/FxConverter';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { NewsFeed } from '@/components/dashboard/NewsFeed';
 import { ShareCardButton } from '@/components/dashboard/ShareCardButton';
+import { ShareDailyRadar } from '@/components/dashboard/ShareDailyRadar';
 import { AISignalRadar } from '@/components/dashboard/AISignalRadar';
 import { SmartRadar } from '@/components/dashboard/SmartRadar';
 import { StockScorecard } from '@/components/dashboard/StockScorecard';
@@ -50,11 +51,11 @@ import type { DashboardWidgetId } from '@/types';
 import { formatPrice } from '@/lib/utils';
 
 const WIDGET_LABELS: Record<DashboardWidgetId, string> = {
-  'fear-greed': 'Fear & Greed',
+  'fear-greed': 'Korku ve Açgözlülük',
   'smart-radar': 'Günün Radarı',
   metrics: 'Metrikler',
-  'chart-fx': 'Grafik & FX',
-  watchlist: 'Watchlist',
+  'chart-fx': 'Grafik ve döviz',
+  watchlist: 'İzleme listesi',
   news: 'Haberler',
   signals: 'Sinyal Radarı',
   calendar: 'Ekonomik Takvim',
@@ -110,7 +111,7 @@ export default function OverviewPage() {
     [marketItems]
   );
   const potentialCards = useMemo(
-    () => buildPotentialCards(marketItems, 6),
+    () => buildPotentialCards(marketItems, 5),
     [marketItems]
   );
   const sentiment = useMemo(
@@ -269,7 +270,7 @@ export default function OverviewPage() {
                 {!rates.length && (
                   <p className="py-8 text-center text-sm text-zinc-500">
                     {fx.isLoading
-                      ? 'Loading…'
+                      ? 'Yükleniyor…'
                       : fx.error?.message ?? 'No FX data'}
                   </p>
                 )}
@@ -285,11 +286,11 @@ export default function OverviewPage() {
               items={scanner.data ?? []}
               isLoading={scanner.isLoading}
               error={scanner.error?.message}
-              title="Market Screener Terminal"
+              title="Piyasa tarama"
             />
             <div>
               <h2 className="mb-3 text-sm font-medium text-zinc-400">
-                Kişisel Watchlist — BİST satırı → Temel Analiz Karnesi
+                Kişisel izleme listesi — BİST satırı → Temel Analiz Karnesi
               </h2>
               <WatchlistTable
                 rows={watchRows}
@@ -341,6 +342,38 @@ export default function OverviewPage() {
         changePercent={index?.changePercent}
         currencySymbol="₺"
       />
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Piyasa özeti
+          </h1>
+          <p className="mt-1 text-sm text-zinc-500">
+            Genişlik, top fırsatlar ve alarm — sabah 10 dakika
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <ShareDailyRadar cards={potentialCards} />
+          <Link
+            href="/alerts"
+            className="inline-flex items-center rounded-md border border-orange-500/40 bg-orange-500/10 px-3 py-2 text-sm font-medium text-orange-300 hover:bg-orange-500/20"
+          >
+            Alarm kur
+          </Link>
+          <ComparisonTrigger onClick={() => setCompareOpen(true)} />
+          <Button
+            type="button"
+            variant={layout.editing ? 'default' : 'outline'}
+            onClick={() => layout.setEditing(!layout.editing)}
+          >
+            {layout.editing ? 'Bitir' : 'Düzenle'}
+          </Button>
+          {layout.editing ? (
+            <Button type="button" variant="ghost" onClick={layout.reset}>
+              Sıfırla
+            </Button>
+          ) : null}
+        </div>
+      </div>
       <CalendarTickerBanner />
       <HabitCue topCards={potentialCards} />
       <TickerTape items={tapeItems} />
@@ -374,14 +407,23 @@ export default function OverviewPage() {
         }
         defaultOpen
         actions={
-          <Link
-            href="/firsatlar"
-            className="shrink-0 text-[11px] font-bold text-emerald-400 hover:underline sm:text-xs"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <span className="sm:hidden">Fırsatlar →</span>
-            <span className="hidden sm:inline">AI Fırsat Alımları →</span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/alerts"
+              className="shrink-0 text-[11px] font-bold text-orange-400 hover:underline sm:text-xs"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Alarm kur →
+            </Link>
+            <Link
+              href="/firsatlar"
+              className="shrink-0 text-[11px] font-bold text-emerald-400 hover:underline sm:text-xs"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span className="sm:hidden">Fırsatlar →</span>
+              <span className="hidden sm:inline">AI Fırsat Alımları →</span>
+            </Link>
+          </div>
         }
       >
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_260px] xl:items-stretch">
@@ -398,30 +440,6 @@ export default function OverviewPage() {
           </div>
         </div>
       </ExpandableSection>
-
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Overview</h1>
-          <p className="mt-1 text-sm text-zinc-500">
-            Piyasa özeti, radar ve kişisel paneller
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <ComparisonTrigger onClick={() => setCompareOpen(true)} />
-          <Button
-            type="button"
-            variant={layout.editing ? 'default' : 'outline'}
-            onClick={() => layout.setEditing(!layout.editing)}
-          >
-            {layout.editing ? 'Bitir' : 'Düzenle'}
-          </Button>
-          {layout.editing ? (
-            <Button type="button" variant="ghost" onClick={layout.reset}>
-              Sıfırla
-            </Button>
-          ) : null}
-        </div>
-      </div>
 
       {layout.editing ? (
         <div className="flex flex-wrap gap-2 rounded-xl border border-zinc-800 bg-zinc-950 p-3">

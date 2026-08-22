@@ -43,7 +43,7 @@ export function SignalRadar({ symbols }: SignalRadarProps) {
         <EmptyState
           icon={Radar}
           title="Henüz aktif sinyal bulunamadı"
-          description="Watchlist tarandı; RSI/SMA kuralı eşleşmedi."
+          description="İzleme listesi tarandı; RSI/SMA kuralı eşleşmedi."
           className="py-8"
         />
       ) : (

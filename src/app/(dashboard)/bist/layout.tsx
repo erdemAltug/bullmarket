@@ -3,9 +3,9 @@ import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
-  title: 'BİST Canlı Hisse Fiyatları & Analiz',
+  title: 'BİST 100 Canlı Hisse Fiyatları ve Tarama',
   description:
-    'Borsa İstanbul canlı fiyatlar, grafikler, ısı haritası ve hisse analiz karneleri. THYAO, GARAN, ASELS ve daha fazlası — Bullsye.',
+    'BİST 100 canlı hisse fiyatları, tarama ve ısı haritası. Ücretsiz Borsa İstanbul kotasyonları ve hisse karnesi — Bullsye.',
   keywords: [
     'BİST canlı',
     'Borsa İstanbul',
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   ],
   alternates: withLangAlternates('/bist'),
   openGraph: {
-    title: 'BİST Canlı | Bullsye',
+    title: 'BİST 100 Canlı Hisse Fiyatları | Bullsye',
     url: `${SITE_URL}/bist`,
   },
 };

@@ -103,7 +103,7 @@ export function FearGreedIndex() {
     <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 backdrop-blur-xl">
       <div className="mb-4 border-b border-[var(--border)] pb-3">
         <h2 className="text-sm font-semibold text-[var(--foreground)]">
-          Fear & Greed Index
+          Korku ve açgözlülük endeksi
         </h2>
       </div>
       {isLoading && !data ? (

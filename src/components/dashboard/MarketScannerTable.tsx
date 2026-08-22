@@ -243,7 +243,7 @@ export function MarketScannerTable({
                     <div className="flex items-center gap-1.5 sm:gap-2.5">
                       <button
                         type="button"
-                        title={starred ? 'Watchlistten çıkar' : 'Watchliste ekle'}
+                        title={starred ? 'İzleme listesinden çıkar' : 'İzleme listesine ekle'}
                         onClick={(e) => toggleWatch(item.symbol, e)}
                         className={cn(
                           'shrink-0 transition-colors',

@@ -2,8 +2,6 @@
 
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { useAuthGate } from '@/components/auth/AuthGateProvider';
-import { authClient } from '@/lib/auth/client';
 import { cn } from '@/lib/utils';
 
 const CTA_CLASS =
@@ -18,33 +16,12 @@ export function TerminalCtaButton({
   className?: string;
   compact?: boolean;
 }) {
-  const { openAuth } = useAuthGate();
-  const { data: session } = authClient.useSession();
-  const signedIn = Boolean(session?.user);
   const cls = cn(compact ? className : CTA_CLASS, className);
 
-  if (signedIn) {
-    return (
-      <Link href="/terminal" prefetch className={cls}>
-        {children}
-        {!compact ? <ArrowRight className="size-4" /> : null}
-      </Link>
-    );
-  }
-
   return (
-    <button
-      type="button"
-      onClick={() =>
-        openAuth({
-          tab: 'register',
-          feature: 'Terminale Geç',
-        })
-      }
-      className={cls}
-    >
+    <Link href="/terminal" prefetch className={cls}>
       {children}
       {!compact ? <ArrowRight className="size-4" /> : null}
-    </button>
+    </Link>
   );
 }

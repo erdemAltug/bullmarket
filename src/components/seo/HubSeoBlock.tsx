@@ -71,12 +71,13 @@ export function HubSeoBlock({ content }: { content: HubSeoContent }) {
 export const BIST_HUB_SEO: HubSeoContent = {
   heading: 'BİST canlı fiyat ve analiz — nasıl kullanılır?',
   paragraphs: [
-    'Borsa İstanbul screener’ında hisseleri filtreleyin, sparkline ve watchlist ile izleyin, grafik panelinden kısa vadeli yapıyı okuyun. Bullsye; canlı fiyatı sinyal, fırsat skoru ve eğitim içerikleriyle aynı terminalde birleştirir.',
-    'Yeni başlıyorsanız Eğitim Hub’daki “Borsa nasıl oynanır?” dersini, günlük ritim için Blog’daki 10 dakikalık rutini okuyun; ardından Fırsat Masası’nda skor kartlarına geçin.',
+    'Borsa İstanbul tarama tablosunda hisseleri filtreleyin, grafik panelinden kısa vadeli yapıyı okuyun. Canlı fiyat; sinyal, fırsat skoru ve eğitim ile aynı terminaldedir. Kaynak BİST sayfasıdır; fırsat skoru /firsatlar, kurum hedefi /targets.',
+    'Yeni başlıyorsanız Eğitim Hub’daki borsa dersini, günlük ritim için Blog’daki 10 dakikalık rutini okuyun; ardından Fırsat Masası’nda skor kartlarına geçin.',
   ],
   links: [
     { href: '/bist/heatmap', label: 'Isı haritası' },
     { href: '/firsatlar', label: 'Fırsat Masası' },
+    { href: '/targets', label: 'Analist hedef fiyatları' },
     { href: '/signals', label: 'AI Sinyaller' },
     { href: '/egitim/borsa-temelleri/borsa-nasil-oynanir', label: 'Borsa rehberi' },
     { href: '/blog/bist-isi-haritasi-nasil-okunur', label: 'Isı haritası okuma' },
@@ -84,14 +85,14 @@ export const BIST_HUB_SEO: HubSeoContent = {
   ],
   faqs: [
     {
-      question: 'BİST canlı fiyatları gecikmeli mi?',
+      question: 'BİST 100 canlı fiyatı nerede izlenir?',
       answer:
-        'Bullsye piyasa verisini düzenli yeniler. Emir iletimi aracı kurumunuzdadır; terminal izleme ve analiz içindir.',
+        'Bullsye BİST hub ve terminalde XU100 ile hisseler düzenli yenilenir. Emir aracı kurumunuzdadır; burası izleme ve tarama içindir.',
     },
     {
-      question: 'Hangi hisseyle başlamalıyım?',
+      question: 'Hisse hedef fiyatı ve analist tavsiyesi nerede?',
       answer:
-        'Önce likit BİST 30 adaylarını screener ve Fırsat Masası ile daraltın; tek hisseye tüm riski bağlamayın.',
+        'Her BİST sembol sayfasında 12 aylık konsensüs kutusu vardır. Tüm evren için /targets sayfasını kullanın. Bu yatırım tavsiyesi değildir.',
     },
   ],
 };

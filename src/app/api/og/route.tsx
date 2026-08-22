@@ -6,6 +6,62 @@ export const runtime = 'nodejs';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
+  if (searchParams.get('type') === 'radar') {
+    const rows = [1, 2, 3]
+      .map((i) => ({
+        t: (searchParams.get(`t${i}`) || '').toUpperCase(),
+        s: searchParams.get(`s${i}`) || '',
+      }))
+      .filter((r) => r.t);
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            background:
+              'linear-gradient(145deg, #050508 0%, #0a0a12 50%, #071a14 100%)',
+            padding: 56,
+            fontFamily: 'system-ui, sans-serif',
+            color: '#fafafa',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <span style={{ fontSize: 22, fontWeight: 800, color: '#34d399' }}>
+              BULLSYE
+            </span>
+            <span style={{ fontSize: 36, fontWeight: 800 }}>
+              Günün 3 fırsat skoru
+            </span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            {rows.map((r) => (
+              <div
+                key={r.t}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: 40,
+                  fontWeight: 700,
+                }}
+              >
+                <span>{r.t}</span>
+                <span style={{ color: '#34d399' }}>{r.s}/100</span>
+              </div>
+            ))}
+          </div>
+          <span style={{ fontSize: 16, color: '#52525b' }}>
+            bullsye.app/firsatlar · ücretsiz tarama
+          </span>
+        </div>
+      ),
+      { width: 1200, height: 630 }
+    );
+  }
+
   const symbol = (searchParams.get('symbol') || 'BULL').toUpperCase();
   const price = searchParams.get('price') || '—';
   const change = searchParams.get('change') || '0.00%';

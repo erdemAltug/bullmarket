@@ -84,10 +84,10 @@ export default function TargetsPage() {
       <div>
         <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
           <Crosshair className="size-6 text-amber-400" />
-          Analist Hedef Fiyatları
+          Analist tavsiyeleri ve hedef fiyatları
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Canlı kurumsal konsensüs · ortalama / yüksek / düşük hedef
+          Kurum konsensüsü · ortalama / yüksek / düşük hedef · ücretsiz
           {data?.updatedAt
             ? ` · güncelleme ${new Date(data.updatedAt).toLocaleTimeString('tr-TR')}`
             : ''}

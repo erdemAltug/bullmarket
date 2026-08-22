@@ -5,20 +5,20 @@ import { rootHreflangLanguages } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
   title: {
-    absolute: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
+    absolute:
+      'Bullsye — BİST Canlı, AI Fırsat Skoru ve Analist Hedef Fiyatları (Ücretsiz)',
   },
   description:
-    'BİST 100 ve Kripto varlıkları için 100 üzerinden canlı AI fırsat skorları, analist hedef fiyatları ve portföy risk taraması. Hemen ücretsiz terminale katılın.',
+    'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama ve 0–100 fırsat skoru. Ücretsiz sabah terminali — kayıt zorunlu değil.',
   keywords: [
+    'analist tavsiyeleri ve hedef fiyatları',
+    'analist hedef fiyat',
     'canlı borsa',
     'bist 100',
     'ai fırsat skoru',
     'ücretsiz bist analizi',
     'hedef fiyatlar',
     'ai borsa sinyalleri',
-    'kripto radar',
-    'nasdaq hisseleri',
-    'temettü karnesi',
   ],
   alternates: {
     canonical: SITE_URL,
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
   openGraph: {
     locale: 'tr_TR',
     alternateLocale: ['en_US'],
-    title: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
+    title: 'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
     description:
-      'BİST 100 ve Kripto varlıkları için 100 üzerinden canlı AI fırsat skorları, analist hedef fiyatları ve portföy risk taraması. Hemen ücretsiz terminale katılın.',
+      'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama ve 0–100 fırsat skoru. Ücretsiz sabah terminali.',
     url: SITE_URL,
     siteName: 'Bullsye',
     type: 'website',
@@ -47,9 +47,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bullsye - Canlı Borsa & AI Fırsat Radarı (Ücretsiz BİST Analizi)',
+    title: 'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
     description:
-      'BİST 100 ve Kripto için canlı AI fırsat skorları, analist hedefleri ve portföy risk taraması. Ücretsiz terminale katılın.',
+      'Analist tavsiyeleri ve hedef fiyatları ile BİST fırsat skoru. Ücretsiz terminale katılın.',
     images: [`${SITE_URL}/og-image.png`],
   },
 };

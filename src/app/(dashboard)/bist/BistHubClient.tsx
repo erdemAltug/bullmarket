@@ -20,7 +20,7 @@ function BistPageInner() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">BİST</h1>
+        <h2 className="text-2xl font-semibold tracking-tight">Tarama</h2>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Borsa İstanbul screener — ara, filtrele, sparkline & watchlist
         </p>
@@ -43,7 +43,7 @@ function BistPageInner() {
           />
         </div>
       ) : scanner.isLoading ? (
-        <p className="text-sm text-[var(--muted)]">Loading…</p>
+        <p className="text-sm text-[var(--muted)]">Yükleniyor…</p>
       ) : null}
 
       <MarketScannerTable
@@ -51,7 +51,7 @@ function BistPageInner() {
         isLoading={scanner.isLoading}
         error={scanner.error?.message}
         defaultFilter="BIST"
-        title="BİST Market Screener"
+        title="BİST tarama"
       />
     </div>
   );
@@ -59,7 +59,7 @@ function BistPageInner() {
 
 export function BistHubClient() {
   return (
-    <Suspense fallback={<p className="text-sm text-[var(--muted)]">Loading…</p>}>
+    <Suspense fallback={<p className="text-sm text-[var(--muted)]">Yükleniyor…</p>}>
       <BistPageInner />
     </Suspense>
   );

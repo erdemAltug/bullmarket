@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { AssetDetailDrawer } from '@/components/dashboard/AssetDetailDrawer';
 import { HintTooltip } from '@/components/shared/HintTooltip';
+import { useScoreHistory } from '@/hooks/useScoreHistory';
 import type { PotentialCard } from '@/lib/ai-opportunity';
 import { cn } from '@/lib/utils';
 
@@ -14,7 +16,7 @@ interface AIPotentialRadarProps {
 }
 
 const SCORE_TIP =
-  'Bullsye AI Skoru; canlı F/K, 24s hacim ivmesi ve gün içi bant pozisyonunun ağırlıklı ortalamasıyla hesaplanır.';
+  'Fırsat skoru 0–100: momentum, gün içi bant ve F/K. Formül: Eğitim → AI fırsat skoru nasıl okunur.';
 const PE_TIP =
   'Fiyat/Kazanç Oranı: Sektör ortalamasının altında, hissenin kârlılığına göre uygun fiyatlandığını gösterir.';
 const DIST_TIP =
@@ -34,6 +36,9 @@ export function AIPotentialRadar({
 }: AIPotentialRadarProps) {
   const [selected, setSelected] = useState<PotentialCard | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const hist = useScoreHistory(
+    cards.map((c) => ({ symbol: c.symbol, score: c.score }))
+  );
 
   function openCard(card: PotentialCard) {
     setSelected(card);
@@ -118,7 +123,7 @@ export function AIPotentialRadar({
                   </span>
                 </p>
               </div>
-              <HintTooltip content={SCORE_TIP} title="Bullsye Skoru" withIcon={false}>
+              <HintTooltip content={SCORE_TIP} title="Fırsat skoru" withIcon={false}>
                 <div
                   className={cn(
                     'shrink-0 rounded-xl border px-2.5 py-1.5 text-center',
@@ -206,13 +211,25 @@ export function AIPotentialRadar({
                 Neden bu varlık?
               </p>
               <ul className="space-y-1 text-[11px] leading-snug text-zinc-400">
-                {card.catalysts.slice(0, 2).map((c) => (
+                {card.catalysts.slice(0, 3).map((c) => (
                   <li key={c} className="flex gap-1.5">
                     <span className="mt-0.5 text-emerald-500">+</span>
-                    <span className="line-clamp-1">{c}</span>
+                    <span className="line-clamp-2">{c}</span>
                   </li>
                 ))}
               </ul>
+              {(hist[card.symbol]?.length ?? 0) > 1 ? (
+                <p className="mt-2 font-mono text-[10px] tabular-nums text-[var(--muted)]">
+                  7g skor: {hist[card.symbol].join(' → ')}
+                </p>
+              ) : null}
+              <Link
+                href="/egitim/teknik-analiz/ai-firsat-skoru-nasil-okunur"
+                className="mt-2 inline-block text-[10px] text-emerald-400 hover:underline"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Skor nasıl hesaplanır?
+              </Link>
             </div>
           </article>
         ))}

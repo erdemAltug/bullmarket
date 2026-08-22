@@ -62,10 +62,10 @@ export async function generateMetadata({
 
   const title = isTr
     ? hasLiveQuote
-      ? `${symbol} Canlı Hisse Fiyatı ${price} TL (${change}), Grafik & Analiz`
-      : `${symbol} Hisse Analizi, Canlı Grafik, Yorum ve Hedef Fiyat`
+      ? `${symbol} Hisse Fiyatı ${price} TL (${change}) — Hedef Fiyat ve Analiz`
+      : `${symbol} Hisse Analizi, Hedef Fiyat, Grafik ve Yorum`
     : hasLiveQuote
-      ? `${symbol} Live Price ${price} TRY (${change}) — Chart & AI Scorecard`
+      ? `${symbol} Live Price ${price} TRY (${change}) — Chart & Targets`
       : `${symbol} Stock Analysis, Live Chart & Price Targets`;
 
   const description = isTr
@@ -83,7 +83,8 @@ export async function generateMetadata({
           `${symbol} hisse fiyatı`,
           `${symbol} grafik`,
           `${symbol} analiz`,
-          `${symbol} yorum`,
+          `${symbol} hedef fiyat`,
+          `${symbol} analist tavsiyesi`,
           'BİST canlı',
         ]
       : [

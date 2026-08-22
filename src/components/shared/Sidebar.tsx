@@ -4,13 +4,16 @@ import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { FastLink } from '@/components/shared/NavigationProgress';
 import { usePreferences } from '@/components/providers/PreferencesProvider';
-import { NAV_GROUPS, allNavHrefs, isNavActive } from '@/lib/nav';
+import { allNavHrefs, isNavActive, navGroupsForUser } from '@/lib/nav';
+import { authClient } from '@/lib/auth/client';
 import { cn } from '@/lib/utils';
 
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { t } = usePreferences();
+  const { data: session, isPending } = authClient.useSession();
+  const groups = navGroupsForUser(isPending || Boolean(session?.user));
 
   useEffect(() => {
     const id = window.setTimeout(() => {
@@ -24,7 +27,7 @@ export function Sidebar() {
   return (
     <aside className="hidden h-full w-52 shrink-0 overflow-y-auto border-r border-[var(--border)] bg-[var(--sidebar)] backdrop-blur-xl md:block">
       <nav className="flex flex-col gap-4 p-3">
-        {NAV_GROUPS.map(({ group, items }) => (
+        {groups.map(({ group, items }) => (
           <div key={group} className="space-y-1">
             <p className="px-3 pb-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]/70">
               {t.navGroups[group]}

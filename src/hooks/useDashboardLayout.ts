@@ -5,17 +5,17 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import type { DashboardWidgetId } from '@/types';
 
 export const DEFAULT_WIDGET_ORDER: DashboardWidgetId[] = [
-  'fear-greed',
   'smart-radar',
   'metrics',
+  'signals',
+  'fear-greed',
   'chart-fx',
   'watchlist',
   'news',
-  'signals',
   'calendar',
 ];
 
-const KEY = 'bullmarket:dashboard-layout';
+const KEY = 'bullmarket:dashboard-layout:v3';
 
 export function useDashboardLayout() {
   const [order, setOrder, ready] = useLocalStorage<DashboardWidgetId[]>(
@@ -24,7 +24,7 @@ export function useDashboardLayout() {
   );
   const [hidden, setHidden] = useLocalStorage<DashboardWidgetId[]>(
     KEY + ':hidden',
-    []
+    ['watchlist', 'news', 'calendar']
   );
   const [editing, setEditing] = useLocalStorage<boolean>(
     KEY + ':editing',
@@ -59,7 +59,7 @@ export function useDashboardLayout() {
 
   const reset = useCallback(() => {
     setOrder(DEFAULT_WIDGET_ORDER);
-    setHidden([]);
+    setHidden(['watchlist', 'news', 'calendar']);
   }, [setOrder, setHidden]);
 
   return {

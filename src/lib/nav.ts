@@ -29,6 +29,8 @@ export type NavLink = {
   key: NavKey;
   icon: LucideIcon;
   color: string;
+  /** Misafir menüsünde gizle — URL hâlâ açık (SEO / paylaşım) */
+  signedInOnly?: boolean;
 };
 
 export type NavGroup = {
@@ -49,20 +51,20 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/bist', key: 'bist', icon: LineChart, color: 'text-blue-400' },
       { href: '/bist/heatmap', key: 'heatmap', icon: Map, color: 'text-amber-400' },
-      { href: '/us', key: 'us', icon: Landmark, color: 'text-sky-300' },
-      { href: '/fon', key: 'funds', icon: Layers, color: 'text-amber-300' },
-      { href: '/crypto', key: 'crypto', icon: Bitcoin, color: 'text-violet-400' },
-      { href: '/fx/USD-TRY', key: 'fx', icon: Banknote, color: 'text-lime-400' },
+      { href: '/us', key: 'us', icon: Landmark, color: 'text-sky-300', signedInOnly: true },
+      { href: '/fon', key: 'funds', icon: Layers, color: 'text-amber-300', signedInOnly: true },
+      { href: '/crypto', key: 'crypto', icon: Bitcoin, color: 'text-violet-400', signedInOnly: true },
+      { href: '/fx/USD-TRY', key: 'fx', icon: Banknote, color: 'text-lime-400', signedInOnly: true },
     ],
   },
   {
     group: 'analysis',
     items: [
-      { href: '/compare', key: 'compare', icon: GitCompare, color: 'text-emerald-300' },
+      { href: '/compare', key: 'compare', icon: GitCompare, color: 'text-emerald-300', signedInOnly: true },
       { href: '/signals', key: 'signals', icon: Sparkles, color: 'text-emerald-300' },
-      { href: '/targets', key: 'targets', icon: Crosshair, color: 'text-amber-300' },
-      { href: '/whales', key: 'smartMoney', icon: Waves, color: 'text-cyan-400' },
-      { href: '/dividends', key: 'dividends', icon: Coins, color: 'text-rose-400' },
+      { href: '/targets', key: 'targets', icon: Crosshair, color: 'text-amber-300', signedInOnly: true },
+      { href: '/whales', key: 'smartMoney', icon: Waves, color: 'text-cyan-400', signedInOnly: true },
+      { href: '/dividends', key: 'dividends', icon: Coins, color: 'text-rose-400', signedInOnly: true },
     ],
   },
   {
@@ -75,8 +77,8 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     group: 'account',
     items: [
-      { href: '/portfolio-audit', key: 'portfolioAudit', icon: Activity, color: 'text-rose-300' },
-      { href: '/portfolio', key: 'portfolio', icon: Briefcase, color: 'text-cyan-400' },
+      { href: '/portfolio-audit', key: 'portfolioAudit', icon: Activity, color: 'text-rose-300', signedInOnly: true },
+      { href: '/portfolio', key: 'portfolio', icon: Briefcase, color: 'text-cyan-400', signedInOnly: true },
       { href: '/alerts', key: 'alerts', icon: Bell, color: 'text-orange-400' },
     ],
   },
@@ -105,4 +107,11 @@ export function isNavActive(pathname: string, href: string) {
 
 export function allNavHrefs() {
   return NAV_GROUPS.flatMap((g) => g.items.map((i) => i.href));
+}
+
+export function navGroupsForUser(signedIn: boolean): NavGroup[] {
+  return NAV_GROUPS.map((g) => ({
+    ...g,
+    items: g.items.filter((i) => signedIn || !i.signedInOnly),
+  })).filter((g) => g.items.length > 0);
 }

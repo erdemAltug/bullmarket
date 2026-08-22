@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Isı Haritası',
-  description: 'BİST sektör ısı haritası — günlük performans treemap.',
+  title: 'BİST Isı Haritası — Sektör Performansı',
+  description:
+    'BİST sektör ısı haritası: günlük performans treemap. Ücretsiz canlı görünüm.',
 };
 
 export default function HeatmapLayout({

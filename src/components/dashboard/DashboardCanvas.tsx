@@ -61,6 +61,12 @@ function SortableItem({
   );
 }
 
+const COLLAPSED_BY_DEFAULT: Partial<Record<DashboardWidgetId, boolean>> = {
+  watchlist: true,
+  news: true,
+  calendar: true,
+};
+
 interface DashboardCanvasProps {
   ids: DashboardWidgetId[];
   editing: boolean;
@@ -100,9 +106,9 @@ export function DashboardCanvas({
           {ids.map((id) => (
             <SortableItem key={id} id={id} editing={editing}>
               <ExpandableSection
-                id={`widget-${id}`}
+                id={`widget-v2-${id}`}
                 title={labels[id]}
-                defaultOpen
+                defaultOpen={!COLLAPSED_BY_DEFAULT[id]}
               >
                 {render(id)}
               </ExpandableSection>

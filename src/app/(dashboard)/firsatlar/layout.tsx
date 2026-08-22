@@ -3,9 +3,9 @@ import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
-  title: 'AI Fırsat Alımları — Anlık Hisse & Kripto Fırsat Masası',
+  title: 'BİST Alım Fırsatı: Canlı AI Fırsat Skoru (0–100)',
   description:
-    'Bullsye AI fırsat masası: canlı skor, gün içi bant, hacim ivmesi ve anlık AL sinyalleri. BİST, NASDAQ ve kripto fırsatlarını kaçırma.',
+    'Ücretsiz BİST alım fırsatı taraması: canlı AI fırsat skoru (0–100), gün içi bant ve hacim. Kayıt olmadan günlük tarama.',
   keywords: [
     'AI alım fırsatı',
     'anlık hisse fırsatı',
@@ -17,9 +17,9 @@ export const metadata: Metadata = {
   ],
   alternates: withLangAlternates('/firsatlar'),
   openGraph: {
-    title: 'AI Fırsat Alımları | Bullsye',
+    title: 'BİST Alım Fırsatı ve AI Fırsat Skoru | Bullsye',
     description:
-      'Anlık AI fırsat masası — yüksek skorlu BİST, ABD ve kripto kartları.',
+      'Canlı fırsat skoru, bant ve hacim — ücretsiz günlük BİST taraması.',
     url: `${SITE_URL}/firsatlar`,
   },
 };

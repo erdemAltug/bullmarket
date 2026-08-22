@@ -2,6 +2,11 @@ import { SITE_URL } from '@/lib/seo/symbols';
 
 const FAQ = [
   {
+    question: 'Analist tavsiyeleri ve hedef fiyatları nerede?',
+    answer:
+      'Ücretsiz /targets sayfasında BİST kurum konsensüsü, ortalama/yüksek/düşük hedef ve potansiyel prim yer alır. Her hisse sayfasında da aynı kutu vardır. Yatırım tavsiyesi değildir.',
+  },
+  {
     question: 'Bullsye AI Fırsat Skoru neye göre hesaplanır?',
     answer:
       'Canlı F/K rasyoları, 24 saatlik hacim ivmesi, teknik indikatörler (RSI, hareketli ortalamalar) ve gün içi bant pozisyonlarının ağırlıklı algoritmasıyla 100 üzerinden hesaplanır.',

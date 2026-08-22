@@ -11,8 +11,8 @@ export interface SearchCatalogItem {
 export const SEARCH_CATALOG: SearchCatalogItem[] = [
   {
     id: 'nav-overview',
-    label: 'Overview',
-    keywords: 'home dashboard overview terminal',
+    label: 'Piyasa özeti',
+    keywords: 'home dashboard overview terminal özet',
     kind: 'nav',
     href: '/terminal',
   },
