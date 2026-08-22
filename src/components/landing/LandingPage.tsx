@@ -35,6 +35,10 @@ const FAQ = [
     a: 'Canlı F/K rasyoları, 24 saatlik hacim ivmesi, teknik indikatörler (RSI, hareketli ortalamalar) ve gün içi bant pozisyonlarının ağırlıklı algoritmasıyla 100 üzerinden hesaplanır.',
   },
   {
+    q: 'Finansal okuryazarlık ve finansal özgürlük Bullsye’da nasıl işler?',
+    a: 'Okuryazarlık, kendi lotunu, nakitini ve vadeni okuyabilmektir. Özgürlük vaadi getiri garantisi değildir; kişisel envanter ve asistan bu okumayı unutturmamak içindir. Yatırım tavsiyesi verilmez.',
+  },
+  {
     q: 'Kişisel envanter nedir? Neden kayıt?',
     a: 'Hisse, nakit, mevduat ve alarm tek sayfada. Tarayıcıda kayıtsız denersin. Kayıt, aynı envanteri başka cihazda kaybetmemek içindir — terminali kilitlemek için değil.',
   },

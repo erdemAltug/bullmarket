@@ -12,6 +12,11 @@ const FAQ = [
       'Canlı F/K rasyoları, 24 saatlik hacim ivmesi, teknik indikatörler (RSI, hareketli ortalamalar) ve gün içi bant pozisyonlarının ağırlıklı algoritmasıyla 100 üzerinden hesaplanır.',
   },
   {
+    question: 'Finansal okuryazarlık ve finansal özgürlük nedir — Bullsye ne sunar?',
+    answer:
+      'Okuryazarlık kendi envanterini (hisse, nakit, mevduat, alarm) okuyabilmektir. Finansal özgürlük bir getiri vaadi değildir. Bullsye asistanı bu tabloyu unutturmamak içindir; yatırım tavsiyesi vermez.',
+  },
+  {
     question: 'Bullsye terminalini kullanmak ücretsiz mi?',
     answer:
       'Evet. Canlı borsa verilerini, AI fırsat skorlarını ve analist hedef fiyatlarını ücretsiz terminal üzerinden anında takip edebilirsiniz.',

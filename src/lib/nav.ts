@@ -14,6 +14,7 @@ import {
   Banknote,
   Landmark,
   Layers,
+  Percent,
   Sparkles,
   Waves,
   Zap,
@@ -55,6 +56,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/fon', key: 'funds', icon: Layers, color: 'text-amber-300', signedInOnly: true },
       { href: '/crypto', key: 'crypto', icon: Bitcoin, color: 'text-violet-400', signedInOnly: true },
       { href: '/fx/USD-TRY', key: 'fx', icon: Banknote, color: 'text-lime-400', signedInOnly: true },
+      { href: '/faiz', key: 'rates', icon: Percent, color: 'text-teal-300' },
     ],
   },
   {

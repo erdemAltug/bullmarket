@@ -6,6 +6,7 @@ import type {
   CompareMetrics,
   EconomicEvent,
   NewsItem,
+  RatePoint,
   SmartRadarCard,
   StockFundamentals,
   TradeSignal,
@@ -85,5 +86,15 @@ export function useCalendar() {
     queryFn: () =>
       getJson<{ events: EconomicEvent[]; generatedAt: string }>('/api/calendar'),
     staleTime: 600_000,
+  });
+}
+
+export function useRatesDesk() {
+  return useQuery({
+    queryKey: ['rates-desk'],
+    queryFn: () =>
+      getJson<{ points: RatePoint[]; news: NewsItem[] }>('/api/rates'),
+    refetchInterval: 60_000,
+    staleTime: 30_000,
   });
 }

@@ -206,3 +206,30 @@ export const FON_HUB_SEO: HubSeoContent = {
     },
   ],
 };
+
+export const RATES_HUB_SEO: HubSeoContent = {
+  heading: 'Faiz ve kredi nasıl okunur?',
+  paragraphs: [
+    'Politika faizi merkez bankası kararıdır; kredi ve mevduat fiyatları banka, vade ve risk primine göre ayrışır. Bu sayfa tahvil getirisi, kur ve haberi yan yana koyar — kişisel kredi veya mevduat önerisi üretmez.',
+    'TCMB PPK, Fed FOMC ve ECB takvimini ekonomik takvimle doğrulayın. Resmi oran için tcmb.gov.tr ve ilgili merkez bankası duyurusu esas alınır.',
+  ],
+  links: [
+    { href: '/fx/USD-TRY', label: 'USD/TRY' },
+    { href: '/terminal', label: 'Terminal' },
+    { href: '/egitim', label: 'Eğitim Hub' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/yatirim-uyarisi', label: 'Yatırım uyarısı' },
+  ],
+  faqs: [
+    {
+      question: 'TCMB faiz kararı burada resmi midir?',
+      answer:
+        'Hayır. Canlı kartlar tahvil ve kur göstergeleridir. Politika faizi TCMB duyurusundan doğrulanmalıdır.',
+    },
+    {
+      question: 'Kredi faizi karşılaştırması yatırım tavsiyesi midir?',
+      answer:
+        'Değildir. Haber ve çerçeve metin okuryazarlık içindir; banka teklifi ve sözleşmeniz bağlayıcı kaynaktır.',
+    },
+  ],
+};

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
       'Bullsye — BİST Canlı, AI Fırsat Skoru ve Analist Hedef Fiyatları (Ücretsiz)',
   },
   description:
-    'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama ve 0–100 fırsat skoru. Ücretsiz sabah terminali — kayıt zorunlu değil.',
+    'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama, finansal okuryazarlık ve kişisel envanter. Ücretsiz — kayıt zorunlu değil.',
   keywords: [
     'analist tavsiyeleri ve hedef fiyatları',
     'analist hedef fiyat',
@@ -17,7 +17,8 @@ export const metadata: Metadata = {
     'bist 100',
     'ai fırsat skoru',
     'ücretsiz bist analizi',
-    'hedef fiyatlar',
+    'finansal okuryazarlık',
+    'finansal özgürlük',
     'ai borsa sinyalleri',
   ],
   alternates: {
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US'],
     title: 'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
     description:
-      'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama ve 0–100 fırsat skoru. Ücretsiz sabah terminali.',
+      'Analist tavsiyeleri ve hedef fiyatları, finansal okuryazarlık ve kişisel envanter. Ücretsiz — kayıt zorunlu değil.',
     url: SITE_URL,
     siteName: 'Bullsye',
     type: 'website',

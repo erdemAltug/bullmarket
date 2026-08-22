@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: '%s | Bullsye',
   },
   description:
-    'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama ve 0–100 fırsat skoru. Ücretsiz kişisel finans asistanı — kayıt envanter içindir.',
+    'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama, finansal okuryazarlık. Kişisel envanter — kayıt senkron içindir.',
   keywords: [
     'Bullsye',
     'BİST canlı',
@@ -39,6 +39,8 @@ export const metadata: Metadata = {
     'hisse fiyatı',
     'temel analiz',
     'analist hedef fiyat',
+    'finansal okuryazarlık',
+    'finansal özgürlük',
     'temettü takvimi',
     'kripto sinyal',
     'Bitcoin canlı',

@@ -22,6 +22,17 @@ export interface Quote {
   fiftyTwoWeekLow?: number | null;
 }
 
+export interface RatePoint {
+  id: string;
+  label: string;
+  region: 'TR' | 'US' | 'EU';
+  kind: 'yield' | 'fx';
+  value: number;
+  changePercent: number;
+  unit: '%' | 'FX';
+  source: string;
+}
+
 export interface AnalystConsensus {
   targetMean: number | null;
   targetHigh: number | null;

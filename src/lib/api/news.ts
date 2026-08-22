@@ -99,3 +99,48 @@ export async function fetchMarketNews(limit = 24): Promise<NewsItem[]> {
   appCache.set(cacheKey, items, 120);
   return items;
 }
+
+/** Faiz / kredi / TCMB / Fed — ayrı RSS, makro kategorisi. */
+export async function fetchRatesNews(limit = 16): Promise<NewsItem[]> {
+  const cacheKey = `news:rates:v1:${limit}`;
+  const hit = appCache.get<NewsItem[]>(cacheKey);
+  if (hit) return hit;
+
+  const feeds = [
+    {
+      url: 'https://news.google.com/rss/search?q=TCMB+politika+faizi+OR+mevduat+faizi+OR+kredi+faizi&hl=tr&gl=TR&ceid=TR:tr',
+      label: 'TR faiz',
+    },
+    {
+      url: 'https://news.google.com/rss/search?q=Fed+interest+rate+OR+ECB+rate+OR+FOMC&hl=tr&gl=TR&ceid=TR:tr',
+      label: 'Küresel faiz',
+    },
+  ];
+
+  const batches = await Promise.all(
+    feeds.map(async (feed) => {
+      try {
+        const { data: xml } = await axios.get<string>(feed.url, {
+          responseType: 'text',
+          timeout: 12_000,
+          headers: {
+            'User-Agent': 'Bullsye/1.0 (news aggregator)',
+            Accept: 'application/rss+xml, application/xml, text/xml, */*',
+          },
+        });
+        return parseItems(xml, 'macro', feed.label);
+      } catch {
+        return [] as NewsItem[];
+      }
+    })
+  );
+
+  const items = batches
+    .flat()
+    .filter((i) => i.title && i.link)
+    .sort((a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt))
+    .slice(0, limit);
+
+  appCache.set(cacheKey, items, 120);
+  return items;
+}

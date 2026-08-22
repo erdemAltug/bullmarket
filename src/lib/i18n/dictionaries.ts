@@ -10,6 +10,7 @@ export type Dictionary = {
     funds: string;
     crypto: string;
     fx: string;
+    rates: string;
     compare: string;
     signals: string;
     targets: string;
@@ -56,6 +57,7 @@ const tr: Dictionary = {
     funds: "Fonlar & ETF'ler",
     crypto: 'Kripto',
     fx: 'Döviz',
+    rates: 'Faiz & Kredi',
     compare: '1v1 Kıyasla',
     signals: 'AI Sinyalleri',
     targets: 'Hedef Fiyatlar',
@@ -102,6 +104,7 @@ const en: Dictionary = {
     funds: 'Funds & ETFs',
     crypto: 'Crypto',
     fx: 'FX',
+    rates: 'Rates & credit',
     compare: '1v1 Compare',
     signals: 'AI Signals',
     targets: 'Price Targets',
@@ -148,6 +151,7 @@ const de: Dictionary = {
     funds: 'Fonds & ETFs',
     crypto: 'Krypto',
     fx: 'Devisen',
+    rates: 'Zinsen & Kredit',
     compare: '1v1 Vergleich',
     signals: 'KI-Signale',
     targets: 'Kursziele',
@@ -194,6 +198,7 @@ const es: Dictionary = {
     funds: 'Fondos y ETFs',
     crypto: 'Cripto',
     fx: 'Divisas',
+    rates: 'Tipos y crédito',
     compare: 'Comparar 1v1',
     signals: 'Señales IA',
     targets: 'Precios objetivo',

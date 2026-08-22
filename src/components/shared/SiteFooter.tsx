@@ -13,6 +13,7 @@ const PRODUCT_LINKS = [
   { href: '/firsatlar', label: 'Fırsat Masası' },
   { href: '/bist', label: 'BİST' },
   { href: '/us', label: 'NASDAQ' },
+  { href: '/faiz', label: 'Faiz & Kredi' },
   { href: '/crypto', label: 'Kripto' },
   { href: '/signals', label: 'AI Sinyaller' },
   { href: '/targets', label: 'Hedefler' },

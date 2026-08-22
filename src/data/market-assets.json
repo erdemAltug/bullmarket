@@ -198,6 +198,15 @@
     "href": "/bist/AKCNS"
   },
   {
+    "symbol": "AKFYE",
+    "name": "Akfen Yenilenebilir",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "AKFYE.IS",
+    "href": "/bist/AKFYE"
+  },
+  {
     "symbol": "AKSA",
     "name": "AKSA",
     "exchange": "BIST",
@@ -223,6 +232,15 @@
     "logo": null,
     "quoteId": "ALARK.IS",
     "href": "/bist/ALARK"
+  },
+  {
+    "symbol": "ALBRK",
+    "name": "Albaraka Türk",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "ALBRK.IS",
+    "href": "/bist/ALBRK"
   },
   {
     "symbol": "ALGO",
@@ -360,6 +378,15 @@
     "href": "/us/APO"
   },
   {
+    "symbol": "APP",
+    "name": "AppLovin",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "APP",
+    "href": "/us/APP"
+  },
+  {
     "symbol": "APT",
     "name": "APT",
     "exchange": "BINANCE",
@@ -477,6 +504,15 @@
     "href": "/us/AVGO"
   },
   {
+    "symbol": "AXON",
+    "name": "AXON",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AXON",
+    "href": "/us/AXON"
+  },
+  {
     "symbol": "AXP",
     "name": "AXP",
     "exchange": "NASDAQ/NYSE",
@@ -502,6 +538,24 @@
     "logo": null,
     "quoteId": "AYDEM.IS",
     "href": "/bist/AYDEM"
+  },
+  {
+    "symbol": "AYEN",
+    "name": "Ayen Enerji",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "AYEN.IS",
+    "href": "/bist/AYEN"
+  },
+  {
+    "symbol": "AZN",
+    "name": "AZN",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "AZN",
+    "href": "/us/AZN"
   },
   {
     "symbol": "BA",
@@ -648,6 +702,15 @@
     "href": "/bist/BIZIM"
   },
   {
+    "symbol": "BJKAS",
+    "name": "BJKAS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BJKAS.IS",
+    "href": "/bist/BJKAS"
+  },
+  {
     "symbol": "BLK",
     "name": "BLK",
     "exchange": "NASDAQ/NYSE",
@@ -738,6 +801,15 @@
     "href": "/bist/BRSAN"
   },
   {
+    "symbol": "BSOKE",
+    "name": "BSOKE",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "BSOKE.IS",
+    "href": "/bist/BSOKE"
+  },
+  {
     "symbol": "BSX",
     "name": "BSX",
     "exchange": "NASDAQ/NYSE",
@@ -801,6 +873,15 @@
     "href": "/bist/CANTE"
   },
   {
+    "symbol": "CARR",
+    "name": "CARR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CARR",
+    "href": "/us/CARR"
+  },
+  {
     "symbol": "CAT",
     "name": "CAT",
     "exchange": "NASDAQ/NYSE",
@@ -835,6 +916,24 @@
     "logo": null,
     "quoteId": "CDNS",
     "href": "/us/CDNS"
+  },
+  {
+    "symbol": "CEG",
+    "name": "CEG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CEG",
+    "href": "/us/CEG"
+  },
+  {
+    "symbol": "CELH",
+    "name": "CELH",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CELH",
+    "href": "/us/CELH"
   },
   {
     "symbol": "CELO",
@@ -1053,6 +1152,15 @@
     "href": "/us/CSX"
   },
   {
+    "symbol": "CVNA",
+    "name": "CVNA",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "CVNA",
+    "href": "/us/CVNA"
+  },
+  {
     "symbol": "CVS",
     "name": "CVS",
     "exchange": "NASDAQ/NYSE",
@@ -1177,6 +1285,15 @@
     "logo": null,
     "quoteId": "DIS",
     "href": "/us/DIS"
+  },
+  {
+    "symbol": "DKNG",
+    "name": "DKNG",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "DKNG",
+    "href": "/us/DKNG"
   },
   {
     "symbol": "DLR",
@@ -1530,6 +1647,15 @@
     "href": "/us/FDX"
   },
   {
+    "symbol": "FENER",
+    "name": "Fenerbahçe",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "FENER.IS",
+    "href": "/bist/FENER"
+  },
+  {
     "symbol": "FET",
     "name": "FET",
     "exchange": "BINANCE",
@@ -1654,6 +1780,15 @@
     "logo": null,
     "quoteId": "GESAN.IS",
     "href": "/bist/GESAN"
+  },
+  {
+    "symbol": "GEV",
+    "name": "GE Vernova",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "GEV",
+    "href": "/us/GEV"
   },
   {
     "symbol": "GFS",
@@ -1782,6 +1917,15 @@
     "href": "/bist/GSDHO"
   },
   {
+    "symbol": "GSRAY",
+    "name": "Galatasaray",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GSRAY.IS",
+    "href": "/bist/GSRAY"
+  },
+  {
     "symbol": "GUBRF",
     "name": "GUBRF",
     "exchange": "BIST",
@@ -1798,6 +1942,15 @@
     "logo": null,
     "quoteId": "TEFAS:GUM",
     "href": "/fon/GUM"
+  },
+  {
+    "symbol": "GWIND",
+    "name": "Galata Wind",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "GWIND.IS",
+    "href": "/bist/GWIND"
   },
   {
     "symbol": "HALKB",
@@ -1834,6 +1987,24 @@
     "logo": null,
     "quoteId": "HEKTS.IS",
     "href": "/bist/HEKTS"
+  },
+  {
+    "symbol": "HIMS",
+    "name": "HIMS",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "HIMS",
+    "href": "/us/HIMS"
+  },
+  {
+    "symbol": "HLGYO",
+    "name": "HLGYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "HLGYO.IS",
+    "href": "/bist/HLGYO"
   },
   {
     "symbol": "HON",
@@ -2295,6 +2466,15 @@
     "href": "/bist/KLSER"
   },
   {
+    "symbol": "KLSYN",
+    "name": "KLSYN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "KLSYN.IS",
+    "href": "/bist/KLSYN"
+  },
+  {
     "symbol": "KMPUR",
     "name": "KMPUR",
     "exchange": "BIST",
@@ -2412,6 +2592,15 @@
     "href": "/crypto/LINKUSDT"
   },
   {
+    "symbol": "LKMNH",
+    "name": "LKMNH",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "LKMNH.IS",
+    "href": "/bist/LKMNH"
+  },
+  {
     "symbol": "LLY",
     "name": "LLY",
     "exchange": "NASDAQ/NYSE",
@@ -2509,6 +2698,15 @@
     "logo": null,
     "quoteId": "TEFAS:MAC",
     "href": "/fon/MAC"
+  },
+  {
+    "symbol": "MAGEN",
+    "name": "MAGEN",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "MAGEN.IS",
+    "href": "/bist/MAGEN"
   },
   {
     "symbol": "MANA",
@@ -2673,6 +2871,15 @@
     "href": "/crypto/MOVEUSDT"
   },
   {
+    "symbol": "MPARK",
+    "name": "MLP Sağlık",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "MPARK.IS",
+    "href": "/bist/MPARK"
+  },
+  {
     "symbol": "MPC",
     "name": "MPC",
     "exchange": "NASDAQ/NYSE",
@@ -2734,6 +2941,15 @@
     "logo": null,
     "quoteId": "MSFT",
     "href": "/us/MSFT"
+  },
+  {
+    "symbol": "MSTR",
+    "name": "MicroStrategy",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "MSTR",
+    "href": "/us/MSTR"
   },
   {
     "symbol": "MU",
@@ -2898,6 +3114,15 @@
     "href": "/us/NVDA"
   },
   {
+    "symbol": "NVO",
+    "name": "Novo Nordisk",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "NVO",
+    "href": "/us/NVO"
+  },
+  {
     "symbol": "NXPI",
     "name": "NXPI",
     "exchange": "NASDAQ/NYSE",
@@ -3049,6 +3274,24 @@
     "logo": null,
     "quoteId": "OYLUM.IS",
     "href": "/bist/OYLUM"
+  },
+  {
+    "symbol": "OZKGY",
+    "name": "OZKGY",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "OZKGY.IS",
+    "href": "/bist/OZKGY"
+  },
+  {
+    "symbol": "PAHOL",
+    "name": "PAHOL",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "PAHOL.IS",
+    "href": "/bist/PAHOL"
   },
   {
     "symbol": "PANW",
@@ -3312,6 +3555,15 @@
     "href": "/us/PSX"
   },
   {
+    "symbol": "PWR",
+    "name": "PWR",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "PWR",
+    "href": "/us/PWR"
+  },
+  {
     "symbol": "PYPL",
     "name": "PYPL",
     "exchange": "NASDAQ/NYSE",
@@ -3337,6 +3589,15 @@
     "logo": null,
     "quoteId": "QCOM",
     "href": "/us/QCOM"
+  },
+  {
+    "symbol": "QNBFB",
+    "name": "QNB Finansbank",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "QNBFB.IS",
+    "href": "/bist/QNBFB"
   },
   {
     "symbol": "QQQ",
@@ -3391,6 +3652,15 @@
     "logo": null,
     "quoteId": "RBLX",
     "href": "/us/RBLX"
+  },
+  {
+    "symbol": "RDDT",
+    "name": "RDDT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "RDDT",
+    "href": "/us/RDDT"
   },
   {
     "symbol": "REEDR",
@@ -3519,6 +3789,15 @@
     "href": "/crypto/RVNUSDT"
   },
   {
+    "symbol": "RYGYO",
+    "name": "RYGYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "RYGYO.IS",
+    "href": "/bist/RYGYO"
+  },
+  {
     "symbol": "RYSAS",
     "name": "RYSAS",
     "exchange": "BIST",
@@ -3553,6 +3832,15 @@
     "logo": null,
     "quoteId": "SANDUSDT",
     "href": "/crypto/SANDUSDT"
+  },
+  {
+    "symbol": "SAP",
+    "name": "SAP",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SAP",
+    "href": "/us/SAP"
   },
   {
     "symbol": "SASA",
@@ -3787,6 +4075,15 @@
     "logo": null,
     "quoteId": "SOLUSDT",
     "href": "/crypto/SOLUSDT"
+  },
+  {
+    "symbol": "SONY",
+    "name": "SONY",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "SONY",
+    "href": "/us/SONY"
   },
   {
     "symbol": "SOXX",
@@ -4050,6 +4347,15 @@
     "href": "/fon/TLT"
   },
   {
+    "symbol": "TM",
+    "name": "TM",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TM",
+    "href": "/us/TM"
+  },
+  {
     "symbol": "TMO",
     "name": "TMO",
     "exchange": "NASDAQ/NYSE",
@@ -4093,6 +4399,24 @@
     "logo": null,
     "quoteId": "TONUSDT",
     "href": "/crypto/TONUSDT"
+  },
+  {
+    "symbol": "TOST",
+    "name": "TOST",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TOST",
+    "href": "/us/TOST"
+  },
+  {
+    "symbol": "TRGYO",
+    "name": "Torunlar GYO",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TRGYO.IS",
+    "href": "/bist/TRGYO"
   },
   {
     "symbol": "TRUMP",
@@ -4140,6 +4464,24 @@
     "href": "/us/TSM"
   },
   {
+    "symbol": "TSPOR",
+    "name": "TSPOR",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TSPOR.IS",
+    "href": "/bist/TSPOR"
+  },
+  {
+    "symbol": "TT",
+    "name": "TT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "TT",
+    "href": "/us/TT"
+  },
+  {
     "symbol": "TTD",
     "name": "TTD",
     "exchange": "NASDAQ/NYSE",
@@ -4183,6 +4525,15 @@
     "logo": null,
     "quoteId": "TTWO",
     "href": "/us/TTWO"
+  },
+  {
+    "symbol": "TUKAS",
+    "name": "TUKAS",
+    "exchange": "BIST",
+    "category": "bist",
+    "logo": null,
+    "quoteId": "TUKAS.IS",
+    "href": "/bist/TUKAS"
   },
   {
     "symbol": "TUPRS",
@@ -4410,6 +4761,15 @@
     "href": "/fon/VOO"
   },
   {
+    "symbol": "VRT",
+    "name": "VRT",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "VRT",
+    "href": "/us/VRT"
+  },
+  {
     "symbol": "VRTX",
     "name": "VRTX",
     "exchange": "NASDAQ/NYSE",
@@ -4417,6 +4777,15 @@
     "logo": null,
     "quoteId": "VRTX",
     "href": "/us/VRTX"
+  },
+  {
+    "symbol": "VST",
+    "name": "VST",
+    "exchange": "NASDAQ/NYSE",
+    "category": "us",
+    "logo": null,
+    "quoteId": "VST",
+    "href": "/us/VST"
   },
   {
     "symbol": "VTI",

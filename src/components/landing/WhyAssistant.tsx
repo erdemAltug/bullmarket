@@ -31,16 +31,16 @@ export function WhyAssistant() {
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <p className="text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
-          Neden şimdi
+          Finansal okuryazarlık
         </p>
         <h2 className="mt-2 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
-          Bugünün dünyasında herkesin bir finans asistanı olmalı
+          Finansal okuryazarlık, finansal özgürlüğün temelidir
         </h2>
         <p className="mt-4 max-w-3xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-          Sermaye piyasaları daha hızlı, ürünler daha çeşitli, kararlar daha
-          yalnız. Bir asistan; sizi yönetmek için değil, sizin sayılarınızı
-          unutmamanız için vardır. Bullsye bunu genel bir skor tablosu olarak
-          değil, kişisel envanter olarak kurar.
+          Ürünler çoğaldı, kararlar yalnızlaştı. Özgürlük; her grafiği izlemek
+          değil, kendi lotunu, nakitini ve vadeni okuyabilmektir. Asistan sizi
+          yönetmez — bu okuryazarlığı her gün envanterinizde tutar. Bullsye bunu
+          genel skor tablosu değil, kişisel tablo olarak kurar.
         </p>
 
         <ul className="mt-12 grid gap-8 md:grid-cols-3">
@@ -58,15 +58,18 @@ export function WhyAssistant() {
         </ul>
 
         <div className="mt-12 max-w-3xl rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6 sm:p-8">
-          <p className="text-sm leading-relaxed text-[var(--foreground)]">
-            Kayıt, kilidi açmak veya bir “al” sinyali satın almak değildir.
-            Envanteriniz — lot, nakit, mevduat, alarm — tarayıcıya kilitlenmesin
-            diye vardır. Terminali kayıtsız kullanabilirsiniz. Hesap, yarın da
-            aynı tabloya dönmek isteyenler içindir.
+          <h3 className="text-lg font-semibold tracking-tight">
+            Finansal özgürlük için kendi envanterinizi görün
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
+            Lot, nakit, mevduat ve alarmlarınızı tek envanterde tutun. Piyasayı
+            kayıtsız izleyebilirsiniz; hesap, finansal okuryazarlığınızı
+            destekleyen bu envanterin cihazlar arasında kaybolmaması içindir.
+            Kişisel özet, kayıtlı varlıklarınızdan üretilir.
           </p>
           <p className="mt-3 text-xs text-[var(--muted)]">
-            Bullsye yatırım tavsiyesi vermez. Asistan, sizin girdiğiniz
-            rakamlarla hatırlatır; işlem kararı size aittir.
+            Bullsye yatırım tavsiyesi vermez. Getiri veya işlem yönü
+            vaat etmez; karar size aittir.
           </p>
           <button
             type="button"
@@ -78,7 +81,7 @@ export function WhyAssistant() {
             }
             className="mt-6 rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-bold text-[#042f2e] hover:brightness-110"
           >
-            Hesabımı oluştur
+            Envanterimi oluştur
           </button>
         </div>
       </div>
