@@ -8,7 +8,9 @@ import { authClient } from '@/lib/auth/client';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
+  { href: '#neden-asistan', label: 'Neden asistan' },
   { href: '#ozellikler', label: 'Özellikler' },
+  { href: '#envanter', label: 'Envanter' },
   { href: '#skor-kontrol', label: 'Skor dene' },
   { href: '/targets', label: 'Analist Hedefleri' },
   { href: '#sss', label: 'SSS' },

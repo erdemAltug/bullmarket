@@ -6,9 +6,29 @@ import { portfolioTransactions } from '@/db/schema';
 import { getCurrentUserId } from '@/lib/auth-user';
 import type { AssetClass, PortfolioPosition } from '@/types';
 
+function parseNotes(notes: string | null | undefined): {
+  depositRatePct?: number;
+  depositTenorDays?: number;
+} {
+  if (!notes) return {};
+  try {
+    const j = JSON.parse(notes) as {
+      rate?: number;
+      days?: number;
+    };
+    return {
+      depositRatePct: j.rate,
+      depositTenorDays: j.days,
+    };
+  } catch {
+    return {};
+  }
+}
+
 function rowToPosition(
   row: typeof portfolioTransactions.$inferSelect
 ): PortfolioPosition {
+  const extra = parseNotes(row.notes);
   return {
     id: row.id,
     symbol: row.symbol,
@@ -18,6 +38,8 @@ function rowToPosition(
     quantity: Number(row.quantity),
     date: row.boughtAt.toISOString().slice(0, 10),
     currency: row.currency === 'USD' ? 'USD' : 'TRY',
+    notes: row.notes,
+    ...extra,
   };
 }
 
@@ -67,6 +89,13 @@ export async function addPortfolioPosition(
         buyPrice: String(input.buyPrice),
         quantity: String(input.quantity),
         currency: input.currency,
+        notes:
+          input.depositRatePct != null
+            ? JSON.stringify({
+                rate: input.depositRatePct,
+                days: input.depositTenorDays ?? null,
+              })
+            : input.notes ?? null,
         boughtAt: Number.isNaN(boughtAt.getTime()) ? new Date() : boughtAt,
       });
     return getUserPortfolio(uid);

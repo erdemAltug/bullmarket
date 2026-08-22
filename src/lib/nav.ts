@@ -78,7 +78,7 @@ export const NAV_GROUPS: NavGroup[] = [
     group: 'account',
     items: [
       { href: '/portfolio-audit', key: 'portfolioAudit', icon: Activity, color: 'text-rose-300', signedInOnly: true },
-      { href: '/portfolio', key: 'portfolio', icon: Briefcase, color: 'text-cyan-400', signedInOnly: true },
+      { href: '/portfolio', key: 'portfolio', icon: Briefcase, color: 'text-cyan-400' },
       { href: '/alerts', key: 'alerts', icon: Bell, color: 'text-orange-400' },
     ],
   },
@@ -89,7 +89,7 @@ export const MOBILE_BOTTOM_ITEMS: NavLink[] = [
   { href: '/terminal', key: 'overview', icon: LayoutDashboard, color: 'text-emerald-400' },
   { href: '/firsatlar', key: 'opportunities', icon: Zap, color: 'text-emerald-400' },
   { href: '/bist', key: 'bist', icon: LineChart, color: 'text-blue-400' },
-  { href: '/signals', key: 'signals', icon: Sparkles, color: 'text-emerald-300' },
+  { href: '/portfolio', key: 'portfolio', icon: Briefcase, color: 'text-cyan-400' },
 ];
 
 export function isNavActive(pathname: string, href: string) {

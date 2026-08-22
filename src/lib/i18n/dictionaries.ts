@@ -60,7 +60,7 @@ const tr: Dictionary = {
     signals: 'AI Sinyalleri',
     targets: 'Hedef Fiyatlar',
     smartMoney: 'Balina & Takas',
-    portfolio: 'Portföyüm',
+    portfolio: 'Envanter',
     portfolioAudit: 'AI Portföy Doktoru',
     alerts: 'Alarmlar',
     dividends: 'Temettü Karnesi',

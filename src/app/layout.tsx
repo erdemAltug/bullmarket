@@ -1,9 +1,11 @@
 ﻿import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { MicrosoftClarity } from '@/components/analytics/MicrosoftClarity';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { Providers } from './providers';
+import { PREF_KEYS, type AppTheme, type Language } from '@/lib/preferences';
 import { SITE_URL } from '@/lib/seo/symbols';
 import './globals.css';
 
@@ -110,13 +112,27 @@ export const metadata: Metadata = {
   category: 'finance',
 };
 
-export default function RootLayout({
+function themeFromCookie(raw: string | undefined): AppTheme {
+  if (raw === 'light' || raw === 'terminal' || raw === 'dark') return raw;
+  return 'dark';
+}
+
+function langFromCookie(raw: string | undefined): Language {
+  if (raw === 'en' || raw === 'de' || raw === 'es' || raw === 'tr') return raw;
+  return 'tr';
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jar = await cookies();
+  const theme = themeFromCookie(jar.get(PREF_KEYS.theme)?.value);
+  const lang = langFromCookie(jar.get(PREF_KEYS.lang)?.value);
+
   return (
-    <html lang="tr" suppressHydrationWarning>
+    <html lang={lang} className={theme} suppressHydrationWarning>
       <head>
         <link
           rel="preload"
@@ -124,11 +140,6 @@ export default function RootLayout({
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('bullsye_theme')||(document.cookie.match(/(?:^|; )bullsye_theme=([^;]*)/)||[])[1]||'dark';if(t==='light'||t==='terminal'||t==='dark'){document.documentElement.classList.add(t);}var l=localStorage.getItem('bullsye_lang')||(document.cookie.match(/(?:^|; )bullsye_lang=([^;]*)/)||[])[1];if(l)document.documentElement.lang=l;}catch(e){}})();`,
-          }}
         />
       </head>
       <body

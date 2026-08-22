@@ -69,6 +69,8 @@ export function usePortfolio(opts?: { enabled?: boolean }) {
       bist: [],
       crypto: [],
       gold: [],
+      cash: [],
+      deposit: [],
     };
     for (const p of positions) map[p.assetClass].push(p);
     return map;
@@ -89,6 +91,20 @@ export function livePriceTry(
   priceMap: Record<string, number>,
   usdTry: number
 ): number {
+  if (position.assetClass === 'cash') {
+    return position.buyPrice * position.quantity;
+  }
+  if (position.assetClass === 'deposit') {
+    const principal = position.buyPrice * position.quantity;
+    const rate = (position.depositRatePct ?? 0) / 100;
+    const tenor = position.depositTenorDays ?? 365;
+    const start = new Date(position.date).getTime();
+    const elapsedDays = Number.isFinite(start)
+      ? Math.max(0, (Date.now() - start) / 86_400_000)
+      : 0;
+    const used = Math.min(elapsedDays, tenor);
+    return principal * (1 + rate * (used / 365));
+  }
   const px = priceMap[position.symbol] ?? position.buyPrice;
   const raw = px * position.quantity;
   if (position.currency === 'USD' || position.assetClass === 'crypto') {

@@ -1,4 +1,5 @@
 import type {
+  AssetClass,
   HealthFinding,
   PortfolioHealthReport,
   PortfolioPosition,
@@ -61,13 +62,20 @@ export function analyzePortfolioHealth(
     });
   }
 
-  const classSum = { bist: 0, crypto: 0, gold: 0 };
+  const classSum: Record<AssetClass, number> = {
+    bist: 0,
+    crypto: 0,
+    gold: 0,
+    cash: 0,
+    deposit: 0,
+  };
   for (const p of positions) {
     classSum[p.assetClass] += liveValues[p.id] ?? 0;
   }
-  const goldPct = (classSum.gold / totalValue) * 100;
+  const safePct =
+    ((classSum.cash + classSum.deposit + classSum.gold) / totalValue) * 100;
   const riskHeavy =
-    (classSum.bist + classSum.crypto) / totalValue >= 0.9 && goldPct < 5;
+    (classSum.bist + classSum.crypto) / totalValue >= 0.9 && safePct < 8;
 
   if (riskHeavy) {
     findings.push({

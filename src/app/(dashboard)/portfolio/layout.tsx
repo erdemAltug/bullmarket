@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Portföyüm',
-  description: 'Portföy değeri, P&L ve sağlık kontrolü.',
+  title: 'Finans Envanteri',
+  description:
+    'Hisse, nakit, mevduat ve alarm — senin bilançon. İndekslenmez.',
   robots: { index: false, follow: false },
 };
 

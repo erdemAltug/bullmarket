@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { PostHogProvider } from '@/components/analytics/PostHogProvider';
 import { AuthGateProvider } from '@/components/auth/AuthGateProvider';
-import { LaunchBanner } from '@/components/layout/LaunchBanner';
 import { AuthToast } from '@/components/layout/AuthToast';
 import { PreferencesProvider } from '@/components/providers/PreferencesProvider';
 
@@ -30,7 +29,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <PostHogProvider>
         <PreferencesProvider>
           <AuthGateProvider>
-            <LaunchBanner />
             {children}
             <AuthToast />
           </AuthGateProvider>

@@ -9,8 +9,9 @@ import { cn } from '@/lib/utils';
 
 const LS_KEY = 'bullsye_auth_toast_dismissed';
 const TTL_MS = 24 * 60 * 60 * 1000;
-const DELAY_MS = 8_000;
-const SCROLL_RATIO = 0.35;
+const DELAY_MS = 14_000;
+const SCROLL_RATIO = 0.16;
+const MIN_MS = 2_800;
 
 function dismissedRecently(): boolean {
   try {
@@ -61,9 +62,17 @@ export function AuthToast() {
   }, [pathname]);
 
   useEffect(() => {
-    if (!guest || blocked) return;
+    if (!guest || blocked || !marketing) return;
 
-    const reveal = () => setVisible(true);
+    const openedAt = Date.now();
+    let armed = false;
+    let late = 0;
+    const reveal = () => {
+      if (armed) return;
+      armed = true;
+      const wait = Math.max(0, MIN_MS - (Date.now() - openedAt));
+      late = window.setTimeout(() => setVisible(true), wait);
+    };
     const timer = window.setTimeout(reveal, DELAY_MS);
 
     function onScroll() {
@@ -77,12 +86,13 @@ export function AuthToast() {
 
     return () => {
       window.clearTimeout(timer);
+      window.clearTimeout(late);
       window.removeEventListener('scroll', onScroll, true);
       document
         .querySelector('main')
         ?.removeEventListener('scroll', onScroll);
     };
-  }, [guest, blocked]);
+  }, [guest, blocked, marketing]);
 
   function dismiss() {
     try {
@@ -94,7 +104,7 @@ export function AuthToast() {
     setBlocked(true);
   }
 
-  if (!guest || blocked || !visible) return null;
+  if (!marketing || !guest || blocked || !visible) return null;
 
   return (
     <aside
@@ -102,11 +112,7 @@ export function AuthToast() {
       aria-live="polite"
       className={cn(
         'fixed z-[55] max-w-md rounded-2xl border border-slate-800 bg-slate-900/90 p-4 shadow-2xl backdrop-blur-md',
-        'left-4 right-4',
-        marketing
-          ? 'bottom-4'
-          : 'bottom-[calc(4.75rem+env(safe-area-inset-bottom))]',
-        'md:bottom-6 md:left-auto md:right-6 md:w-[22rem]',
+        'bottom-4 left-4 right-4 md:bottom-6 md:left-auto md:right-6 md:w-[22rem]',
         'animate-[auth-toast-in_0.45s_ease-out]'
       )}
     >
@@ -132,16 +138,16 @@ export function AuthToast() {
           <span className="relative size-2 animate-pulse rounded-full bg-emerald-500" />
         </span>
         <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold tracking-wide text-emerald-400">
-          ⚡ AÇIK BETA
+          Finans asistanı
         </span>
       </div>
 
       <h2 className="mt-3 pr-6 text-sm font-semibold text-white">
-        Bullsye Terminal&apos;e Hoş Geldiniz
+        Asistanınız sizi henüz tanımıyor
       </h2>
       <p className="mt-1.5 text-xs leading-relaxed text-slate-400">
-        Tüm AI Fırsat Skorları, Canlı Sinyaller ve Portföy Analizi lansmana özel
-        tamamen ücretsizdir.
+        Grafik herkese açık. Sizin lotunuz, mevduatınız ve alarmınız değil.
+        Ücretsiz hesap, kişisel envanterin yarın da yerinde kalması içindir.
       </p>
 
       <button
@@ -149,12 +155,15 @@ export function AuthToast() {
         onClick={() =>
           openAuth({
             tab: 'register',
-            feature: 'Auth Toast',
+            feature: 'Landing nudge',
+            headline: 'Kişisel finans asistanınız',
+            subtitle:
+              'Hisse, nakit ve alarm hesabınızda durur. Terminal ücretsiz kalır.',
           })
         }
         className="mt-3 w-full rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold text-black transition hover:bg-emerald-400"
       >
-        [ 2 Saniyede Katıl → ]
+        Hesabımı oluştur
       </button>
     </aside>
   );

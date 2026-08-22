@@ -22,7 +22,7 @@ const MOBILE_SHORT: Partial<Record<NavKey, string>> = {
   overview: 'Ana',
   opportunities: 'Fırsat',
   bist: 'BİST',
-  signals: 'Sinyal',
+  portfolio: 'Envanter',
 };
 
 interface MobileNavContextValue {

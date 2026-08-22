@@ -157,7 +157,7 @@ export function OpportunityHunt() {
               Anlık AL sinyalleri
             </h2>
             <p className="text-xs text-[var(--muted)]">
-              Fırsat kartlarından sonra teknik momentum — tam liste açık beta
+              Fırsat kartlarından sonra teknik momentum — tam liste ücretsiz
             </p>
           </div>
           <Link
@@ -186,8 +186,8 @@ export function OpportunityHunt() {
             Her kartta mikro inceleme, izleme listesi ve fiyat alarmı bulunur.
           </li>
           <li>
-            Açık Beta’da AI fırsat skorları ve canlı sinyaller ücretsizdir;
-            özel alarmlar için 2 saniyede kayıt yeter.
+            Skor ve sinyaller ücretsizdir; alarmı hesaba yazmak için kayıt
+            yeter.
           </li>
         </ul>
         <div className="mt-4 flex flex-wrap gap-3 text-xs">

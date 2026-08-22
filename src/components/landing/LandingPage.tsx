@@ -15,6 +15,8 @@ import { FaqAccordion } from '@/components/landing/FaqAccordion';
 import { HeroLiveBadges } from '@/components/landing/HeroLiveBadges';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingTicker } from '@/components/landing/LandingTicker';
+import { WhyAssistant } from '@/components/landing/WhyAssistant';
+import { InventoryPitch } from '@/components/landing/InventoryPitch';
 import { TerminalCtaButton } from '@/components/landing/TerminalCtaButton';
 import {
   TOP_BIST_FOR_HUB,
@@ -33,8 +35,12 @@ const FAQ = [
     a: 'Canlı F/K rasyoları, 24 saatlik hacim ivmesi, teknik indikatörler (RSI, hareketli ortalamalar) ve gün içi bant pozisyonlarının ağırlıklı algoritmasıyla 100 üzerinden hesaplanır.',
   },
   {
+    q: 'Kişisel envanter nedir? Neden kayıt?',
+    a: 'Hisse, nakit, mevduat ve alarm tek sayfada. Tarayıcıda kayıtsız denersin. Kayıt, aynı envanteri başka cihazda kaybetmemek içindir — terminali kilitlemek için değil.',
+  },
+  {
     q: 'Bullsye terminalini kullanmak ücretsiz mi?',
-    a: 'Evet! Canlı borsa verilerini, AI fırsat skorlarını ve analist hedef fiyatlarını ücretsiz terminalimiz üzerinden anında takip edebilirsiniz.',
+    a: 'Evet. Canlı borsa verilerini, fırsat skorlarını ve analist hedef fiyatlarını ücretsiz terminal üzerinden takip edebilirsiniz.',
   },
   {
     q: 'Hangi borsaların verileri yer alıyor?',
@@ -84,18 +90,18 @@ const PILLARS = [
     ],
   },
   {
-    href: '/portfolio-audit',
+    href: '/portfolio',
     icon: Activity,
-    title: 'AI Portföy Doktoru',
-    subtitle: 'Sektörel risk taraması',
+    title: 'Finans Envanteri',
+    subtitle: 'Kişisel envanter',
     bullets: [
       {
-        t: 'Risk yığılması uyarısı',
-        d: 'Tek sektöre veya varlığa aşırı yüklenip yüklenmediğinizi anında tespit edin.',
+        t: 'Hisse, nakit, mevduat, alarm',
+        d: 'Grafik her yerde var. Senin lotun, faizin ve hedef alarmın tek sayfada.',
       },
       {
-        t: 'Gelecek varlık simülatörü',
-        d: 'Temettü birikimi ve portföy büyüme projeksiyonunu izleyin.',
+        t: 'Sana özel özet',
+        d: 'Genel piyasa cümlesi değil; envanterinden kural tabanlı hatırlatma. Tavsiye değil.',
       },
     ],
   },
@@ -157,17 +163,16 @@ export function LandingPage() {
             </p>
 
             <h1 className="landing-fade-up landing-delay-1 mt-5 text-3xl font-black tracking-tight text-[var(--foreground)] sm:text-4xl md:text-[2.75rem] md:leading-[1.15]">
-              Piyasaları sadece izlemeyin.{' '}
+              Piyasayı izle, envanterini unutma.{' '}
               <span className="text-[var(--accent)]">
-                Yapay zeka destekli terminal
+                Kişisel finans asistanı
               </span>{' '}
-              ile piyasanın önüne geçin.
+              hisse, nakit ve alarmı bir arada tutar.
             </h1>
 
             <p className="landing-fade-up landing-delay-2 mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-              BİST 100, NASDAQ, Kripto ve Fon piyasalarındaki binlerce varlığı
-              anlık tarayın. Karmaşık teknik analizleri 100 üzerinden net AI
-              skorlarına ve analist hedef fiyatlarına dönüştürün.
+              BİST tarama ve fırsat skoru ücretsiz. Fark: senin lotun, mevduatın
+              ve hedef alarmın — kayıt, bunları hesabına yazmak içindir.
             </p>
 
             <div className="landing-fade-up landing-delay-3 mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -181,7 +186,7 @@ export function LandingPage() {
               </Link>
             </div>
             <p className="landing-fade-up landing-delay-3 mt-3 text-[11px] text-[var(--muted)]">
-              Kredi kartı gerekmez · Ücretsiz canlı veriler · 10 saniyede keşfedin
+              Kredi kartı yok · Terminal ücretsiz · Kayıt = envanter senkronu
             </p>
           </div>
 
@@ -236,6 +241,8 @@ export function LandingPage() {
         <LandingTicker />
       </div>
 
+      <WhyAssistant />
+
       {/* Value pillars */}
       <section
         id="ozellikler"
@@ -287,6 +294,8 @@ export function LandingPage() {
           </ul>
         </div>
       </section>
+
+      <InventoryPitch />
 
       {/* SEO quick checker */}
       <section

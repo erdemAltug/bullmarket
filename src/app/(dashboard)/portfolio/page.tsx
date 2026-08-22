@@ -12,7 +12,11 @@ import {
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { PortfolioHealthCheck } from '@/components/dashboard/PortfolioHealthCheck';
 import { RiskRewardCalculator } from '@/components/dashboard/RiskRewardCalculator';
+import { CompanionBrief } from '@/components/dashboard/CompanionBrief';
 import { WealthSimulator } from '@/components/dashboard/WealthSimulator';
+import { useAlerts } from '@/hooks/useAlerts';
+import { useWatchlist } from '@/hooks/useWatchlist';
+import { buildCompanionNotes } from '@/lib/companion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBist, useCrypto, useFx } from '@/hooks/useMarketData';
@@ -29,10 +33,22 @@ const COLORS = {
   bist: '#22c55e',
   crypto: '#38bdf8',
   gold: '#eab308',
+  cash: '#a1a1aa',
+  deposit: '#f59e0b',
+};
+
+const CLASS_LABEL: Record<AssetClass, string> = {
+  bist: 'BİST',
+  crypto: 'Kripto',
+  gold: 'Altın',
+  cash: 'Nakit',
+  deposit: 'Mevduat',
 };
 
 export default function PortfolioPage() {
   const { positions, addPosition, removePosition } = usePortfolio();
+  const { alerts } = useAlerts();
+  const { symbols: watchlist } = useWatchlist();
   const bist = useBist();
   const crypto = useCrypto();
   const fx = useFx();
@@ -43,6 +59,8 @@ export default function PortfolioPage() {
   const [buyPrice, setBuyPrice] = useState('');
   const [quantity, setQuantity] = useState('');
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [depositRate, setDepositRate] = useState('45');
+  const [depositDays, setDepositDays] = useState('90');
 
   const usdTry = fx.data?.rates.find((r) => r.code === 'USD')?.forexSelling ?? 0;
   const goldTry =
@@ -67,7 +85,13 @@ export default function PortfolioPage() {
     let value = 0;
     let cost = 0;
     let daily = 0;
-    const alloc = { bist: 0, crypto: 0, gold: 0 };
+    const alloc = {
+      bist: 0,
+      crypto: 0,
+      gold: 0,
+      cash: 0,
+      deposit: 0,
+    };
     const liveValues: Record<string, number> = {};
     const costValues: Record<string, number> = {};
 
@@ -99,24 +123,65 @@ export default function PortfolioPage() {
     { name: 'BİST', value: metrics.alloc.bist, color: COLORS.bist },
     { name: 'Kripto', value: metrics.alloc.crypto, color: COLORS.crypto },
     { name: 'Altın', value: metrics.alloc.gold, color: COLORS.gold },
+    { name: 'Nakit', value: metrics.alloc.cash, color: COLORS.cash },
+    { name: 'Mevduat', value: metrics.alloc.deposit, color: COLORS.deposit },
   ].filter((d) => d.value > 0);
+
+  const companionNotes = useMemo(
+    () =>
+      buildCompanionNotes({
+        positions,
+        alerts,
+        watchlist,
+        totalValue: metrics.value,
+        depositValue: metrics.alloc.deposit,
+        cashValue: metrics.alloc.cash,
+        pnlPct: metrics.pnlPct,
+      }),
+    [
+      positions,
+      alerts,
+      watchlist,
+      metrics.value,
+      metrics.alloc.deposit,
+      metrics.alloc.cash,
+      metrics.pnlPct,
+    ]
+  );
 
   const entryPreview = Number(buyPrice.replace(',', '.'));
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const bp = Number(buyPrice.replace(',', '.'));
-    const qty = Number(quantity.replace(',', '.'));
+    const isPark = assetClass === 'cash' || assetClass === 'deposit';
+    const qty = isPark ? 1 : Number(quantity.replace(',', '.'));
     if (!Number.isFinite(bp) || !Number.isFinite(qty) || qty <= 0) return;
 
     addPosition({
-      symbol: symbol.trim().toUpperCase(),
-      name: name.trim() || symbol,
+      symbol: isPark
+        ? assetClass === 'cash'
+          ? 'NAKIT'
+          : 'MEVDUAT'
+        : symbol.trim().toUpperCase(),
+      name: isPark
+        ? assetClass === 'cash'
+          ? 'Nakit TRY'
+          : `Mevduat %${depositRate}`
+        : name.trim() || symbol,
       assetClass,
       buyPrice: bp,
       quantity: qty,
       date,
       currency: assetClass === 'crypto' ? 'USD' : 'TRY',
+      depositRatePct:
+        assetClass === 'deposit'
+          ? Number(depositRate.replace(',', '.'))
+          : undefined,
+      depositTenorDays:
+        assetClass === 'deposit'
+          ? Number(depositDays.replace(',', '.'))
+          : undefined,
     });
     setBuyPrice('');
     setQuantity('');
@@ -125,11 +190,15 @@ export default function PortfolioPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Portföyüm</h1>
-        <p className="mt-1 text-sm text-zinc-500">
-          Pozisyonlar, getiri ve portföy sağlığı
-        </p>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Finans envanteri
+          </h1>
+          <p className="mt-1 text-sm text-zinc-500">
+            Hisse, nakit, mevduat ve alarm — grafik değil, senin bilançon
+          </p>
       </div>
+
+      <CompanionBrief notes={companionNotes} />
 
       <WealthSimulator
         defaultPrincipal={metrics.value > 0 ? metrics.value : 100_000}
@@ -243,10 +312,14 @@ export default function PortfolioPage() {
                   <option value="bist">BİST</option>
                   <option value="crypto">Kripto</option>
                   <option value="gold">Altın</option>
+                  <option value="cash">Nakit</option>
+                  <option value="deposit">Mevduat / faiz</option>
                 </select>
               </label>
               <label className="text-xs text-zinc-400">
-                Alış fiyatı
+                {assetClass === 'cash' || assetClass === 'deposit'
+                  ? 'Tutar (TRY)'
+                  : 'Alış fiyatı'}
                 <input
                   type="number"
                   step="any"
@@ -256,17 +329,43 @@ export default function PortfolioPage() {
                   required
                 />
               </label>
-              <label className="text-xs text-zinc-400">
-                Adet
-                <input
-                  type="number"
-                  step="any"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm"
-                  required
-                />
-              </label>
+              {assetClass !== 'cash' && assetClass !== 'deposit' ? (
+                <label className="text-xs text-zinc-400">
+                  Adet
+                  <input
+                    type="number"
+                    step="any"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm"
+                    required
+                  />
+                </label>
+              ) : null}
+              {assetClass === 'deposit' ? (
+                <>
+                  <label className="text-xs text-zinc-400">
+                    Yıllık faiz %
+                    <input
+                      type="number"
+                      step="any"
+                      value={depositRate}
+                      onChange={(e) => setDepositRate(e.target.value)}
+                      className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm"
+                    />
+                  </label>
+                  <label className="text-xs text-zinc-400">
+                    Vade (gün)
+                    <input
+                      type="number"
+                      step="1"
+                      value={depositDays}
+                      onChange={(e) => setDepositDays(e.target.value)}
+                      className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm"
+                    />
+                  </label>
+                </>
+              ) : null}
               <label className="text-xs text-zinc-400">
                 Tarih
                 <input
@@ -314,8 +413,11 @@ export default function PortfolioPage() {
                   className="border-b border-zinc-800/80 last:border-0"
                 >
                   <td className="px-4 py-3 font-medium">{p.symbol}</td>
-                  <td className="px-4 py-3 capitalize text-zinc-400">
-                    {p.assetClass}
+                  <td className="px-4 py-3 text-zinc-400">
+                    {CLASS_LABEL[p.assetClass]}
+                    {p.assetClass === 'deposit' && p.depositRatePct != null
+                      ? ` · %${p.depositRatePct}`
+                      : ''}
                   </td>
                   <td className="px-4 py-3 text-right tabular-nums">
                     {p.quantity}

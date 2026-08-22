@@ -162,7 +162,7 @@ export interface PriceAlert {
   createdAt: string;
 }
 
-export type AssetClass = 'bist' | 'crypto' | 'gold';
+export type AssetClass = 'bist' | 'crypto' | 'gold' | 'cash' | 'deposit';
 
 export interface PortfolioPosition {
   id: string;
@@ -173,6 +173,9 @@ export interface PortfolioPosition {
   quantity: number;
   date: string;
   currency: 'TRY' | 'USD';
+  notes?: string | null;
+  depositRatePct?: number;
+  depositTenorDays?: number;
 }
 
 export type HealthSeverity = 'info' | 'warn' | 'critical';

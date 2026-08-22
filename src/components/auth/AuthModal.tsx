@@ -16,6 +16,7 @@ import { authClient } from '@/lib/auth/client';
 import { trackEvent } from '@/lib/analytics';
 import { DEFAULT_WATCHLIST } from '@/hooks/useWatchlist.shared';
 import { cn } from '@/lib/utils';
+import { BETA_AUTH_HEADLINE, BETA_AUTH_SUBTITLE } from '@/lib/beta';
 import type { AlertKind, PriceAlert } from '@/types';
 
 type Tab = 'login' | 'register';
@@ -185,14 +186,12 @@ export function AuthModal({
         <div className="border-b border-[var(--border)] bg-gradient-to-r from-[var(--glow-up)] via-transparent to-[var(--glow-violet)] px-5 py-4">
           <DialogTitle className="text-lg font-semibold tracking-tight text-[var(--foreground)]">
             {headline ??
-              (growthMode
-                ? 'Açık Beta — tüm Pro AI ücretsiz'
-                : 'Bullsye Hesabı')}
+              (growthMode ? BETA_AUTH_HEADLINE : 'Bullsye Hesabı')}
           </DialogTitle>
           <p className="mt-1 text-xs text-[var(--muted)]">
             {subtitle ??
               (growthMode
-                ? 'Açık Beta dönemimizde tüm Pro AI özelliklerimiz ücretsizdir. Terminal deneyimini başlatmak için 2 saniyede kaydolun.'
+                ? BETA_AUTH_SUBTITLE
                 : 'İzleme listesi, alarm ve portföy hesabınızda güvende')}
           </p>
         </div>
