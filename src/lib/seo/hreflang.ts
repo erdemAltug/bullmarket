@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { absoluteCanonical } from '@/lib/seo/canonical';
 import { SITE_URL } from '@/lib/seo/symbols';
 
 export type SeoLang = 'tr' | 'en';
@@ -10,14 +11,16 @@ export function resolveSeoLang(
   return v?.toLowerCase() === 'en' ? 'en' : 'tr';
 }
 
-/** Path without query, e.g. `/bist/THYAO` or `` for home */
+/**
+ * Hreflang targets clean absolute URLs (no ?lang=) so alternates
+ * match the page canonical and avoid GSC duplicate/canonical conflicts.
+ */
 export function hreflangLanguages(path = ''): Record<string, string> {
-  const base = path ? `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}` : SITE_URL;
-  const joiner = base.includes('?') ? '&' : '?';
+  const base = absoluteCanonical(path || '/', { upperSymbol: true });
   return {
-    'tr-TR': `${base}${joiner}lang=tr`,
-    'en-US': `${base}${joiner}lang=en`,
-    'x-default': `${base}${joiner}lang=tr`,
+    'tr-TR': base,
+    'en-US': base,
+    'x-default': base,
   };
 }
 
@@ -36,22 +39,14 @@ export function rootHreflangLanguages(): Record<string, string> {
 export function sitemapLanguageAlternates(path = ''): {
   languages: Record<string, string>;
 } {
-  const base = path ? `${SITE_URL}${path}` : SITE_URL;
-  const joiner = '?';
-  return {
-    languages: {
-      'tr-TR': `${base}${joiner}lang=tr`,
-      'en-US': `${base}${joiner}lang=en`,
-      'x-default': `${base}${joiner}lang=tr`,
-    },
-  };
+  return { languages: hreflangLanguages(path) };
 }
 
 export function withLangAlternates(
   path: string,
   canonical = true
 ): NonNullable<Metadata['alternates']> {
-  const url = `${SITE_URL}${path}`;
+  const url = absoluteCanonical(path, { upperSymbol: true });
   return {
     ...(canonical ? { canonical: url } : {}),
     languages: hreflangLanguages(path),

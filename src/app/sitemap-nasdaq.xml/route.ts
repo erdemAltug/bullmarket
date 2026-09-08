@@ -1,0 +1,16 @@
+import {
+  buildNasdaqSitemap,
+  sitemapEntriesToXml,
+} from '@/lib/seo/sitemaps';
+
+export const dynamic = 'force-static';
+export const revalidate = 3600;
+
+export async function GET() {
+  return new Response(sitemapEntriesToXml(buildNasdaqSitemap()), {
+    headers: {
+      'Content-Type': 'application/xml; charset=utf-8',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+    },
+  });
+}

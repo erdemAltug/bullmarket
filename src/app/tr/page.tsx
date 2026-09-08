@@ -151,7 +151,7 @@ export default function TrLocaleLanding() {
           {TOP_US_FOR_HUB.map((sym) => (
             <li key={sym}>
               <Link
-                href={`/us/${sym}?lang=tr`}
+                href={`/nasdaq/${sym}?lang=tr`}
                 className="inline-block rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-sm text-sky-400 hover:border-sky-500/40"
               >
                 {sym} analizi
@@ -169,7 +169,7 @@ export default function TrLocaleLanding() {
           {TOP_CRYPTO_FOR_HUB.map((sym) => (
             <li key={sym}>
               <Link
-                href={`/crypto/${sym}?lang=tr`}
+                href={`/kripto/${sym}?lang=tr`}
                 className="inline-block rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-sm text-emerald-400 hover:border-emerald-500/40"
               >
                 {sym.replace('USDT', '')} canlı

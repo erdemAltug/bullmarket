@@ -365,7 +365,7 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
     updatedAt: '2026-07-31',
     readingMinutes: 7,
     toolCta: {
-      href: '/crypto',
+      href: '/kripto',
       label: 'Kripto Radarını Aç',
       blurb: 'BTC/ETH canlı fiyat, derinlik ve sinyal kartlarını izleyin.',
     },
@@ -567,7 +567,7 @@ const BLOG_POSTS_STATIC: BlogPost[] = [
     readingMinutes: 4,
     tags: ['Kripto', 'BTC', 'Sinyal'],
     toolCta: {
-      href: '/crypto/BTCUSDT',
+      href: '/kripto/BTCUSDT',
       label: 'BTC Canlı Sayfası',
       blurb: 'Fiyat, emir defteri ve teknik bant karnesini açın.',
     },

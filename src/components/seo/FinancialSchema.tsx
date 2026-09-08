@@ -1,4 +1,5 @@
 import { SITE_URL } from '@/lib/seo/symbols';
+import { absoluteCanonical } from '@/lib/seo/canonical';
 
 interface FinancialSchemaProps {
   symbol: string;
@@ -7,6 +8,7 @@ interface FinancialSchemaProps {
   currency?: string;
   changePercent?: number;
   kind?: 'bist' | 'crypto' | 'fx' | 'us';
+  path?: string;
 }
 
 export function FinancialSchema({
@@ -15,18 +17,62 @@ export function FinancialSchema({
   price,
   currency = 'TRY',
   kind = 'bist',
+  path,
 }: FinancialSchemaProps) {
   const displayName = name || symbol;
-  const pageUrl =
-    kind === 'crypto'
-      ? `${SITE_URL}/crypto/${symbol.endsWith('USDT') ? symbol : `${symbol}USDT`}`
+  const pageUrl = path
+    ? absoluteCanonical(path, { upperSymbol: true })
+    : kind === 'crypto'
+      ? absoluteCanonical(
+          `/kripto/${symbol.endsWith('USDT') ? symbol : `${symbol}USDT`}`,
+          { upperSymbol: true }
+        )
       : kind === 'fx'
-        ? `${SITE_URL}/fx/${symbol}`
+        ? absoluteCanonical(`/fx/${symbol}`)
         : kind === 'us'
-          ? `${SITE_URL}/us/${symbol}`
-          : `${SITE_URL}/bist/${symbol.replace('.IS', '')}`;
+          ? absoluteCanonical(`/nasdaq/${symbol}`, { upperSymbol: true })
+          : absoluteCanonical(`/bist/${symbol.replace('.IS', '')}`, {
+              upperSymbol: true,
+            });
 
-  const jsonLd =
+  const exchange =
+    kind === 'bist'
+      ? 'Borsa Istanbul'
+      : kind === 'us'
+        ? 'NASDAQ'
+        : kind === 'crypto'
+          ? 'Crypto'
+          : 'FX';
+
+  const itemPage = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemPage',
+    name: `${displayName} (${symbol.replace('.IS', '')}) canlı analiz`,
+    url: pageUrl,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Bullsye',
+      url: SITE_URL,
+    },
+    about: {
+      '@type': 'FinancialProduct',
+      name: displayName,
+      category: exchange,
+      ...(price > 0
+        ? {
+            offers: {
+              '@type': 'Offer',
+              price: Number(price.toFixed(4)),
+              priceCurrency: currency,
+              url: pageUrl,
+              availability: 'https://schema.org/InStock',
+            },
+          }
+        : {}),
+    },
+  };
+
+  const corp =
     kind === 'bist' || kind === 'us'
       ? {
           '@context': 'https://schema.org',
@@ -36,29 +82,21 @@ export function FinancialSchema({
           url: pageUrl,
           description: `${displayName} (${symbol}) canlı hisse fiyatı, analist hedefleri ve temel analiz — Bullsye.`,
         }
-      : {
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name: displayName,
-          description: `${displayName} canlı fiyat ve analiz — Bullsye.`,
-          url: pageUrl,
-          ...(price > 0
-            ? {
-                offers: {
-                  '@type': 'Offer',
-                  price: Number(price.toFixed(4)),
-                  priceCurrency: currency,
-                  url: pageUrl,
-                },
-              }
-            : {}),
-        };
+      : null;
 
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemPage) }}
+      />
+      {corp ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(corp) }}
+        />
+      ) : null}
+    </>
   );
 }
 
@@ -100,7 +138,7 @@ export function BreadcrumbSchema({
       '@type': 'ListItem',
       position: i + 1,
       name: item.name,
-      item: `${SITE_URL}${item.path}`,
+      item: absoluteCanonical(item.path),
     })),
   };
 

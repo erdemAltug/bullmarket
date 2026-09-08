@@ -142,7 +142,7 @@ export default function EnLocaleLanding() {
           {TOP_US_FOR_HUB.map((sym) => (
             <li key={sym}>
               <Link
-                href={`/us/${sym}?lang=en`}
+                href={`/nasdaq/${sym}?lang=en`}
                 className="inline-block rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-sm text-sky-400 hover:border-sky-500/40"
               >
                 {sym} analysis
@@ -160,7 +160,7 @@ export default function EnLocaleLanding() {
           {TOP_CRYPTO_FOR_HUB.map((sym) => (
             <li key={sym}>
               <Link
-                href={`/crypto/${sym}?lang=en`}
+                href={`/kripto/${sym}?lang=en`}
                 className="inline-block rounded-lg border border-zinc-800 bg-zinc-900/60 px-3 py-1.5 text-sm text-emerald-400 hover:border-emerald-500/40"
               >
                 {sym.replace('USDT', '')} live

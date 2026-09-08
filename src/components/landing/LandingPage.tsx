@@ -378,7 +378,7 @@ export function LandingPage() {
               {TOP_US_FOR_HUB.map((sym) => (
                 <li key={sym}>
                   <Link
-                    href={`/us/${sym}`}
+                    href={`/nasdaq/${sym}`}
                     className="inline-block rounded-md border border-[var(--border)] px-2.5 py-1 text-sm text-sky-300 hover:border-sky-400/40"
                   >
                     {sym}
@@ -393,7 +393,7 @@ export function LandingPage() {
               {TOP_CRYPTO_FOR_HUB.map((sym) => (
                 <li key={sym}>
                   <Link
-                    href={`/crypto/${sym}`}
+                    href={`/kripto/${sym}`}
                     className="inline-block rounded-md border border-[var(--border)] px-2.5 py-1 text-sm text-[var(--up)] hover:border-[var(--up)]/40"
                   >
                     {sym.replace('USDT', '')}

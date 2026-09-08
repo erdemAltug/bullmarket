@@ -5,6 +5,7 @@ import {
   FinancialSchema,
   FaqSchema,
 } from '@/components/seo/FinancialSchema';
+import { RelatedSymbolRail } from '@/components/seo/RelatedSymbolRail';
 import { assetDetailHref } from '@/lib/seo/internal-links';
 import { peersFor } from '@/lib/sector-peers';
 import { toYahooSymbol } from '@/lib/seo/symbols';
@@ -45,9 +46,9 @@ export function AssetSeoShell({
     kind === 'bist'
       ? '/bist'
       : kind === 'crypto'
-        ? '/crypto'
+        ? '/kripto'
         : kind === 'us'
-          ? '/us'
+          ? '/nasdaq'
           : '/fx/USD-TRY';
   const hubLabel =
     kind === 'bist'
@@ -61,23 +62,24 @@ export function AssetSeoShell({
     kind === 'bist'
       ? `/bist/${symbol}`
       : kind === 'crypto'
-        ? `/crypto/${symbol.endsWith('USDT') ? symbol : `${symbol}USDT`}`
+        ? `/kripto/${symbol.endsWith('USDT') ? symbol : `${symbol}USDT`}`
         : kind === 'us'
-          ? `/us/${symbol}`
+          ? `/nasdaq/${symbol}`
           : `/fx/${symbol}`;
 
   const defaultFaqs = [
     {
+      question: `${symbol} için 12 aylık analist hedefi nedir?`,
+      answer: `${name} (${symbol}) sayfasındaki Analist Konsensüs bölümünde 12 aylık ortalama, en yüksek/en düşük hedef ve kurum dağılımı yer alır. Yatırım tavsiyesi değildir.`,
+    },
+    {
+      question: 'Bullsye AI fırsat skoru nasıl hesaplanır?',
+      answer:
+        'AI fırsat skoru F/K, hacim ivmesi, RSI/hareketli ortalamalar ve gün içi bant konumunun ağırlıklı bileşimiyle 0–100 arası üretilir. Sinyal veya emir değildir.',
+    },
+    {
       question: `${symbol} canlı fiyatı nedir?`,
       answer: `${name} (${symbol}) güncel fiyatı ${currencySymbol}${price.toLocaleString('tr-TR')} seviyesindedir. Günlük değişim %${changePercent.toFixed(2)}. Bullsye üzerinde anlık takip edilir.`,
-    },
-    {
-      question: `${symbol} hisse / varlık analizi nasıl yapılır?`,
-      answer: `${symbol} için Bullsye'da temel analiz karnesi, analist hedef fiyat konsensüsü, AI özet yorumu, teknik grafik ve alarm kurulumu bir arada sunulur.`,
-    },
-    {
-      question: `${symbol} analist hedef fiyatı nerede?`,
-      answer: `${symbol} sayfasındaki Analist Konsensüs bölümünde 12 aylık ortalama, en yüksek/en düşük hedef ve kurum raporları yer alır. Ayrıca /targets sayfasında karşılaştırabilirsiniz.`,
     },
     {
       question: `${symbol} için alarm nasıl kurulur?`,
@@ -117,6 +119,7 @@ export function AssetSeoShell({
         currency={currency}
         changePercent={changePercent}
         kind={kind}
+        path={selfPath}
       />
       <FaqSchema items={faqItems} />
       <BreadcrumbSchema items={crumbs} />
@@ -156,6 +159,17 @@ export function AssetSeoShell({
           <Link href="/firsatlar" className="text-emerald-400 hover:underline">
             fırsat masası
           </Link>
+          {kind === 'bist' ? (
+            <>
+              {' · '}
+              <Link
+                href={`/bist/${symbol}/hedef-fiyat`}
+                className="text-amber-300 hover:underline"
+              >
+                hedef fiyat
+              </Link>
+            </>
+          ) : null}
           .
         </p>
         <p
@@ -194,12 +208,63 @@ export function AssetSeoShell({
         </dl>
       </section>
 
+      {kind === 'fx' ? (
+        <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5">
+          <h2 className="mb-3 text-base font-semibold text-zinc-100">
+            İlgili Analizler
+          </h2>
+          <ul className="flex flex-wrap gap-2 text-sm">
+            {peerLinks.map((p) => (
+              <li key={p}>
+                <Link
+                  href={`/fx/${p}`}
+                  className="rounded-lg border border-zinc-700 px-2.5 py-1 text-emerald-400 hover:border-emerald-500/40"
+                >
+                  {p} analizi
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : (
+        <RelatedSymbolRail
+          symbol={symbol}
+          kind={kind === 'us' ? 'us' : kind === 'crypto' ? 'crypto' : 'bist'}
+        />
+      )}
+
       <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5">
         <h2 className="mb-3 text-base font-semibold text-zinc-100">
-          İlgili Analizler
+          İlgili araçlar
         </h2>
         <ul className="flex flex-wrap gap-2 text-sm">
-          {peerLinks.map((p) => {
+          <li>
+            <Link
+              href="/firsatlar"
+              className="rounded-lg border border-zinc-700 px-2.5 py-1 text-zinc-300 hover:border-emerald-500/40"
+            >
+              Fırsat skoru
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/targets"
+              className="rounded-lg border border-zinc-700 px-2.5 py-1 text-zinc-300 hover:border-emerald-500/40"
+            >
+              Hedef fiyatlar
+            </Link>
+          </li>
+          {kind === 'bist' ? (
+            <li>
+              <Link
+                href={`/bist/${symbol}/hedef-fiyat`}
+                className="rounded-lg border border-zinc-700 px-2.5 py-1 text-amber-300 hover:border-amber-500/40"
+              >
+                {symbol} hedef fiyat
+              </Link>
+            </li>
+          ) : null}
+          {peerLinks.slice(0, 2).map((p) => {
             const href =
               kind === 'fx'
                 ? `/fx/${p}`
@@ -223,40 +288,6 @@ export function AssetSeoShell({
               </li>
             );
           })}
-          <li>
-            <Link
-              href="/firsatlar"
-              className="rounded-lg border border-zinc-700 px-2.5 py-1 text-zinc-300 hover:border-emerald-500/40"
-            >
-              Fırsat skoru
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/targets"
-              className="rounded-lg border border-zinc-700 px-2.5 py-1 text-zinc-300 hover:border-emerald-500/40"
-            >
-              Hedef fiyatlar
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/compare"
-              className="rounded-lg border border-zinc-700 px-2.5 py-1 text-zinc-300 hover:border-emerald-500/40"
-            >
-              1v1 kıyasla
-            </Link>
-          </li>
-          {kind === 'bist' ? (
-            <li>
-              <Link
-                href="/dividends"
-                className="rounded-lg border border-zinc-700 px-2.5 py-1 text-zinc-300 hover:border-emerald-500/40"
-              >
-                Temettü takvimi
-              </Link>
-            </li>
-          ) : null}
         </ul>
       </section>
     </article>

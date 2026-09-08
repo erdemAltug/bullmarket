@@ -18,8 +18,9 @@ import {
   isIndexedBistSymbol,
   toYahooSymbol,
 } from '@/lib/seo/symbols';
+import { absoluteCanonical } from '@/lib/seo/canonical';
 
-export const revalidate = 60;
+export const revalidate = 300;
 
 type Props = {
   params: Promise<{ symbol: string }>;
@@ -27,7 +28,9 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  return SEO_BIST_TICKERS.slice(0, 48).map((symbol) => ({ symbol }));
+  return SEO_BIST_TICKERS.filter((s) => !s.startsWith('XU'))
+    .slice(0, 100)
+    .map((symbol) => ({ symbol }));
 }
 
 export async function generateMetadata({
@@ -58,24 +61,21 @@ export async function generateMetadata({
   const change = formatMetaChange(changeNum);
   const hasLiveQuote = priceNum > 0;
   const path = `/bist/${symbol}`;
-  const canonicalUrl = `${SITE_URL}${path}`;
+  const canonicalUrl = absoluteCanonical(path, { upperSymbol: true });
 
+  const year = new Date().getFullYear();
   const title = isTr
-    ? hasLiveQuote
-      ? `${symbol} Hisse Fiyatı ${price} TL (${change}) — Hedef Fiyat ve Analiz`
-      : `${symbol} Hisse Analizi, Hedef Fiyat, Grafik ve Yorum`
-    : hasLiveQuote
-      ? `${symbol} Live Price ${price} TRY (${change}) — Chart & Targets`
-      : `${symbol} Stock Analysis, Live Chart & Price Targets`;
+    ? `${symbol} Hedef Fiyat ${year}, AI Skoru ve Canlı Analiz | Bullsye`
+    : `${symbol} Price Target ${year}, AI Score & Live Chart | Bullsye`;
 
   const description = isTr
-    ? `${name} (${symbol}) Borsa İstanbul anlık fiyatı, 52 haftalık zirve/dip, F/K ve PD/DD değerleri, teknik sinyaller ve alım fırsatları Bullsye'da.`
-    : `Real-time ${name} (${symbol}) BIST price chart, technical indicators, analyst targets, and AI signal breakdown on Bullsye Terminal.`;
+    ? `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı, prim potansiyeli ve Bullsye AI fırsat skorunu anlık inceleyin.${hasLiveQuote ? ` Canlı: ₺${price} (${change}).` : ''}`
+    : `Live ${name} (${symbol}) BIST quote, 12-month analyst consensus, upside and Bullsye AI opportunity score.${hasLiveQuote ? ` Now ₺${price} (${change}).` : ''}`;
 
   const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(hasLiveQuote ? `₺${price}` : 'Canlı Analiz')}&change=${encodeURIComponent(hasLiveQuote ? change : 'BİST')}&label=${encodeURIComponent(isTr ? 'BIST' : 'BIST Live')}&type=BIST&lang=${lang}`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     keywords: isTr
       ? [

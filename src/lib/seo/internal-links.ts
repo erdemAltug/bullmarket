@@ -23,11 +23,11 @@ export function assetDetailHref(
 
   if (category === 'CRYPTO' || s.endsWith('USDT')) {
     const pair = s.endsWith('USDT') ? s : `${s.replace(/[^A-Z0-9]/g, '')}USDT`;
-    return `/crypto/${pair}`;
+    return `/kripto/${pair}`;
   }
 
   if (category === 'US') {
-    return `/us/${s.replace(/\.IS$/i, '')}`;
+    return `/nasdaq/${s.replace(/\.IS$/i, '')}`;
   }
 
   if (category === 'BIST') {
@@ -40,7 +40,12 @@ export function assetDetailHref(
   }
 
   if (SEO_US_TICKERS.includes(bare)) {
-    return `/us/${bare}`;
+    return `/nasdaq/${bare}`;
+  }
+
+  if (SEO_CRYPTO_SYMBOLS.includes(s) || SEO_CRYPTO_SYMBOLS.includes(`${bare}USDT`)) {
+    const pair = s.endsWith('USDT') ? s : `${bare}USDT`;
+    return `/kripto/${pair}`;
   }
 
   return `/bist/${bare}`;
@@ -53,7 +58,7 @@ export const SEO_HUB_FEATURES_TR = [
     desc: 'Borsa İstanbul hisseleri, XU100 ve ısı haritası anlık takip.',
   },
   {
-    href: '/us',
+    href: '/nasdaq',
     title: 'NASDAQ & ABD Hisseleri',
     desc: 'AAPL, NVDA, TSLA ve ABD blue-chip’leri canlı fiyat + analist hedefi.',
   },
@@ -63,7 +68,7 @@ export const SEO_HUB_FEATURES_TR = [
     desc: 'AFT, YAY, VOO, QQQ — yatırım fonu ve küresel ETF canlı takip.',
   },
   {
-    href: '/crypto',
+    href: '/kripto',
     title: 'Kripto Sinyal Radarı',
     desc: 'BTC, ETH ve altcoinler için canlı fiyat, RSI ve derinlik.',
   },
@@ -101,7 +106,7 @@ export const SEO_HUB_FEATURES_EN = [
     desc: 'Real-time Istanbul equities, XU100 and market heatmap.',
   },
   {
-    href: '/us',
+    href: '/nasdaq',
     title: 'NASDAQ & US Equities',
     desc: 'AAPL, NVDA, TSLA and US blue-chips with live quotes & analyst targets.',
   },
@@ -111,7 +116,7 @@ export const SEO_HUB_FEATURES_EN = [
     desc: 'AFT, YAY, VOO, QQQ — mutual funds and ETF live desk.',
   },
   {
-    href: '/crypto',
+    href: '/kripto',
     title: 'Crypto Signal Radar',
     desc: 'BTC, ETH and alts with live price, RSI and order book depth.',
   },

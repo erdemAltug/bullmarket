@@ -167,7 +167,7 @@ export default function TargetsPage() {
               item.category === 'BIST'
                 ? `/bist/${item.displaySymbol}`
                 : item.category === 'US'
-                  ? `/us/${item.displaySymbol}`
+                  ? `/nasdaq/${item.displaySymbol}`
                   : null;
             const upside = item.upsidePotential;
             return (

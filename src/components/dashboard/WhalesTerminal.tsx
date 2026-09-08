@@ -314,7 +314,7 @@ export function WhalesTerminal() {
                   >
                     <div className="flex min-w-0 flex-wrap items-center gap-2">
                       <Link
-                        href={`/crypto/${e.symbol}`}
+                        href={`/kripto/${e.symbol}`}
                         className="shrink-0 font-semibold hover:text-emerald-400 hover:underline"
                       >
                         {e.display}

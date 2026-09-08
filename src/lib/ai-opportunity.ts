@@ -127,8 +127,8 @@ function catalystsFor(item: ScannerItem, score: number): string[] {
 
 function detailHref(item: ScannerItem): string | null {
   if (item.category === 'BIST') return `/bist/${item.displaySymbol}`;
-  if (item.category === 'CRYPTO') return `/crypto/${item.symbol}`;
-  if (item.category === 'US') return `/us/${item.displaySymbol}`;
+  if (item.category === 'CRYPTO') return `/kripto/${item.symbol}`;
+  if (item.category === 'US') return `/nasdaq/${item.displaySymbol}`;
   if (item.category === 'FON' || item.category === 'ETF') {
     return `/fon/${item.displaySymbol}`;
   }

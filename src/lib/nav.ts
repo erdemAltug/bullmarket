@@ -52,9 +52,9 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/bist', key: 'bist', icon: LineChart, color: 'text-blue-400' },
       { href: '/bist/heatmap', key: 'heatmap', icon: Map, color: 'text-amber-400' },
-      { href: '/us', key: 'us', icon: Landmark, color: 'text-sky-300', signedInOnly: true },
+      { href: '/nasdaq', key: 'us', icon: Landmark, color: 'text-sky-300', signedInOnly: true },
       { href: '/fon', key: 'funds', icon: Layers, color: 'text-amber-300', signedInOnly: true },
-      { href: '/crypto', key: 'crypto', icon: Bitcoin, color: 'text-violet-400', signedInOnly: true },
+      { href: '/kripto', key: 'crypto', icon: Bitcoin, color: 'text-violet-400', signedInOnly: true },
       { href: '/fx/USD-TRY', key: 'fx', icon: Banknote, color: 'text-lime-400', signedInOnly: true },
       { href: '/faiz', key: 'rates', icon: Percent, color: 'text-teal-300' },
     ],
@@ -101,8 +101,21 @@ export function isNavActive(pathname: string, href: string) {
   if (href === '/bist') {
     return pathname === '/bist' || /^\/bist\/(?!heatmap)/.test(pathname);
   }
-  if (href === '/crypto') {
-    return pathname === '/crypto' || pathname.startsWith('/crypto/');
+  if (href === '/crypto' || href === '/kripto') {
+    return (
+      pathname === '/crypto' ||
+      pathname === '/kripto' ||
+      pathname.startsWith('/crypto/') ||
+      pathname.startsWith('/kripto/')
+    );
+  }
+  if (href === '/us' || href === '/nasdaq') {
+    return (
+      pathname === '/us' ||
+      pathname === '/nasdaq' ||
+      pathname.startsWith('/us/') ||
+      pathname.startsWith('/nasdaq/')
+    );
   }
   return pathname === href || pathname.startsWith(`${href}/`);
 }

@@ -18,6 +18,7 @@ import {
   Search,
   Sparkles,
 } from 'lucide-react';
+import { OpportunitySheet } from '@/components/inventory/OpportunitySheet';
 import {
   Command,
   CommandDialog,
@@ -29,6 +30,7 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 import { useMarketAssets } from '@/hooks/useMarketAssets';
+import { trackEvent } from '@/lib/analytics';
 import { SEARCH_CATALOG } from '@/lib/search-catalog';
 import { cn } from '@/lib/utils';
 import type { MarketAsset, MarketAssetCategory } from '@/types/market-asset';
@@ -54,6 +56,14 @@ const CATEGORY_LABEL: Record<MarketAssetCategory, string> = {
 
 const NAV_ITEMS = SEARCH_CATALOG.filter((i) => i.kind === 'nav');
 
+function opensOpportunitySheet(asset: MarketAsset) {
+  return (
+    asset.category === 'bist' ||
+    asset.category === 'us' ||
+    asset.category === 'crypto'
+  );
+}
+
 async function prefetchAssetQuote(asset: MarketAsset) {
   if (asset.category === 'fon') return;
   try {
@@ -63,7 +73,7 @@ async function prefetchAssetQuote(asset: MarketAsset) {
     const json = (await res.json()) as ApiResponse<unknown>;
     if (!json.success) return;
   } catch {
-    /* navigation still proceeds */
+    /* ignore */
   }
 }
 
@@ -73,6 +83,8 @@ export function UniversalSearch() {
   const deferredQuery = useDeferredValue(query);
   const [, startTransition] = useTransition();
   const [selecting, setSelecting] = useState(false);
+  const [sheetAsset, setSheetAsset] = useState<MarketAsset | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const router = useRouter();
   const { data: assets = [], isLoading } = useMarketAssets();
 
@@ -111,11 +123,16 @@ export function UniversalSearch() {
     function onKeyDown(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        setOpen((v) => !v);
+        setOpen((v) => {
+          const next = !v;
+          if (next) trackEvent('search_open', { source: 'hotkey' });
+          return next;
+        });
       }
     }
     function onOpen() {
       setOpen(true);
+      trackEvent('search_open', { source: 'button' });
     }
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener(OPEN_COMMAND_EVENT, onOpen);
@@ -132,6 +149,17 @@ export function UniversalSearch() {
   async function selectAsset(asset: MarketAsset) {
     setSelecting(true);
     try {
+      trackEvent('search_select', {
+        symbol: asset.symbol,
+        category: asset.category,
+      });
+      if (opensOpportunitySheet(asset)) {
+        void prefetchAssetQuote(asset);
+        setOpen(false);
+        setSheetAsset(asset);
+        setSheetOpen(true);
+        return;
+      }
       await prefetchAssetQuote(asset);
       startTransition(() => {
         setOpen(false);
@@ -148,80 +176,90 @@ export function UniversalSearch() {
   }
 
   return (
-    <CommandDialog
-      open={open}
-      onOpenChange={setOpen}
-      title="Universal Search"
-    >
-      <Command shouldFilter={false}>
-        <CommandInput
-          placeholder="Hisse, kripto, fon ara… (Cmd/Ctrl+K)"
-          value={query}
-          onValueChange={setQuery}
-        />
-        <CommandList>
-          {isLoading ? (
-            <div className="flex items-center justify-center gap-2 py-8 text-xs text-zinc-500">
-              <Loader2 className="size-4 animate-spin" />
-              Varlık indeksi yükleniyor…
-            </div>
-          ) : (
-            <>
-              <CommandEmpty>Sonuç yok.</CommandEmpty>
+    <>
+      <CommandDialog
+        open={open}
+        onOpenChange={setOpen}
+        title="Universal Search"
+      >
+        <Command shouldFilter={false}>
+          <CommandInput
+            placeholder="Hisse, kripto, fon ara… (Cmd/Ctrl+K)"
+            value={query}
+            onValueChange={setQuery}
+          />
+          <CommandList>
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2 py-8 text-xs text-zinc-500">
+                <Loader2 className="size-4 animate-spin" />
+                Varlık indeksi yükleniyor…
+              </div>
+            ) : (
+              <>
+                <CommandEmpty>Sonuç yok.</CommandEmpty>
 
-              {navHits.length > 0 ? (
-                <CommandGroup heading="Sayfalar">
-                  {navHits.map((item) => (
-                    <CommandItem
-                      key={item.id}
-                      value={`nav ${item.label} ${item.keywords}`}
-                      onSelect={() => go(item.href)}
-                    >
-                      <Sparkles className="size-4 text-emerald-400" />
-                      <span>{item.label}</span>
-                    </CommandItem>
-                  ))}
+                {navHits.length > 0 ? (
+                  <CommandGroup heading="Sayfalar">
+                    {navHits.map((item) => (
+                      <CommandItem
+                        key={item.id}
+                        value={`nav ${item.label} ${item.keywords}`}
+                        onSelect={() => go(item.href)}
+                      >
+                        <Sparkles className="size-4 text-emerald-400" />
+                        <span>{item.label}</span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                ) : null}
+
+                <CommandGroup
+                  heading={
+                    deferredQuery.trim()
+                      ? `Varlıklar · ${results.length}`
+                      : `Popüler · ${assets.length} indeks`
+                  }
+                >
+                  {results.map((asset) => {
+                    const Icon = CATEGORY_ICON[asset.category];
+                    return (
+                      <CommandItem
+                        key={`${asset.category}:${asset.symbol}`}
+                        value={`${asset.symbol} ${asset.name} ${asset.exchange}`}
+                        onSelect={() => selectAsset(asset)}
+                        disabled={selecting}
+                      >
+                        <Icon className="size-4 text-zinc-400" />
+                        <span className="font-medium text-zinc-100">
+                          {asset.symbol}
+                        </span>
+                        <span className="truncate text-zinc-500">
+                          {asset.name !== asset.symbol
+                            ? asset.name
+                            : asset.exchange}
+                        </span>
+                        <CommandShortcut>
+                          {CATEGORY_LABEL[asset.category]}
+                        </CommandShortcut>
+                      </CommandItem>
+                    );
+                  })}
                 </CommandGroup>
-              ) : null}
+              </>
+            )}
+          </CommandList>
+          <p className="border-t border-zinc-800 px-3 py-2 text-[10px] text-zinc-600">
+            Hisse/kripto → fırsat karnesi · fon → sayfa
+          </p>
+        </Command>
+      </CommandDialog>
 
-              <CommandGroup
-                heading={
-                  deferredQuery.trim()
-                    ? `Varlıklar · ${results.length}`
-                    : `Popüler · ${assets.length} indeks`
-                }
-              >
-                {results.map((asset) => {
-                  const Icon = CATEGORY_ICON[asset.category];
-                  return (
-                    <CommandItem
-                      key={`${asset.category}:${asset.symbol}`}
-                      value={`${asset.symbol} ${asset.name} ${asset.exchange}`}
-                      onSelect={() => selectAsset(asset)}
-                      disabled={selecting}
-                    >
-                      <Icon className="size-4 text-zinc-400" />
-                      <span className="font-medium text-zinc-100">
-                        {asset.symbol}
-                      </span>
-                      <span className="truncate text-zinc-500">
-                        {asset.name !== asset.symbol ? asset.name : asset.exchange}
-                      </span>
-                      <CommandShortcut>
-                        {CATEGORY_LABEL[asset.category]}
-                      </CommandShortcut>
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-            </>
-          )}
-        </CommandList>
-        <p className="border-t border-zinc-800 px-3 py-2 text-[10px] text-zinc-600">
-          Yerel Fuse.js · keystroke başına API yok · fiyat seçimde 60s cache
-        </p>
-      </Command>
-    </CommandDialog>
+      <OpportunitySheet
+        asset={sheetAsset}
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+      />
+    </>
   );
 }
 

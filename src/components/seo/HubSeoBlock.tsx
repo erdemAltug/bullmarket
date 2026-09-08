@@ -135,6 +135,7 @@ export const US_HUB_SEO: HubSeoContent = {
     { href: '/signals', label: 'AI Sinyaller' },
     { href: '/targets', label: 'Hedef fiyatlar' },
     { href: '/compare', label: '1v1 kıyasla' },
+    { href: '/nasdaq', label: 'NASDAQ screener' },
     { href: '/bist', label: 'BİST screener' },
     { href: '/egitim/borsa-temelleri/fk-orani-nedir', label: 'F/K dersi' },
   ],
@@ -164,6 +165,7 @@ export const CRYPTO_HUB_SEO: HubSeoContent = {
     { href: '/whales', label: 'Balina & Takas' },
     { href: '/egitim/teknik-analiz/rsi-indikatoru-nedir', label: 'RSI dersi' },
     { href: '/blog/kripto-sinyal-radarinda-btc-eth', label: 'BTC/ETH rehberi' },
+    { href: '/kripto', label: 'Kripto screener' },
     { href: '/bist', label: 'BİST screener' },
   ],
   faqs: [

@@ -18,8 +18,8 @@ export function SymbolDirectory({
     kind === 'bist'
       ? `/bist/${symbol.replace(/\.IS$/i, '')}`
       : kind === 'us'
-        ? `/us/${symbol}`
-        : `/crypto/${symbol}`;
+        ? `/nasdaq/${symbol}`
+        : `/kripto/${symbol}`;
 
   const labelFor = (symbol: string) =>
     symbol.replace(/\.IS$/i, '').replace(/USDT$/i, '');

@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Trash2 } from 'lucide-react';
 import {
   Cell,
@@ -14,9 +14,14 @@ import { PortfolioHealthCheck } from '@/components/dashboard/PortfolioHealthChec
 import { RiskRewardCalculator } from '@/components/dashboard/RiskRewardCalculator';
 import { CompanionBrief } from '@/components/dashboard/CompanionBrief';
 import { WealthSimulator } from '@/components/dashboard/WealthSimulator';
+import { PortfolioXray } from '@/components/inventory/PortfolioXray';
+import { SoftGateBanner } from '@/components/inventory/SoftGateBanner';
+import { VsDepositCounter } from '@/components/inventory/VsDepositCounter';
 import { useAlerts } from '@/hooks/useAlerts';
 import { useWatchlist } from '@/hooks/useWatchlist';
 import { buildCompanionNotes } from '@/lib/companion';
+import { trackEvent } from '@/lib/analytics';
+import { computeXrayMetrics } from '@/lib/portfolio-xray';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useBist, useCrypto, useFx } from '@/hooks/useMarketData';
@@ -28,6 +33,7 @@ import {
 import { analyzePortfolioHealth } from '@/lib/portfolio-health';
 import type { AssetClass } from '@/types';
 import { formatPercent, formatPrice } from '@/lib/utils';
+import { authClient } from '@/lib/auth/client';
 
 const COLORS = {
   bist: '#22c55e',
@@ -46,12 +52,15 @@ const CLASS_LABEL: Record<AssetClass, string> = {
 };
 
 export default function PortfolioPage() {
-  const { positions, addPosition, removePosition } = usePortfolio();
+  const { data: session } = authClient.useSession();
+  const guest = !session?.user;
+  const { positions, addPosition, removePosition, source } = usePortfolio();
   const { alerts } = useAlerts();
   const { symbols: watchlist } = useWatchlist();
   const bist = useBist();
   const crypto = useCrypto();
   const fx = useFx();
+  const xrayTracked = useRef(false);
 
   const [symbol, setSymbol] = useState('THYAO.IS');
   const [name, setName] = useState('THYAO');
@@ -61,6 +70,7 @@ export default function PortfolioPage() {
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [depositRate, setDepositRate] = useState('45');
   const [depositDays, setDepositDays] = useState('90');
+  const [forceSoftGate, setForceSoftGate] = useState(false);
 
   const usdTry = fx.data?.rates.find((r) => r.code === 'USD')?.forexSelling ?? 0;
   const goldTry =
@@ -115,17 +125,44 @@ export default function PortfolioPage() {
       costValues,
       value
     );
+    const xray = computeXrayMetrics(positions, liveValues);
 
-    return { value, cost, pnl, pnlPct, daily, alloc, health };
+    return { value, cost, pnl, pnlPct, daily, alloc, health, liveValues, xray };
   }, [positions, priceMap, usdTry, changeMap]);
 
-  const pieData = [
-    { name: 'BİST', value: metrics.alloc.bist, color: COLORS.bist },
-    { name: 'Kripto', value: metrics.alloc.crypto, color: COLORS.crypto },
-    { name: 'Altın', value: metrics.alloc.gold, color: COLORS.gold },
-    { name: 'Nakit', value: metrics.alloc.cash, color: COLORS.cash },
-    { name: 'Mevduat', value: metrics.alloc.deposit, color: COLORS.deposit },
-  ].filter((d) => d.value > 0);
+  useEffect(() => {
+    if (positions.length > 0 && !xrayTracked.current) {
+      xrayTracked.current = true;
+      trackEvent('xray_view', {
+        positions: positions.length,
+        source,
+        guest,
+      });
+    }
+  }, [positions.length, source, guest]);
+
+  const depositMonthPct = useMemo(() => {
+    const deposits = positions.filter((p) => p.assetClass === 'deposit');
+    if (!deposits.length) return null;
+    const rates = deposits
+      .map((d) => d.depositRatePct)
+      .filter((r): r is number => r != null && Number.isFinite(r));
+    if (!rates.length) return null;
+    const avg = rates.reduce((a, b) => a + b, 0) / rates.length;
+    return avg / 12;
+  }, [positions]);
+
+  const equityMonthPct = useMemo(() => {
+    const eqCost =
+      metrics.cost -
+      positions
+        .filter((p) => p.assetClass === 'cash' || p.assetClass === 'deposit')
+        .reduce((s, p) => s + costBasisTry(p, usdTry), 0);
+    const eqValue =
+      metrics.value - metrics.alloc.cash - metrics.alloc.deposit;
+    if (eqCost <= 0) return metrics.pnlPct / 3;
+    return ((eqValue - eqCost) / eqCost) * 100;
+  }, [metrics, positions, usdTry]);
 
   const companionNotes = useMemo(
     () =>
@@ -149,6 +186,14 @@ export default function PortfolioPage() {
     ]
   );
 
+  const pieData = [
+    { name: 'BİST', value: metrics.alloc.bist, color: COLORS.bist },
+    { name: 'Kripto', value: metrics.alloc.crypto, color: COLORS.crypto },
+    { name: 'Altın', value: metrics.alloc.gold, color: COLORS.gold },
+    { name: 'Nakit', value: metrics.alloc.cash, color: COLORS.cash },
+    { name: 'Mevduat', value: metrics.alloc.deposit, color: COLORS.deposit },
+  ].filter((d) => d.value > 0);
+
   const entryPreview = Number(buyPrice.replace(',', '.'));
 
   function onSubmit(e: React.FormEvent) {
@@ -158,6 +203,7 @@ export default function PortfolioPage() {
     const qty = isPark ? 1 : Number(quantity.replace(',', '.'));
     if (!Number.isFinite(bp) || !Number.isFinite(qty) || qty <= 0) return;
 
+    const prevCount = positions.length;
     addPosition({
       symbol: isPark
         ? assetClass === 'cash'
@@ -183,6 +229,18 @@ export default function PortfolioPage() {
           ? Number(depositDays.replace(',', '.'))
           : undefined,
     });
+    trackEvent('inventory_add', {
+      symbol: isPark ? assetClass : symbol,
+      source: 'portfolio_form',
+      was_empty: prevCount === 0,
+      count_after: prevCount + 1,
+    });
+    if (prevCount === 0) {
+      trackEvent('inventory_first_add', { source: 'portfolio_form' });
+    }
+    if (guest && prevCount === 1) {
+      setForceSoftGate(true);
+    }
     setBuyPrice('');
     setQuantity('');
   }
@@ -197,6 +255,27 @@ export default function PortfolioPage() {
             Hisse, nakit, mevduat ve alarm — grafik değil, senin bilançon
           </p>
       </div>
+
+      <SoftGateBanner
+        visible={guest && positions.length >= 1}
+        force={forceSoftGate || positions.length >= 2}
+      />
+
+      {positions.length > 0 ? (
+        <>
+          <PortfolioXray
+            totalValue={metrics.xray.totalValue}
+            equityPct={metrics.xray.equityPct}
+            cashCushionPct={metrics.xray.cashCushionPct}
+            topSymbolSharePct={metrics.xray.topSymbolSharePct}
+            topSymbol={metrics.xray.topSymbol}
+          />
+          <VsDepositCounter
+            equityMonthPct={equityMonthPct}
+            depositMonthPct={depositMonthPct}
+          />
+        </>
+      ) : null}
 
       <CompanionBrief notes={companionNotes} />
 

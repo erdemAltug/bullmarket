@@ -22,6 +22,51 @@ const nextConfig: NextConfig = {
         destination: '/terminal',
         permanent: true,
       },
+      {
+        source: '/smart-money',
+        destination: '/whales',
+        permanent: true,
+      },
+      {
+        source: '/smart-money/:path*',
+        destination: '/whales',
+        permanent: true,
+      },
+      {
+        source: '/us',
+        destination: '/nasdaq',
+        permanent: true,
+      },
+      {
+        source: '/us/:symbol',
+        destination: '/nasdaq/:symbol',
+        permanent: true,
+      },
+      {
+        source: '/crypto',
+        destination: '/kripto',
+        permanent: true,
+      },
+      {
+        source: '/crypto/:symbol',
+        destination: '/kripto/:symbol',
+        permanent: true,
+      },
+      {
+        source: '/bist/:symbol/',
+        destination: '/bist/:symbol',
+        permanent: true,
+      },
+      {
+        source: '/nasdaq/:symbol/',
+        destination: '/nasdaq/:symbol',
+        permanent: true,
+      },
+      {
+        source: '/kripto/:symbol/',
+        destination: '/kripto/:symbol',
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

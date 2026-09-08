@@ -10,7 +10,7 @@ function TabTitleInner() {
   const searchParams = useSearchParams();
   const focusParam = searchParams.get('symbol');
 
-  const isCrypto = pathname === '/crypto' || pathname.startsWith('/crypto/');
+  const isCrypto = pathname === '/crypto' || pathname === '/kripto' || pathname.startsWith('/crypto/') || pathname.startsWith('/kripto/');
   const isBist =
     pathname === '/bist' ||
     (pathname.startsWith('/bist/') && !pathname.includes('heatmap'));
