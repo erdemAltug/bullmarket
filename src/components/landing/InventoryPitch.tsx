@@ -22,13 +22,12 @@ export function InventoryPitch() {
             Grafik her yerde. Senin envanterin burada.
           </h2>
           <p className="mt-4 leading-relaxed text-[var(--muted)]">
-            Hisse lotu, nakit, mevduat faizi ve fiyat alarmı tek sayfada.
-            Özet senin sayılarından üretilir — herkese aynı terminal değil.
-            Tarayıcıda dene; kayıt, başka cihazda da aynı envanter için.
+            Hisse lotu, nakit, mevduat ve fiyat alarmı tek sayfada. Özet, genel
+            piyasa skorundan değil — sizin girdiğiniz rakamlardan üretilir.
           </p>
           <ul className="mt-5 space-y-2 text-sm text-[var(--foreground)]">
-            <li>Mevduat: tutar, yıllık %, vade</li>
-            <li>Taşıdığın hisse ile alarmın eşleşir mi</li>
+            <li>Mevduat: tutar, yıllık oran ve vade</li>
+            <li>Taşıdığınız hisse ile alarm eşleşmesi</li>
             <li>İzleme listesinde olup envanterde olmayanlar</li>
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -44,16 +43,17 @@ export function InventoryPitch() {
               onClick={() =>
                 openAuth({
                   tab: 'register',
-                  feature: 'Envanter senkron',
+                  feature: 'Envanter hesabı',
                 })
               }
               className="inline-flex items-center rounded-lg border border-[var(--border)] px-5 py-3 text-sm font-semibold hover:border-[var(--accent)]/40"
             >
-              Kaydı aç — senkron
+              Hesap oluştur
             </button>
           </div>
           <p className="mt-3 text-[11px] text-[var(--muted)]">
-            Kayıt zorunlu değil. Zorunlu olan: yarın da aynı rakamları görmek.
+            Hesap zorunlu değildir. Aynı envanteri başka cihazda görmek için
+            yeterlidir.
           </p>
         </div>
         <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
@@ -62,18 +62,19 @@ export function InventoryPitch() {
           </p>
           <p className="mt-3 text-sm font-semibold">Nakit yastık</p>
           <p className="mt-1 text-sm text-[var(--muted)]">
-            Mevduat satırın ve BİST lotun aynı ekranda. Faiz senin girdiğin oran;
-            piyasa tahmini değil.
+            Mevduat ve BİST lotları aynı ekranda. Faiz, sizin girdiğiniz oran;
+            piyasa tahmini değildir.
           </p>
-          <p className="mt-4 text-sm font-semibold">Taşıyorsun, hedef yok</p>
+          <p className="mt-4 text-sm font-semibold">Pozisyon var, hedef yok</p>
           <p className="mt-1 text-sm text-[var(--muted)]">
-            Hisse envanterde, fiyat alarmı yoksa hatırlatırız. Karar sende.
+            Envanterdeki hisse için fiyat alarmı yoksa hatırlatırız. Karar size
+            aittir.
           </p>
           <TerminalCtaButton
             compact
             className="mt-6 inline-flex text-sm font-semibold text-[var(--accent)] hover:underline"
           >
-            Önce terminale bak
+            Terminale göz at
           </TerminalCtaButton>
         </div>
       </div>

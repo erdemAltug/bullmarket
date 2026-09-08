@@ -11,7 +11,7 @@ type MatchCTAProps = {
   className?: string;
 };
 
-/** “Kaç lotun var?” — guest envantere sıfır sürtünmeli ekleme. */
+/** Lot + maliyet → guest envanter. Form her zaman dikey; dar sheet’te kırılmaz. */
 export function MatchCTA({
   symbol,
   displaySymbol,
@@ -33,44 +33,44 @@ export function MatchCTA({
   return (
     <div
       className={cn(
-        'rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5',
+        'flex h-full flex-col rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5',
         className
       )}
     >
       <h3 className="text-sm font-semibold">Kişisel eşleşme</h3>
       <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-        Bu hisseden ({displaySymbol}) elinde kaç lot var? Maliyetini gir, risk
-        puanını hemen görelim.
+        {displaySymbol} için elinizdeki lot ve alış maliyetini girin; envanter
+        röntgenine anında yansır.
       </p>
-      <form onSubmit={submit} className="mt-4 grid gap-3 sm:grid-cols-3">
-        <label className="block text-xs text-[var(--muted)]">
-          Lot
-          <input
-            inputMode="decimal"
-            value={qty}
-            onChange={(e) => setQty(e.target.value)}
-            placeholder="100"
-            className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]"
-          />
-        </label>
-        <label className="block text-xs text-[var(--muted)]">
-          Alış (₺)
-          <input
-            inputMode="decimal"
-            value={cost}
-            onChange={(e) => setCost(e.target.value)}
-            placeholder="285,50"
-            className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]"
-          />
-        </label>
-        <div className="flex items-end">
-          <Button type="submit" className="w-full">
-            Envantere ekle
-          </Button>
+      <form onSubmit={submit} className="mt-4 flex flex-1 flex-col gap-3">
+        <div className="grid grid-cols-2 gap-3">
+          <label className="block min-w-0 text-xs text-[var(--muted)]">
+            Lot
+            <input
+              inputMode="decimal"
+              value={qty}
+              onChange={(e) => setQty(e.target.value)}
+              placeholder="100"
+              className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]"
+            />
+          </label>
+          <label className="block min-w-0 text-xs text-[var(--muted)]">
+            Alış
+            <input
+              inputMode="decimal"
+              value={cost}
+              onChange={(e) => setCost(e.target.value)}
+              placeholder="285,50"
+              className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]"
+            />
+          </label>
         </div>
+        <Button type="submit" className="mt-auto w-full shrink-0">
+          Envantere ekle
+        </Button>
       </form>
       <p className="mt-2 text-[10px] text-[var(--muted)]">
-        Kayıtsız deneme · {symbol} LocalStorage’da tutulur
+        Kayıt olmadan deneyebilirsiniz · {symbol.replace(/\.IS$/i, '')}
       </p>
     </div>
   );

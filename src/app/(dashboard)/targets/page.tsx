@@ -4,11 +4,6 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import useSWR from 'swr';
 import { Crosshair, Search } from 'lucide-react';
-import {
-  LockedValue,
-  ProtectedFeature,
-} from '@/components/auth/ProtectedFeature';
-import { authClient } from '@/lib/auth/client';
 import type { LiveAnalystTarget } from '@/lib/live-targets';
 import { cn } from '@/lib/utils';
 
@@ -44,8 +39,6 @@ function money(n: number, currency: 'TRY' | 'USD') {
 }
 
 export default function TargetsPage() {
-  const { data: session } = authClient.useSession();
-  const unlocked = Boolean(session?.user);
   const { data, error, isLoading } = useSWR('/api/targets', fetcher, {
     refreshInterval: 300_000,
     revalidateOnFocus: true,
@@ -87,7 +80,7 @@ export default function TargetsPage() {
           Analist tavsiyeleri ve hedef fiyatları
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Kurum konsensüsü · ortalama / yüksek / düşük hedef · ücretsiz
+          Kurum konsensüsü · ortalama / yüksek / düşük hedef
           {data?.updatedAt
             ? ` · güncelleme ${new Date(data.updatedAt).toLocaleTimeString('tr-TR')}`
             : ''}
@@ -254,27 +247,72 @@ export default function TargetsPage() {
 
                 <div className="border-t border-[var(--border)] pt-3">
                   <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-[var(--muted)]">
-                    Analist dağılımı ({item.analystCount} oy)
+                    Analist dağılımı
+                    {item.analystCount > 0
+                      ? ` · ${item.analystCount} oy`
+                      : ''}
                   </p>
-                  {unlocked ? (
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      <span>Güçlü Al {item.ratings.strongBuy}</span>
-                      <span>Al {item.ratings.buy}</span>
-                      <span>Tut {item.ratings.hold}</span>
-                      <span>Sat {item.ratings.sell + item.ratings.strongSell}</span>
-                    </div>
-                  ) : (
-                    <ProtectedFeature featureTitle="Analist Oy Dağılımı">
-                      <div className="flex flex-wrap gap-2 text-xs">
-                        <span>Güçlü Al {item.ratings.strongBuy}</span>
-                        <span>Al {item.ratings.buy}</span>
-                        <span>Tut {item.ratings.hold}</span>
-                        <span>
-                          Sat {item.ratings.sell + item.ratings.strongSell}
-                        </span>
+                  {(() => {
+                    const segs = [
+                      {
+                        label: 'Güçlü Al',
+                        n: item.ratings.strongBuy,
+                        color: 'bg-emerald-500',
+                      },
+                      {
+                        label: 'Al',
+                        n: item.ratings.buy,
+                        color: 'bg-emerald-400/80',
+                      },
+                      {
+                        label: 'Tut',
+                        n: item.ratings.hold,
+                        color: 'bg-zinc-500',
+                      },
+                      {
+                        label: 'Sat',
+                        n: item.ratings.sell + item.ratings.strongSell,
+                        color: 'bg-rose-500',
+                      },
+                    ];
+                    const total = segs.reduce((s, x) => s + x.n, 0);
+                    if (total <= 0) {
+                      return (
+                        <p className="text-xs text-[var(--muted)]">
+                          Oy dağılımı yok
+                        </p>
+                      );
+                    }
+                    return (
+                      <div className="space-y-2">
+                        <div className="flex h-2.5 overflow-hidden rounded-full bg-[var(--surface)]">
+                          {segs.map((s) =>
+                            s.n > 0 ? (
+                              <div
+                                key={s.label}
+                                className={cn('h-full min-w-0', s.color)}
+                                style={{ width: `${(s.n / total) * 100}%` }}
+                                title={`${s.label}: ${s.n}`}
+                              />
+                            ) : null
+                          )}
+                        </div>
+                        <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-[var(--muted)]">
+                          {segs.map((s) => (
+                            <span key={s.label} className="inline-flex items-center gap-1">
+                              <span
+                                className={cn(
+                                  'inline-block size-1.5 rounded-full',
+                                  s.color
+                                )}
+                              />
+                              {s.label} {s.n}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </ProtectedFeature>
-                  )}
+                    );
+                  })()}
                 </div>
               </article>
             );
@@ -292,12 +330,6 @@ export default function TargetsPage() {
             Daha Fazla Göster ({remaining} kaldı)
           </button>
         </div>
-      ) : null}
-
-      {!unlocked ? (
-        <p className="text-center text-xs text-[var(--muted)]">
-          <LockedValue feature="Analist oyları">Oy dağılımı kilitli</LockedValue>
-        </p>
       ) : null}
     </div>
   );

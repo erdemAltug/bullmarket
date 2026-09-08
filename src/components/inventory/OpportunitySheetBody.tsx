@@ -20,7 +20,7 @@ type OpportunitySheetBodyProps = {
   className?: string;
 };
 
-/** Arama sonucu — mum yerine 3 kart (P0 taslak gövde). */
+/** Arama sonucu — skor / konsensüs / lot; grafik ikincil. */
 export function OpportunitySheetBody({
   symbol,
   displaySymbol,
@@ -31,19 +31,23 @@ export function OpportunitySheetBody({
   className,
 }: OpportunitySheetBodyProps) {
   const upside = consensus.upsidePct;
+  const barPct =
+    upside == null
+      ? 40
+      : Math.min(100, Math.max(6, 50 + Math.min(40, Math.max(-40, upside)) / 1.2));
 
   return (
     <div className={cn('space-y-4', className)}>
-      <header>
+      <header className="pr-8">
         <p className="text-xs font-medium uppercase tracking-wider text-[var(--muted)]">
-          Fırsat karnesi · mum varsayılan kapalı
+          Fırsat karnesi
         </p>
         <h2 className="mt-1 text-xl font-semibold tracking-tight">
           {displaySymbol}
         </h2>
       </header>
 
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid gap-4">
         <ScoreCard symbol={displaySymbol} score={score} reasons={reasons} />
 
         <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5">
@@ -66,16 +70,35 @@ export function OpportunitySheetBody({
                   Prim potansiyeli {formatPercent(upside)}
                 </p>
               ) : null}
-              <div className="mt-4 h-2 overflow-hidden rounded-full bg-[var(--surface)]">
-                <div
-                  className="h-full bg-amber-400/80"
-                  style={{
-                    width: `${Math.min(100, Math.max(8, 50 + (upside ?? 0) / 2))}%`,
-                  }}
-                />
+              <div className="mt-4">
+                <div className="mb-1.5 flex justify-between text-[10px] text-[var(--muted)]">
+                  <span>Düşük</span>
+                  <span>Ortalama</span>
+                  <span>Yüksek</span>
+                </div>
+                <div className="relative h-2.5 overflow-hidden rounded-full bg-[var(--surface)]">
+                  <div
+                    className="absolute inset-y-0 left-0 rounded-full bg-amber-400/90"
+                    style={{ width: `${barPct}%` }}
+                  />
+                </div>
+                {(consensus.low != null || consensus.high != null) && (
+                  <div className="mt-1.5 flex justify-between font-mono text-[10px] text-[var(--muted)]">
+                    <span>
+                      {consensus.low != null
+                        ? `₺${consensus.low.toLocaleString('tr-TR', { maximumFractionDigits: 2 })}`
+                        : '—'}
+                    </span>
+                    <span>
+                      {consensus.high != null
+                        ? `₺${consensus.high.toLocaleString('tr-TR', { maximumFractionDigits: 2 })}`
+                        : '—'}
+                    </span>
+                  </div>
+                )}
               </div>
-              <p className="mt-2 text-[11px] text-[var(--muted)]">
-                Yatırım tavsiyesi değildir · kurum konsensüsü
+              <p className="mt-3 text-[11px] text-[var(--muted)]">
+                Kurum konsensüsü · yatırım tavsiyesi değildir
               </p>
             </>
           ) : (

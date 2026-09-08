@@ -162,7 +162,7 @@ export function LandingPage() {
             <p className="landing-fade-up landing-pill-glow mx-auto inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--accent)]/35 bg-[var(--glow-up)] px-3 py-1.5 text-[11px] font-semibold text-[var(--accent)] sm:text-xs">
               <Sparkles className="size-3.5 shrink-0" />
               <span className="truncate">
-                Yapay Zeka v2.4 yayında — BİST, NASDAQ ve Kripto radarı canlı
+                Bullsye — kişisel envanter ve finans asistanı
               </span>
             </p>
 
@@ -175,8 +175,8 @@ export function LandingPage() {
             </h1>
 
             <p className="landing-fade-up landing-delay-2 mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[var(--muted)] sm:text-lg">
-              BİST tarama ve fırsat skoru ücretsiz. Fark: senin lotun, mevduatın
-              ve hedef alarmın — kayıt, bunları hesabına yazmak içindir.
+              Canlı BİST tarama ve fırsat skoru herkese açık. Bullsye’yi ayıran,
+              lotunuzun, mevduatınızın ve alarmlarınızın aynı envanterde durması.
             </p>
 
             <div className="landing-fade-up landing-delay-3 mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -190,7 +190,7 @@ export function LandingPage() {
               </Link>
             </div>
             <p className="landing-fade-up landing-delay-3 mt-3 text-[11px] text-[var(--muted)]">
-              Kredi kartı yok · Terminal ücretsiz · Kayıt = envanter senkronu
+              Abonelik yok · Hesap, envanterinizi cihazlar arasında taşımak içindir
             </p>
           </div>
 
@@ -423,11 +423,11 @@ export function LandingPage() {
       {/* Final CTA */}
       <section className="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-28">
         <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
-          10 saniyede keşfedin
+          Envanterinizle başlayın
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-[var(--muted)]">
-          Ücretsiz canlı veriler — kredi kartı yok. AI skor, hedef fiyat ve
-          balina akışı hazır.
+          Canlı skor, hedef fiyat ve kişisel envanter — Bullsye’da tek
+          terminalde.
         </p>
         <TerminalCtaButton className="mt-8 inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-bold text-[#042f2e] shadow-[0_0_28px_rgba(20,184,166,0.28)] hover:brightness-110">
           Canlı Terminale Geç

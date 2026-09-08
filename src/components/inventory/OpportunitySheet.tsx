@@ -214,8 +214,8 @@ export function OpportunitySheet({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full max-w-full border-[var(--border)] bg-[var(--popover-bg)] p-0 sm:max-w-xl">
-        <div className="flex h-full flex-col overflow-y-auto p-5">
+      <SheetContent className="w-full max-w-full border-[var(--border)] bg-[var(--popover-bg)] p-0 sm:max-w-md md:max-w-lg">
+        <div className="flex h-full flex-col overflow-y-auto p-4 pb-8 sm:p-5">
           <SheetTitle className="sr-only">
             {asset ? `${asset.symbol} fırsat karnesi` : 'Fırsat karnesi'}
           </SheetTitle>
