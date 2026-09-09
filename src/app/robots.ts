@@ -1,11 +1,13 @@
 import type { MetadataRoute } from 'next';
 import { SITE_URL } from '@/lib/seo/symbols';
+import { sitemapShardFiles } from '@/lib/seo/sitemaps';
 
 /**
  * Public market/SEO surfaces must stay crawlable.
  * Private account + auth API only are blocked.
  */
 export default function robots(): MetadataRoute.Robots {
+  const shardAllows = sitemapShardFiles().map((f) => `/${f}`);
   return {
     rules: [
       {
@@ -18,6 +20,8 @@ export default function robots(): MetadataRoute.Robots {
           '/nasdaq/',
           '/kripto',
           '/kripto/',
+          '/karsilastir',
+          '/karsilastir/',
           '/targets',
           '/firsatlar',
           '/signals',
@@ -27,10 +31,7 @@ export default function robots(): MetadataRoute.Robots {
           '/blog',
           '/egitim',
           '/sitemap.xml',
-          '/sitemap-main.xml',
-          '/sitemap-bist.xml',
-          '/sitemap-nasdaq.xml',
-          '/sitemap-crypto.xml',
+          ...shardAllows,
         ],
         disallow: [
           '/api/',
@@ -81,10 +82,7 @@ export default function robots(): MetadataRoute.Robots {
     ],
     sitemap: [
       `${SITE_URL}/sitemap.xml`,
-      `${SITE_URL}/sitemap-main.xml`,
-      `${SITE_URL}/sitemap-bist.xml`,
-      `${SITE_URL}/sitemap-nasdaq.xml`,
-      `${SITE_URL}/sitemap-crypto.xml`,
+      ...sitemapShardFiles().map((f) => `${SITE_URL}/${f}`),
     ],
     host: SITE_URL,
   };

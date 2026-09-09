@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { BIST30_SYMBOLS } from '@/lib/bist-symbols';
 import { peersFor } from '@/lib/sector-peers';
+import { compareHref } from '@/lib/seo/compare-pairs';
 import { assetDetailHref } from '@/lib/seo/internal-links';
 import { toYahooSymbol } from '@/lib/seo/symbols';
 
@@ -69,13 +70,21 @@ export function RelatedSymbolRail({
               const href = assetDetailHref(p, category);
               if (!href) return null;
               return (
-                <li key={p}>
+                <li key={p} className="flex gap-1">
                   <Link
                     href={href}
                     className="inline-block rounded-lg border border-zinc-700 px-3 py-1.5 text-sm text-emerald-400 hover:border-emerald-500/40"
                   >
                     {p.replace('USDT', '')}
                   </Link>
+                  {kind === 'bist' ? (
+                    <Link
+                      href={compareHref(bare, p)}
+                      className="inline-block rounded-lg border border-zinc-700 px-2 py-1.5 text-xs text-zinc-400 hover:border-amber-500/40 hover:text-amber-300"
+                    >
+                      vs
+                    </Link>
+                  ) : null}
                 </li>
               );
             })}

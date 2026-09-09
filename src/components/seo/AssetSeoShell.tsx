@@ -6,6 +6,10 @@ import {
   FaqSchema,
 } from '@/components/seo/FinancialSchema';
 import { RelatedSymbolRail } from '@/components/seo/RelatedSymbolRail';
+import { ShareScorecardButton } from '@/components/seo/ShareScorecardButton';
+import { SymbolMatrixNav } from '@/components/seo/SymbolMatrixNav';
+import { SymbolSocialProof } from '@/components/seo/SymbolSocialProof';
+import { StickyInventoryWidget } from '@/components/seo/StickyInventoryWidget';
 import { assetDetailHref } from '@/lib/seo/internal-links';
 import { peersFor } from '@/lib/sector-peers';
 import { toYahooSymbol } from '@/lib/seo/symbols';
@@ -141,52 +145,93 @@ export function AssetSeoShell({
         </ol>
       </nav>
 
-      <header className="space-y-2">
-        <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-          {kindLabel} · Canlı Analiz
-        </p>
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-50">
-          {symbol}{' '}
-          <span className="text-lg font-normal text-zinc-400">· {name}</span>
-        </h1>
-        <p className="max-w-2xl text-sm text-zinc-500">
-          {symbol} canlı fiyat, grafik, temel analiz karnesi, analist hedef
-          fiyatları ve AI yorum — Bullsye. Kaynak tarama:{' '}
-          <Link href="/bist" className="text-emerald-400 hover:underline">
-            BİST
-          </Link>
-          {' · '}
-          <Link href="/firsatlar" className="text-emerald-400 hover:underline">
-            fırsat masası
-          </Link>
+      <div
+        className={
+          kind === 'bist'
+            ? 'grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(240px,280px)]'
+            : undefined
+        }
+      >
+        <div className="space-y-4">
           {kind === 'bist' ? (
             <>
-              {' · '}
-              <Link
-                href={`/bist/${symbol}/hedef-fiyat`}
-                className="text-amber-300 hover:underline"
-              >
-                hedef fiyat
-              </Link>
+              <SymbolMatrixNav symbol={symbol} active="" />
+              <SymbolSocialProof symbol={symbol} />
             </>
           ) : null}
-          .
-        </p>
-        <p
-          className={`text-2xl font-semibold tabular-nums ${
-            positive ? 'text-emerald-400' : 'text-rose-400'
-          }`}
-        >
-          {currencySymbol}
-          {price.toLocaleString('tr-TR', { maximumFractionDigits: 4 })}{' '}
-          <span className="text-base font-medium">
-            ({positive ? '+' : ''}
-            {changePercent.toFixed(2)}%)
-          </span>
-        </p>
-      </header>
 
-      {children}
+          <header className="space-y-2">
+            <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+              {kindLabel} · Canlı Analiz
+            </p>
+            <h1 className="text-3xl font-semibold tracking-tight text-zinc-50">
+              {symbol}{' '}
+              <span className="text-lg font-normal text-zinc-400">· {name}</span>
+            </h1>
+            <p className="max-w-2xl text-sm text-zinc-500">
+              {symbol} canlı fiyat, grafik, temel analiz karnesi, analist hedef
+              fiyatları ve AI yorum — Bullsye. Kaynak tarama:{' '}
+              <Link href="/bist" className="text-emerald-400 hover:underline">
+                BİST
+              </Link>
+              {' · '}
+              <Link href="/firsatlar" className="text-emerald-400 hover:underline">
+                fırsat masası
+              </Link>
+              {kind === 'bist' ? (
+                <>
+                  {' · '}
+                  <Link
+                    href={`/bist/${symbol}/hedef-fiyat`}
+                    className="text-amber-300 hover:underline"
+                  >
+                    hedef fiyat
+                  </Link>
+                  {' · '}
+                  <Link
+                    href={`/bist/${symbol}/temettu`}
+                    className="text-emerald-400 hover:underline"
+                  >
+                    temettü
+                  </Link>
+                  {' · '}
+                  <Link
+                    href={`/bist/${symbol}/bilanco`}
+                    className="text-emerald-400 hover:underline"
+                  >
+                    bilanço
+                  </Link>
+                </>
+              ) : null}
+              .
+            </p>
+            <p
+              className={`text-2xl font-semibold tabular-nums ${
+                positive ? 'text-emerald-400' : 'text-rose-400'
+              }`}
+            >
+              {currencySymbol}
+              {price.toLocaleString('tr-TR', { maximumFractionDigits: 4 })}{' '}
+              <span className="text-base font-medium">
+                ({positive ? '+' : ''}
+                {changePercent.toFixed(2)}%)
+              </span>
+            </p>
+            {kind === 'bist' ? (
+              <ShareScorecardButton symbol={symbol} path={selfPath} />
+            ) : null}
+          </header>
+
+          {children}
+        </div>
+        {kind === 'bist' ? (
+          <StickyInventoryWidget
+            symbol={symbol}
+            name={name}
+            price={price}
+          />
+        ) : null}
+      </div>
 
       <AssetReturnLoop symbol={symbol} name={name} href={selfPath} />
 

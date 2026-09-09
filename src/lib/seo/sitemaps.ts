@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { BLOG_POSTS, EDUCATION_LESSONS } from '@/content/academy';
+import { buildComparePairs } from '@/lib/seo/compare-pairs';
+import { SITEMAP_CHUNK_SIZE } from '@/lib/seo/matrix';
 import {
   SITE_URL,
   SEO_BIST_TICKERS,
@@ -27,7 +29,19 @@ function entry(
   };
 }
 
-/** Static marketing + tools — no redirecting legacy paths */
+export function chunkEntries(
+  entries: MetadataRoute.Sitemap,
+  size = SITEMAP_CHUNK_SIZE
+): MetadataRoute.Sitemap[] {
+  if (entries.length === 0) return [[]];
+  const chunks: MetadataRoute.Sitemap[] = [];
+  for (let i = 0; i < entries.length; i += size) {
+    chunks.push(entries.slice(i, i + size));
+  }
+  return chunks;
+}
+
+/** Static marketing + thematic hubs + tools */
 export function buildMainSitemap(): MetadataRoute.Sitemap {
   const staticPaths: {
     path: string;
@@ -40,8 +54,27 @@ export function buildMainSitemap(): MetadataRoute.Sitemap {
     { path: '/en', changeFrequency: 'weekly', priority: 0.9 },
     { path: '/bist', changeFrequency: 'always', priority: 1 },
     { path: '/bist/heatmap', changeFrequency: 'hourly', priority: 0.85 },
+    { path: '/bist/f-k-en-dusuk-hisseler', changeFrequency: 'daily', priority: 0.9 },
+    {
+      path: '/bist/yuksek-temettu-verenler-2026',
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    { path: '/bist/halka-arz-takvimi', changeFrequency: 'daily', priority: 0.85 },
     { path: '/nasdaq', changeFrequency: 'hourly', priority: 0.95 },
+    {
+      path: '/nasdaq/yapay-zeka-hisseleri',
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
     { path: '/kripto', changeFrequency: 'hourly', priority: 0.95 },
+    {
+      path: '/kripto/balina-hareketleri-ve-trendler',
+      changeFrequency: 'hourly',
+      priority: 0.85,
+    },
+    { path: '/karsilastir', changeFrequency: 'daily', priority: 0.9 },
+    { path: '/compare', changeFrequency: 'weekly', priority: 0.7 },
     { path: '/fon', changeFrequency: 'daily', priority: 0.8 },
     { path: '/firsatlar', changeFrequency: 'hourly', priority: 1 },
     { path: '/targets', changeFrequency: 'hourly', priority: 1 },
@@ -90,18 +123,43 @@ export function buildMainSitemap(): MetadataRoute.Sitemap {
   return [...staticRoutes, ...egitim, ...blog, ...funds, ...fx];
 }
 
-export function buildBistSitemap(): MetadataRoute.Sitemap {
+/** 1 symbol × 4 matrix pages */
+export function buildBistMatrixEntries(): MetadataRoute.Sitemap {
   const symbols = SEO_BIST_TICKERS.filter((s) => !s.startsWith('XU'));
-  const detail = symbols.map((symbol) =>
-    entry(`/bist/${symbol}`, { changeFrequency: 'hourly', priority: 0.9 })
-  );
-  const targets = symbols.map((symbol) =>
-    entry(`/bist/${symbol}/hedef-fiyat`, {
-      changeFrequency: 'daily',
-      priority: 0.95,
-    })
-  );
-  return [...detail, ...targets];
+  const out: MetadataRoute.Sitemap = [];
+  for (const symbol of symbols) {
+    out.push(
+      entry(`/bist/${symbol}`, { changeFrequency: 'hourly', priority: 0.9 })
+    );
+    out.push(
+      entry(`/bist/${symbol}/hedef-fiyat`, {
+        changeFrequency: 'daily',
+        priority: 0.95,
+      })
+    );
+    out.push(
+      entry(`/bist/${symbol}/temettu`, {
+        changeFrequency: 'daily',
+        priority: 0.88,
+      })
+    );
+    out.push(
+      entry(`/bist/${symbol}/bilanco`, {
+        changeFrequency: 'daily',
+        priority: 0.88,
+      })
+    );
+  }
+  return out;
+}
+
+/** @deprecated use shards — kept for backward URL */
+export function buildBistSitemap(): MetadataRoute.Sitemap {
+  return buildBistMatrixEntries();
+}
+
+export function buildBistSitemapChunks(): MetadataRoute.Sitemap[] {
+  return chunkEntries(buildBistMatrixEntries());
 }
 
 export function buildNasdaqSitemap(): MetadataRoute.Sitemap {
@@ -110,9 +168,22 @@ export function buildNasdaqSitemap(): MetadataRoute.Sitemap {
   );
 }
 
+export function buildNasdaqSitemapChunks(): MetadataRoute.Sitemap[] {
+  return chunkEntries(buildNasdaqSitemap());
+}
+
 export function buildCryptoSitemap(): MetadataRoute.Sitemap {
   return SEO_CRYPTO_SYMBOLS.map((symbol) =>
     entry(`/kripto/${symbol}`, { changeFrequency: 'hourly', priority: 0.9 })
+  );
+}
+
+export function buildCompareSitemap(): MetadataRoute.Sitemap {
+  return buildComparePairs().map((p) =>
+    entry(`/karsilastir/${p.slug}`, {
+      changeFrequency: 'weekly',
+      priority: 0.82,
+    })
   );
 }
 
@@ -142,15 +213,21 @@ ${urls}
 </urlset>`;
 }
 
+export function sitemapShardFiles(): string[] {
+  const bistN = buildBistSitemapChunks().length;
+  const nasdaqN = buildNasdaqSitemapChunks().length;
+  const files = ['sitemap-main.xml'];
+  for (let i = 1; i <= bistN; i++) files.push(`sitemap-bist-${i}.xml`);
+  for (let i = 1; i <= nasdaqN; i++) files.push(`sitemap-nasdaq-${i}.xml`);
+  files.push('sitemap-crypto.xml', 'sitemap-karsilastir.xml');
+  // legacy aliases still listed for older Search Console
+  files.push('sitemap-bist.xml', 'sitemap-nasdaq.xml');
+  return files;
+}
+
 export function sitemapIndexXml(): string {
-  const files = [
-    'sitemap-main.xml',
-    'sitemap-bist.xml',
-    'sitemap-nasdaq.xml',
-    'sitemap-crypto.xml',
-  ];
   const lastmod = new Date().toISOString();
-  const body = files
+  const body = sitemapShardFiles()
     .map(
       (f) => `  <sitemap>
     <loc>${SITE_URL}/${f}</loc>

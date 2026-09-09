@@ -5,6 +5,7 @@ import {
   SCANNER_TEFAS_CODES,
   SCANNER_US_UNIQUE,
 } from '@/lib/scanner-universe';
+import { LONG_TAIL_BIST } from '@/lib/seo/long-tail-bist';
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
@@ -12,10 +13,15 @@ export const SITE_URL =
 
 export const BRAND = 'Bullsye';
 
-/** Scanner ile tek kaynak: sitemap, static params ve dahili linkler aynı evren. */
-export const SEO_BIST_TICKERS: readonly string[] = SCANNER_BIST_UNIQUE.map(
-  (symbol) => symbol.replace(/\.IS$/i, '')
-);
+/** Scanner + long-tail: sitemap / allowlist / ISR aynı evren. */
+export const SEO_BIST_TICKERS: readonly string[] = [
+  ...new Set([
+    ...SCANNER_BIST_UNIQUE.map((symbol) =>
+      symbol.replace(/\.IS$/i, '').toUpperCase()
+    ),
+    ...LONG_TAIL_BIST.map((s) => s.toUpperCase()),
+  ]),
+];
 
 export const SEO_CRYPTO_SYMBOLS: readonly string[] = [
   ...new Set(SCANNER_CRYPTO_SYMBOLS),

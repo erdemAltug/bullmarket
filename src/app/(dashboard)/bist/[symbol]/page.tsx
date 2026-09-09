@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
+import { SymbolAnalysisIsland } from '@/components/analysis/SymbolAnalysisIsland';
 import { AnalystTargetCard } from '@/components/asset/AnalystTargetCard';
 import { AssetFundamentalsStrip } from '@/components/asset/AssetFundamentalsStrip';
 import { BistHealthScorecard } from '@/components/dashboard/AssetHealthScorecard';
@@ -21,6 +22,7 @@ import {
 import { absoluteCanonical } from '@/lib/seo/canonical';
 
 export const revalidate = 300;
+export const dynamicParams = true;
 
 type Props = {
   params: Promise<{ symbol: string }>;
@@ -72,7 +74,7 @@ export async function generateMetadata({
     ? `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı, prim potansiyeli ve Bullsye AI fırsat skorunu anlık inceleyin.${hasLiveQuote ? ` Canlı: ₺${price} (${change}).` : ''}`
     : `Live ${name} (${symbol}) BIST quote, 12-month analyst consensus, upside and Bullsye AI opportunity score.${hasLiveQuote ? ` Now ₺${price} (${change}).` : ''}`;
 
-  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(hasLiveQuote ? `₺${price}` : 'Canlı Analiz')}&change=${encodeURIComponent(hasLiveQuote ? change : 'BİST')}&label=${encodeURIComponent(isTr ? 'BIST' : 'BIST Live')}&type=BIST&lang=${lang}`;
+  const ogImage = `${SITE_URL}/api/og/bist/${encodeURIComponent(symbol)}`;
 
   return {
     title: { absolute: title },
@@ -221,15 +223,17 @@ export default async function BistSymbolPage({ params }: Props) {
         {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
       </div>
 
+      <SymbolAnalysisIsland symbol={symbol} yahooSymbol={yahoo} />
+
       <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 text-sm leading-relaxed text-[var(--muted)]">
         <h2 className="mb-2 text-base font-semibold text-[var(--foreground)]">
           {symbol} detaylı analiz
         </h2>
         <p>
           {quote.name} ({symbol}) Borsa İstanbul&apos;da işlem görür. Bu
-          sayfada canlı grafik (SMA 20/50 + hacim), F/K–PD/DD çarpanları, 52
-          haftalık aralık, AI sağlık karnesi ve 12 aylık analist hedef
-          konsensüsü bulunur. Alarm için fiyat kartına tıklayın; kıyas için{' '}
+          sayfada canlı grafik, F/K–PD/DD, sağlık karnesi, analist hedefi ve
+          ücretsiz gelişmiş analitik (reel getiri, radar, akran, temettü DRIP,
+          teknik seviyeler) bulunur. Kıyas için{' '}
           <a href="/compare" className="text-[var(--accent)] hover:underline">
             1v1 Kıyasla
           </a>

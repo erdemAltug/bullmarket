@@ -7,6 +7,7 @@ import {
   FaqSchema,
   FinancialSchema,
 } from '@/components/seo/FinancialSchema';
+import { BistMatrixShell } from '@/components/seo/BistMatrixShell';
 import { RelatedSymbolRail } from '@/components/seo/RelatedSymbolRail';
 import { fetchFundamentals, fetchQuotes } from '@/lib/api/yahoo';
 import { fromLiveFundamentals } from '@/lib/analystData';
@@ -22,6 +23,7 @@ import {
 } from '@/lib/seo/symbols';
 
 export const revalidate = 300;
+export const dynamicParams = true;
 
 type Props = {
   params: Promise<{ symbol: string }>;
@@ -87,11 +89,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: 'Bullsye',
       locale: 'tr_TR',
       type: 'website',
+      images: [
+        {
+          url: `${SITE_URL}/api/og/bist/${symbol}?page=hedef-fiyat`,
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [`${SITE_URL}/api/og/bist/${symbol}?page=hedef-fiyat`],
     },
   };
 }
@@ -159,7 +169,7 @@ export default async function BistTargetPricePage({ params }: Props) {
   ];
 
   return (
-    <article className="space-y-6">
+    <div className="space-y-6">
       <FinancialSchema
         symbol={symbol}
         name={name}
@@ -171,105 +181,67 @@ export default async function BistTargetPricePage({ params }: Props) {
       <FaqSchema items={faqs} />
       <BreadcrumbSchema items={crumbs} />
 
-      <nav aria-label="Breadcrumb" className="text-xs text-zinc-500">
-        <ol className="flex flex-wrap items-center gap-1.5">
-          {crumbs.map((c, i) => (
-            <li key={c.path} className="flex items-center gap-1.5">
-              {i > 0 ? <span className="text-zinc-700">/</span> : null}
-              {i === crumbs.length - 1 ? (
-                <span className="text-zinc-300">{c.name}</span>
-              ) : (
-                <Link href={c.path} className="hover:text-emerald-400">
-                  {c.name}
-                </Link>
-              )}
-            </li>
-          ))}
-        </ol>
-      </nav>
-
-      <header className="space-y-2">
-        <p className="text-xs font-medium uppercase tracking-wider text-amber-400/80">
-          Analist hedef fiyat · {year}
-        </p>
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-50">
-          {symbol} Hedef Fiyat
-        </h1>
-        <p className="max-w-2xl text-sm text-zinc-500">
-          {name} ({symbol}) 12 aylık kurum konsensüsü, Al/Tut/Sat dağılımı ve
-          prim potansiyeli. Canlı fiyat ve grafik için{' '}
-          <Link
-            href={`/bist/${symbol}`}
-            className="text-emerald-400 hover:underline"
-          >
-            {symbol} hisse sayfası
-          </Link>
-          .
-        </p>
-        {price > 0 ? (
-          <p className="text-xl font-semibold tabular-nums text-zinc-100">
-            Canlı ₺{price.toLocaleString('tr-TR', { maximumFractionDigits: 2 })}{' '}
-            <span
-              className={
-                changePercent >= 0 ? 'text-emerald-400' : 'text-rose-400'
-              }
-            >
-              ({changePercent >= 0 ? '+' : ''}
-              {changePercent.toFixed(2)}%)
-            </span>
+      <BistMatrixShell
+        symbol={symbol}
+        name={name}
+        price={price}
+        changePercent={changePercent}
+        active="hedef-fiyat"
+        path={path}
+        title={`${symbol} Hedef Fiyat ${year}`}
+        subtitle={`${name} 12 aylık kurum konsensüsü, Al/Tut/Sat dağılımı ve prim potansiyeli.`}
+        scoreHint={
+          upside != null ? `prim %${upside.toFixed(1)}` : undefined
+        }
+      >
+        {analystCard ? (
+          <AnalystTargetCard data={analystCard} />
+        ) : (
+          <p className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 text-sm text-[var(--muted)]">
+            Bu sembol için kurumsal hedef fiyat konsensüsü alınamadı. Genel
+            liste:{' '}
+            <Link href="/targets" className="text-[var(--accent)] hover:underline">
+              /targets
+            </Link>
+            .
           </p>
-        ) : null}
-      </header>
+        )}
 
-      {analystCard ? (
-        <AnalystTargetCard data={analystCard} />
-      ) : (
-        <p className="rounded-xl border border-zinc-800 bg-zinc-950 p-5 text-sm text-zinc-400">
-          Bu sembol için şu an kurumsal hedef fiyat konsensüsü alınamadı.
-          Genel liste:{' '}
-          <Link href="/targets" className="text-emerald-400 hover:underline">
-            /targets
-          </Link>
-          .
+        <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 text-sm leading-relaxed text-[var(--muted)]">
+          <h2 className="mb-2 text-base font-semibold text-[var(--foreground)]">
+            {symbol} hedef fiyat nasıl yorumlanır?
+          </h2>
+          <p>
+            Konsensüs hedef, birden fazla aracı kurumun 12 aylık tahmin
+            ortalamasıdır. Prim potansiyeli canlı fiyata göredir ve getiri
+            garantisi değildir. Bullsye yatırım tavsiyesi vermez.
+          </p>
+        </section>
+
+        <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
+          <h2 className="mb-3 text-base font-semibold text-[var(--foreground)]">
+            Sıkça Sorulan Sorular
+          </h2>
+          <dl className="space-y-3">
+            {faqs.map((item) => (
+              <div key={item.question}>
+                <dt className="text-sm font-medium text-[var(--foreground)]">
+                  {item.question}
+                </dt>
+                <dd className="mt-1 text-sm leading-relaxed text-[var(--muted)]">
+                  {item.answer}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <RelatedSymbolRail symbol={symbol} kind="bist" />
+        <p className="text-[11px] text-[var(--muted)]">
+          Kaynak: Yahoo Finance · {SITE_URL}
+          {path}
         </p>
-      )}
-
-      <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-400">
-        <h2 className="mb-2 text-base font-semibold text-zinc-100">
-          {symbol} hedef fiyat nasıl yorumlanır?
-        </h2>
-        <p>
-          Konsensüs hedef, birden fazla aracı kurumun 12 aylık tahmin
-          ortalamasıdır. Prim potansiyeli canlı fiyata göredir ve getiri
-          garantisi değildir. Bullsye yatırım tavsiyesi vermez; karar size
-          aittir.
-        </p>
-      </section>
-
-      <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5">
-        <h2 className="mb-3 text-base font-semibold text-zinc-100">
-          Sıkça Sorulan Sorular
-        </h2>
-        <dl className="space-y-3">
-          {faqs.map((item) => (
-            <div key={item.question}>
-              <dt className="text-sm font-medium text-zinc-200">
-                {item.question}
-              </dt>
-              <dd className="mt-1 text-sm leading-relaxed text-zinc-400">
-                {item.answer}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <RelatedSymbolRail symbol={symbol} kind="bist" />
-
-      <p className="text-[11px] text-zinc-600">
-        Kaynak: Yahoo Finance analist alanları · {SITE_URL}
-        {path}
-      </p>
-    </article>
+      </BistMatrixShell>
+    </div>
   );
 }
