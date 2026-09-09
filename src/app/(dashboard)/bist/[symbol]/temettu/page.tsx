@@ -13,10 +13,7 @@ import { fetchDividendSnapshot, fetchFundamentals, fetchQuotes } from '@/lib/api
 import { buildSymbolAnalysisBundle } from '@/lib/analysis/build-bundle';
 import { absoluteCanonical } from '@/lib/seo/canonical';
 import { withLangAlternates } from '@/lib/seo/hreflang';
-import {
-  ISR_LONGTAIL_REVALIDATE,
-  ISR_STATIC_TOP_N,
-} from '@/lib/seo/matrix';
+import { ISR_STATIC_TOP_N } from '@/lib/seo/matrix';
 import {
   SITE_URL,
   SEO_BIST_TICKERS,
@@ -26,7 +23,7 @@ import {
   toYahooSymbol,
 } from '@/lib/seo/symbols';
 
-export const revalidate = ISR_LONGTAIL_REVALIDATE;
+export const revalidate = 86400;
 export const dynamicParams = true;
 
 type Props = { params: Promise<{ symbol: string }> };

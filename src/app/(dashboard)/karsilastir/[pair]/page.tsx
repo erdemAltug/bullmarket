@@ -13,11 +13,11 @@ import {
   parseCompareSlug,
 } from '@/lib/seo/compare-pairs';
 import { withLangAlternates } from '@/lib/seo/hreflang';
-import { ISR_LONGTAIL_REVALIDATE, ISR_STATIC_TOP_N } from '@/lib/seo/matrix';
+import { ISR_STATIC_TOP_N } from '@/lib/seo/matrix';
 import { SITE_URL, toYahooSymbol } from '@/lib/seo/symbols';
 import type { CompareMetrics } from '@/types';
 
-export const revalidate = ISR_LONGTAIL_REVALIDATE;
+export const revalidate = 86400;
 export const dynamicParams = true;
 
 type Props = { params: Promise<{ pair: string }> };

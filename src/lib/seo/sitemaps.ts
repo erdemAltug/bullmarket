@@ -214,13 +214,12 @@ ${urls}
 }
 
 export function sitemapShardFiles(): string[] {
-  const bistN = buildBistSitemapChunks().length;
-  const nasdaqN = buildNasdaqSitemapChunks().length;
+  const bistN = Math.min(3, Math.max(1, buildBistSitemapChunks().length));
+  const nasdaqN = Math.min(1, Math.max(1, buildNasdaqSitemapChunks().length));
   const files = ['sitemap-main.xml'];
   for (let i = 1; i <= bistN; i++) files.push(`sitemap-bist-${i}.xml`);
   for (let i = 1; i <= nasdaqN; i++) files.push(`sitemap-nasdaq-${i}.xml`);
   files.push('sitemap-crypto.xml', 'sitemap-karsilastir.xml');
-  // legacy aliases still listed for older Search Console
   files.push('sitemap-bist.xml', 'sitemap-nasdaq.xml');
   return files;
 }
