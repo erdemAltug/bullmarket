@@ -43,11 +43,8 @@ export function RealReturnModule({ data }: Props) {
   return (
     <article className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5">
       <h3 className="text-sm font-semibold text-[var(--foreground)]">
-        Enflasyon ve dolar bazlı reel getiri
+        Reel getiri
       </h3>
-      <p className="mt-1 text-xs text-[var(--muted)]">
-        Başlangıç = 100. TÜFE tablosu kamuya açık yaklaşık endeks.
-      </p>
 
       <div className="mt-3 flex gap-1 overflow-x-auto pb-1">
         {MODES.map((m) => (

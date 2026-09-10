@@ -22,10 +22,7 @@ export function TechLevelsModule({ data }: Props) {
   const l = data.levels;
   return (
     <article className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5">
-      <h3 className="text-sm font-semibold">Akıllı teknik seviyeler</h3>
-      <p className="mt-1 text-xs text-[var(--muted)]">
-        SMA 20/50/200 + Fibonacci (120 gün penceresi) · kural tabanlı
-      </p>
+      <h3 className="text-sm font-semibold">Teknik seviyeler</h3>
 
       <p className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-sm leading-relaxed text-[var(--foreground)]">
         {l.summary}

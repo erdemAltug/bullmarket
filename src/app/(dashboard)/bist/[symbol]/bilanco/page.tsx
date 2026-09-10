@@ -162,8 +162,7 @@ export default async function BistBilancoPage({ params }: Props) {
         changePercent={changePercent}
         active="bilanco"
         path={path}
-        title={`${symbol} Bilanço & Rasyo Karnesi`}
-        subtitle={`${name} F/K, PD/DD, ROE ve büyüme özeti — ücretsiz kamuya açık veri.`}
+        title={`${symbol} Bilanço`}
         scoreHint={f?.trailingPE != null ? `F/K ${f.trailingPE.toFixed(1)}` : undefined}
       >
         {f ? (

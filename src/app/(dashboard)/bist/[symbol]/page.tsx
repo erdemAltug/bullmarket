@@ -67,12 +67,12 @@ export async function generateMetadata({
 
   const year = new Date().getFullYear();
   const title = isTr
-    ? `${symbol} Hedef Fiyat ${year}, AI Skoru ve Canlı Analiz | Bullsye`
-    : `${symbol} Price Target ${year}, AI Score & Live Chart | Bullsye`;
+    ? `${symbol} Hedef Fiyat ${year}, Analiz Skoru ve Canlı Grafik | Bullsye`
+    : `${symbol} Price Target ${year}, Score & Live Chart | Bullsye`;
 
   const description = isTr
-    ? `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı, prim potansiyeli ve Bullsye AI fırsat skorunu anlık inceleyin.${hasLiveQuote ? ` Canlı: ₺${price} (${change}).` : ''}`
-    : `Live ${name} (${symbol}) BIST quote, 12-month analyst consensus, upside and Bullsye AI opportunity score.${hasLiveQuote ? ` Now ₺${price} (${change}).` : ''}`;
+    ? `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı, prim potansiyeli ve Bullsye analiz skorunu inceleyin.${hasLiveQuote ? ` Canlı: ₺${price} (${change}).` : ''}`
+    : `Live ${name} (${symbol}) BIST quote, 12-month analyst consensus, upside and Bullsye score.${hasLiveQuote ? ` Now ₺${price} (${change}).` : ''}`;
 
   const ogImage = `${SITE_URL}/api/og/bist/${encodeURIComponent(symbol)}`;
 
@@ -94,13 +94,13 @@ export async function generateMetadata({
           `${symbol} chart`,
           `${symbol} stock analysis`,
           'BIST live',
-          'AI stock scorecard',
+          'stock scorecard',
         ],
     alternates: withLangAlternates(path),
     openGraph: {
       title: isTr
         ? `${symbol} Hisse Analizi & Canlı Grafik | Bullsye`
-        : `${symbol} Live Chart & AI Signals | Bullsye`,
+        : `${symbol} Live Chart & Signals | Bullsye`,
       description: isTr
         ? `${symbol} hisse senedi canlı veri ve akıllı alım sinyalleri.`
         : `Live ${symbol} quotes, charts and smart buy signals.`,
@@ -224,22 +224,6 @@ export default async function BistSymbolPage({ params }: Props) {
       </div>
 
       <SymbolAnalysisIsland symbol={symbol} yahooSymbol={yahoo} />
-
-      <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 text-sm leading-relaxed text-[var(--muted)]">
-        <h2 className="mb-2 text-base font-semibold text-[var(--foreground)]">
-          {symbol} detaylı analiz
-        </h2>
-        <p>
-          {quote.name} ({symbol}) Borsa İstanbul&apos;da işlem görür. Bu
-          sayfada canlı grafik, F/K–PD/DD, sağlık karnesi, analist hedefi ve
-          ücretsiz gelişmiş analitik (reel getiri, radar, akran, temettü DRIP,
-          teknik seviyeler) bulunur. Kıyas için{' '}
-          <a href="/compare" className="text-[var(--accent)] hover:underline">
-            1v1 Kıyasla
-          </a>
-          .
-        </p>
-      </section>
     </AssetSeoShell>
   );
 }

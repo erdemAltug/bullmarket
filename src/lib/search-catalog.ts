@@ -81,14 +81,14 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
   },
   {
     id: 'nav-firsatlar',
-    label: 'AI Fırsat Alımları',
-    keywords: 'fırsat opportunity ai alım sinyal radar canlı',
+    label: 'Skor taraması',
+    keywords: 'tarama skor alım sinyal radar canlı',
     kind: 'nav',
     href: '/firsatlar',
   },
   {
     id: 'nav-signals',
-    label: 'AI Sinyalleri',
+    label: 'Sinyaller',
     keywords: 'signals sinyal rsi alım satım radar',
     kind: 'nav',
     href: '/signals',

@@ -60,7 +60,7 @@ function kindLabel(kind: AlertKind): string {
     case 'rsi_below':
       return 'RSI altı';
     case 'score_above':
-      return 'AI skor üstü';
+      return 'Skor üstü';
     default:
       return kind;
   }

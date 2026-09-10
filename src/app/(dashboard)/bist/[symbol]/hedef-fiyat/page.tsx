@@ -68,8 +68,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const meanStr =
     mean != null ? formatMetaPrice(mean, 'TRY') : null;
 
-  const title = `${symbol} Hedef Fiyat ${year}, AI Skoru ve Canlı Analiz | Bullsye`;
-  const description = `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı${meanStr ? ` (ort. ₺${meanStr})` : ''}${upside != null ? `, prim potansiyeli %${upside.toFixed(1)}` : ''} ve Bullsye AI fırsat skorunu anlık inceleyin.${price ? ` Canlı: ₺${price}.` : ''}`;
+  const title = `${symbol} Hedef Fiyat ${year}, Analiz Skoru ve Canlı Grafik | Bullsye`;
+  const description = `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı${meanStr ? ` (ort. ₺${meanStr})` : ''}${upside != null ? `, prim potansiyeli %${upside.toFixed(1)}` : ''} ve Bullsye analiz skorunu inceleyin.${price ? ` Canlı: ₺${price}.` : ''}`;
 
   return {
     title: { absolute: title },
@@ -150,9 +150,9 @@ export default async function BistTargetPricePage({ params }: Props) {
           : `${name} (${symbol}) için güncel kurumsal hedef fiyat konsensüsü bu sayfada gösterilir. Veri yoksa kurum raporları henüz yayımlanmamış olabilir.`,
     },
     {
-      question: 'Bullsye AI fırsat skoru nasıl hesaplanır?',
+      question: 'Bullsye analiz skoru nasıl hesaplanır?',
       answer:
-        'AI fırsat skoru F/K, hacim ivmesi, RSI/hareketli ortalamalar ve gün içi bant konumunun ağırlıklı bileşimiyle 0–100 arası üretilir.',
+        'Analiz skoru F/K, hacim ivmesi, RSI/hareketli ortalamalar ve gün içi bant konumunun ağırlıklı bileşimiyle 0–100 arası üretilir.',
     },
     {
       question: `${symbol} hedef fiyatı nasıl okunur?`,
@@ -189,7 +189,6 @@ export default async function BistTargetPricePage({ params }: Props) {
         active="hedef-fiyat"
         path={path}
         title={`${symbol} Hedef Fiyat ${year}`}
-        subtitle={`${name} 12 aylık kurum konsensüsü, Al/Tut/Sat dağılımı ve prim potansiyeli.`}
         scoreHint={
           upside != null ? `prim %${upside.toFixed(1)}` : undefined
         }

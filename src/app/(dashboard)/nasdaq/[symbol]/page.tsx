@@ -63,12 +63,12 @@ export async function generateMetadata({
   const year = new Date().getFullYear();
 
   const title = isTr
-    ? `${symbol} Hedef Fiyat ${year}, AI Skoru ve Canlı Analiz | Bullsye`
-    : `${symbol} Price Target ${year}, AI Score & Live Chart | Bullsye`;
+    ? `${symbol} Hedef Fiyat ${year}, Analiz Skoru ve Canlı Grafik | Bullsye`
+    : `${symbol} Price Target ${year}, Score & Live Chart | Bullsye`;
 
   const description = isTr
-    ? `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı, prim potansiyeli ve Bullsye AI fırsat skorunu anlık inceleyin.${hasLiveQuote ? ` Canlı: $${price} (${change}).` : ''}`
-    : `Live ${name} (${symbol}) NASDAQ quote, analyst consensus and Bullsye AI score.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
+    ? `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı, prim potansiyeli ve Bullsye analiz skorunu inceleyin.${hasLiveQuote ? ` Canlı: $${price} (${change}).` : ''}`
+    : `Live ${name} (${symbol}) NASDAQ quote, analyst consensus and Bullsye score.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
 
   return {
     title: { absolute: title },
@@ -190,7 +190,7 @@ export default async function NasdaqSymbolPage({ params }: Props) {
         </h2>
         <p>
           {quote.name} ({symbol}) ABD piyasalarında işlem görür. Canlı grafik,
-          çarpanlar, AI sağlık karnesi ve analist hedef konsensüsü bu sayfada.
+          çarpanlar, sağlık karnesi ve analist hedef konsensüsü bu sayfada.
         </p>
       </section>
     </AssetSeoShell>

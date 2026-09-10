@@ -67,7 +67,7 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
         id: 'bullsye-ile',
         heading: 'Bullsye ile canlı takip',
         paragraphs: [
-          'Bullsye Overview ve BİST sayfalarında canlı fiyat, AI sinyal radarı ve analist hedeflerini yan yana görürsünüz. Eğitimde öğrendiğiniz kavramları hemen uygulamaya dökmek için ücretsiz terminal yeterlidir.',
+          'Bullsye Overview ve BİST sayfalarında canlı fiyat, sinyal radarı ve analist hedeflerini yan yana görürsünüz. Eğitimde öğrendiğiniz kavramları hemen uygulamaya dökmek için ücretsiz terminal yeterlidir.',
         ],
       },
     ],
@@ -198,11 +198,11 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
   },
   {
     category: 'teknik-analiz',
-    categoryTitle: 'Teknik Analiz & AI Sinyalleri',
+    categoryTitle: 'Teknik Analiz & Sinyaller',
     slug: 'rsi-indikatoru-nedir',
     title: 'RSI İndikatörü Nedir? Aşırı Satım ve Alım Sinyalleri',
     description:
-      'RSI (Relative Strength Index) 14 periyot nasıl okunur? 30 altı aşırı satım, 70 üstü aşırı alım. Bullsye AI Signal Radar ile canlı RSI kırılımları.',
+      'RSI (Relative Strength Index) 14 periyot nasıl okunur? 30 altı aşırı satım, 70 üstü aşırı alım. Bullsye Sinyal Radarı ile canlı RSI kırılımları.',
     keywords: [
       'RSI indikatörü nedir',
       'aşırı satım',
@@ -216,9 +216,9 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
     readingMinutes: 7,
     toolCta: {
       href: '/signals',
-      label: 'AI Signal Radar’ı İncele',
+      label: 'Sinyal Radarı’ı İncele',
       blurb:
-        'BİST hisselerinin canlı RSI sinyallerini görmek için AI Signal Radar’ı inceleyin.',
+        'BİST hisselerinin canlı RSI sinyallerini görmek için Sinyal Radarı’ı inceleyin.',
     },
     sections: [
       {
@@ -244,7 +244,7 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
         id: 'uygulama',
         heading: 'Bullsye’da uygulama',
         paragraphs: [
-          'AI Signal Radar ve /alerts sayfasında RSI kırılımlarını canlı izleyin. Eğitimdeki teoriyi hemen pratik terminale taşımak dönüşümün anahtarıdır.',
+          'Sinyal Radarı ve /alerts sayfasında RSI kırılımlarını canlı izleyin. Eğitimdeki teoriyi hemen pratik terminale taşımak dönüşümün anahtarıdır.',
         ],
       },
     ],
@@ -258,7 +258,7 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
   },
   {
     category: 'teknik-analiz',
-    categoryTitle: 'Teknik Analiz & AI Sinyalleri',
+    categoryTitle: 'Teknik Analiz & Sinyaller',
     slug: 'golden-cross-nedir',
     title: 'Golden Cross (Altın Kesişim) Nedir?',
     description:
@@ -276,7 +276,7 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
     toolCta: {
       href: '/signals',
       label: 'Canlı Teknik Sinyalleri Gör',
-      blurb: 'Momentum ve kırılım kartlarını AI Signal Radar’da takip edin.',
+      blurb: 'Momentum ve kırılım kartlarını Sinyal Radarı’da takip edin.',
     },
     sections: [
       {
@@ -304,7 +304,7 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
   },
   {
     category: 'teknik-analiz',
-    categoryTitle: 'Teknik Analiz & AI Sinyalleri',
+    categoryTitle: 'Teknik Analiz & Sinyaller',
     slug: 'destek-ve-direnc-nasil-cizilir',
     title: 'Destek ve Direnç Seviyeleri Nasıl Çizilir?',
     description:
@@ -353,7 +353,7 @@ const EDUCATION_LESSONS_STATIC: EducationLesson[] = [
     slug: 'kripto-stop-loss-nereye-konur',
     title: 'Kripto Risk Yönetimi: Stop-Loss Nereye Konur?',
     description:
-      'Kripto parada stop-loss nasıl yerleştirilir? Volatiliteye göre yüzde ve ATR yaklaşımı. Bullsye AI sinyallerindeki SL/TP hesapları.',
+      'Kripto parada stop-loss nasıl yerleştirilir? Volatiliteye göre yüzde ve ATR yaklaşımı. Bullsye sinyallerindeki SL/TP hesapları.',
     keywords: [
       'stop loss nedir',
       'kripto risk yönetimi',
@@ -477,7 +477,7 @@ const BLOG_POSTS_STATIC: BlogPost[] = [
     toolCta: {
       href: '/?lang=tr',
       label: 'Overview Terminaline Git',
-      blurb: 'AI günlük vizyon, fırsat radarı ve hissiyat metresini açın.',
+      blurb: 'Günlük özet, fırsat radarı ve hissiyat metresini açın.',
     },
     sections: [
       {
@@ -487,7 +487,7 @@ const BLOG_POSTS_STATIC: BlogPost[] = [
           'Profesyonel bir akış: (1) endeks yönü, (2) hisse fiyat + değişim, (3) F/K ve sağlık skoru, (4) analist hedef prim, (5) teknik sinyal / alarm.',
         ],
         bullets: [
-          'Overview’da AI Günlük Vizyon’u okuyun',
+          'Overview’da günlük özet’u okuyun',
           'Hisse detayında konsensüs hedefini kontrol edin',
           'Sinyal Radar’da aşırı satım/alım var mı bakın',
         ],
@@ -576,7 +576,7 @@ const BLOG_POSTS_STATIC: BlogPost[] = [
         id: 'izleme',
         heading: 'BTC/ETH izleme rutini',
         paragraphs: [
-          '24 saatlik değişim, hacim liderliği ve AI sinyal kartlarını birlikte okuyun. Kaldıraç kullanıyorsanız stop mesafesini daraltın.',
+          '24 saatlik değişim, hacim liderliği ve sinyal kartlarını birlikte okuyun. Kaldıraç kullanıyorsanız stop mesafesini daraltın.',
         ],
       },
     ],

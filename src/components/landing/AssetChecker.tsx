@@ -45,11 +45,11 @@ export function AssetChecker() {
           <Sparkles className="size-5 text-[var(--accent)]" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-[var(--foreground)]">
-            1 tıkla AI skor kontrolü
+          <h3 className="text-base font-semibold text-[var(--foreground)]">
+            Skor
           </h3>
           <p className="mt-1 text-sm text-[var(--muted)]">
-            Sembol yaz — giriş olmadan canlı fırsat skorunu gör.
+            Sembol · skor · fiyat
           </p>
         </div>
       </div>
@@ -123,7 +123,7 @@ export function AssetChecker() {
             </div>
             <div className="text-center">
               <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--accent)]">
-                AI Fırsat Skoru
+                Analiz skoru
               </p>
               <p className="font-mono text-4xl font-black text-[var(--up)]">
                 {hit.score}

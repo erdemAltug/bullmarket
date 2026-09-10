@@ -15,7 +15,7 @@ const PRODUCT_LINKS = [
   { href: '/nasdaq', label: 'NASDAQ' },
   { href: '/faiz', label: 'Faiz & Kredi' },
   { href: '/kripto', label: 'Kripto' },
-  { href: '/signals', label: 'AI Sinyaller' },
+  { href: '/signals', label: 'Sinyaller' },
   { href: '/targets', label: 'Hedefler' },
   { href: '/dividends', label: 'Temettü' },
   { href: '/fon', label: 'Fonlar & ETF' },

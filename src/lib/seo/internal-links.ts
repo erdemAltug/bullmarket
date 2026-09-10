@@ -74,8 +74,8 @@ export const SEO_HUB_FEATURES_TR = [
   },
   {
     href: '/firsatlar',
-    title: 'AI Fırsat Alımları',
-    desc: 'Anlık skor, gün içi bant ve yüksek potansiyelli AL fırsat masası.',
+    title: 'Skor taraması',
+    desc: 'Analiz skoru, gün içi bant ve yüksek skorlu sembol listesi.',
   },
   {
     href: '/signals',
@@ -122,13 +122,13 @@ export const SEO_HUB_FEATURES_EN = [
   },
   {
     href: '/firsatlar',
-    title: 'AI Opportunity Desk',
-    desc: 'Live scores, intraday bands and high-conviction buy setups.',
+    title: 'Score scan',
+    desc: 'Analysis scores, intraday bands and top-ranked symbols.',
   },
   {
     href: '/signals',
-    title: 'AI Trading Signals',
-    desc: 'RSI, SMA and momentum-based smart buy/sell cards.',
+    title: 'Trading Signals',
+    desc: 'RSI, SMA and momentum-based buy/sell cards.',
   },
   {
     href: '/targets',

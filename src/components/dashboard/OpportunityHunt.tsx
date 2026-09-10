@@ -106,30 +106,28 @@ export function OpportunityHunt() {
     <div className="relative space-y-6 pb-32 md:pb-24">
       <header className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/35 bg-[var(--glow-up)] px-2.5 py-0.5 text-[11px] font-bold text-[var(--accent)]">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent)]/35 bg-[var(--glow-up)] px-2.5 py-0.5 text-[11px] font-medium text-[var(--accent)]">
             <Radio className="size-3.5 animate-pulse" />
-            ANLIK FIRSAT MASASI
+            Canlı
           </span>
           {streak > 0 ? (
-            <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-bold text-amber-300">
+            <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-medium text-amber-300">
               <Flame className="size-3.5" />
-              {streak} gün seri
+              {streak}g
             </span>
           ) : null}
           {newCount > 0 ? (
-            <span className="inline-flex items-center gap-1 rounded-full border border-sky-500/30 bg-sky-500/10 px-2.5 py-0.5 text-[11px] font-bold text-sky-300">
+            <span className="inline-flex items-center gap-1 rounded-full border border-sky-500/30 bg-sky-500/10 px-2.5 py-0.5 text-[11px] font-medium text-sky-300">
               <Zap className="size-3.5" />
-              {newCount} yeni fırsat
+              +{newCount}
             </span>
           ) : null}
         </div>
-        <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-          Canlı fırsat masası
+        <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
+          Skor taraması
         </h2>
-        <p className="max-w-2xl text-sm text-[var(--muted)]">
-          Canlı skor, gün içi bant ve hacim ivmesi. Masa her{' '}
-          <span className="font-mono text-[var(--accent)]">{countdown}s</span>{' '}
-          yenilenir.
+        <p className="text-xs text-[var(--muted)]">
+          Yenileme {countdown}s
         </p>
       </header>
 
@@ -152,19 +150,12 @@ export function OpportunityHunt() {
 
       <section className="space-y-3">
         <div className="flex flex-wrap items-end justify-between gap-2">
-          <div>
-            <h2 className="text-lg font-semibold tracking-tight">
-              Anlık AL sinyalleri
-            </h2>
-            <p className="text-xs text-[var(--muted)]">
-              Fırsat kartlarından sonra teknik momentum — tam liste ücretsiz
-            </p>
-          </div>
+          <h2 className="text-base font-semibold tracking-tight">Sinyaller</h2>
           <Link
             href="/signals"
             className="text-xs font-medium text-[var(--accent)] hover:underline"
           >
-            Tam sinyal radarı →
+            Tümü →
           </Link>
         </div>
         <AISignalRadar
@@ -173,40 +164,6 @@ export function OpportunityHunt() {
         />
       </section>
 
-      <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)]/60 p-5 text-sm leading-relaxed text-[var(--muted)]">
-        <h2 className="mb-2 text-base font-semibold text-[var(--foreground)]">
-          Metodoloji
-        </h2>
-        <ul className="list-disc space-y-1.5 pl-5">
-          <li>
-            Skor; canlı F/K, hacim ivmesi ve gün içi bant pozisyonundan
-            üretilir.
-          </li>
-          <li>
-            Her kartta mikro inceleme, izleme listesi ve fiyat alarmı bulunur.
-          </li>
-          <li>
-            Skor ve sinyaller ücretsizdir; alarmı hesaba yazmak için kayıt
-            yeter.
-          </li>
-        </ul>
-        <div className="mt-4 flex flex-wrap gap-3 text-xs">
-          <Link href="/targets" className="text-[var(--accent)] hover:underline">
-            Analist hedefleri
-          </Link>
-          <Link href="/compare" className="text-[var(--accent)] hover:underline">
-            1v1 kıyasla
-          </Link>
-          <Link href="/alerts" className="text-[var(--accent)] hover:underline">
-            Alarmlar
-          </Link>
-          <Link href="/egitim" className="text-[var(--accent)] hover:underline">
-            Eğitim
-          </Link>
-        </div>
-      </section>
-
-      {/* Sticky FOMO bar — above bottom nav on mobile, no double safe-area */}
       <div
         className={cn(
           'fixed inset-x-0 z-30 border-t border-[var(--accent)]/20',
@@ -217,31 +174,29 @@ export function OpportunityHunt() {
       >
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">
           <div className="min-w-0 text-sm">
-            <p className="font-semibold text-[var(--foreground)]">
+            <p className="font-medium text-[var(--foreground)]">
               {hotCount > 0
-                ? `${hotCount} yüksek skorlu fırsat açık`
-                : `${potentialCards.length} canlı fırsat taranıyor`}
+                ? `${hotCount} yüksek skor`
+                : `${potentialCards.length} sembol`}
               {newCount > 0 ? (
-                <span className="ml-2 text-sky-300">· {newCount} yeni</span>
+                <span className="ml-2 text-sky-300">· +{newCount}</span>
               ) : null}
             </p>
-            <p className="truncate text-[11px] text-[var(--muted)]">
-              Sonraki tarama {countdown}s
-            </p>
+            <p className="text-[11px] text-[var(--muted)]">{countdown}s</p>
           </div>
           <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:shrink-0">
             <Link
               href="/alerts"
-              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-bold text-[var(--foreground)] hover:border-[var(--accent)]/40 sm:flex-none"
+              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-medium text-[var(--foreground)] hover:border-[var(--accent)]/40 sm:flex-none"
             >
               <Bell className="size-3.5" />
-              Alarmlar
+              Alarm
             </Link>
             <Link
               href="/signals"
-              className="flex-1 rounded-lg bg-[var(--accent)] px-4 py-2 text-center text-xs font-bold text-[#042f2e] hover:brightness-110 sm:flex-none"
+              className="flex-1 rounded-lg bg-[var(--accent)] px-4 py-2 text-center text-xs font-semibold text-[#042f2e] hover:brightness-110 sm:flex-none"
             >
-              Sinyal radarı
+              Sinyaller
             </Link>
           </div>
         </div>

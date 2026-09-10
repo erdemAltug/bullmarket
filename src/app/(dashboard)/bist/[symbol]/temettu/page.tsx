@@ -114,7 +114,6 @@ export default async function BistTemettuPage({ params }: Props) {
   }
 
   const path = `/bist/${symbol}/temettu`;
-  const year = new Date().getFullYear();
   const faqs = [
     {
       question: `${symbol} temettü verecek mi?`,
@@ -150,8 +149,7 @@ export default async function BistTemettuPage({ params }: Props) {
         changePercent={changePercent}
         active="temettu"
         path={path}
-        title={`${symbol} Temettü Verimi ${year}`}
-        subtitle={`${name} temettü tarihi, verim ve DRIP simülasyonu. Yatırım tavsiyesi değildir.`}
+        title={`${symbol} Temettü`}
         scoreHint={yieldPct != null ? `verim %${yieldPct.toFixed(1)}` : undefined}
       >
         <dl className="grid gap-2 sm:grid-cols-3">

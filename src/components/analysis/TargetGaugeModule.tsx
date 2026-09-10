@@ -19,12 +19,7 @@ export function TargetGaugeModule({ data }: Props) {
 
   return (
     <article className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5">
-      <h3 className="text-sm font-semibold">
-        12 aylık analist hedef fiyat dağılımı
-      </h3>
-      <p className="mt-1 text-xs text-[var(--muted)]">
-        Yahoo konsensüs · yatırım tavsiyesi değildir
-      </p>
+      <h3 className="text-sm font-semibold">Hedef fiyat</h3>
 
       <div className="relative mt-6 h-3 rounded-full bg-[var(--surface)]">
         <div

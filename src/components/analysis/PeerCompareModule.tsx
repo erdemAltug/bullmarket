@@ -41,10 +41,8 @@ export function PeerCompareModule({ data }: Props) {
 
   return (
     <article className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5">
-      <h3 className="text-sm font-semibold">Sektörel akran karşılaştırması</h3>
-      <p className="mt-1 text-xs text-[var(--muted)]">
-        {data.sectorTr} · odak hisse vurgulu
-      </p>
+      <h3 className="text-sm font-semibold">Akranlar</h3>
+      <p className="mt-1 text-xs text-[var(--muted)]">{data.sectorTr}</p>
       <div className="mt-3 flex gap-1 overflow-x-auto pb-1">
         {METRICS.map((m) => (
           <button

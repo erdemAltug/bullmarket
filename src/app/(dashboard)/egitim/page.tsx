@@ -119,7 +119,7 @@ export default function EgitimHubPage() {
             href="/signals"
             className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-200 hover:border-emerald-500/40"
           >
-            AI Sinyaller
+            Sinyaller
           </Link>
           <Link
             href="/fon"

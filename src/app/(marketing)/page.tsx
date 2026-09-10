@@ -5,21 +5,18 @@ import { rootHreflangLanguages } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
   title: {
-    absolute:
-      'Bullsye — BİST Canlı, AI Fırsat Skoru ve Analist Hedef Fiyatları (Ücretsiz)',
+    absolute: 'Bullsye — BİST, NASDAQ ve Kripto Terminali',
   },
   description:
-    'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama, finansal okuryazarlık ve kişisel envanter. Ücretsiz — kayıt zorunlu değil.',
+    'Skor taraması, analist hedef fiyatları ve kişisel envanter. Ücretsiz terminal.',
   keywords: [
-    'analist tavsiyeleri ve hedef fiyatları',
     'analist hedef fiyat',
     'canlı borsa',
     'bist 100',
-    'ai fırsat skoru',
+    'analiz skoru',
     'ücretsiz bist analizi',
-    'finansal okuryazarlık',
-    'finansal özgürlük',
-    'ai borsa sinyalleri',
+    'temettü',
+    'kripto',
   ],
   alternates: {
     canonical: SITE_URL,
@@ -31,9 +28,8 @@ export const metadata: Metadata = {
   openGraph: {
     locale: 'tr_TR',
     alternateLocale: ['en_US'],
-    title: 'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
-    description:
-      'Analist tavsiyeleri ve hedef fiyatları, finansal okuryazarlık ve kişisel envanter. Ücretsiz — kayıt zorunlu değil.',
+    title: 'Bullsye — BİST · NASDAQ · Kripto',
+    description: 'Skor, hedef fiyat ve envanter — tek terminal.',
     url: SITE_URL,
     siteName: 'Bullsye',
     type: 'website',
@@ -42,15 +38,14 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'Bullsye — AI Fırsat Radarı ve canlı BİST terminali',
+        alt: 'Bullsye terminal',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
-    description:
-      'Analist tavsiyeleri ve hedef fiyatları ile BİST fırsat skoru. Ücretsiz terminale katılın.',
+    title: 'Bullsye — BİST · NASDAQ · Kripto',
+    description: 'Skor, hedef fiyat ve envanter — tek terminal.',
     images: [`${SITE_URL}/og-image.png`],
   },
 };

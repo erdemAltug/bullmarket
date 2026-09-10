@@ -32,7 +32,7 @@ const BASE_KINDS: {
   { value: 'price_above', label: 'Fiyat üstü', needsRsi: false, needsScore: false },
   { value: 'price_below', label: 'Fiyat altı', needsRsi: false, needsScore: false },
   { value: 'change_above', label: '% hareket üstü', needsRsi: false, needsScore: false },
-  { value: 'score_above', label: 'AI skor üstü', needsRsi: false, needsScore: true },
+  { value: 'score_above', label: 'Skor üstü', needsRsi: false, needsScore: true },
   { value: 'rsi_above', label: 'RSI aşırı alım', needsRsi: true, needsScore: false },
   { value: 'rsi_below', label: 'RSI aşırı satım', needsRsi: true, needsScore: false },
 ];
@@ -112,7 +112,7 @@ export function SmartAlertModal({
       : kind === 'price_below'
         ? `${displaySymbol} ${threshold} altına inince`
         : kind === 'score_above'
-          ? `AI skor ${threshold} üstüne çıkınca`
+          ? `Skor ${threshold} üstüne çıkınca`
           : kind === 'change_above'
             ? `%${threshold} hareket olunca`
             : `RSI eşiği ${threshold}`;

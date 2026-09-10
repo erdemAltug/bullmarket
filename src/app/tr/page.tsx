@@ -16,7 +16,7 @@ export const metadata: Metadata = {
       'Bullsye — Canlı BİST Hisse Analizi, Kripto Sinyal & Temettü Takvimi',
   },
   description:
-    'Borsa İstanbul (BİST) canlı hisse fiyatı, temel analiz karnesi, analist hedef fiyatları, AI alım sinyalleri, kripto radar ve temettü takvimi. Ücretsiz finans analiz terminali.',
+    'Borsa İstanbul (BİST) canlı hisse fiyatı, temel analiz karnesi, analist hedef fiyatları, alım sinyalleri, kripto radar ve temettü takvimi. Ücretsiz finans analiz terminali.',
   keywords: [
     'BİST canlı',
     'Borsa İstanbul hisse analizi',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     alternateLocale: ['en_US'],
     title: 'Bullsye — Canlı BİST & Kripto Finans Analiz Terminali',
     description:
-      'Hisse analizi, analist hedefleri, AI sinyaller ve temettü — tek yerde.',
+      'Hisse analizi, analist hedefleri, sinyaller ve temettü — tek yerde.',
     url: `${SITE_URL}/tr`,
     siteName: 'Bullsye',
     type: 'website',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 const FAQ = [
   {
     q: 'Bullsye ile BİST hisse analizi nasıl yapılır?',
-    a: 'Hisse sayfasında canlı fiyat, AI sağlık karnesi, F/K–PD/DD rasyoları, analist hedef fiyatları ve kurum raporlarını birlikte görürsünüz.',
+    a: 'Hisse sayfasında canlı fiyat, sağlık karnesi, F/K–PD/DD rasyoları, analist hedef fiyatları ve kurum raporlarını birlikte görürsünüz.',
   },
   {
     q: 'Temettü takvimi ücretsiz mi?',

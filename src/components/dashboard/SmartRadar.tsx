@@ -32,7 +32,7 @@ export function SmartRadar({ symbols }: SmartRadarProps) {
         </div>
         <div>
           <h2 className="text-sm font-semibold text-[var(--foreground)]">
-            Günün Radarı / Alım Fırsatları
+            Teknik radar
           </h2>
           <p className="text-[11px] text-[var(--muted)]">
             RSI · SMA · hacim kuralları
@@ -55,7 +55,7 @@ export function SmartRadar({ symbols }: SmartRadarProps) {
             <Radar className="relative size-5 text-indigo-300" />
           </div>
           <p className="text-sm font-medium text-[var(--foreground)]">
-            Bugün radara takılan fırsat yok
+            Bugün eşleşen teknik sinyal yok
           </p>
           <p className="mt-1 max-w-xs text-xs text-[var(--muted)]">
             Kurallar tarandı — yeni eşleşme için 15–30 sn bekleyin.
@@ -91,7 +91,7 @@ export function SmartRadar({ symbols }: SmartRadarProps) {
               </div>
               <p className="mt-2 text-xs leading-relaxed text-[var(--muted)]">
                 <span className="font-medium text-[var(--foreground)]/80">
-                  Neden fırsat?{' '}
+                  Neden listede?{' '}
                 </span>
                 {c.reason}
               </p>

@@ -12,9 +12,7 @@ type Props = {
 
 export function ShareScorecardButton({ symbol, path, scoreHint }: Props) {
   const url = `${SITE_URL}${path}`;
-  const text = encodeURIComponent(
-    `${symbol} Bullsye karnesi${scoreHint ? ` · ${scoreHint}` : ''} — ücretsiz analiz`
-  );
+  const text = encodeURIComponent(`${symbol} · Bullsye`);
   const intent = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(url)}`;
 
   return (
@@ -25,7 +23,7 @@ export function ShareScorecardButton({ symbol, path, scoreHint }: Props) {
       onClick={() => window.open(intent, '_blank', 'noopener,noreferrer')}
     >
       <Share2 className="size-3.5" />
-      Karneni X&apos;te paylaş
+      Paylaş
     </Button>
   );
 }

@@ -15,13 +15,13 @@ export function ShareDailyRadar({ cards }: { cards: PotentialCard[] }) {
     .map((c) => `${c.displaySymbol} skor ${c.score}/100`)
     .join('\n');
   const url = `${SITE_URL}/firsatlar?utm_source=share&utm_medium=radar`;
-  const text = `Bullsye günün 3 fırsatı\n${lines}\n${url}`;
+  const text = `Bullsye — günün 3 yüksek skorlu sembolü\n${lines}\n${url}`;
 
   async function share() {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: 'Bullsye — günün fırsatları',
+          title: 'Bullsye — günlük skor taraması',
           text,
           url,
         });

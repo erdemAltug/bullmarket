@@ -92,7 +92,7 @@ export function buildCompanionNotes(input: {
       body: `${watchOnly
         .slice(0, 4)
         .map((s) => s.replace('.IS', ''))
-        .join(', ')} listende. Fırsat skoruna bakmak izlemeyi işleme çevirmez; meraktır.`,
+        .join(', ')} listende. Analiz skoruna bakmak izlemeyi işleme çevirmez; meraktır.`,
       href: '/firsatlar',
     });
   }

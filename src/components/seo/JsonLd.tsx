@@ -20,7 +20,7 @@ export function JsonLd() {
     '@type': 'FinancialProduct',
     name: 'Bullsye Canlı Piyasa Terminali',
     description:
-      'Ücretsiz canlı BİST, NASDAQ, kripto ve fon izleme; AI fırsat skoru ve analist hedefleri.',
+      'Ücretsiz canlı BİST, NASDAQ, kripto ve fon izleme; analiz skoru ve analist hedefleri.',
     url: SITE_URL,
     provider: {
       '@type': 'Organization',

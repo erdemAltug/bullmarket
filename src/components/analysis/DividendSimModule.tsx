@@ -52,13 +52,7 @@ export function DividendSimModule({ data }: Props) {
 
   return (
     <article className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5">
-      <h3 className="text-sm font-semibold">
-        Temettü verimliliği & bileşik büyüme
-      </h3>
-      <p className="mt-1 text-xs text-[var(--muted)]">
-        Yıllık çubuklar trailing yield proxy’si · DRIP simülasyonu varsayımsal
-        %12 fiyat CAGR.
-      </p>
+      <h3 className="text-sm font-semibold">Temettü & DRIP</h3>
 
       <div className="mt-3 h-44 w-full">
         <ResponsiveContainer width="100%" height="100%">

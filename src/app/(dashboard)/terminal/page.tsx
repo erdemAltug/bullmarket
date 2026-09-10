@@ -347,9 +347,6 @@ export default function OverviewPage() {
           <h1 className="text-2xl font-semibold tracking-tight">
             Piyasa özeti
           </h1>
-          <p className="mt-1 text-sm text-zinc-500">
-            Genişlik, top fırsatlar ve alarm — sabah 10 dakika
-          </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <ShareDailyRadar cards={potentialCards} />
@@ -357,7 +354,7 @@ export default function OverviewPage() {
             href="/alerts"
             className="inline-flex items-center rounded-md border border-orange-500/40 bg-orange-500/10 px-3 py-2 text-sm font-medium text-orange-300 hover:bg-orange-500/20"
           >
-            Alarm kur
+            Alarm
           </Link>
           <ComparisonTrigger onClick={() => setCompareOpen(true)} />
           <Button
@@ -381,11 +378,11 @@ export default function OverviewPage() {
 
       <ExpandableSection
         id="daily-vision"
-        title="Canlı Günlük Tarama"
-        subtitle="Özet skor, fırsat sayısı ve piyasa genişliği"
+        title="Günlük özet"
+        subtitle={`${dailyVision ? `skor ${dailyVision.avgUpsidePct.toFixed(0)}` : '—'} · genişlik`}
         collapsedHint={
           dailyVision
-            ? `skor ${dailyVision.avgUpsidePct.toFixed(0)} · ${dailyVision.opportunityCount} fırsat`
+            ? `${dailyVision.avgUpsidePct.toFixed(0)} · ${dailyVision.opportunityCount} yüksek`
             : undefined
         }
         defaultOpen
@@ -398,8 +395,10 @@ export default function OverviewPage() {
 
       <ExpandableSection
         id="opportunity-radar"
-        title="Canlı Fırsat Radarı"
-        subtitle="Skor, değerleme ve gün içi bant — anlık sıralama"
+        title="Skor listesi"
+        subtitle={
+          potentialCards.length ? `${potentialCards.length} sembol` : undefined
+        }
         collapsedHint={
           potentialCards.length
             ? `${potentialCards.length} kart`
@@ -410,18 +409,17 @@ export default function OverviewPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/alerts"
-              className="shrink-0 text-[11px] font-bold text-orange-400 hover:underline sm:text-xs"
+              className="shrink-0 text-[11px] font-medium text-orange-400 hover:underline sm:text-xs"
               onClick={(e) => e.stopPropagation()}
             >
-              Alarm kur →
+              Alarm →
             </Link>
             <Link
               href="/firsatlar"
-              className="shrink-0 text-[11px] font-bold text-emerald-400 hover:underline sm:text-xs"
+              className="shrink-0 text-[11px] font-medium text-emerald-400 hover:underline sm:text-xs"
               onClick={(e) => e.stopPropagation()}
             >
-              <span className="sm:hidden">Fırsatlar →</span>
-              <span className="hidden sm:inline">AI Fırsat Alımları →</span>
+              Tarama →
             </Link>
           </div>
         }

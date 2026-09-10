@@ -127,7 +127,7 @@ export function AssetCompareMatrix({
       {verdict ? (
         <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-4 py-3 text-sm leading-relaxed text-emerald-100/90">
           <p className="mb-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-400">
-            AI Özet Karar
+            Özet karar
           </p>
           {verdict}
         </div>

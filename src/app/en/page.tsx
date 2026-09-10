@@ -16,12 +16,12 @@ export const metadata: Metadata = {
       'Bullsye — Live Stock Analysis, Crypto Signals & Price Targets',
   },
   description:
-    'Real-time BIST & global market analysis, AI trading signals, analyst price targets, crypto radar and dividend calendar. Free financial intelligence terminal.',
+    'Real-time BIST & global market analysis, trading signals, analyst price targets, crypto radar and dividend calendar. Free financial terminal.',
   keywords: [
     'stock analysis',
     'live stock prices',
     'analyst price targets',
-    'AI trading signals',
+    'trading signals',
     'crypto signal radar',
     'BTC live chart',
     'BIST live',
@@ -36,15 +36,15 @@ export const metadata: Metadata = {
   openGraph: {
     locale: 'en_US',
     alternateLocale: ['tr_TR'],
-    title: 'Bullsye — Real-Time Market Intelligence Terminal',
+    title: 'Bullsye — Real-Time Market Terminal',
     description:
-      'Stock analysis, analyst targets, AI signals and crypto radar in one place.',
+      'Stock analysis, analyst targets, signals and crypto radar in one place.',
     url: `${SITE_URL}/en`,
     siteName: 'Bullsye',
     type: 'website',
     images: [
       {
-        url: `${SITE_URL}/api/og?symbol=BULLSYE&price=LIVE&change=AI&label=EN%20Terminal`,
+        url: `${SITE_URL}/api/og?symbol=BULLSYE&price=LIVE&change=LIVE&label=EN%20Terminal`,
         width: 1200,
         height: 630,
         alt: 'Bullsye English Market Terminal',
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
 const FAQ = [
   {
     q: 'What can I analyze on Bullsye?',
-    a: 'Live BIST equities, crypto pairs, FX, AI buy/sell signals, analyst price targets, health scorecards and dividend calendars.',
+    a: 'Live BIST equities, crypto pairs, FX, buy/sell signals, analyst price targets, health scorecards and dividend calendars.',
   },
   {
     q: 'Does Bullsye show broker price targets?',
@@ -79,7 +79,7 @@ export default function EnLocaleLanding() {
       </h1>
       <p className="mt-4 max-w-2xl text-lg leading-relaxed text-zinc-400">
         Monitor BIST equities, crypto depth, FX and dividends in one terminal.
-        Turn raw prices into decisions with AI scorecards and analyst consensus.
+        Turn raw prices into decisions with scorecards and analyst consensus.
       </p>
 
       <div className="mt-6 flex flex-wrap gap-3">
@@ -88,7 +88,7 @@ export default function EnLocaleLanding() {
           href="/signals?lang=en"
           className="rounded-lg border border-zinc-700 px-5 py-2.5 text-sm font-medium text-zinc-300 hover:border-zinc-500"
         >
-          AI Signals
+          Signals
         </Link>
         <Link
           href="/us?lang=en"

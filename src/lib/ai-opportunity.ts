@@ -106,12 +106,12 @@ function catalystsFor(item: ScannerItem, score: number): string[] {
     out.push(
       item.category === 'CRYPTO'
         ? '24s high/low bandı içinde aktif fiyat keşfi'
-        : 'Seans aralığında dengeli ama fırsat odaklı konum'
+        :         'Seans aralığında dengeli konum'
     );
   }
 
   if (score >= 80) {
-    out.push(`Fırsat skoru ${score}/100 — üst dilim profil`);
+    out.push(`Analiz skoru ${score}/100 — üst dilim`);
   } else if (item.category === 'FON') {
     out.push('TEFAS yatırım fonu — günlük pay değeri taraması');
   } else if (item.category === 'ETF') {
@@ -156,7 +156,7 @@ export function buildMicroReview(card: PotentialCard): string {
     card.trailingPE != null && card.trailingPE > 0
       ? ` Canlı F/K ${card.trailingPE.toFixed(1)} ile değerleme filtresi skorunu destekliyor.`
       : card.category === 'CRYPTO'
-        ? ' Spot hacim ve 24s bant, fırsat skorunun ana sürücüleri.'
+        ? ' Spot hacim ve 24s bant skorun ana girdileri.'
         : card.category === 'FON'
           ? ` TEFAS pay değeri ve günlük getiri tarandı${
               card.fundStyle ? ` · ${card.fundStyle}` : ''
@@ -165,13 +165,13 @@ export function buildMicroReview(card: PotentialCard): string {
             ? ` Küresel ETF canlı fiyat/momentum${
                 card.fundStyle ? ` · ${card.fundStyle}` : ''
               }.`
-            : ' Hacim ve momentum, fırsat skorunun ana sürücüleri.';
+            : ' Hacim ve momentum skorun ana girdileri.';
 
   const tone =
     card.score >= 80
-      ? 'üst dilim fırsat profili'
+      ? 'üst dilim profil'
       : card.score >= 65
-        ? 'izlenmeye değer fırsat profili'
+        ? 'izlenmeye değer profil'
         : 'seçici izleme adayı';
 
   return `${card.displaySymbol}, canlı teknik verilere göre ${band} yer alıyor (skor ${card.score}/100 — ${tone}).${pe} Bu bir yatırım tavsiyesi değildir; alarm ve izleme listesiyle disiplini otomatikleştirin.`;
@@ -248,16 +248,16 @@ export function buildDailyVision(items: ScannerItem[]): DailyVisionReport {
 
   const tone =
     avgScore >= 72
-      ? 'fırsat pencereleri açılıyor'
+      ? 'Yüksek skorlu profiller'
       : avgScore >= 55
-        ? 'seçici alım fırsatları oluşuyor'
-        : 'temkinli ama izlenebilir kırılımlar var';
+        ? 'Seçici izleme'
+        : 'Temkinli tarama';
 
-  const headline = `Günlük tarama · ${tone.charAt(0).toUpperCase()}${tone.slice(1)}`;
+  const headline = tone;
 
-  const body = `Canlı piyasa taramasında ${tone}. Ortalama fırsat skoru ${avgScore.toFixed(0)}/100 · ${opportunityCount || cards.length} yüksek skorlu profil${
-    topSymbols.length ? ` — öne çıkanlar: ${topSymbols.join(', ')}` : ''
-  }. Günlük genişlik: yükselenlerin oranı %${bullishShare.toFixed(0)}. Bu bir fiyat tahmini değildir.`;
+  const body = `Ort. ${avgScore.toFixed(0)}/100 · ${opportunityCount || cards.length} yüksek skor${
+    topSymbols.length ? ` · ${topSymbols.slice(0, 3).join(', ')}` : ''
+  } · yükselen %${bullishShare.toFixed(0)}`;
 
   return {
     headline,

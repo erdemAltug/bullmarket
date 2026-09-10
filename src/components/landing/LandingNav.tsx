@@ -8,11 +8,10 @@ import { authClient } from '@/lib/auth/client';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
-  { href: '#neden-asistan', label: 'Okuryazarlık' },
-  { href: '#ozellikler', label: 'Özellikler' },
+  { href: '#ozellikler', label: 'Modüller' },
   { href: '#envanter', label: 'Envanter' },
-  { href: '#skor-kontrol', label: 'Skor dene' },
-  { href: '/targets', label: 'Analist Hedefleri' },
+  { href: '#skor-kontrol', label: 'Skor' },
+  { href: '/targets', label: 'Hedefler' },
   { href: '#sss', label: 'SSS' },
 ] as const;
 
@@ -46,7 +45,7 @@ export function LandingNav() {
                 'transition hover:brightness-110'
               )}
             >
-              Canlı Terminale Geç
+              Terminal
             </Link>
           ) : (
             <>
@@ -55,23 +54,23 @@ export function LandingNav() {
                 onClick={() => openAuth({ tab: 'login' })}
                 className="hidden rounded-lg px-3 py-2 text-sm text-[var(--muted)] transition hover:text-[var(--foreground)] sm:inline-flex"
               >
-                Giriş Yap
+                Giriş
               </button>
               <button
                 type="button"
                 onClick={() => openAuth({ tab: 'register' })}
                 className="hidden rounded-lg border border-[var(--border)] px-3 py-2 text-sm text-[var(--foreground)] transition hover:border-[var(--accent)]/40 sm:inline-flex"
               >
-                Kayıt Ol
+                Kayıt
               </button>
               <TerminalCtaButton
                 compact
                 className={cn(
-                  'rounded-lg bg-[var(--accent)] px-3.5 py-2 text-sm font-bold text-[#042f2e]',
+                  'rounded-lg bg-[var(--accent)] px-3.5 py-2 text-sm font-semibold text-[#042f2e]',
                   'transition hover:brightness-110'
                 )}
               >
-                Canlı Terminale Geç
+                Terminal
               </TerminalCtaButton>
             </>
           )}

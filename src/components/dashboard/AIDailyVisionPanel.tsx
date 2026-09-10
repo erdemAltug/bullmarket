@@ -37,9 +37,9 @@ export function AIDailyVisionPanel({
       <div className="relative flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-400">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-medium text-emerald-400">
               <Sparkles className="size-3.5" />
-              Canlı Günlük Tarama
+              Özet
             </span>
             <span className="text-[11px] text-zinc-500">
               {new Date(report.asOf).toLocaleString('tr-TR', {
@@ -50,19 +50,17 @@ export function AIDailyVisionPanel({
               })}
             </span>
           </div>
-          <h2 className="text-lg font-semibold tracking-tight text-zinc-50 sm:text-xl">
+          <h2 className="text-base font-semibold tracking-tight text-zinc-50 sm:text-lg">
             {report.headline}
           </h2>
-          <p className="max-w-3xl text-sm leading-relaxed text-zinc-400">
-            {report.body}
-          </p>
+          <p className="text-xs text-zinc-400">{report.body}</p>
         </div>
 
         <div className="grid shrink-0 grid-cols-3 gap-2 sm:gap-3">
           {(
             [
               ['Ort. skor', `${report.avgUpsidePct.toFixed(0)}/100`],
-              ['Fırsat', String(report.opportunityCount)],
+              ['Skor ≥72', String(report.opportunityCount)],
               ['Yükselen', `%${report.bullishShare.toFixed(0)}`],
             ] as const
           ).map(([label, value]) => (

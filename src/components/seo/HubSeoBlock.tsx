@@ -78,7 +78,7 @@ export const BIST_HUB_SEO: HubSeoContent = {
     { href: '/bist/heatmap', label: 'Isı haritası' },
     { href: '/firsatlar', label: 'Fırsat Masası' },
     { href: '/targets', label: 'Analist hedef fiyatları' },
-    { href: '/signals', label: 'AI Sinyaller' },
+    { href: '/signals', label: 'Sinyaller' },
     { href: '/egitim/borsa-temelleri/borsa-nasil-oynanir', label: 'Borsa rehberi' },
     { href: '/blog/bist-isi-haritasi-nasil-okunur', label: 'Isı haritası okuma' },
     { href: '/dividends', label: 'Temettü karnesi' },
@@ -98,15 +98,15 @@ export const BIST_HUB_SEO: HubSeoContent = {
 };
 
 export const SIGNALS_HUB_SEO: HubSeoContent = {
-  heading: 'AI alım sinyalleri nasıl okunur?',
+  heading: 'Alım sinyalleri nasıl okunur?',
   paragraphs: [
-    'Sinyal radarı RSI, momentum ve hareketli ortalama girdilerinden tarama kartları üretir. Ücretsiz katmanda öne çıkanları görün; teyit için Fırsat skoru ve fiyat yapısını birlikte kullanın.',
-    'Sinyal yatırım tavsiyesi değildir. Blog’daki “Ücretsiz AI sinyal” yazısı ve RSI dersi ile kavramı pekiştirip aynı günün kartlarında uygulayın.',
+    'Sinyal radarı RSI, momentum ve hareketli ortalama girdilerinden tarama kartları üretir. Ücretsiz katmanda öne çıkanları görün; teyit için analiz skoru ve fiyat yapısını birlikte kullanın.',
+    'Sinyal yatırım tavsiyesi değildir. Blog’daki sinyal yazısı ve RSI dersi ile kavramı pekiştirip aynı günün kartlarında uygulayın.',
   ],
   links: [
-    { href: '/firsatlar', label: 'Fırsat Masası' },
+    { href: '/firsatlar', label: 'Skor taraması' },
     { href: '/egitim/teknik-analiz/rsi-indikatoru-nedir', label: 'RSI dersi' },
-    { href: '/egitim/teknik-analiz/ai-firsat-skoru-nasil-okunur', label: 'Fırsat skoru' },
+    { href: '/egitim/teknik-analiz/ai-firsat-skoru-nasil-okunur', label: 'Analiz skoru' },
     { href: '/blog/ucretsiz-ai-sinyal-nasil-kullanilir', label: 'Sinyal rehberi' },
     { href: '/bist', label: 'BİST screener' },
   ],
@@ -132,7 +132,7 @@ export const US_HUB_SEO: HubSeoContent = {
   ],
   links: [
     { href: '/firsatlar', label: 'Fırsat Masası' },
-    { href: '/signals', label: 'AI Sinyaller' },
+    { href: '/signals', label: 'Sinyaller' },
     { href: '/targets', label: 'Hedef fiyatlar' },
     { href: '/compare', label: '1v1 kıyasla' },
     { href: '/nasdaq', label: 'NASDAQ screener' },
@@ -146,7 +146,7 @@ export const US_HUB_SEO: HubSeoContent = {
         'NASDAQ hub’ından sembole tıklayın veya arama ile açın; grafik, sağlık karnesi, analist konsensüsü ve alarm araçları aynı sayfada.',
     },
     {
-      question: 'ABD ve BİST aynı fırsat masasında mı?',
+      question: 'ABD ve BİST aynı taramada mı?',
       answer:
         'Evet. Fırsat Masası ve sinyal radarı BİST, ABD ve kripto kategorilerini birlikte tarar.',
     },
@@ -161,7 +161,7 @@ export const CRYPTO_HUB_SEO: HubSeoContent = {
   ],
   links: [
     { href: '/firsatlar', label: 'Fırsat Masası' },
-    { href: '/signals', label: 'AI Sinyaller' },
+    { href: '/signals', label: 'Sinyaller' },
     { href: '/whales', label: 'Balina & Takas' },
     { href: '/egitim/teknik-analiz/rsi-indikatoru-nedir', label: 'RSI dersi' },
     { href: '/blog/kripto-sinyal-radarinda-btc-eth', label: 'BTC/ETH rehberi' },

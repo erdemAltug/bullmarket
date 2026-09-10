@@ -24,7 +24,7 @@ export function socialProofFor(symbol: string, day = new Date()): SocialProofSta
   return {
     views24h,
     inventoryHolders,
-    labelViews: `Bu hisse son 24 saatte ${views24h.toLocaleString('tr-TR')} kez incelendi`,
-    labelHolders: `${inventoryHolders.toLocaleString('tr-TR')} Bullsye kullanıcısının envanterinde ekli (tahmini ilgi bandı)`,
+    labelViews: `${views24h.toLocaleString('tr-TR')} görüntüleme · 24s`,
+    labelHolders: `${inventoryHolders.toLocaleString('tr-TR')} envanter`,
   };
 }

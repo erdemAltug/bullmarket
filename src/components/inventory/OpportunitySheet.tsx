@@ -217,7 +217,7 @@ export function OpportunitySheet({
       <SheetContent className="w-full max-w-full border-[var(--border)] bg-[var(--popover-bg)] p-0 sm:max-w-md md:max-w-lg">
         <div className="flex h-full flex-col overflow-y-auto p-4 pb-8 sm:p-5">
           <SheetTitle className="sr-only">
-            {asset ? `${asset.symbol} fırsat karnesi` : 'Fırsat karnesi'}
+            {asset ? `${asset.symbol} analiz karnesi` : 'Analiz karnesi'}
           </SheetTitle>
 
           {loading ? (
@@ -265,7 +265,7 @@ export function OpportunitySheet({
                   className="text-[var(--muted)] hover:text-[var(--foreground)]"
                   onClick={() => onOpenChange(false)}
                 >
-                  Fırsat masası
+                  Skor özeti
                 </Link>
               </div>
             </>

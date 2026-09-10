@@ -19,7 +19,7 @@ export default function YatirimUyarisiPage() {
   return (
     <LegalDoc title="Yatırım Uyarısı" updated="2 Ağustos 2026">
       <p>
-        Bullsye üzerinde gördüğünüz fiyatlar, skorlar, AI sinyalleri, fırsat
+        Bullsye üzerinde gördüğünüz fiyatlar, skorlar, sinyaller, fırsat
         kartları, hedef fiyatlar ve eğitim içerikleri{' '}
         <strong className="font-medium text-zinc-200">
           genel bilgilendirme ve analiz aracıdır

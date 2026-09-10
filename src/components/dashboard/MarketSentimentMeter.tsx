@@ -40,7 +40,7 @@ export function MarketSentimentMeter({
       <header className="space-y-2">
         <HintTooltip content={BREADTH_TIP} title="Piyasa Genişlik Metresi" withIcon={false}>
           <h2 className="text-sm font-semibold tracking-tight text-[var(--foreground)]">
-            Piyasa Genişlik Metresi
+            Genişlik
           </h2>
         </HintTooltip>
         <span

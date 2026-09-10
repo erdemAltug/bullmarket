@@ -3,39 +3,38 @@ import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
-  title: 'BİST Alım Fırsatı: Canlı AI Fırsat Skoru (0–100)',
+  title: 'BİST Skor Taraması: Analiz Skoru (0–100)',
   description:
-    'Ücretsiz BİST alım fırsatı taraması: canlı AI fırsat skoru (0–100), gün içi bant ve hacim. Kayıt olmadan günlük tarama.',
+    'Ücretsiz BİST taraması: analiz skoru (0–100), gün içi bant ve hacim. Kayıt olmadan günlük tarama.',
   keywords: [
-    'AI alım fırsatı',
-    'anlık hisse fırsatı',
+    'BİST tarama',
+    'hisse analiz skoru',
     'BİST alım sinyali',
-    'kripto fırsat',
-    'NASDAQ fırsat',
-    'canlı trading fırsat',
-    'AI fırsat radarı',
+    'NASDAQ tarama',
+    'canlı piyasa taraması',
+    'Bullsye skor',
   ],
   alternates: withLangAlternates('/firsatlar'),
   openGraph: {
-    title: 'BİST Alım Fırsatı ve AI Fırsat Skoru | Bullsye',
+    title: 'BİST Skor Taraması ve Analiz Skoru | Bullsye',
     description:
-      'Canlı fırsat skoru, bant ve hacim — ücretsiz günlük BİST taraması.',
+      'Analiz skoru, bant ve hacim — ücretsiz günlük BİST taraması.',
     url: `${SITE_URL}/firsatlar`,
   },
 };
 
 const FAQ = [
   {
-    q: 'AI fırsat alımları nasıl hesaplanır?',
+    q: 'Analiz skoru nasıl hesaplanır?',
     a: 'Bullsye skoru canlı F/K, 24s hacim ivmesi ve gün içi high/low bant pozisyonunun ağırlıklı ortalamasıyla üretilir. Uydurma hedef fiyat gösterilmez.',
   },
   {
-    q: 'Fırsat masası ne sıklıkla yenilenir?',
-    a: 'Piyasa taraması yaklaşık her 10 saniyede yenilenir. Yeni yüksek skorlu kartlar sticky barda ve “yeni fırsat” rozetinde görünür.',
+    q: 'Tarama ne sıklıkla yenilenir?',
+    a: 'Piyasa taraması yaklaşık her 10 saniyede yenilenir. Yeni yüksek skorlu kartlar alt barda görünür.',
   },
   {
     q: 'Ücretsiz ne kadar görebilirim?',
-    a: 'Misafirler genişletilmiş önizleme görür; üst üste gün ziyaretinde seri ile ekstra kart açılır. Tam sinyal listesi ve senkron alarm için ücretsiz hesap yeterlidir.',
+    a: 'Misafirler genişletilmiş önizleme görür. Tam sinyal listesi ve senkron alarm için ücretsiz hesap yeterlidir.',
   },
 ];
 

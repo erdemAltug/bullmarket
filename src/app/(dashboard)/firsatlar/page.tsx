@@ -17,10 +17,10 @@ export async function generateMetadata(): Promise<Metadata> {
     ? ` Bugün önde ${lead.symbol} skor ${lead.score}/100.`
     : '';
   return {
-    title: 'BİST Alım Fırsatı: Canlı AI Fırsat Skoru (0–100)',
-    description: `${xu}${extra} Ücretsiz günlük BİST alım fırsatı taraması — skor, bant ve hacim.`.trim(),
+    title: 'BİST Skor Taraması: Analiz Skoru (0–100)',
+    description: `${xu}${extra} Ücretsiz günlük BİST taraması — analiz skoru, bant ve hacim.`.trim(),
     openGraph: {
-      title: 'BİST Alım Fırsatı ve AI Fırsat Skoru | Bullsye',
+      title: 'BİST Skor Taraması ve Analiz Skoru | Bullsye',
       url: `${SITE_URL}/firsatlar`,
     },
   };
@@ -31,7 +31,7 @@ export default async function FirsatlarPage() {
   return (
     <>
       <h1 className="mb-3 text-2xl font-semibold tracking-tight">
-        BİST alım fırsatı ve canlı fırsat skoru
+        Skor taraması
       </h1>
       <CrawlSnapshot snap={snap} />
       <div className="mt-6">

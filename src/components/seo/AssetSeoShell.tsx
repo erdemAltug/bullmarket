@@ -77,9 +77,9 @@ export function AssetSeoShell({
       answer: `${name} (${symbol}) sayfasındaki Analist Konsensüs bölümünde 12 aylık ortalama, en yüksek/en düşük hedef ve kurum dağılımı yer alır. Yatırım tavsiyesi değildir.`,
     },
     {
-      question: 'Bullsye AI fırsat skoru nasıl hesaplanır?',
+      question: 'Bullsye analiz skoru nasıl hesaplanır?',
       answer:
-        'AI fırsat skoru F/K, hacim ivmesi, RSI/hareketli ortalamalar ve gün içi bant konumunun ağırlıklı bileşimiyle 0–100 arası üretilir. Sinyal veya emir değildir.',
+        'Analiz skoru F/K, hacim ivmesi, RSI/hareketli ortalamalar ve gün içi bant konumunun ağırlıklı bileşimiyle 0–100 arası üretilir. Sinyal veya emir değildir.',
     },
     {
       question: `${symbol} canlı fiyatı nedir?`,
@@ -162,49 +162,12 @@ export function AssetSeoShell({
 
           <header className="space-y-2">
             <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-              {kindLabel} · Canlı Analiz
+              {kindLabel}
             </p>
             <h1 className="text-3xl font-semibold tracking-tight text-zinc-50">
               {symbol}{' '}
               <span className="text-lg font-normal text-zinc-400">· {name}</span>
             </h1>
-            <p className="max-w-2xl text-sm text-zinc-500">
-              {symbol} canlı fiyat, grafik, temel analiz karnesi, analist hedef
-              fiyatları ve AI yorum — Bullsye. Kaynak tarama:{' '}
-              <Link href="/bist" className="text-emerald-400 hover:underline">
-                BİST
-              </Link>
-              {' · '}
-              <Link href="/firsatlar" className="text-emerald-400 hover:underline">
-                fırsat masası
-              </Link>
-              {kind === 'bist' ? (
-                <>
-                  {' · '}
-                  <Link
-                    href={`/bist/${symbol}/hedef-fiyat`}
-                    className="text-amber-300 hover:underline"
-                  >
-                    hedef fiyat
-                  </Link>
-                  {' · '}
-                  <Link
-                    href={`/bist/${symbol}/temettu`}
-                    className="text-emerald-400 hover:underline"
-                  >
-                    temettü
-                  </Link>
-                  {' · '}
-                  <Link
-                    href={`/bist/${symbol}/bilanco`}
-                    className="text-emerald-400 hover:underline"
-                  >
-                    bilanço
-                  </Link>
-                </>
-              ) : null}
-              .
-            </p>
             <p
               className={`text-2xl font-semibold tabular-nums ${
                 positive ? 'text-emerald-400' : 'text-rose-400'
@@ -288,7 +251,7 @@ export function AssetSeoShell({
               href="/firsatlar"
               className="rounded-lg border border-zinc-700 px-2.5 py-1 text-zinc-300 hover:border-emerald-500/40"
             >
-              Fırsat skoru
+              Skor taraması
             </Link>
           </li>
           <li>

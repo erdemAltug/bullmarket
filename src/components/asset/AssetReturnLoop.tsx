@@ -59,11 +59,8 @@ export function AssetReturnLoop({
         <div>
           <h2 className="flex items-center gap-2 text-sm font-semibold">
             <Clock3 className="size-4 text-emerald-400" />
-            Takibe devam et
+            Takip
           </h2>
-          <p className="mt-1 text-xs text-[var(--muted)]">
-            Alarm, izleme listesi ve fırsat masası ile geri dönün.
-          </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button
@@ -72,7 +69,7 @@ export function AssetReturnLoop({
               starred ? removeSymbol(watchKey) : addSymbol(watchKey)
             }
             className={cn(
-              'inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-semibold',
+              'inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium',
               starred
                 ? 'border-amber-500/40 bg-amber-500/10 text-amber-300'
                 : 'border-[var(--border)] text-[var(--muted)] hover:border-emerald-500/40'
@@ -83,17 +80,17 @@ export function AssetReturnLoop({
           </button>
           <Link
             href={`/alerts?symbol=${encodeURIComponent(symbol)}`}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold text-black hover:bg-emerald-400"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-semibold text-black hover:bg-emerald-400"
           >
             <Bell className="size-3.5" />
-            Alarm kur
+            Alarm
           </Link>
           <Link
             href="/firsatlar"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-semibold text-[var(--muted)] hover:border-emerald-500/40 hover:text-emerald-400"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-medium text-[var(--muted)] hover:border-emerald-500/40 hover:text-emerald-400"
           >
             <Zap className="size-3.5" />
-            Fırsatlar
+            Tarama
           </Link>
         </div>
       </div>

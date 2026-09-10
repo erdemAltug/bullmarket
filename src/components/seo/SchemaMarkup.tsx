@@ -7,7 +7,7 @@ const FAQ = [
       'Ücretsiz /targets sayfasında BİST kurum konsensüsü, ortalama/yüksek/düşük hedef ve potansiyel prim yer alır. Her hisse sayfasında da aynı kutu vardır. Yatırım tavsiyesi değildir.',
   },
   {
-    question: 'Bullsye AI Fırsat Skoru neye göre hesaplanır?',
+    question: 'Bullsye analiz skoru neye göre hesaplanır?',
     answer:
       'Canlı F/K rasyoları, 24 saatlik hacim ivmesi, teknik indikatörler (RSI, hareketli ortalamalar) ve gün içi bant pozisyonlarının ağırlıklı algoritmasıyla 100 üzerinden hesaplanır.',
   },
@@ -19,7 +19,7 @@ const FAQ = [
   {
     question: 'Bullsye terminalini kullanmak ücretsiz mi?',
     answer:
-      'Evet. Canlı borsa verilerini, AI fırsat skorlarını ve analist hedef fiyatlarını ücretsiz terminal üzerinden anında takip edebilirsiniz.',
+      'Evet. Canlı borsa verilerini, analiz skorlarını ve analist hedef fiyatlarını ücretsiz terminal üzerinden takip edebilirsiniz.',
   },
   {
     question: 'Hangi borsaların verileri yer alıyor?',
@@ -32,7 +32,7 @@ const FAQ = [
       'Hayır. Bullsye’daki hiçbir veri yatırım tavsiyesi niteliğinde değildir. Kararlarınızı kendi araştırmanız ve risk profilinizle alın.',
   },
   {
-    question: 'AI Fırsat Radarı’na nasıl ulaşıyorum?',
+    question: 'Skor taramasına nasıl ulaşıyorum?',
     answer: `Ücretsiz kayıt olmadan ${SITE_URL}/firsatlar ve ${SITE_URL}/terminal üzerinden canlı skorları görebilirsiniz.`,
   },
 ] as const;
@@ -42,7 +42,7 @@ export function SchemaMarkup() {
   const softwareSchema = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: 'Bullsye — Canlı Borsa & AI Fırsat Radarı',
+    name: 'Bullsye — Canlı Borsa & Analiz Taraması',
     applicationCategory: 'FinanceApplication',
     applicationSubCategory: 'Stock Market Analysis',
     operatingSystem: 'Web Browser',
@@ -50,7 +50,7 @@ export function SchemaMarkup() {
     image: `${SITE_URL}/images/landing/terminal-hero.png`,
     screenshot: `${SITE_URL}/images/landing/terminal-radar.png`,
     description:
-      'BİST 100 ve kripto için 100 üzerinden canlı AI fırsat skorları, analist hedef fiyatları ve portföy risk taraması. Ücretsiz finans terminali.',
+      'BİST 100 ve kripto için 100 üzerinden analiz skorları, analist hedef fiyatları ve portföy risk taraması. Ücretsiz finans terminali.',
     offers: {
       '@type': 'Offer',
       price: '0',
@@ -58,11 +58,11 @@ export function SchemaMarkup() {
       availability: 'https://schema.org/InStock',
     },
     featureList: [
-      'Canlı AI Fırsat Skoru (0–100)',
+      'Analiz skoru (0–100)',
       'BİST 100 hisse analizi',
       'Analist hedef fiyat konsensüsü',
-      'Kripto fırsat radarı',
-      'AI Portföy Doktoru',
+      'Kripto skor taraması',
+      'Portföy risk taraması',
       'Fiyat alarmları',
       'Temettü karnesi',
     ],

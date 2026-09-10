@@ -16,7 +16,7 @@ interface AIPotentialRadarProps {
 }
 
 const SCORE_TIP =
-  'Fırsat skoru 0–100: momentum, gün içi bant ve F/K. Formül: Eğitim → AI fırsat skoru nasıl okunur.';
+  'Analiz skoru 0–100: momentum, gün içi bant ve F/K.';
 const PE_TIP =
   'Fiyat/Kazanç Oranı: Sektör ortalamasının altında, hissenin kârlılığına göre uygun fiyatlandığını gösterir.';
 const DIST_TIP =
@@ -61,7 +61,7 @@ export function AIPotentialRadar({
   if (!cards.length) {
     return (
       <p className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 text-sm text-[var(--muted)]">
-        Canlı fırsat kartı henüz oluşmadı — piyasa verisi bekleniyor.
+        Skor kartı henüz oluşmadı — piyasa verisi bekleniyor.
       </p>
     );
   }
@@ -71,10 +71,10 @@ export function AIPotentialRadar({
       {!hideHeader ? (
         <div>
           <h2 className="text-lg font-semibold tracking-tight">
-            Canlı Fırsat Radarı
+            Yüksek skor
           </h2>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Canlı skor sıralaması · gün içi bant ve değerleme
+            Skor · bant · F/K
           </p>
         </div>
       ) : null}
@@ -123,7 +123,7 @@ export function AIPotentialRadar({
                   </span>
                 </p>
               </div>
-              <HintTooltip content={SCORE_TIP} title="Fırsat skoru" withIcon={false}>
+              <HintTooltip content={SCORE_TIP} title="Analiz skoru" withIcon={false}>
                 <div
                   className={cn(
                     'shrink-0 rounded-xl border px-2.5 py-1.5 text-center',

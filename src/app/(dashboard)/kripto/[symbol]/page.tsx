@@ -63,12 +63,12 @@ export async function generateMetadata({
   const year = new Date().getFullYear();
 
   const title = isTr
-    ? `${display} Hedef Fiyat ${year}, AI Skoru ve Canlı Analiz | Bullsye`
-    : `${display} Price Target ${year}, AI Score & Live Chart | Bullsye`;
+    ? `${display} Hedef Fiyat ${year}, Analiz Skoru ve Canlı Grafik | Bullsye`
+    : `${display} Price Target ${year}, Score & Live Chart | Bullsye`;
 
   const description = isTr
-    ? `${display} (${symbol}) için canlı fiyat, prim potansiyeli ve Bullsye AI fırsat skorunu anlık inceleyin.${hasLiveQuote ? ` Canlı: $${price} (${change}).` : ''}`
-    : `Live ${display} (${symbol}) quote, depth and Bullsye AI score.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
+    ? `${display} (${symbol}) için canlı fiyat, prim potansiyeli ve Bullsye analiz skorunu inceleyin.${hasLiveQuote ? ` Canlı: $${price} (${change}).` : ''}`
+    : `Live ${display} (${symbol}) quote, depth and Bullsye score.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
 
   return {
     title: { absolute: title },

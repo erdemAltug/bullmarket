@@ -47,14 +47,14 @@ export function AnalysisModuleFooter({
     >
       <Button type="button" className="gap-1.5 px-2.5 py-1.5 text-xs" onClick={add}>
         <Briefcase className="size-3.5" />
-        {added ? 'Eklendi' : 'Envanterime ekle'}
+        {added ? 'Eklendi' : 'Envanter'}
       </Button>
       <Link
         href={`/terminal?alert=${encodeURIComponent(displaySymbol)}`}
         className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-2.5 py-1.5 text-xs font-medium text-[var(--foreground)] hover:bg-[var(--surface)]"
       >
         <Bell className="size-3.5" />
-        Fiyat alarmı kur
+        Alarm
       </Link>
       <span className="text-[10px] text-[var(--muted)]">{symbol}</span>
     </div>

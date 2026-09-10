@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { ShareScorecardButton } from '@/components/seo/ShareScorecardButton';
 import { StickyInventoryWidget } from '@/components/seo/StickyInventoryWidget';
 import { SymbolMatrixNav } from '@/components/seo/SymbolMatrixNav';
@@ -13,7 +12,7 @@ type Props = {
   active: BistMatrixSlug;
   path: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   children: React.ReactNode;
   scoreHint?: string;
 };
@@ -39,7 +38,9 @@ export function BistMatrixShell({
           <h1 className="text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
             {title}
           </h1>
-          <p className="max-w-2xl text-sm text-[var(--muted)]">{subtitle}</p>
+          {subtitle ? (
+            <p className="text-xs text-[var(--muted)]">{subtitle}</p>
+          ) : null}
           {price > 0 ? (
             <p className="text-lg font-semibold tabular-nums">
               ₺{price.toLocaleString('tr-TR', { maximumFractionDigits: 2 })}{' '}
@@ -59,12 +60,6 @@ export function BistMatrixShell({
               path={path}
               scoreHint={scoreHint}
             />
-            <Link
-              href={`/bist/${symbol}`}
-              className="inline-flex items-center rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-medium hover:bg-[var(--surface)]"
-            >
-              Ana karne
-            </Link>
           </div>
         </header>
         {children}

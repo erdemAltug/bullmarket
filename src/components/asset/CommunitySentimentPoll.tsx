@@ -125,14 +125,14 @@ export function CommunitySentimentPoll({
           </h3>
           {!compact ? (
             <p className="mt-0.5 text-[11px] text-[var(--muted)]">
-              Boğa / ayı oylaması — AI skoru ile sosyal kanıt
+              Boğa / ayı oylaması — skor ile sosyal kanıt
             </p>
           ) : null}
         </div>
         {aiScore != null ? (
           <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-center">
             <p className="text-[9px] uppercase tracking-wide text-emerald-400/80">
-              AI Skor
+              Skor
             </p>
             <p className="font-mono text-sm font-bold tabular-nums text-emerald-300">
               {aiScore}

@@ -16,7 +16,7 @@ import {
 import { cn } from '@/lib/utils';
 
 const SCORE_TIP =
-  'Bullsye AI Skoru; canlı F/K, 24s hacim ivmesi ve gün içi bant pozisyonunun ağırlıklı ortalamasıyla hesaplanır.';
+  'Bullsye skoru; canlı F/K, 24s hacim ivmesi ve gün içi bant pozisyonunun ağırlıklı ortalamasıyla hesaplanır.';
 const PE_TIP =
   'Fiyat/Kazanç Oranı: Sektör ortalamasının altında, hissenin kârlılığına göre uygun fiyatlandığını gösterir.';
 const DIST_TIP =
@@ -141,7 +141,7 @@ export function AssetDetailDrawer({
 
               <section className="rounded-xl border border-emerald-500/25 bg-gradient-to-br from-emerald-500/10 to-transparent p-4 backdrop-blur-sm">
                 <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
-                  AI Micro-Review
+                  Mikro inceleme
                 </p>
                 <p className="text-sm leading-relaxed text-zinc-300">
                   {review}

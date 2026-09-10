@@ -77,14 +77,9 @@ export function SymbolAnalysisView({ yahooSymbol }: Props) {
 
   return (
     <section className="space-y-3">
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h2 className="text-base font-semibold text-[var(--foreground)]">
-            Ücretsiz gelişmiş analitik
-          </h2>
-          <p className="text-xs text-[var(--muted)]">{data.sourceNote}</p>
-        </div>
-      </div>
+      <h2 className="text-base font-semibold text-[var(--foreground)]">
+        Analitik
+      </h2>
 
       <div className="flex gap-1 overflow-x-auto pb-1 lg:hidden">
         {TABS.map((t) => (

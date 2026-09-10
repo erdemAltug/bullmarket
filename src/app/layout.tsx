@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
+      'Bullsye — BİST Canlı, Analiz Skoru ve Analist Hedef Fiyatları',
     template: '%s | Bullsye',
   },
   description:
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   keywords: [
     'Bullsye',
     'BİST canlı',
-    'AI fırsat skoru',
+    'analiz skoru',
     'ücretsiz BİST analizi',
     'Borsa İstanbul hisse analizi',
     'hisse fiyatı',
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     'BİST 100',
     'stock analysis',
     'price targets',
-    'AI trading signals',
+    'trading signals',
     'crypto radar',
     'financial terminal',
   ],
@@ -73,9 +73,9 @@ export const metadata: Metadata = {
     apple: [{ url: '/apple-icon', sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {
-    title: 'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
+    title: 'Bullsye — BİST Canlı, Analiz Skoru ve Hedef Fiyatlar',
     description:
-      'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama ve fırsat skoru. Ücretsiz.',
+      'Analist tavsiyeleri ve hedef fiyatları, BİST 100 canlı tarama ve analiz skoru. Ücretsiz.',
     url: SITE_URL,
     siteName: 'Bullsye',
     locale: 'tr_TR',
@@ -94,9 +94,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@bullsyeapp',
     creator: '@bullsyeapp',
-    title: 'Bullsye — BİST Canlı, Fırsat Skoru ve Analist Hedef Fiyatları',
+    title: 'Bullsye — BİST Canlı, Analiz Skoru ve Hedef Fiyatlar',
     description:
-      'Analist tavsiyeleri ve hedef fiyatları ile BİST fırsat skoru. Ücretsiz tarama.',
+      'Analist hedef fiyatları ve BİST analiz skoru. Ücretsiz tarama.',
     images: [
       `${SITE_URL}/api/og?symbol=BULLSYE&price=Terminal&change=LIVE&label=Financial%20Terminal`,
     ],

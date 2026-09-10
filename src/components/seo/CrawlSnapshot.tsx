@@ -42,7 +42,7 @@ export function CrawlSnapshot({
       {variant === 'full' && snap.top.length ? (
         <>
           <h2 className="mt-3 text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
-            Bugünün fırsat skoru (top 5)
+            Top 5
           </h2>
           <ol className="mt-1 list-decimal space-y-0.5 pl-5 text-sm">
             {snap.top.map((row) => (
@@ -58,39 +58,25 @@ export function CrawlSnapshot({
                   row.symbol
                 )}{' '}
                 <span className="tabular-nums text-[var(--muted)]">
-                  skor {row.score}/100 · {row.changePercent >= 0 ? '+' : ''}
+                  {row.score}/100 · {row.changePercent >= 0 ? '+' : ''}
                   {row.changePercent.toFixed(1)}%
                 </span>
               </li>
             ))}
           </ol>
-          <p className="mt-2 text-[11px] text-[var(--muted)]">
-            Metodoloji:{' '}
-            <Link
-              href="/egitim/teknik-analiz/ai-firsat-skoru-nasil-okunur"
-              className="text-emerald-400 hover:underline"
-            >
-              fırsat skoru nasıl okunur
-            </Link>
-            {' · '}
-            <Link href="/targets" className="text-emerald-400 hover:underline">
-              analist hedef fiyatları
-            </Link>
-          </p>
         </>
       ) : (
         <p className="mt-1 text-[11px] text-[var(--muted)]">
-          Kaynak tarama:{' '}
           <Link href="/bist" className="text-emerald-400 hover:underline">
             BİST
           </Link>
           {' · '}
           <Link href="/firsatlar" className="text-emerald-400 hover:underline">
-            fırsat masası
+            Tarama
           </Link>
           {' · '}
           <Link href="/targets" className="text-emerald-400 hover:underline">
-            hedef fiyat
+            Hedef
           </Link>
         </p>
       )}

@@ -37,7 +37,7 @@ const KIND_LABEL: Record<AlertKind, string> = {
   change_below: '% hareket altı',
   rsi_above: 'RSI aşırı alım',
   rsi_below: 'RSI aşırı satım',
-  score_above: 'AI skor üstü',
+  score_above: 'Skor üstü',
 };
 
 const KINDS: {

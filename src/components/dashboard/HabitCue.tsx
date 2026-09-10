@@ -133,26 +133,21 @@ export function HabitCue({ topCards }: HabitCueProps) {
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <p className="text-sm font-semibold text-[var(--foreground)]">
-                  Bugünün 10 dakikalık ritüeli
+                  Kısa tur
                 </p>
                 {streak.count > 0 ? (
-                  <span className="inline-flex items-center gap-1 rounded-md border border-orange-500/30 bg-orange-500/10 px-1.5 py-0.5 text-[10px] font-bold uppercase text-orange-300">
+                  <span className="inline-flex items-center gap-1 rounded-md border border-orange-500/30 bg-orange-500/10 px-1.5 py-0.5 text-[10px] font-medium text-orange-300">
                     <Flame className="size-3" />
-                    {streak.count} günlük seri
+                    {streak.count}g
                   </span>
                 ) : null}
                 {doneToday ? (
-                  <span className="inline-flex items-center gap-1 rounded-md border border-[var(--accent)]/30 bg-[var(--glow-up)] px-1.5 py-0.5 text-[10px] font-bold uppercase text-[var(--accent)]">
+                  <span className="inline-flex items-center gap-1 rounded-md border border-[var(--accent)]/30 bg-[var(--glow-up)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--accent)]">
                     <Check className="size-3" />
-                    Bugün tamam
+                    Tamam
                   </span>
                 ) : null}
               </div>
-              <p className="mt-0.5 text-xs leading-relaxed text-[var(--muted)]">
-                {doneToday
-                  ? 'Ritüel tamam — yarın aynı saatte geri gel, seriyi bozma.'
-                  : 'Top 3 fırsat kartını incele → bitir → seri kazan. Genişlik + alarm opsiyonel.'}
-              </p>
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2 pl-12 sm:pl-0">
@@ -160,16 +155,16 @@ export function HabitCue({ topCards }: HabitCueProps) {
               type="button"
               onClick={openRitual}
               disabled={!cards.length}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-bold text-[#042f2e] hover:brightness-110 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-semibold text-[#042f2e] hover:brightness-110 disabled:opacity-50"
             >
-              {doneToday ? 'Tekrar gözden geçir' : 'Fırsatları aç'}
+              {doneToday ? 'Yeniden' : 'Başlat'}
               <ArrowRight className="size-3.5" />
             </button>
             <Link
               href="/firsatlar"
               className="rounded-lg px-2 py-2 text-xs text-[var(--muted)] hover:text-[var(--foreground)]"
             >
-              Masa
+              Liste
             </Link>
           </div>
         </div>
@@ -179,7 +174,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
         <DialogContent className="max-w-md p-0 overflow-hidden">
           <div className="border-b border-[var(--border)] px-5 py-4 pr-12">
             <DialogTitle className="text-base font-semibold">
-              Günlük ritüel · Adım {Math.min(step + 1, totalSteps)}/{totalSteps}
+              Günlük tur · Adım {Math.min(step + 1, totalSteps)}/{totalSteps}
             </DialogTitle>
             <div className="mt-3 flex gap-1.5">
               {Array.from({ length: totalSteps }).map((_, i) => (
@@ -269,7 +264,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
             </div>
           ) : (
             <p className="px-5 py-8 text-center text-sm text-[var(--muted)]">
-              Canlı fırsat kartı yok — piyasa verisi bekleniyor.
+              Skor kartı yok — piyasa verisi bekleniyor.
             </p>
           )}
         </DialogContent>

@@ -57,7 +57,7 @@ export const EDUCATION_CATEGORIES = [
   },
   {
     slug: 'teknik-analiz',
-    title: 'Teknik Analiz & AI Sinyalleri',
+    title: 'Teknik Analiz & Sinyaller',
     description:
       'RSI, Golden Cross, destek-direnç ve canlı sinyal okuma rehberleri.',
   },

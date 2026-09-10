@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
               BULLSYE
             </span>
             <span style={{ fontSize: 36, fontWeight: 800 }}>
-              Günün 3 fırsat skoru
+              Günün 3 yüksek skoru
             </span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>

@@ -251,7 +251,7 @@ export default function PortfolioAuditPage() {
     }
     openAuth({
       tab: 'register',
-      feature: 'AI Portföy Doktoru',
+      feature: 'Portföy analizi',
       headline: 'Raporun hazır! Ücretsiz kayıt ol',
       subtitle:
         'Canlı portföy analizini kaydet — 1 tıkla Google ile başla.',
@@ -266,7 +266,7 @@ export default function PortfolioAuditPage() {
       <div>
         <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
           <Activity className="size-6 text-rose-400" />
-          AI Portföy Doktoru
+          Portföy analizi
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Ağırlık girin — çeşitlendirme, sektör riski, temettü/büyüme ve kur

@@ -10,9 +10,9 @@ export async function generateMetadata(): Promise<Metadata> {
       ? `XU100 ${formatMetaPrice(idx.price, 'TRY')} ${idx.change != null ? formatMetaChange(idx.change) : ''}`
       : 'Canlı BİST terminali';
   return {
-    title: `${live} — Fırsat Skoru, Radar ve Alarm`,
+    title: `${live} — Skor Taraması, Radar ve Alarm`,
     description:
-      'Ücretsiz sabah BİST terminali: canlı fırsat skoru, radar ve fiyat alarmı. 10 dakikalık piyasa rutini — kayıt zorunlu değil.',
+      'Ücretsiz BİST terminali: analiz skoru, teknik radar ve fiyat alarmı. Kısa piyasa turu — kayıt zorunlu değil.',
   };
 }
 

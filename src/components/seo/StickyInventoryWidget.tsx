@@ -37,12 +37,8 @@ export function StickyInventoryWidget({ symbol, name, price }: Props) {
   return (
     <aside className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 lg:sticky lg:top-20">
       <h3 className="text-sm font-semibold text-[var(--foreground)]">
-        Elinde {symbol} var mı?
+        Envantere ekle
       </h3>
-      <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
-        Lot ve maliyetini gir; envanter riskini ve temettü getirisini hemen
-        hesaplayalım.
-      </p>
       <form onSubmit={submit} className="mt-3 space-y-2">
         <label className="block text-[11px] text-[var(--muted)]">
           Lot
@@ -65,7 +61,7 @@ export function StickyInventoryWidget({ symbol, name, price }: Props) {
           />
         </label>
         <Button type="submit" className="w-full text-sm">
-          {done ? 'Eklendi — /portfolio' : 'Envantere ekle'}
+          {done ? 'Eklendi' : 'Ekle'}
         </Button>
       </form>
     </aside>

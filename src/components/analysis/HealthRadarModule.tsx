@@ -21,11 +21,7 @@ export function HealthRadarModule({ data }: Props) {
 
   return (
     <article className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5">
-      <h3 className="text-sm font-semibold">Hisse sağlık radarı</h3>
-      <p className="mt-1 text-xs text-[var(--muted)]">
-        5 eksen · kamuya açık çarpan ve momentum proxy’leri (0–100). *Borç
-        ekseni PB/beta vekili — KAP bilanço derinliği yok.
-      </p>
+      <h3 className="text-sm font-semibold">Sağlık radarı</h3>
       <div className="mt-2 h-64 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={chart} cx="50%" cy="50%" outerRadius="70%">
