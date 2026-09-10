@@ -7,7 +7,6 @@ import {
   Bell,
   Check,
   Flame,
-  Sparkles,
 } from 'lucide-react';
 import { AssetDetailDrawer } from '@/components/dashboard/AssetDetailDrawer';
 import {
@@ -120,49 +119,64 @@ export function HabitCue({ topCards }: HabitCueProps) {
 
   return (
     <>
-      <div className="relative overflow-hidden rounded-2xl border border-[var(--accent)]/25 bg-[var(--card)] px-4 py-3 sm:px-5">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-8 -top-10 size-32 rounded-full bg-[var(--glow-up)] blur-2xl"
-        />
-        <div className="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex gap-3">
-            <div className="mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl border border-[var(--accent)]/30 bg-[var(--glow-up)]">
-              <Sparkles className="size-4 text-[var(--accent)]" />
-            </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <p className="text-sm font-semibold text-[var(--foreground)]">
-                  Kısa tur
-                </p>
-                {streak.count > 0 ? (
-                  <span className="inline-flex items-center gap-1 rounded-md border border-orange-500/30 bg-orange-500/10 px-1.5 py-0.5 text-[10px] font-medium text-orange-300">
-                    <Flame className="size-3" />
-                    {streak.count}g
-                  </span>
-                ) : null}
-                {doneToday ? (
-                  <span className="inline-flex items-center gap-1 rounded-md border border-[var(--accent)]/30 bg-[var(--glow-up)] px-1.5 py-0.5 text-[10px] font-medium text-[var(--accent)]">
-                    <Check className="size-3" />
-                    Tamam
-                  </span>
-                ) : null}
-              </div>
-            </div>
+      <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 py-2.5 sm:px-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex shrink-0 items-center gap-2">
+            <p className="text-sm font-semibold text-[var(--foreground)]">
+              Kısa tur
+            </p>
+            {streak.count > 0 ? (
+              <span className="inline-flex items-center gap-1 text-[10px] text-orange-300">
+                <Flame className="size-3" />
+                {streak.count}g
+              </span>
+            ) : null}
+            {doneToday ? (
+              <span className="inline-flex items-center gap-1 text-[10px] text-[var(--accent)]">
+                <Check className="size-3" />
+                Tamam
+              </span>
+            ) : null}
           </div>
-          <div className="flex shrink-0 items-center gap-2 pl-12 sm:pl-0">
+
+          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
+            {cards.length ? (
+              cards.map((c) => (
+                <button
+                  key={c.symbol}
+                  type="button"
+                  onClick={() => {
+                    setDrawerCard(c);
+                    setDrawerOpen(true);
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-2 py-1 text-xs hover:border-[var(--accent)]/40"
+                >
+                  <span className="font-medium tabular-nums">
+                    {c.displaySymbol}
+                  </span>
+                  <span className="font-mono text-[var(--accent)]">
+                    {c.score}
+                  </span>
+                </button>
+              ))
+            ) : (
+              <span className="text-xs text-[var(--muted)]">Veri bekleniyor</span>
+            )}
+          </div>
+
+          <div className="flex shrink-0 items-center gap-2">
             <button
               type="button"
               onClick={openRitual}
               disabled={!cards.length}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-semibold text-[#042f2e] hover:brightness-110 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-1.5 text-xs font-semibold text-[#042f2e] hover:brightness-110 disabled:opacity-50"
             >
               {doneToday ? 'Yeniden' : 'Başlat'}
               <ArrowRight className="size-3.5" />
             </button>
             <Link
               href="/firsatlar"
-              className="rounded-lg px-2 py-2 text-xs text-[var(--muted)] hover:text-[var(--foreground)]"
+              className="px-1 text-xs text-[var(--muted)] hover:text-[var(--foreground)]"
             >
               Liste
             </Link>
@@ -174,7 +188,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
         <DialogContent className="max-w-md p-0 overflow-hidden">
           <div className="border-b border-[var(--border)] px-5 py-4 pr-12">
             <DialogTitle className="text-base font-semibold">
-              Günlük tur · Adım {Math.min(step + 1, totalSteps)}/{totalSteps}
+              Tur · {Math.min(step + 1, totalSteps)}/{totalSteps}
             </DialogTitle>
             <div className="mt-3 flex gap-1.5">
               {Array.from({ length: totalSteps }).map((_, i) => (
@@ -239,13 +253,13 @@ export function HabitCue({ topCards }: HabitCueProps) {
                   className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-semibold text-[var(--foreground)] hover:border-[var(--accent)]/40"
                 >
                   <Bell className="size-3.5" />
-                  Detay / alarm
+                  Detay
                 </button>
                 {step < totalSteps - 1 ? (
                   <button
                     type="button"
                     onClick={() => setStep((s) => s + 1)}
-                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-bold text-[#042f2e] hover:brightness-110"
+                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-semibold text-[#042f2e] hover:brightness-110"
                   >
                     Sonraki
                     <ArrowRight className="size-3.5" />
@@ -254,17 +268,17 @@ export function HabitCue({ topCards }: HabitCueProps) {
                   <button
                     type="button"
                     onClick={completeRitual}
-                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-bold text-[#042f2e] hover:brightness-110"
+                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg bg-[var(--accent)] px-3 py-2 text-xs font-semibold text-[#042f2e] hover:brightness-110"
                   >
                     <Check className="size-3.5" />
-                    Ritüeli bitir
+                    Bitir
                   </button>
                 )}
               </div>
             </div>
           ) : (
             <p className="px-5 py-8 text-center text-sm text-[var(--muted)]">
-              Skor kartı yok — piyasa verisi bekleniyor.
+              Veri bekleniyor
             </p>
           )}
         </DialogContent>
