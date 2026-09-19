@@ -28,10 +28,17 @@ function ChatInner() {
         'Merhaba — envanterin, alarmların ve izleme listene bakarak sorularını yanıtlarım. Yatırım tavsiyesi vermem; rakamlar senin kayıtlı verinden gelir.',
     },
   ]);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const skipScrollRef = useRef(true);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (skipScrollRef.current) {
+      skipScrollRef.current = false;
+      return;
+    }
+    const el = listRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
   }, [turns, busy]);
 
   async function send(text: string) {
@@ -98,7 +105,7 @@ function ChatInner() {
         ) : null}
       </div>
 
-      <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
+      <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
         {turns.map((t, i) => (
           <div
             key={`${t.role}-${i}`}
@@ -118,7 +125,6 @@ function ChatInner() {
             Düşünüyor…
           </div>
         ) : null}
-        <div ref={bottomRef} />
       </div>
 
       {error ? (
