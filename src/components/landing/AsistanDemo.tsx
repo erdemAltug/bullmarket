@@ -60,7 +60,7 @@ export function AsistanDemo() {
           <p className="mt-3 max-w-md text-sm leading-relaxed text-[var(--muted)]">
             Hesabınızdaki pozisyonlar, nakit ve alarmlarla konuşur. Hedef fiyat,
             yoğunlaşma ve boğa–ayı çerçevesini sizin veriniz üzerinden özetler.
-            Alım satım tavsiyesi vermez.
+           
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             {signedIn ? (
