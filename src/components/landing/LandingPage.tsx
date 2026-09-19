@@ -219,9 +219,14 @@ export function LandingPage() {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-center sm:flex-row sm:px-6 sm:text-left">
           <Smartphone className="size-6 shrink-0 text-[var(--accent)]" />
           <p className="flex-1 text-sm text-[var(--muted)]">
-            Mobil uygulama yakında · web terminal mobil uyumlu
+            Mobil uygulama yakında · web mobil uyumlu
           </p>
-          <TerminalCtaButton>Terminal</TerminalCtaButton>
+          <Link
+            href="/firsatlar"
+            className="inline-flex items-center rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[#042f2e] hover:brightness-110"
+          >
+            Skor taraması
+          </Link>
         </div>
       </section>
 
@@ -294,13 +299,6 @@ export function LandingPage() {
             <FaqAccordion items={FAQ} />
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6">
-        <h2 className="text-2xl font-semibold tracking-tight">Terminal</h2>
-        <TerminalCtaButton className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-[#042f2e] hover:brightness-110">
-          Aç
-        </TerminalCtaButton>
       </section>
 
       <footer className="border-t border-[var(--border)] bg-[var(--surface)]/80 py-8">
