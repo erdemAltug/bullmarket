@@ -404,7 +404,7 @@ function isTransientError(msg: string): boolean {
 async function callGroq(prompt: string): Promise<string> {
   const key = process.env.GROQ_API_KEY;
   if (!key) throw new Error('GROQ_API_KEY missing');
-  const model = process.env.GROQ_MODEL ?? 'llama-3.3-70b-versatile';
+  const model = process.env.GROQ_MODEL?.trim() || 'openai/gpt-oss-20b';
   console.log(`Groq try: ${model}`);
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',

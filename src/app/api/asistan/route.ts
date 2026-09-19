@@ -44,7 +44,10 @@ export async function POST(req: Request) {
 
     if (!process.env.GROQ_API_KEY?.trim()) {
       return NextResponse.json(
-        { success: false, error: 'Asistan şu an yapılandırılmamış (GROQ_API_KEY).' },
+        {
+          success: false,
+          error: 'Asistan şu an kapalı. Biraz sonra tekrar dene.',
+        },
         { status: 503 }
       );
     }
@@ -109,11 +112,13 @@ export async function POST(req: Request) {
     });
   } catch (e) {
     console.error('asistan:', e);
+    const raw = e instanceof Error ? e.message : '';
+    const safe =
+      raw.includes('Asistan') || raw.includes('limit') || raw.includes('kapalı')
+        ? raw
+        : 'Asistan yanıt veremedi. Biraz sonra tekrar dene.';
     return NextResponse.json(
-      {
-        success: false,
-        error: e instanceof Error ? e.message : 'Asistan hatası',
-      },
+      { success: false, error: safe },
       { status: 502 }
     );
   }
