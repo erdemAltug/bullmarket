@@ -64,6 +64,16 @@ export function buildComparePairs(): ComparePair[] {
     ['XOM', 'CVX'],
     ['KO', 'PEP'],
     ['COST', 'WMT'],
+    ['NFLX', 'DIS'],
+    ['INTC', 'AMD'],
+    ['AVGO', 'NVDA'],
+    ['CRM', 'ORCL'],
+    ['UBER', 'LYFT'],
+    ['COIN', 'MSTR'],
+    ['PLTR', 'SNOW'],
+    ['BA', 'LMT'],
+    ['GS', 'MS'],
+    ['V', 'MA'],
   ];
   for (const [a, b] of usPairs) {
     if (SEO_US_TICKERS.includes(a) && SEO_US_TICKERS.includes(b)) {

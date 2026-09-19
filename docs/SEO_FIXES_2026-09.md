@@ -80,8 +80,10 @@ TradingView/Investing brand sorgularında üst sıra bekleme. Kazanım: `sembol 
 - [x] A2 sitemap index temizliği
 - [x] A3 FAQ scope
 - [x] A4 OG (nasdaq/kripto + homepage SchemaMarkup)
+- [x] C/D kısmi: egitim+blog MD, hub gövde, guest nav, compare peers, heatmap canonical
 - [ ] Deploy sonrası GSC sitemap yeniden gönder
 - [ ] 2 hafta sonra Top-20 / CTR kontrol
+- [ ] Faz B: GSC 8–20 sorgu listesi (manuel)
 
 ---
 

@@ -52,21 +52,21 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/bist', key: 'bist', icon: LineChart, color: 'text-blue-400' },
       { href: '/bist/heatmap', key: 'heatmap', icon: Map, color: 'text-amber-400' },
-      { href: '/nasdaq', key: 'us', icon: Landmark, color: 'text-sky-300', signedInOnly: true },
-      { href: '/fon', key: 'funds', icon: Layers, color: 'text-amber-300', signedInOnly: true },
-      { href: '/kripto', key: 'crypto', icon: Bitcoin, color: 'text-violet-400', signedInOnly: true },
-      { href: '/fx/USD-TRY', key: 'fx', icon: Banknote, color: 'text-lime-400', signedInOnly: true },
+      { href: '/nasdaq', key: 'us', icon: Landmark, color: 'text-sky-300' },
+      { href: '/fon', key: 'funds', icon: Layers, color: 'text-amber-300' },
+      { href: '/kripto', key: 'crypto', icon: Bitcoin, color: 'text-violet-400' },
+      { href: '/fx/USD-TRY', key: 'fx', icon: Banknote, color: 'text-lime-400' },
       { href: '/faiz', key: 'rates', icon: Percent, color: 'text-teal-300' },
     ],
   },
   {
     group: 'analysis',
     items: [
-      { href: '/compare', key: 'compare', icon: GitCompare, color: 'text-emerald-300', signedInOnly: true },
+      { href: '/karsilastir', key: 'compare', icon: GitCompare, color: 'text-emerald-300' },
       { href: '/signals', key: 'signals', icon: Sparkles, color: 'text-emerald-300' },
-      { href: '/targets', key: 'targets', icon: Crosshair, color: 'text-amber-300', signedInOnly: true },
+      { href: '/targets', key: 'targets', icon: Crosshair, color: 'text-amber-300' },
       { href: '/whales', key: 'smartMoney', icon: Waves, color: 'text-cyan-400', signedInOnly: true },
-      { href: '/dividends', key: 'dividends', icon: Coins, color: 'text-rose-400', signedInOnly: true },
+      { href: '/dividends', key: 'dividends', icon: Coins, color: 'text-rose-400' },
     ],
   },
   {
@@ -115,6 +115,14 @@ export function isNavActive(pathname: string, href: string) {
       pathname === '/nasdaq' ||
       pathname.startsWith('/us/') ||
       pathname.startsWith('/nasdaq/')
+    );
+  }
+  if (href === '/compare' || href === '/karsilastir') {
+    return (
+      pathname === '/compare' ||
+      pathname === '/karsilastir' ||
+      pathname.startsWith('/compare/') ||
+      pathname.startsWith('/karsilastir/')
     );
   }
   return pathname === href || pathname.startsWith(`${href}/`);
