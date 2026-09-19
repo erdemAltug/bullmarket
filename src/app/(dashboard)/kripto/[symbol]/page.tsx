@@ -11,6 +11,7 @@ import { fromLiveCryptoBand } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import { absoluteCanonical } from '@/lib/seo/canonical';
 import {
+  SITE_URL,
   SEO_CRYPTO_SYMBOLS,
   formatMetaChange,
   formatMetaPrice,
@@ -60,15 +61,16 @@ export async function generateMetadata({
   const hasLiveQuote = priceNum > 0;
   const path = `/kripto/${symbol}`;
   const canonicalUrl = absoluteCanonical(path, { upperSymbol: true });
-  const year = new Date().getFullYear();
 
   const title = isTr
-    ? `${display} Hedef Fiyat ${year}, Analiz Skoru ve Canlı Grafik | Bullsye`
-    : `${display} Price Target ${year}, Score & Live Chart | Bullsye`;
+    ? `${display} Canlı Fiyat, Skor ve Grafik | Bullsye`
+    : `${display} Live Price, Score & Chart | Bullsye`;
 
   const description = isTr
-    ? `${display} (${symbol}) için canlı fiyat, prim potansiyeli ve Bullsye analiz skorunu inceleyin.${hasLiveQuote ? ` Canlı: $${price} (${change}).` : ''}`
-    : `Live ${display} (${symbol}) quote, depth and Bullsye score.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
+    ? `${display} (${symbol}) canlı kripto fiyatı, Bullsye analiz skoru ve derinlik.${hasLiveQuote ? ` Şimdi: $${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
+    : `Live ${display} (${symbol}) quote, Bullsye score and depth.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
+
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(hasLiveQuote ? `$${price}` : '—')}&change=${encodeURIComponent(change)}&label=Crypto`;
 
   return {
     title: { absolute: title },
@@ -83,11 +85,13 @@ export async function generateMetadata({
       url: canonicalUrl,
       siteName: 'Bullsye',
       locale: isTr ? 'tr_TR' : 'en_US',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: `${display} kripto` }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [ogImage],
     },
   };
 }

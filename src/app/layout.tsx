@@ -3,7 +3,6 @@ import { cookies } from 'next/headers';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { MicrosoftClarity } from '@/components/analytics/MicrosoftClarity';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { Providers } from './providers';
 import { PREF_KEYS, type AppTheme, type Language } from '@/lib/preferences';
 import { SITE_URL } from '@/lib/seo/symbols';
@@ -150,7 +149,6 @@ export default async function RootLayout({
       >
         <MicrosoftClarity />
         <JsonLd />
-        <SchemaMarkup />
         <Providers>{children}</Providers>
       </body>
     </html>

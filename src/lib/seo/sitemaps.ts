@@ -220,7 +220,6 @@ export function sitemapShardFiles(): string[] {
   for (let i = 1; i <= bistN; i++) files.push(`sitemap-bist-${i}.xml`);
   for (let i = 1; i <= nasdaqN; i++) files.push(`sitemap-nasdaq-${i}.xml`);
   files.push('sitemap-crypto.xml', 'sitemap-karsilastir.xml');
-  files.push('sitemap-bist.xml', 'sitemap-nasdaq.xml');
   return files;
 }
 

@@ -67,12 +67,12 @@ export async function generateMetadata({
 
   const year = new Date().getFullYear();
   const title = isTr
-    ? `${symbol} Hedef Fiyat ${year}, Analiz Skoru ve Canlı Grafik | Bullsye`
-    : `${symbol} Price Target ${year}, Score & Live Chart | Bullsye`;
+    ? `${symbol} Analiz Skoru, Canlı Fiyat ve Grafik ${year} | Bullsye`
+    : `${symbol} Analysis Score, Live Price & Chart ${year} | Bullsye`;
 
   const description = isTr
-    ? `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı, prim potansiyeli ve Bullsye analiz skorunu inceleyin.${hasLiveQuote ? ` Canlı: ₺${price} (${change}).` : ''}`
-    : `Live ${name} (${symbol}) BIST quote, 12-month analyst consensus, upside and Bullsye score.${hasLiveQuote ? ` Now ₺${price} (${change}).` : ''}`;
+    ? `${name} (${symbol}) canlı fiyat, Bullsye analiz skoru (0–100), temel rasyolar ve grafik.${hasLiveQuote ? ` Şimdi: ₺${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
+    : `Live ${name} (${symbol}) BIST quote, Bullsye score (0–100), fundamentals and chart.${hasLiveQuote ? ` Now ₺${price} (${change}).` : ''}`;
 
   const ogImage = `${SITE_URL}/api/og/bist/${encodeURIComponent(symbol)}`;
 
@@ -84,9 +84,8 @@ export async function generateMetadata({
           `${symbol} canlı`,
           `${symbol} hisse fiyatı`,
           `${symbol} grafik`,
+          `${symbol} analiz skoru`,
           `${symbol} analiz`,
-          `${symbol} hedef fiyat`,
-          `${symbol} analist tavsiyesi`,
           'BİST canlı',
         ]
       : [
@@ -98,12 +97,8 @@ export async function generateMetadata({
         ],
     alternates: withLangAlternates(path),
     openGraph: {
-      title: isTr
-        ? `${symbol} Hisse Analizi & Canlı Grafik | Bullsye`
-        : `${symbol} Live Chart & Signals | Bullsye`,
-      description: isTr
-        ? `${symbol} hisse senedi canlı veri ve akıllı alım sinyalleri.`
-        : `Live ${symbol} quotes, charts and smart buy signals.`,
+      title,
+      description,
       url: canonicalUrl,
       siteName: 'Bullsye',
       locale: isTr ? 'tr_TR' : 'en_US',
@@ -120,9 +115,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: hasLiveQuote
-        ? `${symbol} ₺${price} ${change} | Bullsye`
-        : `${symbol} Hisse Analizi | Bullsye`,
+      title,
       description,
       images: [ogImage],
     },

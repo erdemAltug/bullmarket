@@ -11,6 +11,7 @@ import { fromLiveFundamentals } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import { absoluteCanonical } from '@/lib/seo/canonical';
 import {
+  SITE_URL,
   SEO_US_TICKERS,
   formatMetaChange,
   formatMetaPrice,
@@ -60,15 +61,16 @@ export async function generateMetadata({
   const hasLiveQuote = priceNum > 0;
   const path = `/nasdaq/${symbol}`;
   const canonicalUrl = absoluteCanonical(path, { upperSymbol: true });
-  const year = new Date().getFullYear();
 
   const title = isTr
-    ? `${symbol} Hedef Fiyat ${year}, Analiz Skoru ve Canlı Grafik | Bullsye`
-    : `${symbol} Price Target ${year}, Score & Live Chart | Bullsye`;
+    ? `${symbol} NASDAQ Canlı Fiyat ve Analiz Skoru | Bullsye`
+    : `${symbol} NASDAQ Live Price & Analysis Score | Bullsye`;
 
   const description = isTr
-    ? `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı, prim potansiyeli ve Bullsye analiz skorunu inceleyin.${hasLiveQuote ? ` Canlı: $${price} (${change}).` : ''}`
-    : `Live ${name} (${symbol}) NASDAQ quote, analyst consensus and Bullsye score.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
+    ? `${name} (${symbol}) NASDAQ canlı fiyat, Bullsye analiz skoru ve grafik.${hasLiveQuote ? ` Şimdi: $${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
+    : `Live ${name} (${symbol}) NASDAQ quote, Bullsye score and chart.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
+
+  const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(hasLiveQuote ? `$${price}` : '—')}&change=${encodeURIComponent(change)}&label=NASDAQ`;
 
   return {
     title: { absolute: title },
@@ -77,7 +79,7 @@ export async function generateMetadata({
       ? [
           `${symbol} canlı`,
           `${symbol} NASDAQ`,
-          `${symbol} hedef fiyat`,
+          `${symbol} hisse fiyatı`,
           'ABD hisseleri',
         ]
       : [`${symbol} live price`, `${symbol} NASDAQ`, 'US stocks'],
@@ -89,11 +91,13 @@ export async function generateMetadata({
       siteName: 'Bullsye',
       locale: isTr ? 'tr_TR' : 'en_US',
       type: 'website',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: `${symbol} NASDAQ` }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [ogImage],
     },
   };
 }

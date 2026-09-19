@@ -68,8 +68,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const meanStr =
     mean != null ? formatMetaPrice(mean, 'TRY') : null;
 
-  const title = `${symbol} Hedef Fiyat ${year}, Analiz Skoru ve Canlı Grafik | Bullsye`;
-  const description = `${name} (${symbol}) için aracı kurumların 12 aylık konsensüs hedef fiyatı${meanStr ? ` (ort. ₺${meanStr})` : ''}${upside != null ? `, prim potansiyeli %${upside.toFixed(1)}` : ''} ve Bullsye analiz skorunu inceleyin.${price ? ` Canlı: ₺${price}.` : ''}`;
+  const title = `${symbol} Hedef Fiyat ${year}, Analist Konsensüsü | Bullsye`;
+  const description = `${name} (${symbol}) aracı kurum 12 aylık konsensüs hedef fiyatı${meanStr ? ` (ort. ₺${meanStr})` : ''}${upside != null ? `, prim potansiyeli %${upside.toFixed(1)}` : ''}.${price ? ` Canlı: ₺${price}.` : ''} Yatırım tavsiyesi değildir.`;
 
   return {
     title: { absolute: title },

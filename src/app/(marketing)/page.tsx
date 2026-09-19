@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { LandingPage } from '@/components/landing/LandingPage';
+import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { rootHreflangLanguages } from '@/lib/seo/hreflang';
 
@@ -51,5 +52,10 @@ export const metadata: Metadata = {
 };
 
 export default function HomeLandingPage() {
-  return <LandingPage />;
+  return (
+    <>
+      <SchemaMarkup />
+      <LandingPage />
+    </>
+  );
 }
