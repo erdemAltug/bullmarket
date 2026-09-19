@@ -231,8 +231,8 @@ export function AuthModal({
           >
             <GoogleIcon className="size-4" />
             {growthMode || tab === 'register'
-              ? '1 Tıkla Google ile Kayıt Ol'
-              : 'Google ile Devam Et'}
+              ? 'Google ile kayıt ol'
+              : 'Google ile giriş yap'}
           </button>
 
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest text-[var(--muted)]/70">

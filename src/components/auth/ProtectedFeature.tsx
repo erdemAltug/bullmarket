@@ -72,7 +72,7 @@ export function ProtectedFeature({
           }
           className="rounded-lg bg-emerald-500 px-5 py-2 text-xs font-bold text-black shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all hover:bg-emerald-400"
         >
-          1 Tıkla Google ile Kayıt Ol
+          Google ile giriş yap
         </button>
       </div>
     </div>
