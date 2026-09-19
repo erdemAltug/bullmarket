@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Loader2, MessageSquare, Send } from 'lucide-react';
 import { ProtectedFeature } from '@/components/auth/ProtectedFeature';
@@ -25,9 +25,23 @@ function ChatInner() {
     {
       role: 'assistant',
       content:
-        'Merhaba — envanterin ve alarmların üzerinden konuşurum; envanterde olmayan hisseler için de genel (tavsiyesiz) çerçeve verebilirim.',
+        'Merhaba — envanterin ve alarmların üzerinden konuşurum; envanterde olmayan hisseler için de hedef fiyat / boğa-ayı çerçevesi verebilirim. Al-sat demem.',
     },
   ]);
+  const listRef = useRef<HTMLDivElement>(null);
+  const skipScrollRef = useRef(true);
+
+  useEffect(() => {
+    if (skipScrollRef.current) {
+      skipScrollRef.current = false;
+      return;
+    }
+    const el = listRef.current;
+    if (!el) return;
+    requestAnimationFrame(() => {
+      el.scrollTop = el.scrollHeight;
+    });
+  }, [turns, busy]);
 
   async function send(text: string) {
     const message = text.trim();
@@ -93,7 +107,7 @@ function ChatInner() {
         ) : null}
       </div>
 
-      <div className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
+      <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
         {turns.map((t, i) => (
           <div
             key={`${t.role}-${i}`}
@@ -144,7 +158,7 @@ function ChatInner() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Portföyün hakkında sor…"
+          placeholder="Portföyün veya bir sembol hakkında sor…"
           disabled={busy}
           className="min-w-0 flex-1 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)]/50"
         />
@@ -158,8 +172,8 @@ function ChatInner() {
       </form>
 
       <p className="border-t border-[var(--border)] px-4 py-2 text-[10px] text-[var(--muted)]">
-        Veriler Neon hesabındaki envanterden gelir. Guest LocalStorage dahil
-        değil —{' '}
+        Veriler Neon hesabındaki envanterden + Yahoo özetinden gelir. Guest
+        LocalStorage dahil değil —{' '}
         <Link href="/portfolio" className="text-[var(--accent)]">
           envantere ekle
         </Link>

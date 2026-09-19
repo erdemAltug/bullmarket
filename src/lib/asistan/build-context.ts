@@ -84,6 +84,14 @@ async function snapshotSymbols(symbols: string[]): Promise<string> {
       continue;
     }
     const pe = r.fund?.trailingPE;
+    const a = r.fund?.analyst;
+    const mean = a?.targetMean ?? null;
+    const high = a?.targetHigh ?? null;
+    const low = a?.targetLow ?? null;
+    const upside =
+      mean != null && r.price != null && r.price > 0
+        ? ((mean - r.price) / r.price) * 100
+        : null;
     const parts = [
       `${r.display} (${r.name})`,
       `piyasa=${r.market}`,
@@ -91,6 +99,20 @@ async function snapshotSymbols(symbols: string[]): Promise<string> {
       r.price != null ? `fiyat≈${r.price} ${r.currency}` : null,
       r.changePercent != null ? `gün %${r.changePercent.toFixed(2)}` : null,
       pe != null ? `F/K≈${pe.toFixed(1)}` : null,
+      r.fund?.fiftyTwoWeekHigh != null
+        ? `52hYüksek≈${r.fund.fiftyTwoWeekHigh}`
+        : null,
+      r.fund?.fiftyTwoWeekLow != null
+        ? `52hDüşük≈${r.fund.fiftyTwoWeekLow}`
+        : null,
+      mean != null ? `hedefOrtalama≈${mean}` : null,
+      high != null ? `hedefYüksek≈${high}` : null,
+      low != null ? `hedefDüşük≈${low}` : null,
+      upside != null ? `primKonsensüs≈%${upside.toFixed(1)}` : null,
+      a?.recommendationKey ? `öneriKey=${a.recommendationKey}` : null,
+      a
+        ? `öneriDağılımı=AL:${a.strongBuy + a.buy}/TUT:${a.hold}/SAT:${a.sell + a.strongSell}`
+        : null,
       `sayfa=${r.href}`,
     ].filter(Boolean);
     lines.push(`- ${parts.join(' · ')}`);
