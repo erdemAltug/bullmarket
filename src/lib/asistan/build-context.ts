@@ -7,7 +7,7 @@ import { getUserWatchlist } from '@/actions/watchlist';
 import { fetchFundamentals, fetchQuotes } from '@/lib/api/yahoo';
 import { buildCompanionNotes } from '@/lib/companion';
 import { analyzePortfolioHealth } from '@/lib/portfolio-health';
-import { toYahooSymbol } from '@/lib/seo/symbols';
+import { toYahooSymbol, isIndexedBistSymbol, isIndexedUsSymbol } from '@/lib/seo/symbols';
 import type { PortfolioPosition } from '@/types';
 
 const CONTENT_ROOT = path.join(process.cwd(), 'content');
@@ -76,33 +76,103 @@ async function snapshotSymbols(symbols: string[]): Promise<string> {
   if (!symbols.length) return '';
   const lines: string[] = [];
   for (const raw of symbols) {
-    const yahoo = toYahooSymbol(raw);
-    try {
-      const [q, f] = await Promise.all([
-        fetchQuotes([yahoo]).then((r) => r[0]).catch(() => null),
-        fetchFundamentals(yahoo).catch(() => null),
-      ]);
-      const name = q?.name || displaySym(raw);
-      const price = q?.price;
-      const chg = q?.changePercent;
-      const pe = f?.trailingPE;
-      const parts = [
-        `${displaySym(raw)} (${name})`,
-        price != null ? `fiyat≈${price}` : null,
-        chg != null ? `gün %${chg.toFixed(2)}` : null,
-        pe != null ? `F/K≈${pe.toFixed(1)}` : null,
-        `sayfa=/bist/${displaySym(raw)}`,
-      ].filter(Boolean);
-      lines.push(`- ${parts.join(' · ')}`);
-    } catch {
+    const r = await resolveQuotedSymbol(raw);
+    if (!r) {
       lines.push(
-        `- ${displaySym(raw)}: canlı veri alınamadı · /bist/${displaySym(raw)}`
+        `- ${displaySym(raw)}: tanınamadı / canlı veri yok — tahmin etme; piyasa belirsiz`
       );
+      continue;
     }
+    const pe = r.fund?.trailingPE;
+    const parts = [
+      `${r.display} (${r.name})`,
+      `piyasa=${r.market}`,
+      `yahoo=${r.yahoo}`,
+      r.price != null ? `fiyat≈${r.price} ${r.currency}` : null,
+      r.changePercent != null ? `gün %${r.changePercent.toFixed(2)}` : null,
+      pe != null ? `F/K≈${pe.toFixed(1)}` : null,
+      `sayfa=${r.href}`,
+    ].filter(Boolean);
+    lines.push(`- ${parts.join(' · ')}`);
   }
   return lines.length
-    ? `Sohbette geçen sembol anlık özeti (tavsiye değil):\n${lines.join('\n')}`
+    ? `Sohbette geçen sembol anlık özeti (tavsiye değil; piyasa alanına uy):\n${lines.join('\n')}`
     : '';
+}
+
+type ResolvedQuote = {
+  display: string;
+  yahoo: string;
+  market: 'BIST' | 'NASDAQ' | 'US' | 'UNKNOWN';
+  href: string;
+  name: string;
+  price: number | null;
+  changePercent: number | null;
+  currency: string;
+  fund: Awaited<ReturnType<typeof fetchFundamentals>> | null;
+};
+
+async function resolveQuotedSymbol(raw: string): Promise<ResolvedQuote | null> {
+  const display = displaySym(raw).toUpperCase();
+  const candidates: {
+    yahoo: string;
+    market: ResolvedQuote['market'];
+    href: string;
+  }[] = [];
+
+  if (isIndexedBistSymbol(display)) {
+    candidates.push({
+      yahoo: toYahooSymbol(display),
+      market: 'BIST',
+      href: `/bist/${display}`,
+    });
+  } else if (isIndexedUsSymbol(display)) {
+    candidates.push({
+      yahoo: display,
+      market: 'NASDAQ',
+      href: `/nasdaq/${display}`,
+    });
+  } else {
+    // Allowlist dışı: önce ABD (çıplak ticker), sonra BİST .IS
+    candidates.push(
+      { yahoo: display, market: 'US', href: `/nasdaq/${display}` },
+      {
+        yahoo: toYahooSymbol(display),
+        market: 'BIST',
+        href: `/bist/${display}`,
+      }
+    );
+  }
+
+  for (const c of candidates) {
+    try {
+      const [q, fund] = await Promise.all([
+        fetchQuotes([c.yahoo]).then((r) => r[0]).catch(() => null),
+        fetchFundamentals(c.yahoo).catch(() => null),
+      ]);
+      if (!q || !(q.price > 0)) continue;
+      const market: ResolvedQuote['market'] =
+        c.market === 'US' && !c.yahoo.endsWith('.IS')
+          ? 'NASDAQ'
+          : c.market === 'US'
+            ? 'UNKNOWN'
+            : c.market;
+      return {
+        display,
+        yahoo: c.yahoo,
+        market: c.yahoo.endsWith('.IS') ? 'BIST' : market,
+        href: c.yahoo.endsWith('.IS') ? `/bist/${display}` : `/nasdaq/${display}`,
+        name: q.name || display,
+        price: q.price,
+        changePercent: q.changePercent,
+        currency: q.currency === 'USD' ? 'USD' : 'TRY',
+        fund,
+      };
+    } catch {
+      /* next candidate */
+    }
+  }
+  return null;
 }
 
 export type AsistanContextPack = {
