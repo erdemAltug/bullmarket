@@ -15,6 +15,7 @@ import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingTicker } from '@/components/landing/LandingTicker';
 import { WhyAssistant } from '@/components/landing/WhyAssistant';
 import { InventoryPitch } from '@/components/landing/InventoryPitch';
+import { AsistanDemo } from '@/components/landing/AsistanDemo';
 import { TerminalCtaButton } from '@/components/landing/TerminalCtaButton';
 import {
   TOP_BIST_FOR_HUB,
@@ -35,6 +36,10 @@ const FAQ = [
   {
     q: 'Ücretsiz mi?',
     a: 'Evet. Terminal, skor ve hedefler kayıt olmadan açılır.',
+  },
+  {
+    q: 'Portföy asistanı nedir?',
+    a: 'Kayıtlı envanterine göre soru-cevap. Al/sat demez. Ücretsiz kayıt gerekir.',
   },
   {
     q: 'Yatırım tavsiyesi verir mi?',
@@ -158,6 +163,8 @@ export function LandingPage() {
       </div>
 
       <WhyAssistant />
+
+      <AsistanDemo />
 
       <section
         id="ozellikler"

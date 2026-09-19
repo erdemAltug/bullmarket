@@ -21,6 +21,7 @@ export type Dictionary = {
     dividends: string;
     academy: string;
     blog: string;
+    asistan: string;
   };
   navGroups: {
     terminal: string;
@@ -68,6 +69,7 @@ const tr: Dictionary = {
     dividends: 'Temettü',
     academy: 'Eğitim',
     blog: 'Blog',
+    asistan: 'Asistan',
   },
   navGroups: {
     terminal: 'Terminal',
@@ -115,6 +117,7 @@ const en: Dictionary = {
     dividends: 'Dividends',
     academy: 'Academy',
     blog: 'Blog',
+    asistan: 'Assistant',
   },
   navGroups: {
     terminal: 'Terminal',
@@ -162,6 +165,7 @@ const de: Dictionary = {
     dividends: 'Dividenden',
     academy: 'Akademie',
     blog: 'Blog',
+    asistan: 'Assistent',
   },
   navGroups: {
     terminal: 'Terminal',
@@ -209,6 +213,7 @@ const es: Dictionary = {
     dividends: 'Dividendos',
     academy: 'Academia',
     blog: 'Blog',
+    asistan: 'Asistente',
   },
   navGroups: {
     terminal: 'Terminal',

@@ -14,6 +14,7 @@ import {
   Banknote,
   Landmark,
   Layers,
+  MessageSquare,
   Percent,
   Sparkles,
   Waves,
@@ -45,6 +46,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/terminal', key: 'overview', icon: LayoutDashboard, color: 'text-emerald-400' },
       { href: '/firsatlar', key: 'opportunities', icon: Zap, color: 'text-emerald-400' },
+      { href: '/asistan', key: 'asistan', icon: MessageSquare, color: 'text-teal-300' },
     ],
   },
   {

@@ -17,6 +17,13 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
     href: '/terminal',
   },
   {
+    id: 'nav-asistan',
+    label: 'Portföy asistanı',
+    keywords: 'asistan chat sohbet portföy envanter ai yardım',
+    kind: 'nav',
+    href: '/asistan',
+  },
+  {
     id: 'nav-bist',
     label: 'BİST',
     keywords: 'bist istanbul stocks',
