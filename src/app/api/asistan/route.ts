@@ -94,6 +94,10 @@ export async function POST(req: Request) {
       email: user.email,
       name: 'name' in user ? String((user as { name?: string }).name ?? '') : null,
       message,
+      historyText: history
+        .filter((t) => t.role === 'user')
+        .map((t) => t.content)
+        .join('\n'),
     });
 
     const reply = await callAsistanLlm({

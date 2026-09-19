@@ -25,7 +25,7 @@ function ChatInner() {
     {
       role: 'assistant',
       content:
-        'Merhaba — envanterin, alarmların ve izleme listene bakarak sorularını yanıtlarım. Yatırım tavsiyesi vermem; rakamlar senin kayıtlı verinden gelir.',
+        'Merhaba — envanterin ve alarmların üzerinden konuşurum; envanterde olmayan hisseler için de genel (tavsiyesiz) çerçeve verebilirim.',
     },
   ]);
 

@@ -4,14 +4,22 @@ import path from 'node:path';
 import { getUserAlerts } from '@/actions/alerts';
 import { getUserPortfolio } from '@/actions/portfolio';
 import { getUserWatchlist } from '@/actions/watchlist';
+import { fetchFundamentals, fetchQuotes } from '@/lib/api/yahoo';
 import { buildCompanionNotes } from '@/lib/companion';
 import { analyzePortfolioHealth } from '@/lib/portfolio-health';
+import { toYahooSymbol } from '@/lib/seo/symbols';
 import type { PortfolioPosition } from '@/types';
 
 const CONTENT_ROOT = path.join(process.cwd(), 'content');
 
+const STOP_TOKENS = new Set([
+  'VAR', 'YOK', 'BIR', 'BU', 'SU', 'NE', 'MI', 'MU', 'MÜ', 'ILE', 'ICIN',
+  'BEN', 'SEN', 'AMA', 'VEYA', 'HER', 'DAHA', 'NASIL', 'NEDEN',
+  'GENEL', 'FIKIR', 'HAKKINDA', 'SORUYORUM', 'DUSUNUYOR', 'DUSUNUYORSUN',
+]);
+
 function costBasisTry(p: PortfolioPosition): number {
-  const fx = p.currency === 'USD' ? 34 : 1; // rough; context only
+  const fx = p.currency === 'USD' ? 34 : 1;
   return p.buyPrice * p.quantity * fx;
 }
 
@@ -54,17 +62,47 @@ export function retrieveKnowledgeSnippet(query: string): string | null {
   return body.slice(0, 700);
 }
 
-function extractSymbols(message: string, held: string[]): string[] {
+function extractSymbols(text: string): string[] {
   const fromMsg = [
-    ...message.toUpperCase().matchAll(/\b([A-Z]{3,5})(?:\.IS)?\b/g),
-  ].map((m) => m[1]);
-  const crypto = message.toUpperCase().match(/\b(BTC|ETH|SOL|XRP|AVAX|BNB)\b/g);
-  const set = new Set<string>([
-    ...fromMsg,
-    ...(crypto ?? []),
-    ...held.map(displaySym).slice(0, 5),
-  ]);
-  return [...set].slice(0, 6);
+    ...text.toUpperCase().matchAll(/\b([A-Z]{3,5})(?:\.IS)?\b/g),
+  ]
+    .map((m) => m[1])
+    .filter((s) => !STOP_TOKENS.has(s));
+  const crypto = text.toUpperCase().match(/\b(BTC|ETH|SOL|XRP|AVAX|BNB)\b/g);
+  return [...new Set([...fromMsg, ...(crypto ?? [])])].slice(0, 4);
+}
+
+async function snapshotSymbols(symbols: string[]): Promise<string> {
+  if (!symbols.length) return '';
+  const lines: string[] = [];
+  for (const raw of symbols) {
+    const yahoo = toYahooSymbol(raw);
+    try {
+      const [q, f] = await Promise.all([
+        fetchQuotes([yahoo]).then((r) => r[0]).catch(() => null),
+        fetchFundamentals(yahoo).catch(() => null),
+      ]);
+      const name = q?.name || displaySym(raw);
+      const price = q?.price;
+      const chg = q?.changePercent;
+      const pe = f?.trailingPE;
+      const parts = [
+        `${displaySym(raw)} (${name})`,
+        price != null ? `fiyat≈${price}` : null,
+        chg != null ? `gün %${chg.toFixed(2)}` : null,
+        pe != null ? `F/K≈${pe.toFixed(1)}` : null,
+        `sayfa=/bist/${displaySym(raw)}`,
+      ].filter(Boolean);
+      lines.push(`- ${parts.join(' · ')}`);
+    } catch {
+      lines.push(
+        `- ${displaySym(raw)}: canlı veri alınamadı · /bist/${displaySym(raw)}`
+      );
+    }
+  }
+  return lines.length
+    ? `Sohbette geçen sembol anlık özeti (tavsiye değil):\n${lines.join('\n')}`
+    : '';
 }
 
 export type AsistanContextPack = {
@@ -78,6 +116,7 @@ export async function buildAsistanContextPack(input: {
   email?: string | null;
   name?: string | null;
   message: string;
+  historyText?: string;
 }): Promise<AsistanContextPack> {
   const [portfolio, alertsRes, watchRes] = await Promise.all([
     getUserPortfolio(input.userId),
@@ -95,7 +134,7 @@ export async function buildAsistanContextPack(input: {
   for (const p of positions) {
     const c = costBasisTry(p);
     costValues[p.id] = c;
-    liveValues[p.id] = c; // canlı yoksa maliyet = proxy
+    liveValues[p.id] = c;
     totalCost += c;
   }
 
@@ -120,10 +159,6 @@ export async function buildAsistanContextPack(input: {
     pnlPct: 0,
   });
 
-  const held = positions
-    .filter((p) => p.assetClass === 'bist' || p.assetClass === 'crypto')
-    .map((p) => p.symbol);
-
   const lines = positions.slice(0, 25).map((p) => {
     const cost = costBasisTry(p);
     return `- ${displaySym(p.symbol)} (${p.assetClass}) adet=${p.quantity} maliyet≈₺${Math.round(cost)}`;
@@ -135,7 +170,13 @@ export async function buildAsistanContextPack(input: {
   );
 
   const knowledge = retrieveKnowledgeSnippet(input.message);
-  const mentioned = extractSymbols(input.message, held);
+  const mentioned = extractSymbols(
+    `${input.historyText ?? ''}\n${input.message}`
+  );
+  const heldDisp = new Set(
+    positions.map((p) => displaySym(p.symbol).toUpperCase())
+  );
+  const symbolSnap = await snapshotSymbols(mentioned);
 
   const userLabel =
     input.name?.trim() ||
@@ -143,8 +184,8 @@ export async function buildAsistanContextPack(input: {
     'kayıtlı kullanıcı';
 
   const systemExtra = [
-    `Kullanıcı: ${userLabel} (id kısaltması: ${input.userId.slice(0, 8)}…)`,
-    `Envanter: ${positions.length} satır · maliyet toplamı≈₺${Math.round(totalCost)} (canlı fiyat yoksa maliyet proxy)`,
+    `Kullanıcı: ${userLabel}`,
+    `Envanter: ${positions.length} satır · maliyet toplamı≈₺${Math.round(totalCost)}`,
     `Sağlık skoru: ${health.score}/100 — ${health.label}`,
     health.findings.length
       ? `Bulgular:\n${health.findings
@@ -163,8 +204,13 @@ export async function buildAsistanContextPack(input: {
       ? `Companion notları:\n${notes.map((n) => `  • ${n.title}: ${n.body}`).join('\n')}`
       : '',
     mentioned.length
-      ? `Mesajda geçen / ilgili semboller: ${mentioned.join(', ')} — derin rakam yoksa /bist/{SYM} veya /firsatlar öner.`
+      ? `Soru sembolleri: ${mentioned.join(', ')}${
+          mentioned.some((s) => !heldDisp.has(s.toUpperCase()))
+            ? ' (bazıları envanterde değil — yine de genel çerçeve anlat)'
+            : ''
+        }`
       : '',
+    symbolSnap,
     knowledge
       ? `Bilgi notu (eğitim/blog özeti, tavsiye değil):\n${knowledge}`
       : '',
