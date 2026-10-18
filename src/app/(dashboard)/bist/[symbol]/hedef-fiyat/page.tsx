@@ -13,6 +13,7 @@ import { fetchFundamentals, fetchQuotes } from '@/lib/api/yahoo';
 import { fromLiveFundamentals } from '@/lib/analystData';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 import { absoluteCanonical } from '@/lib/seo/canonical';
+import { NOINDEX_FOLLOW } from '@/lib/seo/index-policy';
 import {
   SITE_URL,
   SEO_BIST_TICKERS,
@@ -44,6 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   let priceNum = 0;
   let mean: number | null = null;
   let upside: number | null = null;
+  let checked = false;
   try {
     const [q, f] = await Promise.all([
       fetchQuotes([yahoo]).then((r) => r[0]),
@@ -57,6 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (mean != null && priceNum > 0) {
       upside = ((mean - priceNum) / priceNum) * 100;
     }
+    checked = true;
   } catch {
     /* metadata shell */
   }
@@ -103,6 +106,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       images: [`${SITE_URL}/api/og/bist/${symbol}?page=hedef-fiyat`],
     },
+    ...(checked && mean == null ? { robots: NOINDEX_FOLLOW } : {}),
   };
 }
 

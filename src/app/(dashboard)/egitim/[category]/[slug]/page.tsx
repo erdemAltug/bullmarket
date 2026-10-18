@@ -23,6 +23,8 @@ import {
   HowToSchema,
   ArticleSchema,
 } from '@/components/content/ContentSchemas';
+import { MoneyLinks } from '@/components/seo/MoneyLinks';
+import { moneyLinksForLesson } from '@/lib/seo/money-links';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
@@ -122,6 +124,7 @@ export default async function EgitimLessonPage({ params }: Props) {
 
             <ArticleBody sections={lesson.sections} cta={lesson.toolCta} />
             <FaqBlock faqs={lesson.faqs} />
+            <MoneyLinks links={moneyLinksForLesson(lesson.category)} />
             <AuthorBio />
 
             <div className="mt-8 flex flex-wrap gap-3 text-sm">

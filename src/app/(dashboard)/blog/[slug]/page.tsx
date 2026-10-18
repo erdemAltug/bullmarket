@@ -20,6 +20,8 @@ import {
   BreadcrumbSchema,
   ContentFaqSchema,
 } from '@/components/content/ContentSchemas';
+import { MoneyLinks } from '@/components/seo/MoneyLinks';
+import { moneyLinksForPost } from '@/lib/seo/money-links';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
@@ -119,6 +121,13 @@ export default async function BlogPostPage({ params }: Props) {
 
             <ArticleBody sections={post.sections} cta={post.toolCta} />
             <FaqBlock faqs={post.faqs} />
+            <MoneyLinks
+              links={moneyLinksForPost({
+                title: post.title,
+                tags: post.tags,
+                keywords: post.keywords,
+              })}
+            />
             <AuthorBio />
 
             <div className="mt-8 text-sm">

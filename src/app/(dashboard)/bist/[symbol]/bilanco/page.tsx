@@ -11,6 +11,7 @@ import { BistMatrixShell } from '@/components/seo/BistMatrixShell';
 import { RelatedSymbolRail } from '@/components/seo/RelatedSymbolRail';
 import { fetchFundamentals, fetchQuotes } from '@/lib/api/yahoo';
 import { absoluteCanonical } from '@/lib/seo/canonical';
+import { NOINDEX_FOLLOW } from '@/lib/seo/index-policy';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 import { ISR_STATIC_TOP_N } from '@/lib/seo/matrix';
 import {
@@ -45,6 +46,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   let name = symbol;
   let pe: number | null = null;
   let price = 0;
+  let hasRatios = false;
+  let checked = false;
   try {
     const [q, f] = await Promise.all([
       fetchQuotes([yahoo]).then((r) => r[0]),
@@ -55,6 +58,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       price = q.price;
     }
     pe = f?.trailingPE ?? null;
+    hasRatios =
+      pe != null ||
+      f?.priceToBook != null ||
+      f?.returnOnEquity != null;
+    checked = true;
   } catch {
     /* shell */
   }
@@ -81,6 +89,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [{ url: og, width: 1200, height: 630 }],
     },
     twitter: { card: 'summary_large_image', title, description, images: [og] },
+    ...(checked && !hasRatios ? { robots: NOINDEX_FOLLOW } : {}),
   };
 }
 

@@ -3,14 +3,13 @@ import Link from 'next/link';
 import {
   BLOG_POSTS,
   estimateDescription,
-  estimateTitle,
 } from '@/content/academy';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 import { Newspaper } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: estimateTitle('Borsa & Finans Blog | Bullsye'),
+  title: { absolute: 'Borsa ve Finans Blog | Bullsye' },
   description: estimateDescription(
     'BİST analiz checklist\'leri, analist hedef fiyat yorumları ve kripto sinyal rehberleri. Bullsye Blog ile organik finans içeriği.'
   ),
