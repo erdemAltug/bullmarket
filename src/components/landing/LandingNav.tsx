@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { Logo } from '@/components/shared/Logo';
 import { useAuthGate } from '@/components/auth/AuthGateProvider';
-import { TerminalCtaButton } from '@/components/landing/TerminalCtaButton';
 import { authClient } from '@/lib/auth/client';
 import { cn } from '@/lib/utils';
 
@@ -48,31 +47,16 @@ export function LandingNav() {
               Terminal
             </Link>
           ) : (
-            <>
-              <button
-                type="button"
-                onClick={() => openAuth({ tab: 'login' })}
-                className="hidden rounded-lg px-3 py-2 text-sm text-[var(--muted)] transition hover:text-[var(--foreground)] sm:inline-flex"
-              >
-                Giriş
-              </button>
-              <button
-                type="button"
-                onClick={() => openAuth({ tab: 'register' })}
-                className="hidden rounded-lg border border-[var(--border)] px-3 py-2 text-sm text-[var(--foreground)] transition hover:border-[var(--accent)]/40 sm:inline-flex"
-              >
-                Kayıt
-              </button>
-              <TerminalCtaButton
-                compact
-                className={cn(
-                  'rounded-lg bg-[var(--accent)] px-3.5 py-2 text-sm font-semibold text-[#042f2e]',
-                  'transition hover:brightness-110'
-                )}
-              >
-                Terminal
-              </TerminalCtaButton>
-            </>
+            <button
+              type="button"
+              onClick={() => openAuth({ tab: 'login' })}
+              className={cn(
+                'rounded-lg bg-[var(--accent)] px-3.5 py-2 text-sm font-semibold text-[#042f2e]',
+                'transition hover:brightness-110'
+              )}
+            >
+              Giriş yap
+            </button>
           )}
         </div>
       </div>
