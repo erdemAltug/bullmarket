@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
 import { Loader2, MessageSquare, Send } from 'lucide-react';
 import { ProtectedFeature } from '@/components/auth/ProtectedFeature';
 import { authClient } from '@/lib/auth/client';
@@ -170,15 +169,6 @@ function ChatInner() {
           <Send className="size-4" />
         </button>
       </form>
-
-      <p className="border-t border-[var(--border)] px-4 py-2 text-[10px] text-[var(--muted)]">
-        Veriler Neon hesabındaki envanterden + Yahoo özetinden gelir. Guest
-        LocalStorage dahil değil —{' '}
-        <Link href="/portfolio" className="text-[var(--accent)]">
-          envantere ekle
-        </Link>
-        .
-      </p>
     </div>
   );
 }

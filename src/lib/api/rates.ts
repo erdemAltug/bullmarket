@@ -77,7 +77,7 @@ export async function fetchRatePoints(): Promise<RatePoint[]> {
       value,
       changePercent: q.changePercent,
       unit: spec.kind === 'yield' ? '%' : 'FX',
-      source: 'Yahoo Finance',
+      source: 'Piyasa',
     });
   }
 

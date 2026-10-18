@@ -175,7 +175,7 @@ export function RatesHubClient() {
       ) : null}
 
       <p className="text-xs text-[var(--muted)]">
-        Tahvil getirileri CBOE endekslerinden (Yahoo). TCMB/PPK resmi oranı
+        Tahvil getirileri piyasa endekslerindendir. TCMB/PPK resmi oranı
         için tcmb.gov.tr. Yatırım veya kredi tavsiyesi değildir.
       </p>
     </div>

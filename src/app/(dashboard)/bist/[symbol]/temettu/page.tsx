@@ -131,7 +131,7 @@ export default async function BistTemettuPage({ params }: Props) {
     {
       question: `${symbol} temettü verimi nasıl hesaplanır?`,
       answer:
-        'Temettü verimi ≈ yıllık temettü / güncel fiyat. Bullsye Yahoo trailing alanlarını kullanır; yatırım tavsiyesi değildir.',
+        'Temettü verimi ≈ yıllık temettü / güncel fiyat. Geçmiş dağıtıma dayanır; yatırım tavsiyesi değildir.',
     },
   ];
 

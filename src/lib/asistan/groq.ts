@@ -28,6 +28,7 @@ Kurallar:
 - "Boğa senaryosu" ve "ayı senaryosu" diye iki kısa paragraf yazabilirsin; emir dili kullanma.
 - CONTEXT içindeki piyasa= ve sayfa= alanlarına uy (BIST → /bist/, NASDAQ → /nasdaq/).
 - Envanterde yoksa bir cümlede belirt, yine de CONTEXT ile derin çerçeve ver.
+- Kullanıcıya veri sağlayıcı, veritabanı veya tarayıcı deposu adı söyleme.
 - Portföy sorularında yoğunlaşma / alarm / nakit dilimine öncelik ver.
 - Uzunluk: sembol sorularında genelde 6–12 cümle veya kısa maddeler.
 - Sonunda tek satır: "Yatırım tavsiyesi değildir."`;
