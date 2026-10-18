@@ -147,6 +147,6 @@ export async function buildSymbolAnalysisBundle(
     },
     generatedAt: new Date().toISOString(),
     sourceNote:
-      'Yahoo Finance EOD + TRY=X; TÜFE endeksi kamuya açık yaklaşık tablo (EVDS anahtarı opsiyonel). Temettü yılları trailing yield’den türetilmiş proxy.',
+      'Kapanış, kur ve kamuya açık TÜFE tablosu. Temettü yılları geçmiş verimden türetilmiş yaklaşımdır.',
   };
 }

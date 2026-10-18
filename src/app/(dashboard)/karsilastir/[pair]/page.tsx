@@ -137,7 +137,7 @@ export default async function KarsilastirPairPage({ params }: Props) {
     {
       question: 'Veriler nereden geliyor?',
       answer:
-        'Yahoo Finance temel alanları. BİST için .IS sembolleri kullanılır.',
+        'Kamuya açık çarpan özeti. Yatırım tavsiyesi değildir.',
     },
   ];
 

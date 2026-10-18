@@ -240,10 +240,6 @@ export default async function BistTargetPricePage({ params }: Props) {
         </section>
 
         <RelatedSymbolRail symbol={symbol} kind="bist" />
-        <p className="text-[11px] text-[var(--muted)]">
-          Kaynak: Yahoo Finance · {SITE_URL}
-          {path}
-        </p>
       </BistMatrixShell>
     </div>
   );

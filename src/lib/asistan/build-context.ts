@@ -95,7 +95,6 @@ async function snapshotSymbols(symbols: string[]): Promise<string> {
     const parts = [
       `${r.display} (${r.name})`,
       `piyasa=${r.market}`,
-      `yahoo=${r.yahoo}`,
       r.price != null ? `fiyat≈${r.price} ${r.currency}` : null,
       r.changePercent != null ? `gün %${r.changePercent.toFixed(2)}` : null,
       pe != null ? `F/K≈${pe.toFixed(1)}` : null,

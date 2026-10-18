@@ -323,7 +323,7 @@ export default function DividendsPage() {
                       </td>
                       <td className="px-4 py-3.5 text-center">
                         <span className="rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
-                          YAHOO LIVE
+                          Canlı
                         </span>
                       </td>
                     </tr>

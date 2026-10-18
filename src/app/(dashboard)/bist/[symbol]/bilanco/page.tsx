@@ -219,8 +219,8 @@ export default async function BistBilancoPage({ params }: Props) {
             {symbol} bilanço analizi nasıl okunur?
           </h2>
           <p>
-            Bu karne Yahoo Finance özet alanlarından türetilir. Tam KAP
-            bilanço dipnotları, nakit akışı ve kalem bazlı analiz için şirket
+            Bu karne kamuya açık özet çarpanlardan türetilir. Tam bilanço
+            dipnotları, nakit akışı ve kalem bazlı analiz için şirket
             KAP dosyalarına bakın. Bullsye yatırım tavsiyesi vermez.
           </p>
         </section>
