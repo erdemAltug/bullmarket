@@ -24,8 +24,11 @@ async function marketFetcher(url: string) {
   if (!json.success) {
     throw new Error(json.error || 'Market fetch failed');
   }
-  const items =
-    json.data?.items ?? json.marketItems ?? json.markets ?? [];
+  const raw = json.data?.items ?? json.marketItems ?? json.markets ?? [];
+  const items = raw.map((item) => ({
+    ...item,
+    sparkline: item.sparkline ?? [],
+  }));
   return {
     items,
     commodities: json.commodities ?? [],
@@ -38,7 +41,7 @@ async function marketFetcher(url: string) {
 /** Live market universe — polls `/api/market` every 10s via SWR. */
 export function useMarketScanner() {
   const { data, error, isLoading, isValidating } = useSWR(
-    '/api/market',
+    '/api/market?view=lite',
     marketFetcher,
     {
       refreshInterval: 10_000,

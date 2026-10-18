@@ -123,34 +123,15 @@ export function buildMainSitemap(): MetadataRoute.Sitemap {
   return [...staticRoutes, ...egitim, ...blog, ...funds, ...fx];
 }
 
-/** 1 symbol × 4 matrix pages */
+/**
+ * One indexable URL per symbol. Hedef / temettü / bilanço stay linked from
+ * the symbol page and are noindex when the distinctive data is missing.
+ */
 export function buildBistMatrixEntries(): MetadataRoute.Sitemap {
   const symbols = SEO_BIST_TICKERS.filter((s) => !s.startsWith('XU'));
-  const out: MetadataRoute.Sitemap = [];
-  for (const symbol of symbols) {
-    out.push(
-      entry(`/bist/${symbol}`, { changeFrequency: 'hourly', priority: 0.9 })
-    );
-    out.push(
-      entry(`/bist/${symbol}/hedef-fiyat`, {
-        changeFrequency: 'daily',
-        priority: 0.95,
-      })
-    );
-    out.push(
-      entry(`/bist/${symbol}/temettu`, {
-        changeFrequency: 'daily',
-        priority: 0.88,
-      })
-    );
-    out.push(
-      entry(`/bist/${symbol}/bilanco`, {
-        changeFrequency: 'daily',
-        priority: 0.88,
-      })
-    );
-  }
-  return out;
+  return symbols.map((symbol) =>
+    entry(`/bist/${symbol}`, { changeFrequency: 'hourly', priority: 0.9 })
+  );
 }
 
 /** @deprecated use shards — kept for backward URL */

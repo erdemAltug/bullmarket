@@ -4,7 +4,6 @@ import {
   EDUCATION_CATEGORIES,
   EDUCATION_LESSONS,
   estimateDescription,
-  estimateTitle,
 } from '@/content/academy';
 import { LevelBadge } from '@/components/content/ArticleChrome';
 import { SITE_URL } from '@/lib/seo/symbols';
@@ -12,7 +11,7 @@ import { withLangAlternates } from '@/lib/seo/hreflang';
 import { GraduationCap } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: estimateTitle('Finansal Okuryazarlık Eğitim Hub\'ı | Bullsye Akademi'),
+  title: { absolute: 'Finansal Okuryazarlık Eğitim Hub’ı | Bullsye' },
   description: estimateDescription(
     'Borsa, temettü, F/K, RSI, Golden Cross ve kripto risk yönetimi dersleri. Bullsye Eğitim Hub\'ı ile finansal okuryazarlığınızı geliştirin.'
   ),
