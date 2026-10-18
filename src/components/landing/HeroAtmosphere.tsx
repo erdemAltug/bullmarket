@@ -4,82 +4,104 @@ import { useMemo } from 'react';
 import { useMarketScanner } from '@/hooks/useMarketScanner';
 import { scoreOpportunity } from '@/lib/ai-opportunity';
 import { cn, formatPercent } from '@/lib/utils';
+import type { ScannerItem } from '@/types/scanner';
+
+function leadOf(items: ScannerItem[]) {
+  const ranked = items
+    .filter((item) => item.price > 0)
+    .sort((a, b) => scoreOpportunity(b) - scoreOpportunity(a));
+  const hit = ranked[0];
+  if (!hit) return null;
+  return {
+    symbol: hit.displaySymbol,
+    score: scoreOpportunity(hit),
+    change: hit.changePercent,
+  };
+}
 
 export function HeroAtmosphere() {
   const { data } = useMarketScanner();
 
-  const snapshot = useMemo(() => {
+  const cards = useMemo(() => {
     const list = data ?? [];
-    const bist = list.filter((item) => item.category === 'BIST' && item.price > 0);
-    const up = bist.filter((item) => item.changePercent > 0).length;
-    const breadth = bist.length ? Math.round((up / bist.length) * 100) : null;
-    const ranked = [...list]
-      .filter((item) => item.price > 0)
-      .sort((a, b) => scoreOpportunity(b) - scoreOpportunity(a));
-    const lead = ranked[0] ?? null;
+    const bist = list.filter((item) => item.category === 'BIST');
+    const us = list.filter((item) => item.category === 'US');
+    const crypto = list.filter((item) => item.category === 'CRYPTO');
+    const priced = bist.filter((item) => item.price > 0);
+    const up = priced.filter((item) => item.changePercent > 0).length;
+    const breadth = priced.length ? Math.round((up / priced.length) * 100) : null;
     return {
       breadth,
       up,
-      total: bist.length,
-      lead: lead
-        ? {
-            symbol: lead.displaySymbol,
-            score: scoreOpportunity(lead),
-            change: lead.changePercent,
-          }
-        : null,
+      total: priced.length,
+      nasdaq: leadOf(us),
+      crypto: leadOf(crypto),
+      score: leadOf(list),
     };
   }, [data]);
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0">
-      <div className="landing-grid absolute inset-0" />
-
-      <aside className="landing-float absolute left-0 top-16 hidden w-36 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/80 p-3 backdrop-blur-sm lg:block">
+    <ul className="relative z-10 mt-8 grid w-full grid-cols-2 gap-3 lg:grid-cols-4">
+      <li className="rounded-2xl border border-[var(--border)] bg-[var(--surface)]/80 p-4">
         <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-          Piyasa genişliği
+          BİST genişliği
         </p>
-        <p className="mt-2 font-mono text-2xl font-semibold tabular-nums text-[var(--foreground)]">
-          {snapshot.breadth != null ? `%${snapshot.breadth}` : '—'}
+        <p className="mt-3 font-mono text-3xl font-semibold tabular-nums">
+          {cards.breadth != null ? `%${cards.breadth}` : '—'}
         </p>
-        <p className="mt-1 text-[11px] text-[var(--muted)]">
-          {snapshot.total > 0
-            ? `${snapshot.up}/${snapshot.total} BİST yükselişte`
-            : 'BİST taraması'}
+        <p className="mt-1 text-xs text-[var(--muted)]">
+          {cards.total > 0
+            ? `${cards.up}/${cards.total} yükselişte`
+            : 'Tarama yükleniyor'}
         </p>
         <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--border)]">
           <div
             className="h-full rounded-full bg-[var(--accent)]"
-            style={{ width: `${snapshot.breadth ?? 12}%` }}
+            style={{ width: `${cards.breadth ?? 8}%` }}
           />
         </div>
-      </aside>
+      </li>
 
-      <aside className="landing-float landing-float-late absolute right-0 top-24 hidden w-36 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/80 p-3 backdrop-blur-sm lg:block">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-          Günün skoru
+      <MarketCard label="NASDAQ" hit={cards.nasdaq} empty="ABD taraması" />
+      <MarketCard label="Kripto" hit={cards.crypto} empty="Kripto taraması" />
+      <MarketCard label="Günün skoru" hit={cards.score} empty="Skor taraması" emphasize />
+    </ul>
+  );
+}
+
+function MarketCard({
+  label,
+  hit,
+  empty,
+  emphasize = false,
+}: {
+  label: string;
+  hit: { symbol: string; score: number; change: number } | null;
+  empty: string;
+  emphasize?: boolean;
+}) {
+  const up = (hit?.change ?? 0) >= 0;
+  return (
+    <li className="rounded-2xl border border-[var(--border)] bg-[var(--surface)]/80 p-4">
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)]">
+        {label}
+      </p>
+      <div className="mt-3 flex items-end justify-between gap-2">
+        <p className={cn('text-sm font-semibold', emphasize ? 'text-[var(--accent)]' : 'text-[var(--foreground)]')}>
+          {hit?.symbol ?? '—'}
         </p>
-        <div className="mt-2 flex items-end justify-between gap-2">
-          <p className="text-sm font-semibold text-[var(--accent)]">
-            {snapshot.lead?.symbol ?? 'THYAO'}
-          </p>
-          <p className="font-mono text-2xl font-semibold tabular-nums text-[var(--foreground)]">
-            {snapshot.lead ? snapshot.lead.score : '—'}
-          </p>
-        </div>
-        <p
-          className={cn(
-            'mt-1 font-mono text-[11px] tabular-nums',
-            snapshot.lead
-              ? snapshot.lead.change >= 0
-                ? 'text-[var(--up)]'
-                : 'text-[var(--down)]'
-              : 'text-[var(--muted)]'
-          )}
-        >
-          {snapshot.lead ? formatPercent(snapshot.lead.change) : '0–100 skor'}
+        <p className="font-mono text-3xl font-semibold tabular-nums leading-none">
+          {hit ? hit.score : '—'}
         </p>
-      </aside>
-    </div>
+      </div>
+      <p
+        className={cn(
+          'mt-2 font-mono text-xs tabular-nums',
+          hit ? (up ? 'text-[var(--up)]' : 'text-[var(--down)]') : 'text-[var(--muted)]'
+        )}
+      >
+        {hit ? formatPercent(hit.change) : empty}
+      </p>
+    </li>
   );
 }

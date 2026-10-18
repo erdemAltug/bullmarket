@@ -105,16 +105,30 @@ export function LandingPage() {
         />
 
         <div className="relative mx-auto flex max-w-6xl flex-col px-4 sm:px-6">
-          <HeroAtmosphere />
-          <div className="relative mx-auto max-w-2xl pt-6 text-center sm:pt-10">
-            <p className="landing-fade-up text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
+          <div className="landing-grid pointer-events-none absolute inset-0" aria-hidden />
+          <div className="relative mx-auto max-w-3xl pt-6 text-center sm:pt-10">
+            <p className="landing-fade-up inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)]">
+              <span className="size-1.5 rounded-full bg-[var(--accent)]" />
               Bullsye
             </p>
-            <h1 className="landing-fade-up landing-delay-1 mt-4 text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl md:text-5xl">
-              BİST · NASDAQ · Kripto
+            <h1 className="landing-fade-up landing-delay-1 mt-5 text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
+              <span className="text-[var(--foreground)]">BİST</span>
+              <span className="mx-2 text-[var(--accent)]/80 sm:mx-3">·</span>
+              <span className="text-[var(--foreground)]/80">NASDAQ</span>
+              <span className="mx-2 text-[var(--accent)]/80 sm:mx-3">·</span>
+              <span className="text-[var(--accent)]">Kripto</span>
             </h1>
-            <p className="landing-fade-up landing-delay-2 mx-auto mt-4 max-w-md text-sm text-[var(--muted)] sm:text-base">
-              Skor, hedef fiyat ve envanter — tek terminal.
+            <p className="landing-fade-up landing-delay-2 mx-auto mt-5 flex flex-wrap items-center justify-center gap-2 text-sm sm:text-base">
+              <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--foreground)]">
+                Skor
+              </span>
+              <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--foreground)]">
+                Hedef fiyat
+              </span>
+              <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--foreground)]">
+                Envanter
+              </span>
+              <span className="px-1 text-[var(--muted)]">tek terminalde</span>
             </p>
             <div className="landing-fade-up landing-delay-3 mt-8 flex flex-wrap items-center justify-center gap-3">
               <TerminalCtaButton>Terminal</TerminalCtaButton>
@@ -126,6 +140,7 @@ export function LandingPage() {
               </Link>
             </div>
           </div>
+          <HeroAtmosphere />
 
           <div className="landing-fade-up landing-delay-4 relative z-10 mx-auto mt-12 w-full max-w-5xl sm:mt-14">
             <div className="landing-float relative overflow-hidden rounded-2xl border border-[var(--accent)]/25 bg-[var(--surface)] shadow-[0_0_60px_rgba(20,184,166,0.12)]">
