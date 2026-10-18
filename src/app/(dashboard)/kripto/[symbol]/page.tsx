@@ -6,7 +6,9 @@ import { CryptoHealthScorecard } from '@/components/dashboard/AssetHealthScoreca
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { OrderBookDepth } from '@/components/dashboard/OrderBookDepth';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
+import { SymbolVerdict } from '@/components/seo/SymbolVerdict';
 import { fetchOrderBook, fetchTickers } from '@/lib/api/binance';
+import { fetchSymbolHeadlines } from '@/lib/api/news';
 import { fromLiveCryptoBand } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import { absoluteCanonical } from '@/lib/seo/canonical';
@@ -67,7 +69,7 @@ export async function generateMetadata({
     : `${display} Live Price, Score & Chart | Bullsye`;
 
   const description = isTr
-    ? `${display} (${symbol}) canlı kripto fiyatı, Bullsye analiz skoru ve derinlik.${hasLiveQuote ? ` Şimdi: $${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
+    ? `${display} (${symbol}) bugünkü hareket, canlı fiyat ve eşleşen başlıklar.${hasLiveQuote ? ` Şimdi: $${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
     : `Live ${display} (${symbol}) quote, Bullsye score and depth.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
 
   const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(hasLiveQuote ? `$${price}` : '—')}&change=${encodeURIComponent(change)}&label=Crypto`;
@@ -76,7 +78,7 @@ export async function generateMetadata({
     title: { absolute: title },
     description,
     keywords: isTr
-      ? [`${display} canlı`, `${display} fiyat`, `${symbol} grafik`, 'kripto sinyal']
+      ? [`${display} canlı`, `${display} fiyat`, `${display} yorum`, `${symbol} grafik`, 'kripto sinyal']
       : [`${display} live price`, `${display} chart`, 'crypto signal radar'],
     alternates: withLangAlternates(path),
     openGraph: {
@@ -126,6 +128,12 @@ export default async function KriptoSymbolPage({ params }: Props) {
     /* empty */
   }
 
+  const headlines = await fetchSymbolHeadlines({
+    symbol: display,
+    name: display,
+    kind: 'crypto',
+  });
+
   const analystCard =
     price > 0
       ? fromLiveCryptoBand({
@@ -147,6 +155,19 @@ export default async function KriptoSymbolPage({ params }: Props) {
       currencySymbol="$"
       kind="crypto"
     >
+      <SymbolVerdict
+        symbol={display}
+        price={price}
+        changePercent={changePercent}
+        currencySymbol="$"
+        dayHigh={high24h > 0 ? high24h : null}
+        dayLow={low24h > 0 ? low24h : null}
+        bandScope="24 saat"
+        targetMean={null}
+        dividendYield={null}
+        links={[]}
+        headlines={headlines}
+      />
       <div className="grid gap-4 lg:grid-cols-2">
         <MetricCard
           title={display}

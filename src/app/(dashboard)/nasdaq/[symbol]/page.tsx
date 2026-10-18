@@ -6,6 +6,8 @@ import { BistHealthScorecard } from '@/components/dashboard/AssetHealthScorecard
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
+import { SymbolVerdict } from '@/components/seo/SymbolVerdict';
+import { fetchSymbolHeadlines } from '@/lib/api/news';
 import { fetchFundamentals, fetchQuotes } from '@/lib/api/yahoo';
 import { fromLiveFundamentals } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
@@ -67,7 +69,7 @@ export async function generateMetadata({
     : `${symbol} NASDAQ Live Price & Analysis Score | Bullsye`;
 
   const description = isTr
-    ? `${name} (${symbol}) NASDAQ canlı fiyat, Bullsye analiz skoru ve grafik.${hasLiveQuote ? ` Şimdi: $${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
+    ? `${name} (${symbol}) NASDAQ bugünkü hareket, canlı fiyat ve eşleşen başlıklar.${hasLiveQuote ? ` Şimdi: $${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
     : `Live ${name} (${symbol}) NASDAQ quote, Bullsye score and chart.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
 
   const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(hasLiveQuote ? `$${price}` : '—')}&change=${encodeURIComponent(change)}&label=NASDAQ`;
@@ -80,6 +82,8 @@ export async function generateMetadata({
           `${symbol} canlı`,
           `${symbol} NASDAQ`,
           `${symbol} hisse fiyatı`,
+          `${symbol} hisse yorum`,
+          `${symbol} neden düşüyor`,
           'ABD hisseleri',
         ]
       : [`${symbol} live price`, `${symbol} NASDAQ`, 'US stocks'],
@@ -114,11 +118,15 @@ export default async function NasdaqSymbolPage({ params }: Props) {
     price: number;
     changePercent: number;
     currency: 'TRY' | 'USD';
+    dayHigh: number | null;
+    dayLow: number | null;
   } = {
     name: symbol,
     price: 0,
     changePercent: 0,
     currency: 'USD',
+    dayHigh: null,
+    dayLow: null,
   };
 
   try {
@@ -129,21 +137,19 @@ export default async function NasdaqSymbolPage({ params }: Props) {
         price: q.price,
         changePercent: q.changePercent,
         currency: 'USD',
+        dayHigh: q.dayHigh ?? null,
+        dayLow: q.dayLow ?? null,
       };
     }
   } catch {
     /* show page shell anyway */
   }
 
-  let fundamentals = null;
-  let analystCard = null;
-  try {
-    fundamentals = await fetchFundamentals(symbol);
-    analystCard = fromLiveFundamentals(fundamentals);
-  } catch {
-    fundamentals = null;
-    analystCard = null;
-  }
+  const [fundamentals, headlines] = await Promise.all([
+    fetchFundamentals(symbol).catch(() => null),
+    fetchSymbolHeadlines({ symbol, name: quote.name, kind: 'us' }),
+  ]);
+  const analystCard = fundamentals ? fromLiveFundamentals(fundamentals) : null;
 
   return (
     <AssetSeoShell
@@ -155,6 +161,19 @@ export default async function NasdaqSymbolPage({ params }: Props) {
       currencySymbol="$"
       kind="us"
     >
+      <SymbolVerdict
+        symbol={symbol}
+        price={quote.price}
+        changePercent={quote.changePercent}
+        currencySymbol="$"
+        dayHigh={quote.dayHigh}
+        dayLow={quote.dayLow}
+        bandScope="gün"
+        targetMean={fundamentals?.analyst?.targetMean ?? null}
+        dividendYield={fundamentals?.dividendYield}
+        links={[]}
+        headlines={headlines}
+      />
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(240px,320px)]">
         <ChartPanel
           title={`${symbol} · Live chart`}

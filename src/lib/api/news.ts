@@ -1,5 +1,10 @@
 import axios from 'axios';
 import { appCache } from '@/lib/cache';
+import {
+  SEO_BIST_TICKERS,
+  SEO_CRYPTO_SYMBOLS,
+  SEO_US_TICKERS,
+} from '@/lib/seo/symbols';
 import type { NewsItem } from '@/types';
 
 const FEEDS: {
@@ -24,8 +29,59 @@ const FEEDS: {
   },
 ];
 
-const TICKER_RE =
-  /\b(THYAO|GARAN|ASELS|AKBNK|YKBNK|EREGL|BIMAS|SISE|TUPRS|TCELL|PGSUS|FROTO|SAHOL|KCHOL|ISCTR|HALKB|VAKBN|SASA|ASTOR|BTC|ETH|XU100)\b/i;
+const TICKER_SET = new Set<string>([
+  ...SEO_BIST_TICKERS,
+  ...SEO_US_TICKERS,
+  ...SEO_CRYPTO_SYMBOLS.flatMap((symbol) => {
+    const upper = symbol.toUpperCase();
+    return [upper, upper.replace(/USDT$/, '')];
+  }),
+]);
+
+const SYMBOL_NEWS_TTL_SEC = 45 * 60;
+const SYMBOL_NEWS_FAIL_TTL_SEC = 5 * 60;
+const HEADLINE_WINDOW_MS = 72 * 60 * 60 * 1000;
+const symbolNewsInflight = new Map<string, Promise<NewsItem[]>>();
+
+export type SymbolNewsKind = 'bist' | 'us' | 'crypto';
+
+function detectTicker(title: string): string | undefined {
+  const tokens = title.toLocaleUpperCase('en-US').match(/[A-Z0-9]{2,10}/g) ?? [];
+  for (const token of tokens) {
+    if (TICKER_SET.has(token)) return token;
+  }
+  return undefined;
+}
+
+function shortCompanyToken(name: string, symbol: string): string | null {
+  const cleaned = name
+    .replace(/\b(A\.?\s*S\.?|A\.?\s*Ş\.?|INC\.?|CORP\.?|LTD\.?|PLC|CO\.?)\b/gi, ' ')
+    .replace(/[^0-9A-Za-zĞÜŞİÖÇğüşıöç\s]/g, ' ')
+    .trim();
+  const word = cleaned.split(/\s+/).find((part) => part.length >= 4);
+  if (!word || word.toLocaleUpperCase('en-US') === symbol.toLocaleUpperCase('en-US')) {
+    return null;
+  }
+  return word;
+}
+
+function symbolNewsQuery(symbol: string, name: string, kind: SymbolNewsKind): string {
+  const token = shortCompanyToken(name, symbol);
+  const extra = token ? ` OR ${token}` : '';
+  if (kind === 'crypto') {
+    const base = symbol.replace(/USDT$/i, '');
+    return `${base} kripto${extra}`;
+  }
+  if (kind === 'us') return `${symbol} stock${extra}`;
+  return `${symbol} hisse${extra}`;
+}
+
+function withinHeadlineWindow(iso: string): boolean {
+  const at = Date.parse(iso);
+  if (!Number.isFinite(at)) return false;
+  const age = Date.now() - at;
+  return age >= -60 * 60 * 1000 && age <= HEADLINE_WINDOW_MS;
+}
 
 function decodeXml(s: string): string {
   return s
@@ -53,7 +109,6 @@ function parseItems(
     const link = tag(block, 'link');
     const pub = tag(block, 'pubDate');
     const source = tag(block, 'source') || feedLabel;
-    const tickerMatch = title.match(TICKER_RE);
     return {
       id: `${category}-${i}-${Buffer.from(title).toString('base64url').slice(0, 16)}`,
       title,
@@ -61,9 +116,62 @@ function parseItems(
       publishedAt: pub ? new Date(pub).toISOString() : new Date().toISOString(),
       category,
       source,
-      ticker: tickerMatch ? tickerMatch[1].toUpperCase() : undefined,
+      ticker: detectTicker(title),
     };
   });
+}
+
+async function loadSymbolHeadlines(
+  symbol: string,
+  name: string,
+  kind: SymbolNewsKind
+): Promise<NewsItem[]> {
+  const q = symbolNewsQuery(symbol, name, kind);
+  const url = `https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=tr&gl=TR&ceid=TR:tr`;
+  const { data: xml } = await axios.get<string>(url, {
+    responseType: 'text',
+    timeout: 12_000,
+    headers: {
+      'User-Agent': 'Bullsye/1.0 (news aggregator)',
+      Accept: 'application/rss+xml, application/xml, text/xml, */*',
+    },
+  });
+  const category: NewsItem['category'] = kind === 'crypto' ? 'crypto' : 'bist';
+  return parseItems(xml, category, 'Google News')
+    .filter((item) => item.title && item.link && withinHeadlineWindow(item.publishedAt))
+    .slice(0, 3);
+}
+
+/** Per-symbol headlines. Title, source and link only. Cached 45 minutes. */
+export async function fetchSymbolHeadlines(input: {
+  symbol: string;
+  name: string;
+  kind: SymbolNewsKind;
+}): Promise<NewsItem[]> {
+  const symbol = input.symbol.trim().toUpperCase();
+  const key = `news:symbol:v1:${input.kind}:${symbol}`;
+  const hit = appCache.get<NewsItem[]>(key);
+  if (hit) return hit;
+
+  const pending = symbolNewsInflight.get(key);
+  if (pending) return pending;
+
+  const job = loadSymbolHeadlines(symbol, input.name, input.kind)
+    .then((items) => {
+      appCache.set(key, items, SYMBOL_NEWS_TTL_SEC);
+      return items;
+    })
+    .catch(() => {
+      const empty: NewsItem[] = [];
+      appCache.set(key, empty, SYMBOL_NEWS_FAIL_TTL_SEC);
+      return empty;
+    })
+    .finally(() => {
+      symbolNewsInflight.delete(key);
+    });
+
+  symbolNewsInflight.set(key, job);
+  return job;
 }
 
 /** Google News RSS — KAP/BİST, crypto, macro (free, no API key). */
