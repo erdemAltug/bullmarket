@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { AssetChecker } from '@/components/landing/AssetChecker';
 import { FaqAccordion } from '@/components/landing/FaqAccordion';
+import { HeroAtmosphere } from '@/components/landing/HeroAtmosphere';
 import { HeroLiveBadges } from '@/components/landing/HeroLiveBadges';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingTicker } from '@/components/landing/LandingTicker';
@@ -103,8 +104,9 @@ export function LandingPage() {
           }}
         />
 
-        <div className="mx-auto flex max-w-6xl flex-col px-4 sm:px-6">
-          <div className="mx-auto max-w-2xl pt-6 text-center sm:pt-10">
+        <div className="relative mx-auto flex max-w-6xl flex-col px-4 sm:px-6">
+          <HeroAtmosphere />
+          <div className="relative mx-auto max-w-2xl pt-6 text-center sm:pt-10">
             <p className="landing-fade-up text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
               Bullsye
             </p>
@@ -125,7 +127,7 @@ export function LandingPage() {
             </div>
           </div>
 
-          <div className="landing-fade-up landing-delay-4 relative mx-auto mt-12 w-full max-w-5xl sm:mt-14">
+          <div className="landing-fade-up landing-delay-4 relative z-10 mx-auto mt-12 w-full max-w-5xl sm:mt-14">
             <div className="landing-float relative overflow-hidden rounded-2xl border border-[var(--accent)]/25 bg-[var(--surface)] shadow-[0_0_60px_rgba(20,184,166,0.12)]">
               <div className="flex items-center gap-2 border-b border-[var(--border)] px-4 py-2.5">
                 <span className="size-2.5 rounded-full bg-[#f43f5e]/70" />
