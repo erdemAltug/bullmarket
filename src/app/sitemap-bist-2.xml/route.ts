@@ -10,7 +10,14 @@ const SHARD = 1;
 
 export async function GET() {
   const chunk = buildBistSitemapChunks()[SHARD];
-  if (!chunk) return new Response('Not found', { status: 404 });
+  if (!chunk) {
+    return new Response(sitemapEntriesToXml([]), {
+      headers: {
+        'Content-Type': 'application/xml; charset=utf-8',
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+      },
+    });
+  }
   return new Response(sitemapEntriesToXml(chunk), {
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',

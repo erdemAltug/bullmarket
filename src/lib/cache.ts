@@ -12,7 +12,7 @@ const globalForCache = globalThis as unknown as {
 
 export const appCache =
   globalForCache.appCache ||
-  new NodeCache({ stdTTL: 120, checkperiod: 30, useClones: false });
+  new NodeCache({ stdTTL: 120, checkperiod: 30 });
 
 const inflight =
   globalForCache.cacheInflight || new Map<string, Promise<unknown>>();

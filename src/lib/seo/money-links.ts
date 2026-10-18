@@ -10,7 +10,7 @@ const BIST: MoneyLink[] = [
 const TEKNIK: MoneyLink[] = [
   { href: '/signals', label: 'Canlı alım sinyalleri' },
   { href: '/bist/ASELS', label: 'ASELS analiz karnesi' },
-  { href: '/karsilastir/garan-vs-akbnk', label: 'GARAN ve AKBNK kıyası' },
+  { href: '/karsilastir/akbnk-vs-garan', label: 'AKBNK ve GARAN kıyası' },
   { href: '/bist/THYAO', label: 'THYAO canlı fiyat' },
 ];
 
@@ -69,8 +69,8 @@ export function moneyLinksForPost(input: {
   }
   if (/kıyas|kiyas|karşılaştır|karsilastir|f\/k|fk oranı/.test(blob)) {
     links.push({
-      href: '/karsilastir/garan-vs-akbnk',
-      label: 'GARAN ve AKBNK kıyası',
+      href: '/karsilastir/akbnk-vs-garan',
+      label: 'AKBNK ve GARAN kıyası',
     });
   }
   if (/bilanço|bilanco|f\/k/.test(blob)) {
