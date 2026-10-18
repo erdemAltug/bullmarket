@@ -9,6 +9,7 @@ import {
   Zap,
 } from 'lucide-react';
 import { AssetChecker } from '@/components/landing/AssetChecker';
+import { ScoreAside } from '@/components/landing/ScoreAside';
 import { FaqAccordion } from '@/components/landing/FaqAccordion';
 import { HeroAtmosphere } from '@/components/landing/HeroAtmosphere';
 import { HeroLiveBadges } from '@/components/landing/HeroLiveBadges';
@@ -216,15 +217,8 @@ export function LandingPage() {
         id="skor-kontrol"
         className="scroll-mt-20 mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20"
       >
-        <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
-          <div>
-            <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-              Skor
-            </h2>
-            <p className="mt-2 text-sm text-[var(--muted)]">
-              Sembol yaz · skor ve fiyat.
-            </p>
-          </div>
+        <div className="grid items-stretch gap-6 lg:grid-cols-2">
+          <ScoreAside />
           <AssetChecker />
         </div>
       </section>
