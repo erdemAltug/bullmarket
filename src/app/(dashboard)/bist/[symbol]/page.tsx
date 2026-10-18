@@ -7,7 +7,10 @@ import { BistHealthScorecard } from '@/components/dashboard/AssetHealthScorecard
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
+import { SymbolVerdict } from '@/components/seo/SymbolVerdict';
+import { fetchSymbolHeadlines } from '@/lib/api/news';
 import { fetchFundamentals, fetchQuotes } from '@/lib/api/yahoo';
+import { asYieldPercent } from '@/lib/seo/symbol-verdict';
 import { fromLiveFundamentals } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import {
@@ -71,7 +74,7 @@ export async function generateMetadata({
     : `${symbol} Analysis Score, Live Price & Chart ${year} | Bullsye`;
 
   const description = isTr
-    ? `${name} (${symbol}) canlı fiyat, Bullsye analiz skoru (0–100), temel rasyolar ve grafik.${hasLiveQuote ? ` Şimdi: ₺${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
+    ? `${name} (${symbol}) bugünkü hareket, canlı fiyat ve eşleşen başlıklar.${hasLiveQuote ? ` Şimdi: ₺${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
     : `Live ${name} (${symbol}) BIST quote, Bullsye score (0–100), fundamentals and chart.${hasLiveQuote ? ` Now ₺${price} (${change}).` : ''}`;
 
   const ogImage = `${SITE_URL}/api/og/bist/${encodeURIComponent(symbol)}`;
@@ -86,6 +89,8 @@ export async function generateMetadata({
           `${symbol} grafik`,
           `${symbol} analiz skoru`,
           `${symbol} analiz`,
+          `${symbol} neden düşüyor`,
+          `${symbol} hisse yorum`,
           'BİST canlı',
         ]
       : [
@@ -137,11 +142,15 @@ export default async function BistSymbolPage({ params }: Props) {
     price: number;
     changePercent: number;
     currency: 'TRY' | 'USD';
+    dayHigh: number | null;
+    dayLow: number | null;
   } = {
     name: symbol,
     price: 0,
     changePercent: 0,
     currency: 'TRY',
+    dayHigh: null,
+    dayLow: null,
   };
 
   try {
@@ -152,21 +161,33 @@ export default async function BistSymbolPage({ params }: Props) {
         price: q.price,
         changePercent: q.changePercent,
         currency: q.currency === 'USD' ? 'USD' : 'TRY',
+        dayHigh: q.dayHigh ?? null,
+        dayLow: q.dayLow ?? null,
       };
     }
   } catch {
     /* show page shell anyway */
   }
 
-  let fundamentals = null;
-  let analystCard = null;
-  try {
-    fundamentals = await fetchFundamentals(yahoo);
-    analystCard = fromLiveFundamentals(fundamentals);
-  } catch {
-    fundamentals = null;
-    analystCard = null;
-  }
+  const [fundamentals, headlines] = await Promise.all([
+    fetchFundamentals(yahoo).catch(() => null),
+    fetchSymbolHeadlines({ symbol, name: quote.name, kind: 'bist' }),
+  ]);
+  const analystCard = fundamentals ? fromLiveFundamentals(fundamentals) : null;
+  const yieldPct = asYieldPercent(fundamentals?.dividendYield);
+  const hasRatios = Boolean(
+    fundamentals &&
+      (fundamentals.trailingPE != null ||
+        fundamentals.priceToBook != null ||
+        fundamentals.returnOnEquity != null)
+  );
+  const factLinks = [
+    fundamentals?.analyst?.targetMean != null && fundamentals.analyst.targetMean > 0
+      ? { href: `/bist/${symbol}/hedef-fiyat`, label: 'Hedef fiyat' }
+      : null,
+    yieldPct != null ? { href: `/bist/${symbol}/temettu`, label: 'Temettü' } : null,
+    hasRatios ? { href: `/bist/${symbol}/bilanco`, label: 'Bilanço' } : null,
+  ].filter((link): link is { href: string; label: string } => link != null);
 
   const currencySymbol = quote.currency === 'USD' ? '$' : '₺';
 
@@ -180,6 +201,19 @@ export default async function BistSymbolPage({ params }: Props) {
       currencySymbol={currencySymbol}
       kind="bist"
     >
+      <SymbolVerdict
+        symbol={symbol}
+        price={quote.price}
+        changePercent={quote.changePercent}
+        currencySymbol={currencySymbol}
+        dayHigh={quote.dayHigh}
+        dayLow={quote.dayLow}
+        bandScope="gün"
+        targetMean={fundamentals?.analyst?.targetMean ?? null}
+        dividendYield={fundamentals?.dividendYield}
+        links={factLinks}
+        headlines={headlines}
+      />
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(240px,320px)]">
         <ChartPanel
           title={`${symbol} · Canlı grafik`}
