@@ -12,20 +12,13 @@ import {
 import { SITE_URL, SEO_ETF_TICKERS, SEO_TEFAS_CODES } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 import Link from 'next/link';
-import { fetchTefasLatest, type TefasFundKind } from '@/lib/api/tefas';
+import { fetchTefasFund } from '@/lib/api/tefas';
 import { yahooSymbolExists } from '@/lib/market/long-tail';
 import { NOINDEX_FOLLOW } from '@/lib/seo/index-policy';
 
 const FUND_CODE_RE = /^[A-Z0-9]{2,6}$/;
 
-/** Any TEFAS fund (all ~2.000), not only the curated desk. */
-async function findTefasFund(code: string) {
-  for (const kind of ['YAT', 'EMK', 'BYF'] as TefasFundKind[]) {
-    const rows = await fetchTefasLatest([code], kind).catch(() => []);
-    if (rows[0]) return rows[0];
-  }
-  return null;
-}
+
 
 export const revalidate = 120;
 
@@ -78,8 +71,9 @@ export default async function FonDetailPage({ params }: Props) {
         i.displaySymbol === sym
     ) ?? null;
 
-  // Long tail: any TEFAS fund code, or any ETF Yahoo knows.
-  const tefasRow = !scannerItem ? await findTefasFund(sym) : null;
+  // Long tail only (never at build time for curated codes): any TEFAS fund
+  // code, or any ETF Yahoo knows. One small, time-boxed request each.
+  const tefasRow = !scannerItem && !curated ? await fetchTefasFund(sym) : null;
   const yahooEtf =
     !scannerItem && !tefasRow && !curated ? await yahooSymbolExists(sym) : false;
   if (!curated && !scannerItem && !tefasRow && !yahooEtf) notFound();

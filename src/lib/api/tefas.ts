@@ -96,6 +96,8 @@ export async function postInfo(
     },
     body: JSON.stringify(body),
     next: { revalidate: 300 },
+    // Never let a slow TEFAS hold a page render or a build worker.
+    signal: AbortSignal.timeout(8000),
   });
 
   if (!res.ok) {
@@ -256,4 +258,43 @@ function parseTefasDate(raw: string): number | null {
   if (dmy) return Date.UTC(+dmy[3], +dmy[2] - 1, +dmy[1], 12);
   const t = Date.parse(raw);
   return Number.isFinite(t) ? t : null;
+}
+
+/**
+ * Latest price + daily change for ONE fund, any kind. Asks TEFAS for just
+ * this code over the last 10 days (all three kinds in parallel), so it is a
+ * few KB instead of the full ~2.000-fund list. Cached for an hour.
+ */
+export async function fetchTefasFund(code: string): Promise<
+  (TefasFundRow & { prevPrice: number | null; changePercent: number }) | null
+> {
+  const fund = code.toUpperCase();
+  const cacheKey = `tefas:one:${fund}`;
+  const hit = appCache.get<(TefasFundRow & { prevPrice: number | null; changePercent: number }) | null>(cacheKey);
+  if (hit !== undefined) return hit;
+
+  const end = new Date();
+  const start = new Date(end);
+  start.setDate(start.getDate() - 10);
+  const results = await Promise.all(
+    (['YAT', 'EMK', 'BYF'] as TefasFundKind[]).map((kind) =>
+      postInfo(kind, start, end, fund).catch((): TefasFundRow[] => [])
+    )
+  );
+  const rows = results
+    .flat()
+    .filter((r) => r.code === fund)
+    .sort((a, b) => (parseTefasDate(a.date) ?? 0) - (parseTefasDate(b.date) ?? 0));
+
+  const last = rows.at(-1);
+  const prev = rows.at(-2);
+  const out = last
+    ? {
+        ...last,
+        prevPrice: prev?.price ?? null,
+        changePercent: prev && prev.price > 0 ? ((last.price - prev.price) / prev.price) * 100 : 0,
+      }
+    : null;
+  appCache.set(cacheKey, out, out ? 3600 : 600);
+  return out;
 }
