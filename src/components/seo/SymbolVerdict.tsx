@@ -79,12 +79,12 @@ export function SymbolVerdict({
         </ul>
       ) : null}
 
-      <h2 className="mt-5 text-base font-semibold text-[var(--foreground)]">{why}</h2>
-      <h3 className="mt-1 text-sm font-medium text-[var(--foreground)]">
-        {symbol} hisse yorum
-      </h3>
       {headlines.length > 0 ? (
         <>
+          <h2 className="mt-5 text-base font-semibold text-[var(--foreground)]">{why}</h2>
+          <h3 className="mt-1 text-sm font-medium text-[var(--foreground)]">
+            {symbol} hisse yorum
+          </h3>
           <p className="mt-2 text-[var(--muted)]">
             Son 72 saatte eşleşen başlıklar. Başlık, hareketin gerekçesi olarak yazılmamıştır.
           </p>
@@ -109,11 +109,7 @@ export function SymbolVerdict({
             })}
           </ul>
         </>
-      ) : (
-        <p className="mt-2 text-[var(--muted)]">
-          Son 72 saatte bu sembolle eşleşen başlık yok.
-        </p>
-      )}
+      ) : null}
     </section>
   );
 }

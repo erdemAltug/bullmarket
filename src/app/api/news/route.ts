@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 ﻿import { NextResponse } from 'next/server';
 import { fetchMarketNews } from '@/lib/api/news';
 
@@ -8,7 +9,7 @@ export async function GET() {
       success: true,
       data: { items },
       cached: false,
-    });
+    }, { headers: cacheHeaders(300) });
   } catch (e) {
     return NextResponse.json(
       {

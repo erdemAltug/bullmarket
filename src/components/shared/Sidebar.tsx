@@ -25,14 +25,14 @@ export function Sidebar() {
   }, [router]);
 
   return (
-    <aside className="hidden h-full w-52 shrink-0 overflow-y-auto border-r border-[var(--border)] bg-[var(--sidebar)] backdrop-blur-xl md:block">
+    <aside className="sticky top-16 hidden h-[calc(100dvh-4rem)] w-52 shrink-0 self-start overflow-y-auto overscroll-contain border-r border-[var(--border)] bg-[var(--sidebar)] backdrop-blur-xl md:block">
       <nav className="flex flex-col gap-4 p-3">
         {groups.map(({ group, items }) => (
           <div key={group} className="space-y-1">
-            <p className="px-3 pb-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]/70">
+            <p className="px-3 pb-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]/80">
               {t.navGroups[group]}
             </p>
-            {items.map(({ href, key, icon: Icon, color }) => {
+            {items.map(({ href, key, icon: Icon }) => {
               const active = isNavActive(pathname, href);
               return (
                 <FastLink
@@ -48,7 +48,8 @@ export function Sidebar() {
                   <Icon
                     className={cn(
                       'size-4 shrink-0',
-                      active ? 'text-[var(--accent)]' : color
+                      // One quiet icon colour; accent marks only where you are.
+                      active ? 'text-[var(--accent)]' : 'text-[var(--muted)]'
                     )}
                   />
                   <span className="truncate">{t.nav[key]}</span>

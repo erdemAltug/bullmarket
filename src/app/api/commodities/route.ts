@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 import { NextResponse } from 'next/server';
 import { fetchCommodities } from '@/lib/api/commodities';
 
@@ -10,7 +11,7 @@ export async function GET() {
       success: true,
       data: { items },
       updatedAt: new Date().toISOString(),
-    });
+    }, { headers: cacheHeaders(60) });
   } catch (e) {
     return NextResponse.json(
       {

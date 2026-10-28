@@ -3,6 +3,7 @@
 import { ArrowDownRight, ArrowUpRight, Bell, Trash2 } from 'lucide-react';
 import { VolatilityBadge } from '@/components/dashboard/VolatilityBadge';
 import { usePreferences } from '@/components/providers/PreferencesProvider';
+import { PriceFlash } from '@/components/shared/PriceFlash';
 import { cn, formatPercent } from '@/lib/utils';
 
 export interface WatchlistRow {
@@ -89,7 +90,9 @@ export function WatchlistTable({
                 </td>
                 <td className="px-4 py-3 text-[var(--muted)]">{row.name}</td>
                 <td className="px-4 py-3 text-right tabular-nums">
-                  {formatPrice(row.price, row.currency ?? 'TRY')}
+                  <PriceFlash value={row.price} className="px-1">
+                    {formatPrice(row.price, row.currency ?? 'TRY')}
+                  </PriceFlash>
                 </td>
                 <td className="px-4 py-3 text-right">
                   <span

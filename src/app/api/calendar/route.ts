@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 import { NextResponse } from 'next/server';
 import { fetchEconomicCalendar } from '@/lib/api/calendar';
 
@@ -12,7 +13,7 @@ export async function GET() {
         generatedAt: new Date().toISOString(),
         source: 'forex-factory-week',
       },
-    });
+    }, { headers: cacheHeaders(900) });
   } catch (e) {
     return NextResponse.json(
       {

@@ -63,7 +63,7 @@ const tr: Dictionary = {
     signals: 'Sinyaller',
     targets: 'Hedefler',
     smartMoney: 'Balina',
-    portfolio: 'Envanter',
+    portfolio: 'Portföy',
     portfolioAudit: 'Portföy analizi',
     alerts: 'Alarmlar',
     dividends: 'Temettü',

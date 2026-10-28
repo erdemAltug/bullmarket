@@ -112,14 +112,15 @@ export function LandingPage() {
               <span className="size-1.5 rounded-full bg-[var(--accent)]" />
               Bullsye
             </p>
-            <h1 className="landing-fade-up landing-delay-1 mt-5 text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
-              <span className="text-[var(--foreground)]">BİST</span>
-              <span className="mx-2 text-[var(--accent)]/80 sm:mx-3">·</span>
-              <span className="text-[var(--foreground)]/80">NASDAQ</span>
-              <span className="mx-2 text-[var(--accent)]/80 sm:mx-3">·</span>
-              <span className="text-[var(--accent)]">Kripto</span>
+            <h1 className="landing-fade-up landing-delay-1 mt-5 text-balance text-3xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
+              Bugün hangi hisseye{' '}
+              <span className="text-[var(--accent)]">bakmalısın?</span>
             </h1>
-            <p className="landing-fade-up landing-delay-2 mx-auto mt-5 flex flex-wrap items-center justify-center gap-2 text-sm sm:text-base">
+            <p className="landing-fade-up landing-delay-2 mx-auto mt-4 max-w-xl text-balance text-base text-[var(--muted)] sm:text-lg">
+              BİST, NASDAQ ve kriptoda yüzlerce sinyal tek bir skora iner.
+              Her sabah 10 dakikada piyasayı oku — ücretsiz.
+            </p>
+            <p className="landing-fade-up landing-delay-2 mx-auto mt-5 flex max-w-full flex-wrap items-center justify-center gap-2 text-sm sm:text-base">
               <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--foreground)]">
                 Skor
               </span>
@@ -127,9 +128,8 @@ export function LandingPage() {
                 Hedef fiyat
               </span>
               <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--foreground)]">
-                Envanter
+                Portföy
               </span>
-              <span className="px-1 text-[var(--muted)]">tek terminalde</span>
             </p>
             <div className="landing-fade-up landing-delay-3 mt-8 flex flex-wrap items-center justify-center gap-3">
               <TerminalCtaButton>Terminal</TerminalCtaButton>

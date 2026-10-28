@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 import { NextResponse } from 'next/server';
 import { appCache } from '@/lib/cache';
 import { DEFAULT_FX_CODES, fetchFxRates } from '@/lib/api/tcmb';
@@ -15,13 +16,13 @@ export async function GET(request: Request) {
   const hit = appCache.get<{ rates: FxRate[]; updatedAt: string }>(cacheKey);
 
   if (hit) {
-    return NextResponse.json({ success: true, data: hit, cached: true });
+    return NextResponse.json({ success: true, data: hit, cached: true }, { headers: cacheHeaders(30) });
   }
 
   try {
     const data = await fetchFxRates(codes);
     appCache.set(cacheKey, data, 60);
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true, data }, { headers: cacheHeaders(30) });
   } catch (e) {
     return NextResponse.json(
       {

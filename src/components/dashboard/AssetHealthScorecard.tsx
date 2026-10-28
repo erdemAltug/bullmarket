@@ -93,7 +93,7 @@ function ScorecardShell({
   changePercent?: number;
 }) {
   return (
-    <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
+    <section id="skor" className="scroll-mt-20 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5">
       <h2 className="mb-4 text-base font-semibold tracking-tight">{title}</h2>
       {loading ? (
         <p className="text-sm text-[var(--muted)]">Karne hesaplanıyor…</p>

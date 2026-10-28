@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 import { NextResponse } from 'next/server';
 import { BIST30_SYMBOLS, fetchQuotes } from '@/lib/api/yahoo';
 import { appCache } from '@/lib/cache';
@@ -11,13 +12,13 @@ export async function GET() {
       success: true,
       data: { quotes: hit },
       cached: true,
-    });
+    }, { headers: cacheHeaders(30) });
   }
 
   try {
     const quotes = await fetchQuotes(BIST30_SYMBOLS);
     appCache.set(cacheKey, quotes, 30);
-    return NextResponse.json({ success: true, data: { quotes } });
+    return NextResponse.json({ success: true, data: { quotes } }, { headers: cacheHeaders(30) });
   } catch (e) {
     return NextResponse.json(
       {

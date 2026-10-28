@@ -37,7 +37,8 @@ export function HeroLiveBadges() {
         price: hit.price,
         change: hit.changePercent,
         score: scoreOpportunity(hit),
-        currency: hit.currency,
+        // BIST rows can come back tagged USD; the market decides the currency.
+        currency: w.currency,
       };
     });
   }, [data]);

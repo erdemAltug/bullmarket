@@ -296,3 +296,25 @@ html.terminal body {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
+
+/* Live price tick: a short tint when a number changes. */
+@keyframes price-flash-up {
+  from { background-color: rgba(45, 212, 191, 0.28); }
+  to { background-color: transparent; }
+}
+@keyframes price-flash-down {
+  from { background-color: rgba(244, 63, 94, 0.28); }
+  to { background-color: transparent; }
+}
+.price-flash-up { animation: price-flash-up 0.7s ease-out; border-radius: 4px; }
+.price-flash-down { animation: price-flash-down 0.7s ease-out; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .price-flash-up,
+  .price-flash-down,
+  .animate-ticker,
+  .landing-float,
+  .landing-fade-up {
+    animation: none !important;
+  }
+}

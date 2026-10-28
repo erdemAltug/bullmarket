@@ -2,6 +2,7 @@
 
 import { BellRing, TrendingDown, TrendingUp } from 'lucide-react';
 import { VolatilityBadge } from '@/components/dashboard/VolatilityBadge';
+import { PriceFlash } from '@/components/shared/PriceFlash';
 import { cn, formatPercent } from '@/lib/utils';
 
 export interface TickerItem {
@@ -21,7 +22,7 @@ export function TickerTape({ items }: TickerTapeProps) {
   const loop = [...items, ...items];
 
   return (
-    <div className="relative z-0 overflow-hidden border-b border-[var(--border)] bg-[var(--surface)]/90 py-2.5 backdrop-blur-md">
+    <div className="relative z-0 overflow-hidden border-b [mask-image:linear-gradient(to_right,transparent,#000_24px,#000_calc(100%-24px),transparent)] border-[var(--border)] bg-[var(--surface)]/90 py-2.5 backdrop-blur-md">
       <div className="animate-ticker flex w-max gap-8 whitespace-nowrap px-4 text-sm">
         {loop.map((item, i) => {
           const positive = item.changePercent >= 0;
@@ -42,11 +43,11 @@ export function TickerTape({ items }: TickerTapeProps) {
                 ) : null}
                 <VolatilityBadge changePercent={item.changePercent} />
               </span>
-              <span className="tabular-nums text-[var(--muted)]">
+              <PriceFlash value={item.price} className="px-0.5 text-[var(--muted)]">
                 {item.price.toLocaleString('tr-TR', {
                   maximumFractionDigits: 4,
                 })}
-              </span>
+              </PriceFlash>
               <span
                 className={cn(
                   'inline-flex items-center gap-0.5 rounded-full border px-2 py-0.5 text-[11px] font-bold',

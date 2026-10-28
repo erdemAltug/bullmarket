@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 import { NextResponse } from 'next/server';
 import { getLiveMarketItems } from '@/lib/market-live';
 
@@ -13,7 +14,7 @@ export async function GET() {
       data: { items },
       updatedAt,
       cached,
-    });
+    }, { headers: cacheHeaders(15) });
   } catch (e) {
     return NextResponse.json(
       {

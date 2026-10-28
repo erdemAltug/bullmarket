@@ -23,6 +23,8 @@ import {
   toYahooSymbol,
 } from '@/lib/seo/symbols';
 import { absoluteCanonical } from '@/lib/seo/canonical';
+import { NOINDEX_FOLLOW } from '@/lib/seo/index-policy';
+import { yahooSymbolExists } from '@/lib/market/long-tail';
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -101,6 +103,8 @@ export async function generateMetadata({
           'stock scorecard',
         ],
     alternates: withLangAlternates(path),
+    // Long-tail symbols render but stay out of the index until curated.
+    ...(isIndexedBistSymbol(symbol) ? {} : { robots: NOINDEX_FOLLOW }),
     openGraph: {
       title,
       description,
@@ -131,7 +135,11 @@ export default async function BistSymbolPage({ params }: Props) {
   const raw = (await params).symbol;
   const symbol = canonicalSymbol(raw);
 
-  if (!symbol || symbol === 'HEATMAP' || !isIndexedBistSymbol(symbol)) {
+  if (!symbol || symbol === 'HEATMAP') notFound();
+  if (
+    !isIndexedBistSymbol(symbol) &&
+    !(await yahooSymbolExists(toYahooSymbol(symbol)))
+  ) {
     notFound();
   }
   if (raw !== symbol) permanentRedirect(`/bist/${symbol}`);

@@ -12,6 +12,8 @@ import { fetchFundamentals, fetchQuotes } from '@/lib/api/yahoo';
 import { fromLiveFundamentals } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import { absoluteCanonical } from '@/lib/seo/canonical';
+import { NOINDEX_FOLLOW } from '@/lib/seo/index-policy';
+import { yahooSymbolExists } from '@/lib/market/long-tail';
 import {
   SITE_URL,
   SEO_US_TICKERS,
@@ -88,6 +90,8 @@ export async function generateMetadata({
         ]
       : [`${symbol} live price`, `${symbol} NASDAQ`, 'US stocks'],
     alternates: withLangAlternates(path),
+    // Long-tail symbols render but stay out of the index until curated.
+    ...(isIndexedUsSymbol(symbol) ? {} : { robots: NOINDEX_FOLLOW }),
     openGraph: {
       title,
       description,
@@ -110,7 +114,8 @@ export default async function NasdaqSymbolPage({ params }: Props) {
   const raw = (await params).symbol;
   const symbol = canonicalUsSymbol(raw);
 
-  if (!symbol || !isIndexedUsSymbol(symbol)) notFound();
+  if (!symbol) notFound();
+  if (!isIndexedUsSymbol(symbol) && !(await yahooSymbolExists(symbol))) notFound();
   if (raw !== symbol) permanentRedirect(`/nasdaq/${symbol}`);
 
   let quote: {

@@ -1,5 +1,6 @@
 import axios, { type AxiosInstance } from 'axios';
 import {
+  lastSession,
   periodStartFor,
   TIMEFRAME_CONFIG,
   type ChartTimeframe,
@@ -179,11 +180,15 @@ export async function fetchKlines(
     limit: 1000,
   });
 
-  return data.map((row) => ({
+  const points = data.map((row) => ({
     timestamp: row[0],
+    open: Number(row[1]),
+    high: Number(row[2]),
+    low: Number(row[3]),
     price: Number(row[4]),
     volume: Number(row[5]),
   }));
+  return lastSession(points, timeframe);
 }
 
 export const DEFAULT_CRYPTO_SYMBOLS = [

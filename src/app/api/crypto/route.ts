@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 import { NextResponse } from 'next/server';
 import { appCache } from '@/lib/cache';
 import {
@@ -23,7 +24,7 @@ export async function GET(request: Request) {
   }>(cacheKey);
 
   if (hit) {
-    return NextResponse.json({ success: true, data: hit, cached: true });
+    return NextResponse.json({ success: true, data: hit, cached: true }, { headers: cacheHeaders(10) });
   }
 
   try {
@@ -37,7 +38,7 @@ export async function GET(request: Request) {
     }
 
     appCache.set(cacheKey, payload, 15);
-    return NextResponse.json({ success: true, data: payload });
+    return NextResponse.json({ success: true, data: payload }, { headers: cacheHeaders(10) });
   } catch (e) {
     return NextResponse.json(
       {

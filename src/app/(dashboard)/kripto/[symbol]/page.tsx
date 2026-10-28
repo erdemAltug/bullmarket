@@ -12,6 +12,8 @@ import { fetchSymbolHeadlines } from '@/lib/api/news';
 import { fromLiveCryptoBand } from '@/lib/analystData';
 import { resolveSeoLang, withLangAlternates } from '@/lib/seo/hreflang';
 import { absoluteCanonical } from '@/lib/seo/canonical';
+import { NOINDEX_FOLLOW } from '@/lib/seo/index-policy';
+import { binancePairExists } from '@/lib/market/long-tail';
 import {
   SITE_URL,
   SEO_CRYPTO_SYMBOLS,
@@ -81,6 +83,8 @@ export async function generateMetadata({
       ? [`${display} canlı`, `${display} fiyat`, `${display} yorum`, `${symbol} grafik`, 'kripto sinyal']
       : [`${display} live price`, `${display} chart`, 'crypto signal radar'],
     alternates: withLangAlternates(path),
+    // Long-tail symbols render but stay out of the index until curated.
+    ...(isIndexedCryptoSymbol(symbol) ? {} : { robots: NOINDEX_FOLLOW }),
     openGraph: {
       title,
       description,
@@ -101,7 +105,7 @@ export async function generateMetadata({
 export default async function KriptoSymbolPage({ params }: Props) {
   const raw = (await params).symbol;
   const symbol = normalizeCrypto(raw);
-  if (!isIndexedCryptoSymbol(symbol)) notFound();
+  if (!isIndexedCryptoSymbol(symbol) && !(await binancePairExists(symbol))) notFound();
   if (raw.toUpperCase() !== symbol) permanentRedirect(`/kripto/${symbol}`);
 
   const display = symbol.replace('USDT', '');

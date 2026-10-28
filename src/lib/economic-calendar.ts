@@ -26,3 +26,31 @@ export function formatCountdown(targetIso: string, now = new Date()): string {
   if (h > 0) return `${h}s ${m}dk`;
   return `${m}dk`;
 }
+
+/** Common Forex Factory titles → Turkish. Unknown words pass through. */
+const EVENT_TERMS: [RegExp, string][] = [
+  [/\bFOMC\b/g, 'Fed (FOMC)'],
+  [/\bBOC\b/g, 'Kanada MB'],
+  [/\bBOE\b/g, 'İngiltere MB'],
+  [/\bBOJ\b/g, 'Japonya MB'],
+  [/\bECB\b/g, 'ECB'],
+  [/Press Conference/gi, 'basın toplantısı'],
+  [/Interest Rate Decision|Federal Funds Rate|Cash Rate|Official Bank Rate|Main Refinancing Rate|Overnight Rate/gi, 'faiz kararı'],
+  [/Statement/gi, 'açıklaması'],
+  [/Core CPI/gi, 'Çekirdek TÜFE'],
+  [/\bCPI\b/g, 'TÜFE'],
+  [/\bPPI\b/g, 'ÜFE'],
+  [/Non-Farm Employment Change|Non-Farm Payrolls/gi, 'Tarım dışı istihdam'],
+  [/Unemployment Rate/gi, 'İşsizlik oranı'],
+  [/Unemployment Claims/gi, 'İşsizlik başvuruları'],
+  [/Retail Sales/gi, 'Perakende satışlar'],
+  [/\bGDP\b/g, 'GSYİH'],
+  [/Speaks/gi, 'konuşuyor'],
+  [/\bm\/m\b/g, '(aylık)'],
+  [/\by\/y\b/g, '(yıllık)'],
+  [/\bq\/q\b/g, '(çeyreklik)'],
+];
+
+export function localizeEventTitle(title: string): string {
+  return EVENT_TERMS.reduce((t, [re, tr]) => t.replace(re, tr), title);
+}
