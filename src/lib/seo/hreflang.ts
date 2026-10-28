@@ -12,16 +12,14 @@ export function resolveSeoLang(
 }
 
 /**
- * Hreflang targets clean absolute URLs (no ?lang=) so alternates
- * match the page canonical and avoid GSC duplicate/canonical conflicts.
+ * Inner pages serve one URL whose language comes from a cookie, so there is
+ * no separate URL per language yet. Pointing tr/en/x-default at the same URL
+ * tells Google nothing, so only x-default is emitted until real /en/... URLs
+ * exist. Root /tr and /en use rootHreflangLanguages() instead.
  */
 export function hreflangLanguages(path = ''): Record<string, string> {
   const base = absoluteCanonical(path || '/', { upperSymbol: true });
-  return {
-    'tr-TR': base,
-    'en-US': base,
-    'x-default': base,
-  };
+  return { 'x-default': base };
 }
 
 export function localePath(lang: SeoLang): string {
@@ -47,8 +45,5 @@ export function withLangAlternates(
   canonical = true
 ): NonNullable<Metadata['alternates']> {
   const url = absoluteCanonical(path, { upperSymbol: true });
-  return {
-    ...(canonical ? { canonical: url } : {}),
-    languages: hreflangLanguages(path),
-  };
+  return canonical ? { canonical: url } : {};
 }

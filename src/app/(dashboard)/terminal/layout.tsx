@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { CrawlSnapshot } from '@/components/seo/CrawlSnapshot';
 import { getIndexQuote } from '@/lib/seo/live-snapshot';
+import { withLangAlternates } from '@/lib/seo/hreflang';
 import { formatMetaChange, formatMetaPrice } from '@/lib/seo/symbols';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -13,6 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: `${live} — Skor Taraması, Radar ve Alarm`,
     description:
       'Ücretsiz BİST terminali: analiz skoru, teknik radar ve fiyat alarmı. Kısa piyasa turu — kayıt zorunlu değil.',
+    alternates: withLangAlternates('/terminal'),
   };
 }
 
