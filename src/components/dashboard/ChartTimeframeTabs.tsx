@@ -19,8 +19,9 @@ export function ChartTimeframeTabs({
   onChange,
   hideIntraday = false,
 }: ChartTimeframeTabsProps) {
+  // Daily-only sources also stop at 2 years of history.
   const options = hideIntraday
-    ? CHART_TIMEFRAMES.filter((tf) => !isIntraday(tf))
+    ? CHART_TIMEFRAMES.filter((tf) => !isIntraday(tf) && tf !== '5Y' && tf !== 'ALL')
     : CHART_TIMEFRAMES;
   return (
     <div

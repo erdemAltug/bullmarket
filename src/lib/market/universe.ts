@@ -133,6 +133,13 @@ export async function searchYahoo(q: string): Promise<MarketAsset[]> {
   return value;
 }
 
+function within(p: Promise<MarketAsset[]>, ms: number): Promise<MarketAsset[]> {
+  return Promise.race([
+    p.catch((): MarketAsset[] => []),
+    new Promise<MarketAsset[]>((resolve) => setTimeout(() => resolve([]), ms)),
+  ]);
+}
+
 function rank(a: MarketAsset, q: string): number {
   const s = a.symbol.toUpperCase();
   const n = a.name.toLocaleUpperCase('tr-TR');
@@ -148,10 +155,12 @@ export async function searchUniverse(raw: string, limit = 20): Promise<MarketAss
   const q = raw.trim().toLocaleUpperCase('tr-TR');
   if (q.length < 2) return [];
 
+  // The fund and crypto lists load once (cold start ~5 s). Don't make the
+  // first searcher wait: answer with what's ready, the load keeps going.
   const [funds, crypto, stocks] = await Promise.all([
-    getTefasFunds().catch(() => [] as MarketAsset[]),
-    getCryptoPairs().catch(() => [] as MarketAsset[]),
-    searchYahoo(raw.trim()).catch(() => [] as MarketAsset[]),
+    within(getTefasFunds(), 1500),
+    within(getCryptoPairs(), 1500),
+    within(searchYahoo(raw.trim()), 4000),
   ]);
 
   const local = [...funds, ...crypto].filter((a) => rank(a, q) < 4);

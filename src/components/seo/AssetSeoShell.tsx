@@ -153,7 +153,9 @@ export function AssetSeoShell({
             : undefined
         }
       >
-        <div className="space-y-4">
+        {/* min-w-0: let the grid column shrink to the screen; wide children
+            (chart toolbar, tables) scroll inside instead of widening the page. */}
+        <div className="min-w-0 space-y-4">
           {kind === 'bist' ? (
             <>
               <SymbolMatrixNav symbol={symbol} active="" />

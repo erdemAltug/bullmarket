@@ -183,12 +183,14 @@ export async function fetchTefasLatest(
 }
 
 const FUND_KINDS: TefasFundKind[] = ['YAT', 'EMK', 'BYF'];
-const WINDOW_DAYS = 85;
+// TEFAS rejects ranges over one month ("Tarih aralığı 1 ayı aşamaz").
+const WINDOW_DAYS = 28;
+const PARALLEL = 6;
 
 /**
- * Daily price history for one TEFAS fund. TEFAS answers best for ~3 month
- * windows, so longer ranges are fetched in chunks (4 at a time) and cached
- * for 6 hours — fund prices change once a day.
+ * Daily price history for one TEFAS fund. TEFAS accepts at most one month
+ * per request, so longer ranges are fetched in 28-day chunks (6 at a time,
+ * up to 2 years) and cached for 6 hours — fund prices change once a day.
  */
 export async function fetchTefasHistory(
   code: string,
@@ -201,9 +203,9 @@ export async function fetchTefasHistory(
 
   const end = new Date();
   let start = periodStartFor(timeframe);
-  // TEFAS keeps roughly five years online.
+  // Cap at 2 years: ~26 requests on a cold cache is the most we spend.
   const floor = new Date(end);
-  floor.setFullYear(floor.getFullYear() - 5);
+  floor.setFullYear(floor.getFullYear() - 2);
   if (start < floor) start = floor;
 
   const windows: [Date, Date][] = [];
@@ -218,10 +220,12 @@ export async function fetchTefasHistory(
   let points: HistoricalPricePoint[] = [];
   for (const kind of FUND_KINDS) {
     const rows: TefasFundRow[] = [];
-    for (let i = 0; i < windows.length; i += 4) {
+    // Newest window first: if the fund isn't this kind we learn it in one round.
+    const ordered = [...windows].reverse();
+    for (let i = 0; i < ordered.length; i += PARALLEL) {
       const batch = await Promise.all(
-        windows
-          .slice(i, i + 4)
+        ordered
+          .slice(i, i + PARALLEL)
           .map(([a, b]) => postInfo(kind, a, b, fund).catch(() => [] as TefasFundRow[]))
       );
       for (const r of batch) rows.push(...r);
