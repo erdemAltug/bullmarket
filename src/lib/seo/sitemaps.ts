@@ -12,21 +12,31 @@ import {
   SEO_US_TICKERS,
 } from '@/lib/seo/symbols';
 
-const now = () => new Date();
-
+/**
+ * lastmod is only sent when we actually know it (blog / lessons).
+ * Stamping every URL with "now" teaches Google to ignore the field.
+ */
 function entry(
   path: string,
   opts: {
     changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'];
     priority: number;
+    lastModified?: string | Date;
   }
 ): MetadataRoute.Sitemap[number] {
   return {
     url: `${SITE_URL}${path}`,
-    lastModified: now(),
+    ...(opts.lastModified ? { lastModified: opts.lastModified } : {}),
     changeFrequency: opts.changeFrequency,
     priority: opts.priority,
   };
+}
+
+function latest(dates: (string | undefined)[]): string | undefined {
+  const ts = dates
+    .map((d) => (d ? Date.parse(d) : NaN))
+    .filter((n) => Number.isFinite(n));
+  return ts.length ? new Date(Math.max(...ts)).toISOString() : undefined;
 }
 
 export function chunkEntries(
@@ -102,6 +112,7 @@ export function buildMainSitemap(): MetadataRoute.Sitemap {
     entry(`/egitim/${l.category}/${l.slug}`, {
       changeFrequency: 'monthly',
       priority: 0.85,
+      lastModified: l.updatedAt || l.publishedAt,
     })
   );
 
@@ -109,6 +120,7 @@ export function buildMainSitemap(): MetadataRoute.Sitemap {
     entry(`/blog/${p.slug}`, {
       changeFrequency: 'weekly',
       priority: 0.85,
+      lastModified: p.updatedAt || p.publishedAt,
     })
   );
 
@@ -178,10 +190,9 @@ export function sitemapEntriesToXml(
           ? e.lastModified.toISOString()
           : e.lastModified
             ? String(e.lastModified)
-            : new Date().toISOString();
+            : null;
       return `  <url>
-    <loc>${e.url}</loc>
-    <lastmod>${lastmod}</lastmod>
+    <loc>${e.url}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''}
     <changefreq>${e.changeFrequency ?? 'weekly'}</changefreq>
     <priority>${e.priority ?? 0.5}</priority>
   </url>`;
@@ -205,14 +216,17 @@ export function sitemapShardFiles(): string[] {
 }
 
 export function sitemapIndexXml(): string {
-  const lastmod = new Date().toISOString();
+  const contentLastmod = latest([
+    ...BLOG_POSTS.map((p) => p.updatedAt || p.publishedAt),
+    ...EDUCATION_LESSONS.map((l) => l.updatedAt || l.publishedAt),
+  ]);
   const body = sitemapShardFiles()
-    .map(
-      (f) => `  <sitemap>
-    <loc>${SITE_URL}/${f}</loc>
-    <lastmod>${lastmod}</lastmod>
-  </sitemap>`
-    )
+    .map((f) => {
+      const lm = f === 'sitemap-main.xml' ? contentLastmod : undefined;
+      return `  <sitemap>
+    <loc>${SITE_URL}/${f}</loc>${lm ? `\n    <lastmod>${lm}</lastmod>` : ''}
+  </sitemap>`;
+    })
     .join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
