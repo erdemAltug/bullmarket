@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { useRouter } from 'next/navigation';
 import Fuse from 'fuse.js';
+import { useQuery } from '@tanstack/react-query';
 import {
   Bitcoin,
   Landmark,
@@ -103,11 +104,36 @@ export function UniversalSearch() {
     });
   }, [assets]);
 
-  const results = useMemo(() => {
+  const localResults = useMemo(() => {
     const q = deferredQuery.trim();
     if (!q || !fuse) return assets.slice(0, 12);
     return fuse.search(q, { limit: 20 }).map((r) => r.item);
   }, [assets, deferredQuery, fuse]);
+
+  // Beyond the built-in list: every stock, ETF, TEFAS fund and crypto pair.
+  const [remoteQuery, setRemoteQuery] = useState('');
+  useEffect(() => {
+    const q = query.trim();
+    const t = setTimeout(() => setRemoteQuery(q.length >= 2 ? q : ''), 250);
+    return () => clearTimeout(t);
+  }, [query]);
+  const { data: remote = [], isFetching: remoteLoading } = useQuery({
+    queryKey: ['universe-search', remoteQuery.toUpperCase()],
+    enabled: open && remoteQuery.length >= 2,
+    staleTime: 10 * 60_000,
+    queryFn: async (): Promise<MarketAsset[]> => {
+      const res = await fetch(`/api/v1/search?q=${encodeURIComponent(remoteQuery)}`);
+      const json = (await res.json()) as ApiResponse<MarketAsset[]>;
+      return json.success && json.data ? json.data : [];
+    },
+  });
+
+  const results = useMemo(() => {
+    if (!deferredQuery.trim()) return localResults;
+    const seen = new Set(localResults.map((a) => `${a.category}:${a.symbol}`));
+    const extra = remote.filter((a) => !seen.has(`${a.category}:${a.symbol}`));
+    return [...localResults, ...extra].slice(0, 30);
+  }, [deferredQuery, localResults, remote]);
 
   const navHits = useMemo(() => {
     const q = deferredQuery.trim().toLocaleLowerCase('tr-TR');
@@ -196,7 +222,9 @@ export function UniversalSearch() {
               </div>
             ) : (
               <>
-                <CommandEmpty>Sonuç yok.</CommandEmpty>
+                <CommandEmpty>
+                  {remoteLoading ? 'Tüm piyasalarda aranıyor…' : 'Sonuç yok.'}
+                </CommandEmpty>
 
                 {navHits.length > 0 ? (
                   <CommandGroup heading="Sayfalar">
@@ -216,7 +244,7 @@ export function UniversalSearch() {
                 <CommandGroup
                   heading={
                     deferredQuery.trim()
-                      ? `Varlıklar · ${results.length}`
+                      ? `Varlıklar · ${results.length}${remoteLoading ? ' · tüm piyasalar aranıyor…' : ''}`
                       : `Popüler · ${assets.length} indeks`
                   }
                 >

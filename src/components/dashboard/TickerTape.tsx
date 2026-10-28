@@ -2,6 +2,7 @@
 
 import { BellRing, TrendingDown, TrendingUp } from 'lucide-react';
 import { VolatilityBadge } from '@/components/dashboard/VolatilityBadge';
+import { PriceFlash } from '@/components/shared/PriceFlash';
 import { cn, formatPercent } from '@/lib/utils';
 
 export interface TickerItem {
@@ -42,11 +43,11 @@ export function TickerTape({ items }: TickerTapeProps) {
                 ) : null}
                 <VolatilityBadge changePercent={item.changePercent} />
               </span>
-              <span className="tabular-nums text-[var(--muted)]">
+              <PriceFlash value={item.price} className="px-0.5 text-[var(--muted)]">
                 {item.price.toLocaleString('tr-TR', {
                   maximumFractionDigits: 4,
                 })}
-              </span>
+              </PriceFlash>
               <span
                 className={cn(
                   'inline-flex items-center gap-0.5 rounded-full border px-2 py-0.5 text-[11px] font-bold',

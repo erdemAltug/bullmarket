@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 import { NextResponse } from 'next/server';
 import { fetchHistory } from '@/lib/api/yahoo';
 import { fetchCryptoFearGreed } from '@/lib/api/sentiment';
@@ -49,7 +50,7 @@ export async function GET() {
   const cacheKey = 'fear-greed:v2';
   const hit = appCache.get<FearGreedData>(cacheKey);
   if (hit) {
-    return NextResponse.json({ success: true, data: hit, cached: true });
+    return NextResponse.json({ success: true, data: hit, cached: true }, { headers: cacheHeaders(300) });
   }
 
   try {
@@ -71,7 +72,7 @@ export async function GET() {
     };
 
     appCache.set(cacheKey, data, 300);
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true, data }, { headers: cacheHeaders(300) });
   } catch (e) {
     return NextResponse.json(
       {

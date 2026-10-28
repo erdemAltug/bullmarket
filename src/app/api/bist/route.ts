@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 import { NextResponse } from 'next/server';
 import { appCache } from '@/lib/cache';
 import {
@@ -22,13 +23,13 @@ export async function GET(request: Request) {
       success: true,
       data: { quotes: hit },
       cached: true,
-    });
+    }, { headers: cacheHeaders(15) });
   }
 
   try {
     const quotes = await fetchQuotes(symbols);
     appCache.set(cacheKey, quotes, 15);
-    return NextResponse.json({ success: true, data: { quotes } });
+    return NextResponse.json({ success: true, data: { quotes } }, { headers: cacheHeaders(15) });
   } catch (e) {
     return NextResponse.json(
       {

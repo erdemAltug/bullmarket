@@ -75,10 +75,11 @@ export function useFx(codes?: string, opts?: QueryOpts) {
 export function useChartHistory(
   symbol: string | undefined,
   timeframe: ChartTimeframe,
-  source: 'yahoo' | 'binance' = 'yahoo'
+  source: 'yahoo' | 'binance' | 'tefas' = 'yahoo'
 ) {
   return useQuery({
     queryKey: ['history', source, symbol, timeframe],
+    placeholderData: (prev) => prev,
     enabled: Boolean(symbol),
     queryFn: () =>
       getJson<{

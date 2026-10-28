@@ -18,17 +18,19 @@ export default function DashboardLayout({
 }) {
   return (
     <MobileNavProvider>
-      <div className="flex h-[calc(100dvh-var(--launch-banner-h,0px))] flex-col overflow-hidden bg-[var(--background)]">
+      {/* The page itself scrolls (not an inner div): mobile browsers can then
+          collapse the address bar and tap-status-bar-to-top works. */}
+      <div className="flex min-h-[calc(100dvh-var(--launch-banner-h,0px))] flex-col bg-[var(--background)]">
         <NavigationProgress />
         <TabTitleEngine />
         <Header />
         <UniversalSearch />
         <AlertEngine />
         <MobileNavDrawer />
-        <div className="flex min-h-0 flex-1">
+        <div className="flex flex-1">
           <Sidebar />
-          <main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto p-3 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:p-4 md:p-6 md:pb-8">
-            <div className="flex-1 pb-6 md:pb-8">{children}</div>
+          <main className="flex min-w-0 flex-1 flex-col overflow-x-clip p-3 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:p-4 md:p-6 md:pb-8">
+            <div className="mx-auto w-full max-w-[1400px] flex-1 pb-6 md:pb-8">{children}</div>
             <SiteFooter />
           </main>
         </div>

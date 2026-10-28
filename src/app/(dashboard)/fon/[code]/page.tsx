@@ -12,6 +12,20 @@ import {
 import { SITE_URL, SEO_ETF_TICKERS, SEO_TEFAS_CODES } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 import Link from 'next/link';
+import { fetchTefasLatest, type TefasFundKind } from '@/lib/api/tefas';
+import { yahooSymbolExists } from '@/lib/market/long-tail';
+import { NOINDEX_FOLLOW } from '@/lib/seo/index-policy';
+
+const FUND_CODE_RE = /^[A-Z0-9]{2,6}$/;
+
+/** Any TEFAS fund (all ~2.000), not only the curated desk. */
+async function findTefasFund(code: string) {
+  for (const kind of ['YAT', 'EMK', 'BYF'] as TefasFundKind[]) {
+    const rows = await fetchTefasLatest([code], kind).catch(() => []);
+    if (rows[0]) return rows[0];
+  }
+  return null;
+}
 
 export const revalidate = 120;
 
@@ -42,6 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description: `${sym} canlı fiyat ve getiri takibi — Bullsye fon masası.`,
     alternates: withLangAlternates(`/fon/${sym}`),
+    ...(DETAIL_CODE_SET.has(sym) ? {} : { robots: NOINDEX_FOLLOW }),
     openGraph: {
       title: `${sym} | Bullsye`,
       url: `${SITE_URL}/fon/${sym}`,
@@ -52,21 +67,42 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function FonDetailPage({ params }: Props) {
   const { code } = await params;
   const sym = code.toUpperCase();
-  if (!DETAIL_CODE_SET.has(sym)) {
-    notFound();
-  }
+  if (!FUND_CODE_RE.test(sym)) notFound();
+  const curated = DETAIL_CODE_SET.has(sym);
 
   const { items } = await getLiveMarketItems();
-  const item =
+  const scannerItem =
     items.find(
       (i) =>
         (i.category === 'FON' || i.category === 'ETF') &&
         i.displaySymbol === sym
     ) ?? null;
 
+  // Long tail: any TEFAS fund code, or any ETF Yahoo knows.
+  const tefasRow = !scannerItem ? await findTefasFund(sym) : null;
+  const yahooEtf =
+    !scannerItem && !tefasRow && !curated ? await yahooSymbolExists(sym) : false;
+  if (!curated && !scannerItem && !tefasRow && !yahooEtf) notFound();
+
+  const item = scannerItem
+    ? scannerItem
+    : tefasRow
+      ? {
+          name: tefasRow.name,
+          price: tefasRow.price,
+          changePercent: tefasRow.changePercent,
+          currency: 'TRY' as const,
+          category: 'FON' as const,
+          volume: null as string | null,
+          portfolioSize: tefasRow.portfolioSize,
+          investorCount: tefasRow.investorCount,
+          fundStyle: null as string | null,
+        }
+      : null;
+
   const tefasMeta = SCANNER_TEFAS_FUNDS.find((f) => f.code === sym);
   const etfMeta = ETF_META[sym as keyof typeof ETF_META];
-  const isEtf = Boolean(etfMeta) || item?.category === 'ETF';
+  const isEtf = Boolean(etfMeta) || item?.category === 'ETF' || yahooEtf;
 
   return (
     <div className="mx-auto max-w-3xl space-y-6">
@@ -140,16 +176,14 @@ export default async function FonDetailPage({ params }: Props) {
         </p>
       </div>
 
-      {isEtf ? (
-        <ChartPanel
-          title={sym}
-          symbol={sym}
-          source="yahoo"
-          isPositive={(item?.changePercent ?? 0) >= 0}
-          currencySymbol="$"
-          defaultTimeframe="5D"
-        />
-      ) : null}
+      <ChartPanel
+        title={`${sym} · ${isEtf ? 'fiyat' : 'pay değeri'}`}
+        symbol={sym}
+        source={isEtf ? 'yahoo' : 'tefas'}
+        isPositive={(item?.changePercent ?? 0) >= 0}
+        currencySymbol={isEtf ? '$' : '₺'}
+        defaultTimeframe={isEtf ? '6M' : '1Y'}
+      />
 
       <div className="flex flex-wrap gap-3 text-xs">
         <Link href="/fon" className="text-emerald-400 hover:underline">

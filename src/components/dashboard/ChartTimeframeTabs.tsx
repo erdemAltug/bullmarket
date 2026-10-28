@@ -1,24 +1,34 @@
 'use client';
 
-import { CHART_TIMEFRAMES, type ChartTimeframe } from '@/lib/chart-timeframes';
+import {
+  CHART_TIMEFRAMES,
+  isIntraday,
+  type ChartTimeframe,
+} from '@/lib/chart-timeframes';
 import { cn } from '@/lib/utils';
 
 interface ChartTimeframeTabsProps {
   value: ChartTimeframe;
   onChange: (tf: ChartTimeframe) => void;
+  /** Daily-only sources (TEFAS) have no intraday bars. */
+  hideIntraday?: boolean;
 }
 
 export function ChartTimeframeTabs({
   value,
   onChange,
+  hideIntraday = false,
 }: ChartTimeframeTabsProps) {
+  const options = hideIntraday
+    ? CHART_TIMEFRAMES.filter((tf) => !isIntraday(tf))
+    : CHART_TIMEFRAMES;
   return (
     <div
-      className="inline-flex flex-wrap gap-0.5 rounded-lg border border-zinc-800 bg-zinc-900 p-1"
+      className="inline-flex shrink-0 gap-0.5 rounded-lg border border-[var(--border)] bg-[var(--surface)] p-0.5"
       role="tablist"
-      aria-label="Chart timeframe"
+      aria-label="Zaman aralığı"
     >
-      {CHART_TIMEFRAMES.map((tf) => (
+      {options.map((tf) => (
         <button
           key={tf}
           type="button"
@@ -26,10 +36,10 @@ export function ChartTimeframeTabs({
           aria-selected={value === tf}
           onClick={() => onChange(tf)}
           className={cn(
-            'rounded-md px-2.5 py-1 text-xs font-medium transition-colors',
+            'h-8 min-w-9 rounded-md px-2 font-mono text-xs font-semibold transition-colors',
             value === tf
-              ? 'bg-zinc-800 text-white shadow-sm'
-              : 'text-zinc-400 hover:text-white'
+              ? 'bg-[var(--accent)]/15 text-[var(--foreground)]'
+              : 'text-[var(--muted)] hover:text-[var(--foreground)]'
           )}
         >
           {tf}

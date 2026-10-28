@@ -1,3 +1,4 @@
+import { cacheHeaders } from '@/lib/api/http';
 import { NextResponse } from 'next/server';
 import { fetchRatesNews } from '@/lib/api/news';
 import { fetchRatePoints } from '@/lib/api/rates';
@@ -11,7 +12,7 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       data: { points, news },
-    });
+    }, { headers: cacheHeaders(600) });
   } catch (e) {
     return NextResponse.json(
       {

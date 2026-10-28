@@ -83,10 +83,10 @@ export function MobileNavDrawer() {
         <nav className="flex flex-1 flex-col gap-4 overflow-y-auto p-3 pb-10">
           {groups.map(({ group, items }) => (
             <div key={group} className="space-y-1">
-              <p className="px-3 pb-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]/70">
+              <p className="px-3 pb-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--muted)]/80">
                 {t.navGroups[group]}
               </p>
-              {items.map(({ href, key, icon: Icon, color }) => {
+              {items.map(({ href, key, icon: Icon }) => {
                 const active = isNavActive(pathname, href);
                 return (
                   <FastLink
@@ -103,7 +103,7 @@ export function MobileNavDrawer() {
                     <Icon
                       className={cn(
                         'size-5 shrink-0',
-                        active ? 'text-[var(--accent)]' : color
+                        active ? 'text-[var(--accent)]' : 'text-[var(--muted)]'
                       )}
                     />
                     <span className="truncate">{t.nav[key]}</span>
@@ -161,7 +161,7 @@ export function MobileBottomNav() {
               key={href}
               href={href}
               className={cn(
-                'flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl px-0.5 py-1.5 text-[11px] font-semibold leading-none',
+                'flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl px-0.5 py-1.5 text-xs font-semibold leading-none',
                 active
                   ? 'text-[var(--accent)]'
                   : 'text-[var(--muted)]'
@@ -187,7 +187,7 @@ export function MobileBottomNav() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl px-0.5 py-1.5 text-[11px] font-semibold leading-none text-[var(--muted)]"
+          className="flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-xl px-0.5 py-1.5 text-xs font-semibold leading-none text-[var(--muted)]"
         >
           <span className="flex size-9 items-center justify-center rounded-xl">
             <Menu className="size-5" />

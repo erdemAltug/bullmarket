@@ -1,6 +1,10 @@
 export interface HistoricalPricePoint {
   timestamp: number;
+  /** Close */
   price: number;
+  open?: number;
+  high?: number;
+  low?: number;
   volume?: number;
 }
 

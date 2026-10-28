@@ -1,5 +1,6 @@
 import YahooFinance from 'yahoo-finance2';
 import {
+  lastSession,
   periodStartFor,
   TIMEFRAME_CONFIG,
   type ChartTimeframe,
@@ -98,13 +99,17 @@ export async function fetchHistory(
     interval: yahooInterval,
   });
 
-  return (chart.quotes ?? [])
+  const points = (chart.quotes ?? [])
     .filter((q) => q.close != null && q.date != null)
     .map((q) => ({
       timestamp: new Date(q.date).getTime(),
       price: q.close as number,
+      open: q.open ?? undefined,
+      high: q.high ?? undefined,
+      low: q.low ?? undefined,
       volume: q.volume ?? undefined,
     }));
+  return lastSession(points, timeframe);
 }
 
 export async function fetchFundamentals(
