@@ -269,7 +269,11 @@ export default function ProChart({
       overlay(bb.lower, 'rgba(148,163,184,0.7)', 1, LineStyle.Dashed);
     }
     if (indicators.has('vwap') && intraday && hasVolume) {
-      overlay(vwapSeries(bars), INDICATOR_META.vwap.color, 2);
+      overlay(
+        vwapSeries(bars.map((b) => ({ ...b, timestamp: b.ts }))),
+        INDICATOR_META.vwap.color,
+        2
+      );
     }
 
     if (indicators.has('volume') && hasVolume) {
