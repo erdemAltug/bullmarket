@@ -51,10 +51,10 @@ export function UserMenu() {
         <button
           type="button"
           onClick={() => setAuthOpen(true)}
-          className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-2.5 py-1.5 text-xs font-semibold text-emerald-300 transition hover:bg-emerald-500/20 sm:px-3"
+          className="shrink-0 whitespace-nowrap rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-2.5 py-1.5 text-xs font-semibold text-emerald-300 transition hover:bg-emerald-500/20 sm:px-3"
         >
           <span className="sm:hidden">Giriş</span>
-          <span className="hidden sm:inline">Giriş Yap / Kayıt Ol</span>
+          <span className="hidden sm:inline">Giriş yap</span>
         </button>
         <AuthModal open={authOpen} onOpenChange={setAuthOpen} />
       </>

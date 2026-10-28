@@ -348,7 +348,7 @@ export default function OverviewPage() {
             Piyasa özeti
           </h1>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="-mx-1 flex max-w-full gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible">
           <ShareDailyRadar cards={potentialCards} />
           <Link
             href="/alerts"
@@ -359,6 +359,7 @@ export default function OverviewPage() {
           <ComparisonTrigger onClick={() => setCompareOpen(true)} />
           <Button
             type="button"
+            className="hidden md:inline-flex"
             variant={layout.editing ? 'default' : 'outline'}
             onClick={() => layout.setEditing(!layout.editing)}
           >

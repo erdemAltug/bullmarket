@@ -21,7 +21,7 @@ export function TickerTape({ items }: TickerTapeProps) {
   const loop = [...items, ...items];
 
   return (
-    <div className="relative z-0 overflow-hidden border-b border-[var(--border)] bg-[var(--surface)]/90 py-2.5 backdrop-blur-md">
+    <div className="relative z-0 overflow-hidden border-b [mask-image:linear-gradient(to_right,transparent,#000_24px,#000_calc(100%-24px),transparent)] border-[var(--border)] bg-[var(--surface)]/90 py-2.5 backdrop-blur-md">
       <div className="animate-ticker flex w-max gap-8 whitespace-nowrap px-4 text-sm">
         {loop.map((item, i) => {
           const positive = item.changePercent >= 0;

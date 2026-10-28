@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { CalendarClock } from 'lucide-react';
 import { useCalendar } from '@/hooks/useIntelligence';
 import {
-  formatCountdown,
+  formatCountdown, localizeEventTitle,
   upcomingEvents,
 } from '@/lib/economic-calendar';
 import { ListSkeleton } from '@/components/ui/skeleton';
@@ -112,7 +112,9 @@ export function CalendarTickerBanner() {
     return () => clearInterval(id);
   }, []);
 
-  const soon = upcomingEvents(data?.events ?? [], 48, now);
+  const soon = upcomingEvents(data?.events ?? [], 48, now).filter(
+    (e) => e.impact === 'high' && e.region !== 'GLOBAL'
+  );
   if (!soon.length) return null;
 
   const next = soon[0];
@@ -121,7 +123,7 @@ export function CalendarTickerBanner() {
     <div className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-center text-xs text-amber-200">
       <span className="font-semibold">⚠ Ekonomik uyarı</span>
       <span className="mx-2 text-amber-500/60">·</span>
-      {next.title}
+      {localizeEventTitle(next.title)}
       <span className="mx-2 text-amber-500/60">·</span>
       <span className="tabular-nums font-medium">
         {formatCountdown(next.at, now)}

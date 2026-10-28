@@ -6,6 +6,7 @@ import {
   FaqSchema,
 } from '@/components/seo/FinancialSchema';
 import { RelatedSymbolRail } from '@/components/seo/RelatedSymbolRail';
+import { HeaderScoreBadge } from '@/components/seo/HeaderScoreBadge';
 import { ShareScorecardButton } from '@/components/seo/ShareScorecardButton';
 import { SymbolMatrixNav } from '@/components/seo/SymbolMatrixNav';
 import { SymbolSocialProof } from '@/components/seo/SymbolSocialProof';
@@ -168,6 +169,7 @@ export function AssetSeoShell({
               {symbol}{' '}
               <span className="text-lg font-normal text-zinc-400">· {name}</span>
             </h1>
+            <div className="flex flex-wrap items-center gap-3">
             <p
               className={`text-2xl font-semibold tabular-nums ${
                 positive ? 'text-emerald-400' : 'text-rose-400'
@@ -180,6 +182,8 @@ export function AssetSeoShell({
                 {changePercent.toFixed(2)}%)
               </span>
             </p>
+            {kind !== 'fx' ? <HeaderScoreBadge symbol={symbol} /> : null}
+            </div>
             {kind === 'bist' ? (
               <ShareScorecardButton symbol={symbol} path={selfPath} />
             ) : null}

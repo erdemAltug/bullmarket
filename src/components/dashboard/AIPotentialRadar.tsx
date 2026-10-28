@@ -93,7 +93,7 @@ export function AIPotentialRadar({
               }
             }}
             className={cn(
-              'flex cursor-pointer flex-col rounded-2xl border bg-[var(--card)]/90 p-4 backdrop-blur-xl',
+              'flex cursor-pointer flex-col rounded-2xl border md:last:odd:col-span-2 bg-[var(--card)]/90 p-4 backdrop-blur-xl',
               'transition-all duration-200 hover:scale-[1.01] hover:border-emerald-500/50',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50',
               card.score >= 80
