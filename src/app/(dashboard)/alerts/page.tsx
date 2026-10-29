@@ -26,6 +26,8 @@ import {
 } from '@/lib/alert-assets';
 import { cn, formatPrice } from '@/lib/utils';
 import { useAuthGate } from '@/components/auth/AuthGateProvider';
+import { MorningDigestToggle } from '@/components/growth/MorningDigestToggle';
+import { ProWaitlistCard } from '@/components/growth/ProWaitlistCard';
 import { authClient } from '@/lib/auth/client';
 import { BETA_AUTH_HEADLINE, BETA_AUTH_SUBTITLE } from '@/lib/beta';
 import type { AlertKind, PriceAlert } from '@/types';
@@ -313,6 +315,8 @@ export default function AlertsPage() {
           </Button>
         </div>
       </header>
+
+      <MorningDigestToggle />
 
       {/* LIST FIRST */}
       <section className="space-y-3">
@@ -664,6 +668,8 @@ export default function AlertsPage() {
           </form>
         ) : null}
       </section>
+
+      <ProWaitlistCard source="alerts" />
     </div>
   );
 }

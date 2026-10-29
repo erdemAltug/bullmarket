@@ -25,3 +25,18 @@ RESEND_FROM="Bullsye <alarm@sizin-domaininiz.com>"
 - Key yoksa e-posta sessizce atlanır (ürün bozulmaz)
 - Sentry yok; Clarity ile kullanım izlenir
 - Sekme kapalı sunucu cron’u sonraki iterasyon (önce 1 ay kayıt izleme)
+
+## Sabah özeti (hafta içi 08:30)
+
+Kayıtlı kullanıcı `/alerts` sayfasındaki **Sabah özeti e-postası** kartından açar.
+Liste `digest_subscriptions` tablosunda tutulur; her e-postada tek tık çıkış linki
+(`/api/digest/unsubscribe?token=…`) ve `List-Unsubscribe` başlığı vardır.
+
+1. Şemayı uygulayın: `npm run db:push` (`digest_subscriptions`, `pro_waitlist`)
+2. Env: `CRON_SECRET=<uzun rastgele değer>` (Vercel + GitHub Actions secret)
+3. `.github/workflows/morning-digest.yml` hafta içi 05:30 UTC'de
+   `GET /api/cron/morning-digest` çağırır (`Authorization: Bearer $CRON_SECRET`).
+   Elle denemek için Actions → Morning Digest → Run workflow.
+
+İçerik `src/lib/daily-digest.ts` — paylaşım görseli (`/api/og?type=radar`) ile aynı
+5 sembolü kullanır.

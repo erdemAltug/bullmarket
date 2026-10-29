@@ -22,6 +22,19 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: 'BİST Skor Taraması ve Analiz Skoru | Bullsye',
       url: `${SITE_URL}/firsatlar`,
+      // Live top-3 card; refreshed every 15 min at the CDN.
+      images: [
+        {
+          url: `${SITE_URL}/api/og?type=radar`,
+          width: 1200,
+          height: 630,
+          alt: 'Bullsye — günün 3 yüksek skoru',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: [`${SITE_URL}/api/og?type=radar`],
     },
   };
 }

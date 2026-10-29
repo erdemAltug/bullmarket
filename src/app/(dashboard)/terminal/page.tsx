@@ -30,6 +30,7 @@ import { SmartRadar } from '@/components/dashboard/SmartRadar';
 import { StockScorecard } from '@/components/dashboard/StockScorecard';
 import { TickerTape } from '@/components/dashboard/TickerTape';
 import { WatchlistTable } from '@/components/dashboard/WatchlistTable';
+import { NetWorthStrip } from '@/components/inventory/NetWorthStrip';
 import { MarketScannerTable } from '@/components/dashboard/MarketScannerTable';
 import { DynamicTitle } from '@/components/shared/DynamicTitle';
 import { Button } from '@/components/ui/button';
@@ -39,6 +40,7 @@ import {
   DEFAULT_WIDGET_ORDER,
   useDashboardLayout,
 } from '@/hooks/useDashboardLayout';
+import { useInventorySummary } from '@/hooks/useInventorySummary';
 import { useBist, useCrypto, useFx } from '@/hooks/useMarketData';
 import { useMarketScanner } from '@/hooks/useMarketScanner';
 import { useWatchlist } from '@/hooks/useWatchlist';
@@ -82,6 +84,7 @@ export default function OverviewPage() {
   const fx = useFx();
   const scanner = useMarketScanner();
   const { alerts } = useAlerts();
+  const inventory = useInventorySummary();
 
   const [alertTarget, setAlertTarget] = useState<{
     symbol: string;
@@ -372,6 +375,18 @@ export default function OverviewPage() {
           ) : null}
         </div>
       </div>
+      {inventory.count > 0 ? (
+        <NetWorthStrip
+          value={inventory.value}
+          pnl={inventory.pnl}
+          pnlPct={inventory.pnlPct}
+          daily={inventory.daily}
+          dailyPct={inventory.dailyPct}
+          count={inventory.count}
+          href="/portfolio"
+          className="z-20 md:sticky md:top-[4.5rem] md:bg-[var(--card)]/90 md:backdrop-blur-md"
+        />
+      ) : null}
       <CalendarTickerBanner />
       <HabitCue topCards={potentialCards} />
       <TickerTape items={tapeItems} />
