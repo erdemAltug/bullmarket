@@ -54,14 +54,8 @@ export const metadata: Metadata = {
   creator: 'Bullsye',
   publisher: 'Bullsye',
   formatDetection: { email: false, address: false, telephone: false },
-  alternates: {
-    canonical: SITE_URL,
-    languages: {
-      'tr-TR': `${SITE_URL}/tr`,
-      'en-US': `${SITE_URL}/en`,
-      'x-default': SITE_URL,
-    },
-  },
+  // No canonical here: every child would inherit the homepage as its
+  // canonical. Each page sets its own via withLangAlternates().
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
