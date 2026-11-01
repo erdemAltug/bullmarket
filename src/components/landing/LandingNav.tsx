@@ -11,6 +11,7 @@ const LINKS = [
   { href: '#neden-hesap', label: 'Neden hesap' },
   { href: '#ozellikler', label: 'Araçlar' },
   { href: '#skor-kontrol', label: 'Skor' },
+  { href: '/pro', label: 'Pro' },
   { href: '#sss', label: 'SSS' },
 ] as const;
 

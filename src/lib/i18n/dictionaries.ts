@@ -17,6 +17,7 @@ export type Dictionary = {
     targets: string;
     smartMoney: string;
     portfolio: string;
+    pro: string;
     portfolioAudit: string;
     alerts: string;
     dividends: string;
@@ -67,6 +68,7 @@ const tr: Dictionary = {
     targets: 'Hedefler',
     smartMoney: 'Balina',
     portfolio: 'Portföy',
+    pro: 'Pro',
     portfolioAudit: 'Portföy analizi',
     alerts: 'Alarmlar',
     dividends: 'Temettü',
@@ -117,6 +119,7 @@ const en: Dictionary = {
     targets: 'Targets',
     smartMoney: 'Whales',
     portfolio: 'Portfolio',
+    pro: 'Pro',
     portfolioAudit: 'Portfolio',
     alerts: 'Alerts',
     dividends: 'Dividends',
@@ -167,6 +170,7 @@ const de: Dictionary = {
     targets: 'Kursziele',
     smartMoney: 'Smart Money',
     portfolio: 'Portfolio',
+    pro: 'Pro',
     portfolioAudit: 'Portfolio-Check',
     alerts: 'Alarme',
     dividends: 'Dividenden',
@@ -217,6 +221,7 @@ const es: Dictionary = {
     targets: 'Precios objetivo',
     smartMoney: 'Smart Money',
     portfolio: 'Cartera',
+    pro: 'Pro',
     portfolioAudit: 'Auditoría',
     alerts: 'Alertas',
     dividends: 'Dividendos',

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Bell, Plus, Search, Star, Trash2 } from 'lucide-react';
 import { AlertModal } from '@/components/alerts/AlertModal';
+import { ProWaitlistCard } from '@/components/growth/ProWaitlistCard';
 import { OPEN_COMMAND_EVENT } from '@/components/search/UniversalSearch';
 import { usePreferences } from '@/components/providers/PreferencesProvider';
 import { Button } from '@/components/ui/button';
@@ -223,6 +224,8 @@ export default function WatchlistPage() {
           ) : null}
         </>
       ) : null}
+
+      {rows.length >= 3 ? <ProWaitlistCard source="watchlist" /> : null}
 
       {alertRow ? (
         <AlertModal

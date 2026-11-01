@@ -83,6 +83,10 @@ export const proWaitlist = pgTable(
     email: text('email').notNull(),
     userId: text('user_id'),
     source: text('source').notNull().default('unknown'),
+    /** monthly | yearly — which plan the visitor asked for on /pro. */
+    plan: text('plan'),
+    /** Comma-separated feature ids the visitor needs most. */
+    features: text('features'),
     createdAt: timestamp('created_at', { withTimezone: true })
       .defaultNow()
       .notNull(),

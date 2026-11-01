@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { GoogleAds } from '@/components/analytics/GoogleAds';
 import { MicrosoftClarity } from '@/components/analytics/MicrosoftClarity';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Providers } from './providers';
@@ -142,6 +143,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background antialiased`}
       >
         <MicrosoftClarity />
+        <GoogleAds />
         <JsonLd />
         <Providers>{children}</Providers>
       </body>
