@@ -1,0 +1,29 @@
+name: Morning Digest
+
+on:
+  schedule:
+    # Weekdays 05:30 UTC = 08:30 Europe/Istanbul
+    - cron: '30 5 * * 1-5'
+  workflow_dispatch:
+
+concurrency:
+  group: morning-digest
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger digest endpoint
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://bullsye.app' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "CRON_SECRET not set — skipping"
+            exit 0
+          fi
+          curl --fail-with-body -sS --max-time 90 \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$SITE_URL/api/cron/morning-digest"

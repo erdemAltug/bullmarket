@@ -9,12 +9,14 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
-import { MetricCard } from '@/components/dashboard/MetricCard';
 import { PortfolioHealthCheck } from '@/components/dashboard/PortfolioHealthCheck';
 import { RiskRewardCalculator } from '@/components/dashboard/RiskRewardCalculator';
 import { CompanionBrief } from '@/components/dashboard/CompanionBrief';
 import { WealthSimulator } from '@/components/dashboard/WealthSimulator';
+import { NetWorthStrip } from '@/components/inventory/NetWorthStrip';
+import { PortfolioDataTools } from '@/components/inventory/PortfolioDataTools';
 import { PortfolioXray } from '@/components/inventory/PortfolioXray';
+import { ProWaitlistCard } from '@/components/growth/ProWaitlistCard';
 import { SoftGateBanner } from '@/components/inventory/SoftGateBanner';
 import { VsDepositCounter } from '@/components/inventory/VsDepositCounter';
 import { useAlerts } from '@/hooks/useAlerts';
@@ -32,7 +34,7 @@ import {
 } from '@/hooks/usePortfolio';
 import { analyzePortfolioHealth } from '@/lib/portfolio-health';
 import type { AssetClass } from '@/types';
-import { formatPercent, formatPrice } from '@/lib/utils';
+import { formatPrice } from '@/lib/utils';
 import { authClient } from '@/lib/auth/client';
 
 const COLORS = {
@@ -247,14 +249,28 @@ export default function PortfolioPage() {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
           <h1 className="text-2xl font-semibold tracking-tight">
             Finans envanteri
           </h1>
           <p className="mt-1 text-sm text-zinc-500">
             Hisse, nakit, mevduat ve alarm — grafik değil, senin bilançon
           </p>
+        </div>
+        <PortfolioDataTools positions={positions} onImport={addPosition} />
       </div>
+
+      {positions.length > 0 ? (
+        <NetWorthStrip
+          value={metrics.value}
+          pnl={metrics.pnl}
+          pnlPct={metrics.pnlPct}
+          daily={metrics.daily}
+          dailyPct={metrics.value ? (metrics.daily / metrics.value) * 100 : 0}
+          count={positions.length}
+        />
+      ) : null}
 
       <SoftGateBanner
         visible={guest && positions.length >= 1}
@@ -286,23 +302,8 @@ export default function PortfolioPage() {
         }
       />
 
-      <div className="grid gap-4 lg:grid-cols-4">
-        <MetricCard title="Toplam Değer" value={metrics.value} currency="TRY" />
-        <MetricCard
-          title="Toplam K/Z"
-          value={metrics.pnl}
-          changePercent={metrics.pnlPct}
-          currency="TRY"
-          subtitle={formatPercent(metrics.pnlPct)}
-        />
-        <MetricCard
-          title="Günlük K/Z"
-          value={metrics.daily}
-          changePercent={
-            metrics.value ? (metrics.daily / metrics.value) * 100 : 0
-          }
-          currency="TRY"
-        />
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <PortfolioHealthCheck report={metrics.health} />
         <Card>
           <CardHeader>
             <CardTitle>Dağılım</CardTitle>
@@ -354,8 +355,6 @@ export default function PortfolioPage() {
           </CardContent>
         </Card>
       </div>
-
-      <PortfolioHealthCheck report={metrics.health} />
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
@@ -517,6 +516,7 @@ export default function PortfolioPage() {
                       type="button"
                       onClick={() => removePosition(p.id)}
                       className="rounded p-1 text-zinc-500 hover:text-red-400"
+                      aria-label={`${p.symbol} pozisyonunu sil`}
                     >
                       <Trash2 className="size-3.5" />
                     </button>
@@ -534,6 +534,8 @@ export default function PortfolioPage() {
           </tbody>
         </table>
       </div>
+
+      <ProWaitlistCard source="portfolio" />
     </div>
   );
 }

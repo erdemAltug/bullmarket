@@ -58,6 +58,34 @@ export const priceAlerts = pgTable('price_alerts', {
     .notNull(),
 });
 
+/** Opt-in morning digest (top scores) — one row per signed-in user. */
+export const digestSubscriptions = pgTable('digest_subscriptions', {
+  userId: text('user_id').primaryKey(),
+  email: text('email').notNull(),
+  active: boolean('active').default(true).notNull(),
+  /** Opaque token for the one-click unsubscribe link. */
+  token: uuid('token').defaultRandom().notNull(),
+  lastSentAt: timestamp('last_sent_at', { withTimezone: true }),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+/** Pro waitlist — interest signal before any pricing exists. */
+export const proWaitlist = pgTable(
+  'pro_waitlist',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    email: text('email').notNull(),
+    userId: text('user_id'),
+    source: text('source').notNull().default('unknown'),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [uniqueIndex('pro_waitlist_email_idx').on(table.email)]
+);
+
 export type WatchlistRow = typeof watchlists.$inferSelect;
 export type PortfolioRow = typeof portfolioTransactions.$inferSelect;
 export type PriceAlertRow = typeof priceAlerts.$inferSelect;

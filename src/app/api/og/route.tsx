@@ -1,5 +1,6 @@
 ﻿import { ImageResponse } from 'next/og';
 import type { NextRequest } from 'next/server';
+import { buildDailyDigest, formatDigestDate } from '@/lib/daily-digest';
 
 // Node runtime — Edge plan limit is 1MB; next/og bundle exceeds it
 export const runtime = 'nodejs';
@@ -7,12 +8,28 @@ export const runtime = 'nodejs';
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   if (searchParams.get('type') === 'radar') {
-    const rows = [1, 2, 3]
+    let rows = [1, 2, 3]
       .map((i) => ({
         t: (searchParams.get(`t${i}`) || '').toUpperCase(),
         s: searchParams.get(`s${i}`) || '',
+        c: null as number | null,
       }))
       .filter((r) => r.t);
+    let dateLabel = '';
+    // No explicit symbols → today's live top 3 (same list as the digest).
+    if (!rows.length) {
+      try {
+        const digest = await buildDailyDigest(3);
+        rows = digest.cards.map((c) => ({
+          t: c.displaySymbol,
+          s: String(c.score),
+          c: c.changePercent,
+        }));
+        dateLabel = formatDigestDate(digest.asOf);
+      } catch {
+        /* fall through to the empty card */
+      }
+    }
     return new ImageResponse(
       (
         <div
@@ -36,6 +53,9 @@ export async function GET(request: NextRequest) {
             <span style={{ fontSize: 36, fontWeight: 800 }}>
               Günün 3 yüksek skoru
             </span>
+            {dateLabel ? (
+              <span style={{ fontSize: 20, color: '#71717a' }}>{dateLabel}</span>
+            ) : null}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             {rows.map((r) => (
@@ -49,16 +69,35 @@ export async function GET(request: NextRequest) {
                 }}
               >
                 <span>{r.t}</span>
-                <span style={{ color: '#34d399' }}>{r.s}/100</span>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 28 }}>
+                  {r.c != null ? (
+                    <span
+                      style={{
+                        fontSize: 26,
+                        fontWeight: 600,
+                        color: r.c >= 0 ? '#34d399' : '#fb7185',
+                      }}
+                    >
+                      {`${r.c >= 0 ? '+' : ''}${r.c.toFixed(2)}%`}
+                    </span>
+                  ) : null}
+                  <span style={{ color: '#34d399' }}>{r.s}/100</span>
+                </div>
               </div>
             ))}
           </div>
           <span style={{ fontSize: 16, color: '#52525b' }}>
-            bullsye.app/firsatlar · ücretsiz tarama
+            bullsye.app/firsatlar · ücretsiz tarama · yatırım tavsiyesi değildir
           </span>
         </div>
       ),
-      { width: 1200, height: 630 }
+      {
+        width: 1200,
+        height: 630,
+        headers: {
+          'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600',
+        },
+      }
     );
   }
 
