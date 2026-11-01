@@ -4,7 +4,7 @@ import {
   Activity,
   Crosshair,
   Newspaper,
-  Smartphone,
+  ShieldCheck,
   Waves,
   Zap,
 } from 'lucide-react';
@@ -15,7 +15,9 @@ import { HeroAtmosphere } from '@/components/landing/HeroAtmosphere';
 import { HeroLiveBadges } from '@/components/landing/HeroLiveBadges';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingTicker } from '@/components/landing/LandingTicker';
-import { WhyAssistant } from '@/components/landing/WhyAssistant';
+import { SignupBenefits } from '@/components/landing/SignupBenefits';
+import { SignupCta } from '@/components/landing/SignupCta';
+import { TodayPicks } from '@/components/landing/TodayPicks';
 import { InventoryPitch } from '@/components/landing/InventoryPitch';
 import { AsistanDemo } from '@/components/landing/AsistanDemo';
 import { TerminalCtaButton } from '@/components/landing/TerminalCtaButton';
@@ -37,7 +39,11 @@ const FAQ = [
   },
   {
     q: 'Ücretsiz mi?',
-    a: 'Evet. Terminal, skor ve hedefler kayıt olmadan açılır.',
+    a: 'Evet. Terminal, skor ve hedefler kayıt olmadan açılır. Açık beta boyunca hesap da ücretsiz.',
+  },
+  {
+    q: 'Hesap açınca ne değişir?',
+    a: 'Hafta içi 08:30 sabah özeti e-postası, alarm e-postası, her cihazda aynı envanter ve verine göre cevap veren asistan.',
   },
   {
     q: 'Portföy asistanı nedir?',
@@ -117,8 +123,8 @@ export function LandingPage() {
               <span className="text-[var(--accent)]">bakmalısın?</span>
             </h1>
             <p className="landing-fade-up landing-delay-2 mx-auto mt-4 max-w-xl text-balance text-base text-[var(--muted)] sm:text-lg">
-              BİST, NASDAQ ve kriptoda yüzlerce sinyal tek bir skora iner.
-              Her sabah 10 dakikada piyasayı oku — ücretsiz.
+              BİST, NASDAQ ve kriptoda yüzlerce sinyal tek bir 0–100 skora
+              iner. Her sabah 08:30’da en güçlü 5’i e-postanda — ücretsiz.
             </p>
             <p className="landing-fade-up landing-delay-2 mx-auto mt-5 flex max-w-full flex-wrap items-center justify-center gap-2 text-sm sm:text-base">
               <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--foreground)]">
@@ -131,15 +137,23 @@ export function LandingPage() {
                 Portföy
               </span>
             </p>
-            <div className="landing-fade-up landing-delay-3 mt-8 flex flex-wrap items-center justify-center gap-3">
-              <TerminalCtaButton>Terminal</TerminalCtaButton>
-              <Link
-                href="/firsatlar"
-                className="inline-flex items-center rounded-lg border border-[var(--border)] px-5 py-3 text-sm font-medium hover:border-[var(--accent)]/40"
+            <div className="landing-fade-up landing-delay-3 mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <SignupCta where="hero" className="w-full sm:w-auto" />
+              <TerminalCtaButton
+                compact
+                className="inline-flex w-full items-center justify-center rounded-lg border border-[var(--border)] px-5 py-3 text-sm font-medium hover:border-[var(--accent)]/40 sm:w-auto"
               >
-                Skor taraması
-              </Link>
+                Kayıtsız terminale gir
+              </TerminalCtaButton>
             </div>
+            <p className="landing-fade-up landing-delay-3 mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-[var(--muted)]">
+              <span className="inline-flex items-center gap-1">
+                <ShieldCheck className="size-3.5 text-[var(--accent)]" />
+                Kredi kartı yok
+              </span>
+              <span>Google ile 10 saniye</span>
+              <span>Al/sat tavsiyesi vermez</span>
+            </p>
           </div>
           <HeroAtmosphere />
 
@@ -180,7 +194,9 @@ export function LandingPage() {
         <LandingTicker />
       </div>
 
-      <WhyAssistant />
+      <TodayPicks />
+
+      <SignupBenefits />
 
       <AsistanDemo />
 
@@ -190,7 +206,7 @@ export function LandingPage() {
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-            Modüller
+            Kayıtsız açık araçlar
           </h2>
           <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {PILLARS.map((p) => (
@@ -220,24 +236,6 @@ export function LandingPage() {
         <div className="grid items-stretch gap-6 lg:grid-cols-2">
           <ScoreAside />
           <AssetChecker />
-        </div>
-      </section>
-
-      <section
-        id="uygulama"
-        className="scroll-mt-20 border-y border-[var(--border)] bg-[var(--surface)]/50 py-12"
-      >
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 text-center sm:flex-row sm:px-6 sm:text-left">
-          <Smartphone className="size-6 shrink-0 text-[var(--accent)]" />
-          <p className="flex-1 text-sm text-[var(--muted)]">
-            Mobil uygulama yakında · web mobil uyumlu
-          </p>
-          <Link
-            href="/firsatlar"
-            className="inline-flex items-center rounded-lg bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[#042f2e] hover:brightness-110"
-          >
-            Skor taraması
-          </Link>
         </div>
       </section>
 
@@ -308,6 +306,35 @@ export function LandingPage() {
           </h2>
           <div className="mt-8">
             <FaqAccordion items={FAQ} />
+          </div>
+        </div>
+      </section>
+
+      <section className="relative isolate overflow-hidden border-t border-[var(--border)] py-20">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'radial-gradient(ellipse 60% 70% at 50% 100%, rgba(20,184,166,0.18), transparent 60%)',
+          }}
+        />
+        <div className="mx-auto max-w-2xl px-4 text-center sm:px-6">
+          <h2 className="text-balance text-2xl font-semibold tracking-tight sm:text-4xl">
+            Yarın sabah piyasaya hazır uyan.
+          </h2>
+          <p className="mx-auto mt-3 max-w-lg text-sm text-[var(--muted)] sm:text-base">
+            Hesabını aç, sabah özetini aç. 08:30’da günün en yüksek skorları
+            e-postanda olsun.
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <SignupCta where="final" className="w-full sm:w-auto" />
+            <Link
+              href="/firsatlar"
+              className="text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)]"
+            >
+              Önce taramaya bak →
+            </Link>
           </div>
         </div>
       </section>
