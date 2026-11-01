@@ -116,7 +116,6 @@ function ScorecardShell({
             <CommunitySentimentPoll
               symbol={sentimentSymbol}
               changePercent={changePercent ?? 0}
-              aiScore={report.overall}
               compact
             />
           ) : null}

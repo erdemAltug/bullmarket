@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import {
   Activity,
@@ -9,16 +8,13 @@ import {
   Zap,
 } from 'lucide-react';
 import { AssetChecker } from '@/components/landing/AssetChecker';
-import { ScoreAside } from '@/components/landing/ScoreAside';
 import { FaqAccordion } from '@/components/landing/FaqAccordion';
 import { HeroAtmosphere } from '@/components/landing/HeroAtmosphere';
-import { HeroLiveBadges } from '@/components/landing/HeroLiveBadges';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingTicker } from '@/components/landing/LandingTicker';
 import { SignupBenefits } from '@/components/landing/SignupBenefits';
 import { SignupCta } from '@/components/landing/SignupCta';
 import { TodayPicks } from '@/components/landing/TodayPicks';
-import { InventoryPitch } from '@/components/landing/InventoryPitch';
 import { AsistanDemo } from '@/components/landing/AsistanDemo';
 import { TerminalCtaButton } from '@/components/landing/TerminalCtaButton';
 import {
@@ -126,17 +122,6 @@ export function LandingPage() {
               BİST, NASDAQ ve kriptoda yüzlerce sinyal tek bir 0–100 skora
               iner. Her sabah 08:30’da en güçlü 5’i e-postanda — ücretsiz.
             </p>
-            <p className="landing-fade-up landing-delay-2 mx-auto mt-5 flex max-w-full flex-wrap items-center justify-center gap-2 text-sm sm:text-base">
-              <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--foreground)]">
-                Skor
-              </span>
-              <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--foreground)]">
-                Hedef fiyat
-              </span>
-              <span className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1 text-[var(--foreground)]">
-                Portföy
-              </span>
-            </p>
             <div className="landing-fade-up landing-delay-3 mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <SignupCta where="hero" className="w-full sm:w-auto" />
               <TerminalCtaButton
@@ -156,37 +141,6 @@ export function LandingPage() {
             </p>
           </div>
           <HeroAtmosphere />
-
-          <div className="landing-fade-up landing-delay-4 relative z-10 mx-auto mt-12 w-full max-w-5xl sm:mt-14">
-            <div className="landing-float relative overflow-hidden rounded-2xl border border-[var(--accent)]/25 bg-[var(--surface)] shadow-[0_0_60px_rgba(20,184,166,0.12)]">
-              <div className="flex items-center gap-2 border-b border-[var(--border)] px-4 py-2.5">
-                <span className="size-2.5 rounded-full bg-[#f43f5e]/70" />
-                <span className="size-2.5 rounded-full bg-amber-400/70" />
-                <span className="size-2.5 rounded-full bg-[var(--accent)]/70" />
-                <span className="ml-3 font-mono text-[10px] tracking-wider text-[var(--muted)]">
-                  bullsye.app/terminal
-                </span>
-              </div>
-              <div className="relative space-y-3 p-3 sm:p-4">
-                <HeroLiveBadges />
-                <div className="relative overflow-hidden rounded-xl border border-[var(--border)]">
-                  <Image
-                    src="/images/landing/terminal-hero.png"
-                    alt="Bullsye terminal"
-                    width={1024}
-                    height={490}
-                    priority
-                    className="h-auto w-full object-cover object-top"
-                    sizes="(max-width: 1024px) 100vw, 1024px"
-                  />
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[var(--surface)] to-transparent"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -227,14 +181,14 @@ export function LandingPage() {
         </div>
       </section>
 
-      <InventoryPitch />
-
       <section
         id="skor-kontrol"
         className="scroll-mt-20 mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20"
       >
-        <div className="grid items-stretch gap-6 lg:grid-cols-2">
-          <ScoreAside />
+        <div className="mx-auto max-w-2xl">
+          <h2 className="mb-4 text-center text-xl font-semibold tracking-tight sm:text-2xl">
+            Merak ettiğin sembolün skoruna bak
+          </h2>
           <AssetChecker />
         </div>
       </section>

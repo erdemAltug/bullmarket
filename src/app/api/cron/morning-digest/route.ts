@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getDb, isDatabaseConfigured } from '@/db';
 import { digestSubscriptions } from '@/db/schema';
 import { buildDailyDigest, formatDigestDate } from '@/lib/daily-digest';
+import { captureServerEvent } from '@/lib/analytics-server';
 import { isEmailConfigured, sendDigestEmails } from '@/lib/email/resend';
 import { SITE_URL } from '@/lib/seo/symbols';
 
@@ -49,6 +50,12 @@ export async function GET(req: Request) {
       email: s.email,
       unsubscribeUrl: `${SITE_URL}/api/digest/unsubscribe?token=${s.token}`,
     })),
+  });
+
+  await captureServerEvent('digest_sent', 'bullsye-server', {
+    subscribers: subs.length,
+    sent: result.sent,
+    failed: result.failed,
   });
 
   if (result.sent > 0) {

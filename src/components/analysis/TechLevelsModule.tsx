@@ -1,6 +1,5 @@
 'use client';
 
-import { AnalysisModuleFooter } from '@/components/analysis/AnalysisModuleFooter';
 import type { SymbolAnalysisBundle } from '@/lib/analysis/types';
 
 type Props = { data: SymbolAnalysisBundle };
@@ -44,12 +43,6 @@ export function TechLevelsModule({ data }: Props) {
         </li>
       </ul>
 
-      <AnalysisModuleFooter
-        symbol={data.symbol}
-        displaySymbol={data.displaySymbol}
-        name={data.name}
-        price={data.price}
-      />
     </article>
   );
 }

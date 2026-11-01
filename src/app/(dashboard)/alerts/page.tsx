@@ -285,7 +285,7 @@ export default function AlertsPage() {
           </h1>
           <p className="mt-1 text-sm text-[var(--muted)]">
             Aktif alarmlarını yönet · tetiklenince bildirim
-            {source === 'neon' ? ' + e-posta' : ''}
+            {source === 'neon' ? ' + e-posta (sekme kapalıyken de)' : ''}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

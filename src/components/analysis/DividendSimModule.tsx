@@ -10,7 +10,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { AnalysisModuleFooter } from '@/components/analysis/AnalysisModuleFooter';
 import type { SymbolAnalysisBundle } from '@/lib/analysis/types';
 
 type Props = { data: SymbolAnalysisBundle };
@@ -105,12 +104,6 @@ export function DividendSimModule({ data }: Props) {
         </p>
       </div>
 
-      <AnalysisModuleFooter
-        symbol={data.symbol}
-        displaySymbol={data.displaySymbol}
-        name={data.name}
-        price={data.price}
-      />
     </article>
   );
 }

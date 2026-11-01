@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Bell, Clock3, Star, Zap } from 'lucide-react';
-import { useWatchlist } from '@/hooks/useWatchlist';
-import { cn } from '@/lib/utils';
+import { Clock3, Zap } from 'lucide-react';
 
 type RecentAsset = {
   symbol: string;
@@ -35,9 +33,6 @@ export function AssetReturnLoop({
   href: string;
 }) {
   const [recent, setRecent] = useState<RecentAsset[]>([]);
-  const { hasSymbol, addSymbol, removeSymbol } = useWatchlist();
-  const watchKey = symbol.toUpperCase();
-  const starred = hasSymbol(watchKey) || hasSymbol(symbol);
 
   useEffect(() => {
     const next = [
@@ -53,64 +48,35 @@ export function AssetReturnLoop({
     setRecent(next.filter((item) => item.href !== href).slice(0, 5));
   }, [href, name, symbol]);
 
-  return (
-    <section className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.04] p-4 sm:p-5">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <Clock3 className="size-4 text-emerald-400" />
-            Takip
-          </h2>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() =>
-              starred ? removeSymbol(watchKey) : addSymbol(watchKey)
-            }
-            className={cn(
-              'inline-flex items-center gap-1.5 rounded-lg border px-3 py-2 text-xs font-medium',
-              starred
-                ? 'border-amber-500/40 bg-amber-500/10 text-amber-300'
-                : 'border-[var(--border)] text-[var(--muted)] hover:border-emerald-500/40'
-            )}
-          >
-            <Star className={cn('size-3.5', starred && 'fill-amber-300')} />
-            {starred ? 'Listede' : 'İzle'}
-          </button>
-          <Link
-            href={`/alerts?symbol=${encodeURIComponent(symbol)}`}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3 py-2 text-xs font-semibold text-black hover:bg-emerald-400"
-          >
-            <Bell className="size-3.5" />
-            Alarm
-          </Link>
-          <Link
-            href="/firsatlar"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-medium text-[var(--muted)] hover:border-emerald-500/40 hover:text-emerald-400"
-          >
-            <Zap className="size-3.5" />
-            Tarama
-          </Link>
-        </div>
-      </div>
+  // Watch / alert live in the header action bar; this is just "where was I".
+  if (!recent.length) return null;
 
-      {recent.length ? (
-        <nav
-          aria-label="Son incelenen varlıklar"
-          className="mt-4 flex flex-wrap gap-2"
+  return (
+    <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 sm:p-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="flex items-center gap-2 text-sm font-semibold">
+          <Clock3 className="size-4 text-[var(--muted)]" />
+          Son baktıkların
+        </h2>
+        <Link
+          href="/firsatlar"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--muted)] hover:text-[var(--accent)]"
         >
-          {recent.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="rounded-lg border border-[var(--border)] bg-[var(--surface)]/60 px-2.5 py-1.5 text-xs text-[var(--muted)] hover:border-emerald-500/40 hover:text-emerald-400"
-            >
-              {item.symbol}
-            </Link>
-          ))}
-        </nav>
-      ) : null}
+          <Zap className="size-3.5" />
+          Skor taraması
+        </Link>
+      </div>
+      <nav aria-label="Son incelenen varlıklar" className="mt-3 flex flex-wrap gap-2">
+        {recent.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="rounded-lg border border-[var(--border)] bg-[var(--surface)]/60 px-2.5 py-1.5 text-xs text-[var(--muted)] hover:border-emerald-500/40 hover:text-emerald-400"
+          >
+            {item.symbol}
+          </Link>
+        ))}
+      </nav>
     </section>
   );
 }

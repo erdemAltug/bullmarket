@@ -42,7 +42,7 @@ export function HeaderScoreBadge({ symbol }: { symbol: string }) {
       aria-label={`Bullsye skoru ${score} / 100, ${label}`}
     >
       <span className="text-[10px] font-semibold uppercase tracking-wider opacity-80">
-        Skor
+        Analiz skoru
       </span>
       <span className="font-mono text-lg font-semibold leading-none">
         {score}

@@ -5,7 +5,6 @@ import { AnalystTargetCard } from '@/components/asset/AnalystTargetCard';
 import { AssetFundamentalsStrip } from '@/components/asset/AssetFundamentalsStrip';
 import { BistHealthScorecard } from '@/components/dashboard/AssetHealthScorecard';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
-import { MetricCard } from '@/components/dashboard/MetricCard';
 import { AssetSeoShell } from '@/components/seo/AssetSeoShell';
 import { SymbolVerdict } from '@/components/seo/SymbolVerdict';
 import { fetchSymbolHeadlines } from '@/lib/api/news';
@@ -222,25 +221,17 @@ export default async function BistSymbolPage({ params }: Props) {
         links={factLinks}
         headlines={headlines}
       />
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(240px,320px)]">
-        <ChartPanel
-          title={`${symbol} · Canlı grafik`}
-          symbol={yahoo}
-          source="yahoo"
-          isPositive={quote.changePercent >= 0}
-          currencySymbol={currencySymbol}
-          defaultTimeframe="1M"
-          height={400}
-          detailed
-        />
-        <MetricCard
-          title={quote.name}
-          value={quote.price}
-          changePercent={quote.changePercent}
-          currency={quote.currency}
-          subtitle="Borsa İstanbul"
-        />
-      </div>
+      {/* Price already sits in the header; the chart gets the full width. */}
+      <ChartPanel
+        title={`${symbol} · Canlı grafik`}
+        symbol={yahoo}
+        source="yahoo"
+        isPositive={quote.changePercent >= 0}
+        currencySymbol={currencySymbol}
+        defaultTimeframe="1M"
+        height={400}
+        detailed
+      />
 
       {fundamentals ? (
         <AssetFundamentalsStrip

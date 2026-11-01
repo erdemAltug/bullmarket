@@ -37,3 +37,37 @@ Client SymbolAnalysisView
 ## Honesty
 
 Temettü yıllık çubukları ve TÜFE tablosu yaklaşık / proxy; UI `sourceNote` ile işaretlenir. Canlı lisanslı Level-2 veri yok.
+
+## PostHog panoları (kod olarak)
+
+`scripts/posthog-dashboards.ts` üç pano kurar: **Büyüme**, **Ürün kullanımı**,
+**E-posta & dönüşüm** (25 grafik). Tekrar çalıştırmak güvenlidir; eksik grafikleri ekler.
+
+1. PostHog → Settings → Personal API keys → yeni anahtar
+   (scope: Insight **write**, Dashboard **write**, Query **read**; proje: Bullsye)
+2. Anahtarı `.env.local` dosyasına ekle: `POSTHOG_PERSONAL_API_KEY=phx_...`
+   (anahtar **eu.posthog.com** üzerinde oluşturulmalı; `phc_` proje token'ı çalışmaz)
+3. Çalıştır:
+
+   ```bash
+   npm run analytics:dashboards
+   ```
+
+   Terminalde aynı isimde eski bir değişken varsa `.env.local`'i ezer; 401 alırsan
+   `unset POSTHOG_PERSONAL_API_KEY` ile temizle.
+
+### Event sözlüğü
+
+| Event | Ne zaman | Önemli alanlar |
+|---|---|---|
+| `signup_completed` | Yeni hesap (Google dahil), ilk oturumda bir kez | `path` |
+| `landing_signup_click` | Ana sayfa kayıt butonu | `where` |
+| `watchlist_add` / `watchlist_remove` | İzleme listesi | `symbol`, `source` |
+| `alert_create` | Alarm kuruldu | `kind`, `symbol`, `storage` |
+| `alert_email_sent` | Alarm e-postası gitti (sunucu) | `source`: cron / tab |
+| `inventory_add` | Envantere pozisyon | `symbol`, `source` |
+| `digest_subscribe` / `digest_unsubscribe` | Sabah özeti | — |
+| `digest_sent` | Sabah özeti gönderimi (sunucu) | `subscribers`, `sent` |
+| `softgate_view` / `_click` / `_dismiss` | Kayıt banner A/B | `variant` |
+| `pro_waitlist_join` | Pro bekleme listesi | `source` |
+| `search_open` / `search_select` | Arama | — |

@@ -7,10 +7,10 @@ import { authClient } from '@/lib/auth/client';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
-  { href: '#ozellikler', label: 'Modüller' },
-  { href: '#envanter', label: 'Envanter' },
+  { href: '#bugun', label: 'Bugün' },
+  { href: '#neden-hesap', label: 'Neden hesap' },
+  { href: '#ozellikler', label: 'Araçlar' },
   { href: '#skor-kontrol', label: 'Skor' },
-  { href: '/targets', label: 'Hedefler' },
   { href: '#sss', label: 'SSS' },
 ] as const;
 

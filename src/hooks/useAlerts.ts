@@ -12,6 +12,7 @@ import {
 } from '@/actions/alerts';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import type { AlertKind, PriceAlert } from '@/types';
+import { trackEvent } from '@/lib/analytics';
 import { authClient } from '@/lib/auth/client';
 
 const LS_KEY = 'bullmarket:alerts';
@@ -71,6 +72,11 @@ export function useAlerts(opts?: { enabled?: boolean }) {
         triggered: false,
         createdAt: new Date().toISOString(),
       };
+      trackEvent('alert_create', {
+        kind: input.kind,
+        symbol: input.displaySymbol,
+        storage: useDb ? 'account' : 'local',
+      });
 
       if (useDb) {
         qc.setQueryData(['alerts', userId], (old: AlertsResult | undefined) => ({

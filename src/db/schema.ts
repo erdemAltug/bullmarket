@@ -53,6 +53,10 @@ export const priceAlerts = pgTable('price_alerts', {
   targetPrice: numeric('target_price', { precision: 12, scale: 4 }).notNull(),
   condition: text('condition').notNull(),
   isTriggered: boolean('is_triggered').default(false).notNull(),
+  /** Owner e-mail so the server cron can notify with the tab closed. */
+  email: text('email'),
+  /** Set when an e-mail went out for the current trigger; cleared on re-arm. */
+  notifiedAt: timestamp('notified_at', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),

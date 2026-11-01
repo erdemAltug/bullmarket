@@ -31,6 +31,7 @@ import { StockScorecard } from '@/components/dashboard/StockScorecard';
 import { TickerTape } from '@/components/dashboard/TickerTape';
 import { WatchlistTable } from '@/components/dashboard/WatchlistTable';
 import { NetWorthStrip } from '@/components/inventory/NetWorthStrip';
+import { YourDayCard } from '@/components/dashboard/YourDayCard';
 import { MarketScannerTable } from '@/components/dashboard/MarketScannerTable';
 import { DynamicTitle } from '@/components/shared/DynamicTitle';
 import { Button } from '@/components/ui/button';
@@ -387,6 +388,7 @@ export default function OverviewPage() {
           className="z-20 md:sticky md:top-[4.5rem] md:bg-[var(--card)]/90 md:backdrop-blur-md"
         />
       ) : null}
+      <YourDayCard />
       <CalendarTickerBanner />
       <HabitCue topCards={potentialCards} />
       <TickerTape items={tapeItems} />

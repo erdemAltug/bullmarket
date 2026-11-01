@@ -7,7 +7,7 @@ import {
 } from '@/components/seo/FinancialSchema';
 import { RelatedSymbolRail } from '@/components/seo/RelatedSymbolRail';
 import { HeaderScoreBadge } from '@/components/seo/HeaderScoreBadge';
-import { ShareScorecardButton } from '@/components/seo/ShareScorecardButton';
+import { SymbolActionBar } from '@/components/asset/SymbolActionBar';
 import { SymbolMatrixNav } from '@/components/seo/SymbolMatrixNav';
 import { SymbolSocialProof } from '@/components/seo/SymbolSocialProof';
 import { StickyInventoryWidget } from '@/components/seo/StickyInventoryWidget';
@@ -186,8 +186,15 @@ export function AssetSeoShell({
             </p>
             {kind !== 'fx' ? <HeaderScoreBadge symbol={symbol} /> : null}
             </div>
-            {kind === 'bist' ? (
-              <ShareScorecardButton symbol={symbol} path={selfPath} />
+            {kind !== 'fx' ? (
+              <SymbolActionBar
+                kind={kind}
+                symbol={symbol}
+                name={name}
+                price={price}
+                changePercent={changePercent}
+                sharePath={selfPath}
+              />
             ) : null}
           </header>
 
