@@ -1,12 +1,51 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useAuthGate } from '@/components/auth/AuthGateProvider';
 import { Button } from '@/components/ui/button';
+import { trackEvent } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 
 const DISMISS_KEY = 'bullsye_softgate_dismiss';
+const VARIANT_KEY = 'bullsye_softgate_variant';
 const DAY = 86_400_000;
+
+/** A = original sync copy (control), B = loss-aversion + digest benefit. */
+const COPY = {
+  a: {
+    text: 'Rakamlarını cihazlar arasında kaybetmemek için Google ile tek tıkla kaydet.',
+    cta: 'Hesabı bağla',
+  },
+  b: {
+    text: 'Envanterin şu an sadece bu tarayıcıda. Ücretsiz hesapla her cihazda aç, sabah özetini e-postayla al.',
+    cta: 'Ücretsiz kaydet',
+  },
+} as const;
+type Variant = keyof typeof COPY;
+
+const noopSubscribe = () => () => {};
+
+/** Sticky 50/50 assignment per browser; SSR renders nothing anyway. */
+function readVariant(): Variant {
+  try {
+    const v = localStorage.getItem(VARIANT_KEY);
+    if (v === 'a' || v === 'b') return v;
+    const next: Variant = Math.random() < 0.5 ? 'a' : 'b';
+    localStorage.setItem(VARIANT_KEY, next);
+    return next;
+  } catch {
+    return 'a';
+  }
+}
+
+function readDismissed(): boolean {
+  try {
+    const until = Number(localStorage.getItem(DISMISS_KEY));
+    return Number.isFinite(until) && Date.now() < until;
+  } catch {
+    return false;
+  }
+}
 
 type SoftGateBannerProps = {
   /** Guest ve en az 1 pozisyon */
@@ -18,7 +57,7 @@ type SoftGateBannerProps = {
 
 /**
  * Soft gate — envanter kartının üstünde doğal banner.
- * Agresif popup yok. Dismiss 24s.
+ * Agresif popup yok. Dismiss 24s. Kopya A/B (PRD P2).
  */
 export function SoftGateBanner({
   visible,
@@ -26,23 +65,26 @@ export function SoftGateBanner({
   className,
 }: SoftGateBannerProps) {
   const { openAuth } = useAuthGate();
-  const [blocked, setBlocked] = useState(true);
+  const [dismissedNow, setDismissedNow] = useState(false);
+  const variant = useSyncExternalStore(noopSubscribe, readVariant, () => null);
+  const storedDismiss = useSyncExternalStore(
+    noopSubscribe,
+    readDismissed,
+    () => true
+  );
+  const shown =
+    visible && variant !== null && !dismissedNow && (force || !storedDismiss);
 
+  const viewTracked = useRef(false);
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(DISMISS_KEY);
-      if (!raw) {
-        setBlocked(false);
-        return;
-      }
-      const until = Number(raw);
-      setBlocked(Number.isFinite(until) && Date.now() < until);
-    } catch {
-      setBlocked(false);
+    if (shown && variant && !viewTracked.current) {
+      viewTracked.current = true;
+      trackEvent('softgate_view', { variant, forced: force });
     }
-  }, [visible, force]);
+  }, [shown, variant, force]);
 
-  if (!visible || (blocked && !force)) return null;
+  if (!shown || !variant) return null;
+  const copy = COPY[variant];
 
   function dismiss() {
     try {
@@ -50,7 +92,8 @@ export function SoftGateBanner({
     } catch {
       /* ignore */
     }
-    setBlocked(true);
+    setDismissedNow(true);
+    trackEvent('softgate_dismiss', { variant: variant ?? 'a' });
   }
 
   return (
@@ -60,19 +103,20 @@ export function SoftGateBanner({
         className
       )}
       role="status"
+      data-variant={variant}
     >
       <p className="text-sm leading-relaxed text-[var(--foreground)]">
-        Rakamlarını cihazlar arasında kaybetmemek için Google ile tek tıkla
-        kaydet.
+        {copy.text}
       </p>
       <div className="flex shrink-0 items-center gap-2">
         <Button
           type="button"
-          onClick={() =>
-            openAuth({ tab: 'register', feature: 'Envanter senkron' })
-          }
+          onClick={() => {
+            trackEvent('softgate_click', { variant });
+            openAuth({ tab: 'register', feature: 'Envanter senkron' });
+          }}
         >
-          Hesabı bağla
+          {copy.cta}
         </Button>
         <button
           type="button"

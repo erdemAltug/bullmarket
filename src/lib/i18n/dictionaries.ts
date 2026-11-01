@@ -29,6 +29,7 @@ export type Dictionary = {
     analysis: string;
     learn: string;
     account: string;
+    moreTools: string;
   };
   header: {
     tagline: string;
@@ -77,6 +78,7 @@ const tr: Dictionary = {
     analysis: 'Analiz',
     learn: 'Öğren',
     account: 'Hesap',
+    moreTools: 'Tüm araçlar',
   },
   header: {
     tagline: 'BİST · NASDAQ · Kripto · Döviz',
@@ -125,6 +127,7 @@ const en: Dictionary = {
     analysis: 'Analysis',
     learn: 'Learn',
     account: 'Account',
+    moreTools: 'All tools',
   },
   header: {
     tagline: 'BIST · NASDAQ · Crypto · FX',
@@ -173,6 +176,7 @@ const de: Dictionary = {
     analysis: 'Analyse',
     learn: 'Lernen',
     account: 'Konto',
+    moreTools: 'Alle Tools',
   },
   header: {
     tagline: 'BIST · NASDAQ · Krypto · Devisen',
@@ -221,6 +225,7 @@ const es: Dictionary = {
     analysis: 'Análisis',
     learn: 'Aprender',
     account: 'Cuenta',
+    moreTools: 'Todas las herramientas',
   },
   header: {
     tagline: 'BIST · NASDAQ · Cripto · Divisas',

@@ -134,6 +134,34 @@ export function allNavHrefs() {
   return NAV_GROUPS.flatMap((g) => g.items.map((i) => i.href));
 }
 
+/**
+ * Guest sidebar shows only the morning routine; everything else sits behind
+ * "Tüm araçlar" (still rendered as links, so crawl paths stay intact).
+ */
+const GUEST_PRIMARY = new Set([
+  '/terminal',
+  '/firsatlar',
+  '/bist',
+  '/signals',
+  '/egitim',
+  '/portfolio',
+  '/alerts',
+]);
+
+export function splitGuestNav(groups: NavGroup[]): {
+  primary: NavGroup[];
+  more: NavGroup[];
+} {
+  const pick = (keep: boolean) =>
+    groups
+      .map((g) => ({
+        ...g,
+        items: g.items.filter((i) => GUEST_PRIMARY.has(i.href) === keep),
+      }))
+      .filter((g) => g.items.length > 0);
+  return { primary: pick(true), more: pick(false) };
+}
+
 export function navGroupsForUser(signedIn: boolean): NavGroup[] {
   return NAV_GROUPS.map((g) => ({
     ...g,
