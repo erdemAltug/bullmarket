@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import posthog from 'posthog-js';
 import { PostHogProvider as PHProvider } from 'posthog-js/react';
+import { reportSignupConversion } from '@/lib/ads';
 import { authClient } from '@/lib/auth/client';
 
 const SIGNUP_KEY = 'bullsye:signup-tracked';
@@ -32,6 +33,7 @@ function PostHogIdentify() {
           posthog.capture('signup_completed', {
             path: window.location.pathname,
           });
+          reportSignupConversion();
         }
       } catch {
         /* private mode */
