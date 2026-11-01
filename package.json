@@ -11,7 +11,8 @@
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
     "content:generate": "tsx scripts/generate-seo-post.ts",
-    "assets:build": "tsx scripts/build-market-assets.ts"
+    "assets:build": "tsx scripts/build-market-assets.ts",
+    "analytics:dashboards": "tsx scripts/posthog-dashboards.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

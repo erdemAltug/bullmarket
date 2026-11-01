@@ -5,6 +5,10 @@ import posthog from 'posthog-js';
 import { PostHogProvider as PHProvider } from 'posthog-js/react';
 import { authClient } from '@/lib/auth/client';
 
+const SIGNUP_KEY = 'bullsye:signup-tracked';
+/** Accounts created this recently count as a fresh sign-up (covers Google redirects). */
+const SIGNUP_WINDOW_MS = 30 * 60_000;
+
 function PostHogIdentify() {
   const { data: session, isPending } = authClient.useSession();
 
@@ -16,6 +20,22 @@ function PostHogIdentify() {
         email: user.email,
         name: user.name,
       });
+      const created = new Date(
+        (user as { createdAt?: string | Date }).createdAt ?? 0
+      ).getTime();
+      try {
+        if (
+          Date.now() - created < SIGNUP_WINDOW_MS &&
+          localStorage.getItem(SIGNUP_KEY) !== user.id
+        ) {
+          localStorage.setItem(SIGNUP_KEY, user.id);
+          posthog.capture('signup_completed', {
+            path: window.location.pathname,
+          });
+        }
+      } catch {
+        /* private mode */
+      }
       return;
     }
     posthog.reset();

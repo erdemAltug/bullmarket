@@ -3,6 +3,7 @@ import { and, eq, isNull } from 'drizzle-orm';
 import { getDb, isDatabaseConfigured } from '@/db';
 import { priceAlerts } from '@/db/schema';
 import { getCurrentSessionUser } from '@/lib/auth-user';
+import { captureServerEvent } from '@/lib/analytics-server';
 import { isEmailConfigured, sendAlertEmail } from '@/lib/email/resend';
 
 export const runtime = 'nodejs';
@@ -81,5 +82,12 @@ export async function POST(req: Request) {
     );
   }
 
+  if (user?.id) {
+    await captureServerEvent('alert_email_sent', user.id, {
+      kind: kindLabel,
+      symbol: displaySymbol,
+      source: 'tab',
+    });
+  }
   return NextResponse.json({ success: true });
 }

@@ -15,6 +15,7 @@ import { fetchKlines } from '@/lib/api/binance';
 import { fetchCommodities } from '@/lib/api/commodities';
 import { DEFAULT_FX_CODES, fetchFxRates } from '@/lib/api/tcmb';
 import { fetchHistory } from '@/lib/api/yahoo';
+import { captureServerEvent } from '@/lib/analytics-server';
 import { isEmailConfigured, sendAlertEmail } from '@/lib/email/resend';
 import { rsi } from '@/lib/indicators';
 import { getLiveMarketItems } from '@/lib/market-live';
@@ -162,6 +163,11 @@ export async function GET(req: Request) {
     });
     if (result.ok) {
       sent++;
+      await captureServerEvent('alert_email_sent', row.userId, {
+        kind: alert.kind,
+        symbol: row.displaySymbol,
+        source: 'cron',
+      });
     } else {
       // Release the claim so the next run retries.
       await db

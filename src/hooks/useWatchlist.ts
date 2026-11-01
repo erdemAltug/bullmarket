@@ -10,6 +10,7 @@ import {
 } from '@/actions/watchlist';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { DEFAULT_WATCHLIST } from '@/hooks/useWatchlist.shared';
+import { trackEvent } from '@/lib/analytics';
 import { authClient } from '@/lib/auth/client';
 
 export { DEFAULT_WATCHLIST } from '@/hooks/useWatchlist.shared';
@@ -106,6 +107,7 @@ export function useWatchlist(opts?: { enabled?: boolean }) {
   const removeSymbol = useCallback(
     (symbol: string) => {
       const s = symbol.toUpperCase();
+      trackEvent('watchlist_remove', { symbol: s });
       if (useDb) {
         removeMut.mutate(s);
         return;
