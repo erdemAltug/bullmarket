@@ -205,12 +205,7 @@ function ProRequestForm({
         </div>
       </fieldset>
 
-      {sessionEmail ? (
-        <p className="text-xs text-[var(--muted)]">
-          Davet <span className="font-medium text-[var(--foreground)]">{sessionEmail}</span>{' '}
-          adresine gelecek.
-        </p>
-      ) : (
+      {sessionEmail ? null : (
         <input
           type="email"
           required
