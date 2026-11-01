@@ -45,13 +45,16 @@ Temettü yıllık çubukları ve TÜFE tablosu yaklaşık / proxy; UI `sourceNot
 
 1. PostHog → Settings → Personal API keys → yeni anahtar
    (scope: Insight **write**, Dashboard **write**, Query **read**; proje: Bullsye)
-2. Çalıştır (anahtar sadece bu komutta kalır, dosyaya yazılmaz):
+2. Anahtarı `.env.local` dosyasına ekle: `POSTHOG_PERSONAL_API_KEY=phx_...`
+   (anahtar **eu.posthog.com** üzerinde oluşturulmalı; `phc_` proje token'ı çalışmaz)
+3. Çalıştır:
 
    ```bash
-   POSTHOG_PERSONAL_API_KEY=phx_xxx npm run analytics:dashboards
+   npm run analytics:dashboards
    ```
 
-   PowerShell: `$env:POSTHOG_PERSONAL_API_KEY="phx_xxx"; npm run analytics:dashboards`
+   Terminalde aynı isimde eski bir değişken varsa `.env.local`'i ezer; 401 alırsan
+   `unset POSTHOG_PERSONAL_API_KEY` ile temizle.
 
 ### Event sözlüğü
 
