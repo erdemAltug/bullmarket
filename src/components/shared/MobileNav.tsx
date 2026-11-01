@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
 /** Short labels that fit 5-col bottom bar on narrow phones */
 const MOBILE_SHORT: Partial<Record<NavKey, string>> = {
   overview: 'Ana',
+  watchlist: 'İzleme',
   opportunities: 'Fırsat',
   bist: 'BİST',
   portfolio: 'Portföy',

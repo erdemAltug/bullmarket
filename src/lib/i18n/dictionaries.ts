@@ -3,6 +3,7 @@ import type { Language } from '@/lib/preferences';
 export type Dictionary = {
   nav: {
     overview: string;
+    watchlist: string;
     opportunities: string;
     bist: string;
     heatmap: string;
@@ -52,6 +53,7 @@ export type Dictionary = {
 const tr: Dictionary = {
   nav: {
     overview: 'Piyasa özeti',
+    watchlist: 'İzleme listem',
     opportunities: 'Skor taraması',
     bist: 'BİST',
     heatmap: 'Isı Haritası',
@@ -101,6 +103,7 @@ const tr: Dictionary = {
 const en: Dictionary = {
   nav: {
     overview: 'Dashboard',
+    watchlist: 'Watchlist',
     opportunities: 'Score scan',
     bist: 'BIST',
     heatmap: 'Heatmap',
@@ -150,6 +153,7 @@ const en: Dictionary = {
 const de: Dictionary = {
   nav: {
     overview: 'Übersicht',
+    watchlist: 'Beobachtungsliste',
     opportunities: 'Score-Scan',
     bist: 'BIST',
     heatmap: 'Heatmap',
@@ -199,6 +203,7 @@ const de: Dictionary = {
 const es: Dictionary = {
   nav: {
     overview: 'Resumen',
+    watchlist: 'Mi lista',
     opportunities: 'Escaneo de score',
     bist: 'BIST',
     heatmap: 'Mapa de calor',

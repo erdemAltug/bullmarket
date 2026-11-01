@@ -17,6 +17,7 @@ import {
   MessageSquare,
   Percent,
   Sparkles,
+  Star,
   Waves,
   Zap,
   type LucideIcon,
@@ -45,6 +46,7 @@ export const NAV_GROUPS: NavGroup[] = [
     group: 'terminal',
     items: [
       { href: '/terminal', key: 'overview', icon: LayoutDashboard, color: 'text-emerald-400' },
+      { href: '/izleme', key: 'watchlist', icon: Star, color: 'text-amber-300' },
       { href: '/firsatlar', key: 'opportunities', icon: Zap, color: 'text-emerald-400' },
       { href: '/asistan', key: 'asistan', icon: MessageSquare, color: 'text-teal-300' },
     ],
@@ -91,8 +93,8 @@ export const NAV_GROUPS: NavGroup[] = [
 /** Primary destinations for mobile bottom bar */
 export const MOBILE_BOTTOM_ITEMS: NavLink[] = [
   { href: '/terminal', key: 'overview', icon: LayoutDashboard, color: 'text-emerald-400' },
+  { href: '/izleme', key: 'watchlist', icon: Star, color: 'text-amber-300' },
   { href: '/firsatlar', key: 'opportunities', icon: Zap, color: 'text-emerald-400' },
-  { href: '/bist', key: 'bist', icon: LineChart, color: 'text-blue-400' },
   { href: '/portfolio', key: 'portfolio', icon: Briefcase, color: 'text-cyan-400' },
 ];
 
@@ -140,6 +142,7 @@ export function allNavHrefs() {
  */
 const GUEST_PRIMARY = new Set([
   '/terminal',
+  '/izleme',
   '/firsatlar',
   '/bist',
   '/signals',

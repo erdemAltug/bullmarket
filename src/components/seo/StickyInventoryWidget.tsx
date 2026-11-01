@@ -35,7 +35,10 @@ export function StickyInventoryWidget({ symbol, name, price }: Props) {
   }
 
   return (
-    <aside className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 lg:sticky lg:top-20">
+    <aside
+      id="envanter-ekle"
+      className="scroll-mt-24 rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 lg:sticky lg:top-20"
+    >
       <h3 className="text-sm font-semibold text-[var(--foreground)]">
         Envantere ekle
       </h3>
