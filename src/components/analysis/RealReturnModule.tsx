@@ -10,7 +10,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { AnalysisModuleFooter } from '@/components/analysis/AnalysisModuleFooter';
 import type { RealReturnMode, SymbolAnalysisBundle } from '@/lib/analysis/types';
 import { cn } from '@/lib/utils';
 
@@ -109,12 +108,6 @@ export function RealReturnModule({ data }: Props) {
         </div>
       </div>
 
-      <AnalysisModuleFooter
-        symbol={data.symbol}
-        displaySymbol={data.displaySymbol}
-        name={data.name}
-        price={data.price}
-      />
     </article>
   );
 }

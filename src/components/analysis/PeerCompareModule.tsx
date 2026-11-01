@@ -11,7 +11,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { AnalysisModuleFooter } from '@/components/analysis/AnalysisModuleFooter';
 import type { SymbolAnalysisBundle } from '@/lib/analysis/types';
 import { cn } from '@/lib/utils';
 
@@ -90,12 +89,6 @@ export function PeerCompareModule({ data }: Props) {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <AnalysisModuleFooter
-        symbol={data.symbol}
-        displaySymbol={data.displaySymbol}
-        name={data.name}
-        price={data.price}
-      />
     </article>
   );
 }

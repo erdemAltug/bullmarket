@@ -151,7 +151,6 @@ export function AssetDetailDrawer({
               <CommunitySentimentPoll
                 symbol={card.displaySymbol}
                 changePercent={card.changePercent}
-                aiScore={card.score}
                 compact
               />
 

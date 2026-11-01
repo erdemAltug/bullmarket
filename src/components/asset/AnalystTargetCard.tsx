@@ -62,7 +62,8 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
   return (
     <div className="w-full space-y-6">
       <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 backdrop-blur-xl sm:p-6">
-        <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
+        {/* Stacked: this card lives in a half-width column, a row would overflow. */}
+        <div className="flex flex-col items-stretch gap-5">
           <div className="flex-1 space-y-2">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-400">
@@ -126,7 +127,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
           </div>
 
           {!isTechnical && totalVotes > 0 ? (
-            <div className="flex w-full min-w-0 flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-5 text-center sm:min-w-[200px] sm:w-auto">
+            <div className="flex w-full min-w-0 flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-4 text-center">
               <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--muted)]">
                 Analist Konsensüsü
               </div>
@@ -147,7 +148,7 @@ export function AnalystTargetCard({ data }: { data: AssetAnalystConsensus }) {
               </div>
             </div>
           ) : (
-            <div className="flex w-full min-w-0 flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-5 text-center sm:min-w-[200px] sm:w-auto">
+            <div className="flex w-full min-w-0 flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)]/60 p-4 text-center">
               <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--muted)]">
                 Kaynak
               </div>

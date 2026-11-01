@@ -29,8 +29,6 @@ async function fetchSentiment(
 interface CommunitySentimentPollProps {
   symbol: string;
   changePercent?: number;
-  /** AI fırsat / sağlık skoru — yan yana sosyal kanıt */
-  aiScore?: number | null;
   compact?: boolean;
   className?: string;
 }
@@ -38,7 +36,6 @@ interface CommunitySentimentPollProps {
 export function CommunitySentimentPoll({
   symbol,
   changePercent = 0,
-  aiScore = null,
   compact = false,
   className,
 }: CommunitySentimentPollProps) {
@@ -125,21 +122,10 @@ export function CommunitySentimentPoll({
           </h3>
           {!compact ? (
             <p className="mt-0.5 text-[11px] text-[var(--muted)]">
-              Boğa / ayı oylaması — skor ile sosyal kanıt
+              Kullanıcıların boğa / ayı oyu — skor değildir
             </p>
           ) : null}
         </div>
-        {aiScore != null ? (
-          <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-center">
-            <p className="text-[9px] uppercase tracking-wide text-emerald-400/80">
-              Skor
-            </p>
-            <p className="font-mono text-sm font-bold tabular-nums text-emerald-300">
-              {aiScore}
-              <span className="text-[10px] font-normal">/100</span>
-            </p>
-          </div>
-        ) : null}
       </div>
 
       <div className="mb-2 flex h-2 overflow-hidden rounded-full bg-zinc-800">

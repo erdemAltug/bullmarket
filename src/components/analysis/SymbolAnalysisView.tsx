@@ -3,23 +3,23 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { DividendSimModule } from '@/components/analysis/DividendSimModule';
-import { HealthRadarModule } from '@/components/analysis/HealthRadarModule';
 import { PeerCompareModule } from '@/components/analysis/PeerCompareModule';
 import { RealReturnModule } from '@/components/analysis/RealReturnModule';
-import { TargetGaugeModule } from '@/components/analysis/TargetGaugeModule';
 import { TechLevelsModule } from '@/components/analysis/TechLevelsModule';
 import type { SymbolAnalysisBundle } from '@/lib/analysis/types';
 import { cn } from '@/lib/utils';
 
-type TabId = 'reel' | 'radar' | 'peers' | 'temettu' | 'hedef' | 'teknik';
+type TabId = 'teknik' | 'reel' | 'peers' | 'temettu';
 
+/**
+ * One module at a time. Health radar and target gauge are left out on
+ * purpose: the health scorecard and analyst card above already show them.
+ */
 const TABS: { id: TabId; label: string }[] = [
+  { id: 'teknik', label: 'Teknik seviyeler' },
   { id: 'reel', label: 'Reel getiri' },
-  { id: 'radar', label: 'Sağlık' },
   { id: 'peers', label: 'Akranlar' },
   { id: 'temettu', label: 'Temettü' },
-  { id: 'hedef', label: 'Hedef' },
-  { id: 'teknik', label: 'Teknik' },
 ];
 
 type Props = {
@@ -44,19 +44,12 @@ async function fetchAnalysis(yahooSymbol: string): Promise<SymbolAnalysisBundle>
 
 function Skeleton() {
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <div
-          key={i}
-          className="h-72 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--card)]"
-        />
-      ))}
-    </div>
+    <div className="h-80 animate-pulse rounded-2xl border border-[var(--border)] bg-[var(--card)]" />
   );
 }
 
 export function SymbolAnalysisView({ yahooSymbol }: Props) {
-  const [tab, setTab] = useState<TabId>('reel');
+  const [tab, setTab] = useState<TabId>('teknik');
   const q = useQuery({
     queryKey: ['analysis', yahooSymbol],
     queryFn: () => fetchAnalysis(yahooSymbol),
@@ -74,48 +67,46 @@ export function SymbolAnalysisView({ yahooSymbol }: Props) {
   }
 
   const data = q.data;
+  const hasDividend =
+    (data.dividend.trailingYieldPct ?? 0) > 0 ||
+    data.dividend.years.some((y) => y.yieldPct > 0);
+  const tabs = TABS.filter((t) => t.id !== 'temettu' || hasDividend);
+  const active = tabs.some((t) => t.id === tab) ? tab : 'teknik';
 
   return (
     <section className="space-y-3">
-      <h2 className="text-base font-semibold text-[var(--foreground)]">
-        Analitik
-      </h2>
-
-      <div className="flex gap-1 overflow-x-auto pb-1 lg:hidden">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            onClick={() => setTab(t.id)}
-            className={cn(
-              'shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium',
-              tab === t.id
-                ? 'bg-[var(--accent)] text-white'
-                : 'bg-[var(--surface)] text-[var(--muted)]'
-            )}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="text-base font-semibold text-[var(--foreground)]">
+          Detaylı analiz
+        </h2>
+        <div
+          role="tablist"
+          className="flex max-w-full gap-1 overflow-x-auto rounded-lg border border-[var(--border)] p-0.5 [scrollbar-width:none]"
+        >
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              role="tab"
+              aria-selected={active === t.id}
+              onClick={() => setTab(t.id)}
+              className={cn(
+                'shrink-0 rounded-md px-3 py-1.5 text-xs font-medium',
+                active === t.id
+                  ? 'bg-[var(--card)] text-[var(--foreground)]'
+                  : 'text-[var(--muted)] hover:text-[var(--foreground)]'
+              )}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="hidden gap-4 lg:grid lg:grid-cols-2">
-        <RealReturnModule data={data} />
-        <HealthRadarModule data={data} />
-        <PeerCompareModule data={data} />
-        <DividendSimModule data={data} />
-        <TargetGaugeModule data={data} />
-        <TechLevelsModule data={data} />
-      </div>
-
-      <div className="lg:hidden">
-        {tab === 'reel' ? <RealReturnModule data={data} /> : null}
-        {tab === 'radar' ? <HealthRadarModule data={data} /> : null}
-        {tab === 'peers' ? <PeerCompareModule data={data} /> : null}
-        {tab === 'temettu' ? <DividendSimModule data={data} /> : null}
-        {tab === 'hedef' ? <TargetGaugeModule data={data} /> : null}
-        {tab === 'teknik' ? <TechLevelsModule data={data} /> : null}
-      </div>
+      {active === 'teknik' ? <TechLevelsModule data={data} /> : null}
+      {active === 'reel' ? <RealReturnModule data={data} /> : null}
+      {active === 'peers' ? <PeerCompareModule data={data} /> : null}
+      {active === 'temettu' ? <DividendSimModule data={data} /> : null}
     </section>
   );
 }
