@@ -93,6 +93,7 @@ export function buildMainSitemap(): MetadataRoute.Sitemap {
     { path: '/dividends', changeFrequency: 'daily', priority: 0.75 },
     { path: '/faiz', changeFrequency: 'hourly', priority: 0.9 },
     { path: '/egitim', changeFrequency: 'weekly', priority: 0.9 },
+    { path: '/pro', changeFrequency: 'monthly', priority: 0.6 },
     { path: '/blog', changeFrequency: 'weekly', priority: 0.9 },
     { path: '/fx/USD-TRY', changeFrequency: 'hourly', priority: 0.85 },
     { path: '/kvkk', changeFrequency: 'monthly', priority: 0.3 },

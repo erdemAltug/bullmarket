@@ -362,6 +362,31 @@ const DASHBOARDS: Dashboard[] = [
         }),
       },
       {
+        name: 'Pro hunisi: CTA → talep (yerleşime göre)',
+        description: 'Pro butonuna basanların ne kadarı erken erişim talebi bırakıyor; hangi CTA çalışıyor.',
+        query: funnel([ev('pro_cta_click'), ev('pro_request_submit')], {
+          windowDays: 1,
+          breakdown: 'where',
+        }),
+      },
+      {
+        name: 'Pro talepleri (plan tercihine göre)',
+        description: 'pro_request_submit — aylık mı yıllık mı?',
+        query: trends([ev('pro_request_submit', { math: 'total' })], {
+          days: 90,
+          breakdown: 'plan',
+          display: 'ActionsPie',
+        }),
+      },
+      {
+        name: 'Pro sayfası ziyaretçisi',
+        description: '/pro sayfasını gören benzersiz kullanıcı.',
+        query: trends(
+          [ev('$pageview', { math: 'dau', properties: [pathRegex('^/pro$')] })],
+          { days: 60 }
+        ),
+      },
+      {
         name: 'Pro bekleme listesi (kaynağa göre)',
         description: 'pro_waitlist_join — alarmlar mı, portföy mü?',
         query: trends([ev('pro_waitlist_join', { math: 'total' })], {

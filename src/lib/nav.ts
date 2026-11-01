@@ -17,6 +17,7 @@ import {
   MessageSquare,
   Percent,
   Sparkles,
+  Crown,
   Star,
   Waves,
   Zap,
@@ -86,6 +87,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { href: '/portfolio-audit', key: 'portfolioAudit', icon: Activity, color: 'text-rose-300', signedInOnly: true },
       { href: '/portfolio', key: 'portfolio', icon: Briefcase, color: 'text-cyan-400' },
       { href: '/alerts', key: 'alerts', icon: Bell, color: 'text-orange-400' },
+      { href: '/pro', key: 'pro', icon: Crown, color: 'text-emerald-300' },
     ],
   },
 ];
@@ -149,6 +151,7 @@ const GUEST_PRIMARY = new Set([
   '/egitim',
   '/portfolio',
   '/alerts',
+  '/pro',
 ]);
 
 export function splitGuestNav(groups: NavGroup[]): {
