@@ -6,64 +6,23 @@ import { useAlerts } from '@/hooks/useAlerts';
 import { useFx } from '@/hooks/useMarketData';
 import { useMarketScanner } from '@/hooks/useMarketScanner';
 import { scoreOpportunity } from '@/lib/ai-opportunity';
-import type { AlertKind, ApiResponse, PriceAlert } from '@/types';
+import {
+  alertKindLabel,
+  describeAlertHit,
+  evaluateAlert,
+  indexSnap,
+  lookupSnap,
+  type LiveQuoteSnap,
+} from '@/lib/alert-eval';
+import type { ApiResponse, PriceAlert } from '@/types';
+
+export type { LiveQuoteSnap };
 
 async function getJson<T>(url: string): Promise<T> {
   const res = await fetch(url);
   const json = (await res.json()) as ApiResponse<T>;
   if (!json.success) throw new Error(json.error);
   return json.data;
-}
-
-export interface LiveQuoteSnap {
-  symbol: string;
-  displaySymbol: string;
-  price: number;
-  changePercent: number;
-  rsi?: number | null;
-  score?: number | null;
-}
-
-function evaluate(alert: PriceAlert, snap: LiveQuoteSnap): boolean {
-  switch (alert.kind) {
-    case 'price_above':
-      return snap.price >= alert.threshold;
-    case 'price_below':
-      return snap.price <= alert.threshold;
-    case 'change_above':
-      return snap.changePercent >= alert.threshold;
-    case 'change_below':
-      return snap.changePercent <= alert.threshold;
-    case 'rsi_above':
-      return snap.rsi != null && snap.rsi >= alert.threshold;
-    case 'rsi_below':
-      return snap.rsi != null && snap.rsi <= alert.threshold;
-    case 'score_above':
-      return snap.score != null && snap.score >= alert.threshold;
-    default:
-      return false;
-  }
-}
-
-function kindLabel(kind: AlertKind): string {
-  switch (kind) {
-    case 'price_above':
-      return 'fiyat üstü';
-    case 'price_below':
-      return 'fiyat altı';
-    case 'change_above':
-      return '% hareket üstü';
-    case 'change_below':
-      return '% hareket altı';
-    case 'rsi_above':
-      return 'RSI üstü';
-    case 'rsi_below':
-      return 'RSI altı';
-    case 'score_above':
-      return 'Skor üstü';
-    default:
-      return kind;
-  }
 }
 
 async function notify(title: string, body: string) {
@@ -74,16 +33,6 @@ async function notify(title: string, body: string) {
   if (Notification.permission === 'granted') {
     new Notification(title, { body, icon: '/favicon.ico' });
   }
-}
-
-function indexSnap(
-  map: Map<string, LiveQuoteSnap>,
-  snap: LiveQuoteSnap
-) {
-  map.set(snap.symbol.toUpperCase(), snap);
-  map.set(snap.displaySymbol.toUpperCase(), snap);
-  const bare = snap.symbol.replace(/\.IS$/i, '').toUpperCase();
-  if (bare !== snap.symbol.toUpperCase()) map.set(bare, snap);
 }
 
 /** Background alert checker — mount once in dashboard layout. */
@@ -179,14 +128,10 @@ export function AlertEngine() {
     if (!active) return;
 
     for (const alert of alerts) {
-      const key = alert.symbol.toUpperCase();
-      const snap =
-        snaps.get(key) ??
-        snaps.get(alert.displaySymbol.toUpperCase()) ??
-        snaps.get(alert.symbol.replace(/\.IS$/i, '').toUpperCase());
+      const snap = lookupSnap(snaps, alert);
       if (!snap) continue;
 
-      const hit = evaluate(alert, snap);
+      const hit = evaluateAlert(alert, snap);
       if (hit && !alert.triggered && !firedRef.current.has(alert.id)) {
         firedRef.current.add(alert.id);
         markTriggered(alert.id);
@@ -194,25 +139,21 @@ export function AlertEngine() {
           alert.kind.includes('above') || alert.kind === 'change_above'
             ? '▲'
             : '▼';
-        const detail = alert.kind.startsWith('rsi')
-          ? `RSI ${snap.rsi?.toFixed(1) ?? '—'} (hedef: ${alert.threshold})`
-          : alert.kind === 'score_above'
-            ? `skor ${snap.score ?? '—'} (hedef: ${alert.threshold})`
-            : alert.kind.startsWith('change')
-              ? `%${snap.changePercent.toFixed(2)} (hedef: %${alert.threshold})`
-              : `${snap.price.toLocaleString('tr-TR')} (hedef: ${alert.threshold})`;
+        const detail = describeAlertHit(alert, snap);
         void notify(
-          `${dir} ${alert.displaySymbol} · ${kindLabel(alert.kind)}`,
-          `${alert.displaySymbol}: ${detail}`
+          `${dir} ${alert.displaySymbol} · ${alertKindLabel(alert.kind)}`,
+          detail
         );
+        // Server claims the alert first, so the cron and this tab never
+        // both e-mail the same trigger.
         void fetch('/api/alerts/notify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             alertId: alert.id,
             displaySymbol: alert.displaySymbol,
-            kindLabel: kindLabel(alert.kind),
-            detail: `${alert.displaySymbol}: ${detail}`,
+            kindLabel: alertKindLabel(alert.kind),
+            detail,
           }),
         }).catch(() => undefined);
       } else if (!hit && alert.triggered) {

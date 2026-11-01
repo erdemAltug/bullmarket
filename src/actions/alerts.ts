@@ -1,9 +1,9 @@
 'use server';
 
-import { and, eq, ne } from 'drizzle-orm';
+import { and, eq, isNull, ne } from 'drizzle-orm';
 import { getDb, isDatabaseConfigured } from '@/db';
 import { priceAlerts } from '@/db/schema';
-import { getCurrentUserId } from '@/lib/auth-user';
+import { getCurrentSessionUser, getCurrentUserId } from '@/lib/auth-user';
 import type { AlertKind, PriceAlert } from '@/types';
 
 function rowToAlert(row: typeof priceAlerts.$inferSelect): PriceAlert {
@@ -27,10 +27,21 @@ export async function getUserAlerts(userId?: string): Promise<AlertsResult> {
   }
 
   try {
-    const rows = await getDb()
+    const db = getDb();
+    const rows = await db
       .select()
       .from(priceAlerts)
       .where(eq(priceAlerts.userId, uid));
+    // Backfill the owner e-mail on alerts created before the column existed.
+    if (rows.some((r) => !r.email)) {
+      const email = (await getCurrentSessionUser())?.email?.trim();
+      if (email) {
+        await db
+          .update(priceAlerts)
+          .set({ email })
+          .where(and(eq(priceAlerts.userId, uid), isNull(priceAlerts.email)));
+      }
+    }
     return { db: true, alerts: rows.map(rowToAlert) };
   } catch (error) {
     console.error('Failed to fetch alerts from Neon DB:', error);
@@ -73,6 +84,7 @@ export async function createPriceAlert(
         targetPrice: String(input.threshold),
         condition: input.kind,
         isTriggered: false,
+        email: (await getCurrentSessionUser())?.email?.trim() || null,
       })
       .returning();
 
@@ -146,6 +158,7 @@ export async function updatePriceAlert(
         targetPrice: String(input.threshold),
         displaySymbol: input.displaySymbol ?? row.displaySymbol,
         isTriggered: false,
+        notifiedAt: null,
       })
       .where(and(eq(priceAlerts.id, id), eq(priceAlerts.userId, uid)));
 
@@ -169,7 +182,8 @@ export async function setAlertTriggered(
   try {
     await getDb()
       .update(priceAlerts)
-      .set({ isTriggered: triggered })
+      // Re-arming clears the e-mail claim so the next trigger notifies again.
+      .set(triggered ? { isTriggered: true } : { isTriggered: false, notifiedAt: null })
       .where(and(eq(priceAlerts.id, id), eq(priceAlerts.userId, uid)));
     return getUserAlerts(uid);
   } catch (error) {

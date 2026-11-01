@@ -24,7 +24,7 @@ RESEND_FROM="Bullsye <alarm@sizin-domaininiz.com>"
 
 - Key yoksa e-posta sessizce atlanır (ürün bozulmaz)
 - Sentry yok; Clarity ile kullanım izlenir
-- Sekme kapalı sunucu cron’u sonraki iterasyon (önce 1 ay kayıt izleme)
+- Sekme kapalıyken: `.github/workflows/alerts-cron.yml` 10 dakikada bir `GET /api/cron/alerts` çağırır
 
 ## Sabah özeti (hafta içi 08:30)
 
@@ -40,3 +40,16 @@ Liste `digest_subscriptions` tablosunda tutulur; her e-postada tek tık çıkı�
 
 İçerik `src/lib/daily-digest.ts` — paylaşım görseli (`/api/og?type=radar`) ile aynı
 5 sembolü kullanır.
+
+## Sunucu tarafı alarm kontrolü
+
+`/api/cron/alerts` tüm kayıtlı alarmları canlı fiyat / RSI / skorla kontrol eder ve tetiklenen
+alarm sahibine tek e-posta gönderir. Tarayıcıdaki AlertEngine ile aynı kurallar
+(`src/lib/alert-eval.ts`) kullanılır.
+
+- Çift e-posta yok: gönderen taraf `price_alerts.notified_at` alanını koşullu güncelleme ile
+  “sahiplenir”; tarayıcı (`/api/alerts/notify`) ve cron aynı alarmı iki kez göndermez.
+- Koşul ortadan kalkınca alarm yeniden kurulur (`is_triggered=false`, `notified_at=null`).
+- Alarm sahibinin e-postası `price_alerts.email` alanında tutulur (eski alarmlar oturum
+  açıldığında doldurulur).
+- Gereken: `npm run db:push` (yeni kolonlar: `email`, `notified_at`) ve `CRON_SECRET`.

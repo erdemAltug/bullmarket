@@ -1,0 +1,29 @@
+name: Alerts Cron
+
+on:
+  schedule:
+    # Every 10 minutes; GitHub may delay scheduled runs by a few minutes.
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: alerts-cron
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check alerts
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://bullsye.app' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "CRON_SECRET not set — skipping"
+            exit 0
+          fi
+          curl --fail-with-body -sS --max-time 90 \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$SITE_URL/api/cron/alerts"

@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server';
+import { and, eq, isNull } from 'drizzle-orm';
+import { getDb, isDatabaseConfigured } from '@/db';
+import { priceAlerts } from '@/db/schema';
 import { getCurrentSessionUser } from '@/lib/auth-user';
 import { isEmailConfigured, sendAlertEmail } from '@/lib/email/resend';
 
@@ -39,6 +42,26 @@ export async function POST(req: Request) {
   const detail = String(body.detail ?? '').slice(0, 280);
   if (!displaySymbol || !detail) {
     return NextResponse.json({ success: false, error: 'Eksik alan' }, { status: 400 });
+  }
+
+  // Claim the trigger: the cron may have e-mailed it already.
+  const alertId = String(body.alertId ?? '');
+  if (alertId && isDatabaseConfigured() && user?.id) {
+    const claimed = await getDb()
+      .update(priceAlerts)
+      .set({ isTriggered: true, notifiedAt: new Date() })
+      .where(
+        and(
+          eq(priceAlerts.id, alertId),
+          eq(priceAlerts.userId, user.id),
+          isNull(priceAlerts.notifiedAt)
+        )
+      )
+      .returning({ id: priceAlerts.id })
+      .catch(() => null);
+    if (claimed && claimed.length === 0) {
+      return NextResponse.json({ success: true, skipped: true, reason: 'already_sent' });
+    }
   }
 
   const result = await sendAlertEmail({
