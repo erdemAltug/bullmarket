@@ -29,6 +29,19 @@ type Props = {
   searchParams: Promise<{ lang?: string }>;
 };
 
+/** "NVIDIA Corporation" -> "NVIDIA": what people type before "hisse". */
+function shortCompanyName(name: string, symbol: string): string {
+  const cleaned = name
+    .replace(
+      /,?\s+(Inc\.?|Incorporated|Corporation|Corp\.?|Company|Co\.?|Holdings?|Ltd\.?|plc|N\.V\.|S\.A\.|Limited|Group|Class [A-C]|Common Stock|ADR)(?=\s|,|$)/gi,
+      ''
+    )
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+  if (!cleaned || cleaned.toUpperCase() === symbol || cleaned.length > 22) return '';
+  return cleaned;
+}
+
 function canonicalUsSymbol(raw: string): string {
   return raw.trim().toUpperCase();
 }
@@ -66,12 +79,15 @@ export async function generateMetadata({
   const path = `/nasdaq/${symbol}`;
   const canonicalUrl = absoluteCanonical(path, { upperSymbol: true });
 
+  const short = shortCompanyName(name, symbol);
+  const label = short ? `${short} (${symbol})` : symbol;
+  // Turkish searches: "<name> hisse", "<sym> hisse grafik", "<sym> hedef fiyat".
   const title = isTr
-    ? `${symbol} NASDAQ Canlı Fiyat ve Analiz Skoru | Bullsye`
-    : `${symbol} NASDAQ Live Price & Analysis Score | Bullsye`;
+    ? `${label} Hisse: Canlı Fiyat, Grafik ve Hedef Fiyat`
+    : `${label} Stock: Live Price, Chart & Price Target`;
 
   const description = isTr
-    ? `${name} (${symbol}) NASDAQ bugünkü hareket, canlı fiyat ve eşleşen başlıklar.${hasLiveQuote ? ` Şimdi: $${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
+    ? `${short || name} (${symbol}) hisse senedi${hasLiveQuote ? ` bugün $${price} (${change})` : ''}: canlı grafik, analist hedef fiyatı, 0–100 analiz skoru ve son haberler. Türkçe ve ücretsiz. Yatırım tavsiyesi değildir.`
     : `Live ${name} (${symbol}) NASDAQ quote, Bullsye score and chart.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
 
   const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(symbol)}&price=${encodeURIComponent(hasLiveQuote ? `$${price}` : '—')}&change=${encodeURIComponent(change)}&label=NASDAQ`;
@@ -81,8 +97,10 @@ export async function generateMetadata({
     description,
     keywords: isTr
       ? [
-          `${symbol} canlı`,
-          `${symbol} NASDAQ`,
+          `${symbol} hisse`,
+          `${symbol} hisse grafik`,
+          `${symbol} hedef fiyat`,
+          ...(short ? [`${short.toLowerCase()} hisse`] : []),
           `${symbol} hisse fiyatı`,
           `${symbol} hisse yorum`,
           `${symbol} neden düşüyor`,

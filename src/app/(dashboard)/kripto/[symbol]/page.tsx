@@ -67,11 +67,11 @@ export async function generateMetadata({
   const canonicalUrl = absoluteCanonical(path, { upperSymbol: true });
 
   const title = isTr
-    ? `${display} Canlı Fiyat, Skor ve Grafik | Bullsye`
+    ? `${display} Teknik Analiz ve Canlı Fiyat: RSI, Grafik, Yorum`
     : `${display} Live Price, Score & Chart | Bullsye`;
 
   const description = isTr
-    ? `${display} (${symbol}) bugünkü hareket, canlı fiyat ve eşleşen başlıklar.${hasLiveQuote ? ` Şimdi: $${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
+    ? `${display} teknik analiz${hasLiveQuote ? `: şu an $${price} (${change})` : ''}. RSI, trend, destek/direnç, canlı grafik ve emir defteri derinliği tek sayfada. Ücretsiz. Yatırım tavsiyesi değildir.`
     : `Live ${display} (${symbol}) quote, Bullsye score and depth.${hasLiveQuote ? ` Now $${price} (${change}).` : ''}`;
 
   const ogImage = `${SITE_URL}/api/og?symbol=${encodeURIComponent(display)}&price=${encodeURIComponent(hasLiveQuote ? `$${price}` : '—')}&change=${encodeURIComponent(change)}&label=Crypto`;
