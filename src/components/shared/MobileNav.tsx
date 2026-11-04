@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState, useSyncExternalStore } from 'react';
 import { usePathname } from 'next/navigation';
 import { Menu, Search } from 'lucide-react';
 import { FastLink } from '@/components/shared/NavigationProgress';
@@ -18,6 +18,8 @@ import {
 import { cn } from '@/lib/utils';
 
 /** Short labels that fit 5-col bottom bar on narrow phones */
+const noopSubscribe = () => () => {};
+
 const MOBILE_SHORT: Partial<Record<NavKey, string>> = {
   overview: 'Ana',
   watchlist: 'İzleme',
@@ -56,7 +58,9 @@ export function MobileNavDrawer() {
   const pathname = usePathname();
   const { t } = usePreferences();
   const { data: session, isPending } = authClient.useSession();
-  const groups = navGroupsForUser(isPending || Boolean(session?.user));
+  // Match the server render (session unknown -> full menu) until hydration.
+  const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
+  const groups = navGroupsForUser(!hydrated || isPending || Boolean(session?.user));
 
   const close = useCallback(() => setOpen(false), [setOpen]);
 

@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { hubOgImages } from '@/lib/seo/og';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
-  title: 'Analist Hedef Fiyatları (BİST) — Kurum Konsensüsü, Ücretsiz',
+  title: 'BİST Analist Hedef Fiyatları ve Konsensüs 2026',
   description:
     'Analist tavsiyeleri ve hedef fiyatları: BİST kurum konsensüsü, ortalama/yüksek/düşük hedef ve potansiyel prim. Ücretsiz canlı tablo.',
   keywords: [
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
     description:
       'BİST kurum hedef fiyatları, konsensüs ve potansiyel prim — ücretsiz.',
     url: `${SITE_URL}/targets`,
+    images: hubOgImages('BİST Analist Hedef Fiyatları', 'Kurum konsensüsü, en yüksek / en düşük hedef ve kalan mesafe'),
   },
 };
 

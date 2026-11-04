@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   Bell,
@@ -14,9 +14,14 @@ import { FastLink } from '@/components/shared/NavigationProgress';
 import { authClient } from '@/lib/auth/client';
 import { cn } from '@/lib/utils';
 
+const noopSubscribe = () => () => {};
+
 export function UserMenu() {
   const qc = useQueryClient();
   const { data: session, isPending } = authClient.useSession();
+  // Server always renders the skeleton; keep it until hydration so a cached
+  // session on the client can't cause a hydration mismatch.
+  const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
   const [authOpen, setAuthOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -39,7 +44,7 @@ export function UserMenu() {
     await qc.invalidateQueries({ queryKey: ['portfolio'] });
   }
 
-  if (isPending) {
+  if (!hydrated || isPending) {
     return (
       <div className="size-8 animate-pulse rounded-full bg-zinc-800/80 sm:h-8 sm:w-24 sm:rounded-full" />
     );

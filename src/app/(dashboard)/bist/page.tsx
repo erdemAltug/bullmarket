@@ -10,6 +10,7 @@ import {
   SITE_URL,
 } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
+import { hubOgImages } from '@/lib/seo/og';
 import { BistHubClient } from './BistHubClient';
 
 export const revalidate = 60;
@@ -27,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: `${live} | Bullsye`,
       url: `${SITE_URL}/bist`,
+      images: hubOgImages('BİST 100 Canlı Hisse Fiyatları', 'Her hisseye 0–100 analiz skoru, tarama ve alarm'),
     },
   };
 }

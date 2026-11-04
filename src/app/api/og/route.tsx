@@ -7,6 +7,46 @@ export const runtime = 'nodejs';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
+  if (searchParams.get('type') === 'hub') {
+    const title = (searchParams.get('t') || 'Bullsye').slice(0, 80);
+    const sub = (searchParams.get('s') || '').slice(0, 120);
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            background:
+              'linear-gradient(145deg, #050508 0%, #0a0a12 50%, #071a14 100%)',
+            padding: 64,
+            fontFamily: 'system-ui, sans-serif',
+            color: '#fafafa',
+          }}
+        >
+          <span style={{ fontSize: 24, fontWeight: 800, color: '#34d399' }}>BULLSYE</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <span style={{ fontSize: 64, fontWeight: 800, letterSpacing: -2, lineHeight: 1.05 }}>
+              {title}
+            </span>
+            {sub ? (
+              <span style={{ fontSize: 30, color: '#a1a1aa', lineHeight: 1.3 }}>{sub}</span>
+            ) : null}
+          </div>
+          <span style={{ fontSize: 18, color: '#52525b' }}>
+            bullsye.app · ücretsiz · yatırım tavsiyesi değildir
+          </span>
+        </div>
+      ),
+      {
+        width: 1200,
+        height: 630,
+        headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800' },
+      }
+    );
+  }
   if (searchParams.get('type') === 'radar') {
     let rows = [1, 2, 3]
       .map((i) => ({

@@ -22,6 +22,7 @@ import {
   TOP_CRYPTO_FOR_HUB,
   TOP_US_FOR_HUB,
 } from '@/lib/seo/internal-links';
+import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { SITE_URL } from '@/lib/seo/symbols';
 
 const FAQ = [
@@ -91,6 +92,10 @@ export function LandingPage() {
 
   return (
     <div className="relative min-h-dvh overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
+      {/* JSON-LD inside the page root, not as body children: next-themes
+          injects a server-only script at the top of <body>, which would shift
+          sibling scripts and break hydration. */}
+      <SchemaMarkup />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}

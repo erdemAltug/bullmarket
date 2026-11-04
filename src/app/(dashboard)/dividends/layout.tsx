@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hubOgImages } from '@/lib/seo/og';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
     title: 'Temettü Takvimi | Bullsye',
     description: 'BİST temettü verimleri ve yaklaşan ödemeler.',
     url: `${SITE_URL}/dividends`,
+    images: hubOgImages('BİST Temettü Takvimi', 'Temettü verimleri ve yaklaşan ödemeler'),
   },
 };
 
