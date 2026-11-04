@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import {
   BLOG_POSTS,
   estimateDescription,
-  estimateTitle,
   getBlogPost,
 } from '@/content/academy';
 import {
@@ -24,6 +23,7 @@ import { MoneyLinks } from '@/components/seo/MoneyLinks';
 import { moneyLinksForPost } from '@/lib/seo/money-links';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
+import { hubOgImages } from '@/lib/seo/og';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -37,12 +37,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return { title: 'Yazı bulunamadı' };
 
   const path = `/blog/${slug}`;
-  const title = estimateTitle(post.title);
+  // Full title, no "…": long ones skip the " | Bullsye" suffix instead.
+  const title = post.title;
   const description = estimateDescription(post.description);
-  const og = `${SITE_URL}/api/og?symbol=BLOG&price=${encodeURIComponent(slug.slice(0, 10))}&change=SEO&label=Bullsye%20Blog`;
+  const ogImages = hubOgImages(post.title, 'Bullsye Blog · borsa ve yatırım rehberi');
+  const og = ogImages[0].url;
 
   return {
-    title,
+    title: title.length > 50 ? { absolute: title } : title,
     description,
     keywords: post.keywords,
     alternates: withLangAlternates(path),
