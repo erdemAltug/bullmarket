@@ -138,13 +138,14 @@ export default async function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        {/* In <head> so scripts injected into <body> (PostHog) can't break hydration. */}
+        <JsonLd />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background antialiased`}
       >
         <MicrosoftClarity />
         <GoogleAds />
-        <JsonLd />
         <Providers>{children}</Providers>
       </body>
     </html>

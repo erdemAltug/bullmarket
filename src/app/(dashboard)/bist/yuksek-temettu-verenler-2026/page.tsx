@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hubOgImages } from '@/lib/seo/og';
 import Link from 'next/link';
 import { absoluteCanonical } from '@/lib/seo/canonical';
 import { withLangAlternates } from '@/lib/seo/hreflang';
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     url: absoluteCanonical(path),
     title: `Yüksek Temettü Verenler ${year} | Bullsye`,
     description: 'Trailing verim ve DRIP simülasyonu sembol sayfalarında.',
+    images: hubOgImages('Yüksek Temettü Veren BİST Hisseleri', 'Temettü verimine göre canlı liste'),
   },
 };
 

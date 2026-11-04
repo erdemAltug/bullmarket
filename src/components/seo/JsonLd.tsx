@@ -15,36 +15,12 @@ export function JsonLd() {
     areaServed: ['TR', 'Worldwide'],
   };
 
-  const financialProductSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FinancialProduct',
-    name: 'Bullsye Canlı Piyasa Terminali',
-    description:
-      'Ücretsiz canlı BİST, NASDAQ, kripto ve fon izleme; analiz skoru ve analist hedefleri.',
-    url: SITE_URL,
-    provider: {
-      '@type': 'Organization',
-      name: 'Bullsye',
-      url: SITE_URL,
-    },
-    feesAndCommissionsSpecification: 'Ücretsiz kullanım',
-    category: 'Market data & analytics',
-  };
-
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Bullsye',
     url: SITE_URL,
     inLanguage: ['tr-TR', 'en-US'],
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/bist?symbol={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   };
 
   return (
@@ -53,12 +29,6 @@ export function JsonLd() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(organizationSchema),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(financialProductSchema),
         }}
       />
       <script

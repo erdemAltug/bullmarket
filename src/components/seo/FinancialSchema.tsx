@@ -14,8 +14,6 @@ interface FinancialSchemaProps {
 export function FinancialSchema({
   symbol,
   name,
-  price,
-  currency = 'TRY',
   kind = 'bist',
   path,
 }: FinancialSchemaProps) {
@@ -54,22 +52,8 @@ export function FinancialSchema({
       name: 'Bullsye',
       url: SITE_URL,
     },
-    about: {
-      '@type': 'FinancialProduct',
-      name: displayName,
-      category: exchange,
-      ...(price > 0
-        ? {
-            offers: {
-              '@type': 'Offer',
-              price: Number(price.toFixed(4)),
-              priceCurrency: currency,
-              url: pageUrl,
-              availability: 'https://schema.org/InStock',
-            },
-          }
-        : {}),
-    },
+    // The page is about the listed company, not something sold here.
+    about: { '@type': 'Thing', name: displayName, description: exchange },
   };
 
   const corp =

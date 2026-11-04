@@ -40,18 +40,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const sym = code.toUpperCase();
   const tefas = SCANNER_TEFAS_FUNDS.find((f) => f.code === sym);
   const etf = ETF_META[sym as keyof typeof ETF_META];
+  const year = new Date().getFullYear();
+  // Searchers type "YAY tefas" / "tefas yay": lead with code + TEFAS + intent.
   const title = tefas
-    ? `${sym} TEFAS Fon — ${tefas.style}`
+    ? `${sym} Fonu Getirisi ${year}: TEFAS Fiyat ve Grafik | ${tefas.founder}`
     : etf
-      ? `${sym} ETF — ${etf.style}`
-      : `${sym} Fon / ETF`;
+      ? `${sym} ETF Fiyatı ve Getirisi ${year}: ${etf.style}`
+      : `${sym} Fon Getirisi ve Fiyatı ${year}`;
+  const description = tefas
+    ? `${sym} (${tefas.founder}, ${tefas.style}) TEFAS fonu: güncel pay değeri, günlük getiri, 1 yıllık grafik, portföy büyüklüğü ve yatırımcı sayısı. Ücretsiz, kayıt gerekmez.`
+    : etf
+      ? `${sym} ETF (${etf.style}): canlı fiyat, günlük değişim, 6 aylık grafik ve hacim. TEFAS fonlarıyla 1v1 kıyasla.`
+      : `${sym} fonu: güncel fiyat, günlük getiri ve grafik. TEFAS ve küresel ETF takibi Bullsye fon masasında.`;
   return {
-    title,
-    description: `${sym} canlı fiyat ve getiri takibi — Bullsye fon masası.`,
+    title: { absolute: title.length > 60 ? title.replace(` | ${tefas?.founder}`, '') : title },
+    description,
     alternates: withLangAlternates(`/fon/${sym}`),
     ...(DETAIL_CODE_SET.has(sym) ? {} : { robots: NOINDEX_FOLLOW }),
     openGraph: {
-      title: `${sym} | Bullsye`,
+      title,
+      description,
       url: `${SITE_URL}/fon/${sym}`,
     },
   };
@@ -104,7 +112,9 @@ export default async function FonDetailPage({ params }: Props) {
         <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
           {isEtf ? 'Küresel ETF' : 'TEFAS Yatırım Fonu'}
         </p>
-        <h1 className="mt-1 text-3xl font-bold tracking-tight">{sym}</h1>
+        <h1 className="mt-1 text-3xl font-bold tracking-tight">
+          {sym} {isEtf ? 'ETF fiyatı ve getirisi' : 'fonu getirisi (TEFAS)'}
+        </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
           {item?.name ??
             (tefasMeta
@@ -112,6 +122,12 @@ export default async function FonDetailPage({ params }: Props) {
               : etfMeta?.style)}
         </p>
       </div>
+
+      <p className="text-sm leading-relaxed text-[var(--muted)]">
+        {isEtf
+          ? `${sym} ETF için güncel fiyat, günlük değişim ve 6 aylık grafik aşağıda. Fiyatlar canlı borsa kotasyonudur.`
+          : `${sym} ${tefasMeta ? `(${tefasMeta.founder}) ` : ''}TEFAS fonunun güncel pay değeri, günlük getirisi, portföy büyüklüğü ve 1 yıllık getiri grafiği aşağıda. Pay değeri TEFAS'ın gün sonu açıklamasıyla güncellenir.`}
+      </p>
 
       <div className="grid gap-3 sm:grid-cols-3">
         <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">

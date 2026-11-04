@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import {
   EDUCATION_LESSONS,
   estimateDescription,
-  estimateTitle,
   getLesson,
 } from '@/content/academy';
 import {
@@ -27,6 +26,7 @@ import { MoneyLinks } from '@/components/seo/MoneyLinks';
 import { moneyLinksForLesson } from '@/lib/seo/money-links';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
+import { hubOgImages } from '@/lib/seo/og';
 
 type Props = {
   params: Promise<{ category: string; slug: string }>;
@@ -45,12 +45,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!lesson) return { title: 'Ders bulunamadı' };
 
   const path = `/egitim/${category}/${slug}`;
-  const title = estimateTitle(lesson.title);
+  // Full title, no "…": long ones skip the " | Bullsye" suffix instead.
+  const title = lesson.title;
   const description = estimateDescription(lesson.description);
-  const og = `${SITE_URL}/api/og?symbol=${encodeURIComponent(lesson.slug.slice(0, 12).toUpperCase())}&price=Egitim&change=SEO&label=${encodeURIComponent(lesson.categoryTitle)}`;
+  const og = hubOgImages(lesson.title, lesson.categoryTitle)[0].url;
 
   return {
-    title,
+    title: title.length > 50 ? { absolute: title } : title,
     description,
     keywords: lesson.keywords,
     alternates: withLangAlternates(path),

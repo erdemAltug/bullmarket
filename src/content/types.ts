@@ -62,6 +62,12 @@ export const EDUCATION_CATEGORIES = [
       'RSI, Golden Cross, destek-direnç ve canlı sinyal okuma rehberleri.',
   },
   {
+    slug: 'yatirim-araclari',
+    title: 'Fonlar & Yatırım Araçları',
+    description:
+      'TEFAS fonları, ABD hisseleri, altın ve BES: birikimini nereye, nasıl yatırırsın.',
+  },
+  {
     slug: 'kripto-risk',
     title: 'Kripto & Risk Yönetimi',
     description:

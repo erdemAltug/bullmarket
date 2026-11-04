@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { LandingPage } from '@/components/landing/LandingPage';
-import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { rootHreflangLanguages } from '@/lib/seo/hreflang';
 
@@ -9,7 +8,7 @@ export const metadata: Metadata = {
     absolute: 'Bullsye — BİST, NASDAQ ve Kripto Terminali',
   },
   description:
-    'Skor taraması, analist hedef fiyatları ve kişisel envanter. Ücretsiz terminal.',
+    'Ücretsiz BİST, NASDAQ ve kripto terminali: hisselere 0–100 analiz skoru, analist hedef fiyatları, fiyat alarmı ve her sabah 08:30 e-posta özeti.',
   keywords: [
     'analist hedef fiyat',
     'canlı borsa',
@@ -52,10 +51,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomeLandingPage() {
-  return (
-    <>
-      <SchemaMarkup />
-      <LandingPage />
-    </>
-  );
+  return <LandingPage />;
 }

@@ -8,12 +8,13 @@ import {
 import { LevelBadge } from '@/components/content/ArticleChrome';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
+import { hubOgImages } from '@/lib/seo/og';
 import { GraduationCap } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Finansal Okuryazarlık Eğitim Hub’ı | Bullsye' },
+  title: { absolute: 'Ücretsiz Borsa Eğitimi: Sıfırdan Hisse, Fon ve Teknik Analiz' },
   description: estimateDescription(
-    'Borsa, temettü, F/K, RSI, Golden Cross ve kripto risk yönetimi dersleri. Bullsye Eğitim Hub\'ı ile finansal okuryazarlığınızı geliştirin.'
+    'Hisse nasıl alınır, halka arza nasıl katılınır, F/K ve PD/DD nedir, MACD nasıl okunur? Sıfırdan ileri seviyeye ücretsiz, Türkçe borsa dersleri.'
   ),
   keywords: [
     'borsa eğitimi',
@@ -24,19 +25,12 @@ export const metadata: Metadata = {
   ],
   alternates: withLangAlternates('/egitim'),
   openGraph: {
-    title: 'Bullsye Eğitim Hub\'ı — Borsa & Finans Akademisi',
+    title: 'Ücretsiz Borsa Eğitimi | Bullsye Akademi',
     description:
-      'Adım adım borsa, teknik analiz ve kripto risk yönetimi dersleri.',
+      'Sıfırdan borsa, temel ve teknik analiz, fonlar ve risk yönetimi dersleri.',
     url: `${SITE_URL}/egitim`,
     type: 'website',
-    images: [
-      {
-        url: `${SITE_URL}/api/og?symbol=EGITIM&price=Akademi&change=LIVE&label=Bullsye%20Academy`,
-        width: 1200,
-        height: 630,
-        alt: 'Bullsye Eğitim Hub',
-      },
-    ],
+    images: hubOgImages('Ücretsiz Borsa Eğitimi', 'Sıfırdan hisse, fon ve teknik analiz dersleri'),
   },
 };
 
@@ -49,13 +43,23 @@ export default function EgitimHubPage() {
           Bullsye Akademi
         </p>
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Finansal Okuryazarlık Eğitim Hub&apos;ı
+          Ücretsiz borsa eğitimi
         </h1>
         <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">
-          Borsa temelleri, teknik analiz ve kripto risk yönetimi — her ders
-          canlı Bullsye araçlarına bağlanır. Okuyun, uygulayın, terminalde
-          doğrulayın.
+          {EDUCATION_LESSONS.length} ders, sıfırdan ileri seviyeye. Her ders
+          sade Türkçe anlatılır ve öğrendiğinizi hemen deneyebileceğiniz canlı
+          bir Bullsye aracına bağlanır.
         </p>
+        <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/5 p-4 text-sm">
+          <p className="font-semibold text-zinc-100">Yeni misiniz? Bu sırayla başlayın:</p>
+          <ol className="mt-2 list-decimal space-y-1 pl-5 text-zinc-300">
+            <li><Link className="hover:text-emerald-400" href="/egitim/borsa-temelleri/borsa-nasil-oynanir">Borsa nasıl oynanır?</Link></li>
+            <li><Link className="hover:text-emerald-400" href="/egitim/borsa-temelleri/hisse-senedi-nasil-alinir">Hisse senedi nasıl alınır?</Link></li>
+            <li><Link className="hover:text-emerald-400" href="/egitim/borsa-temelleri/fk-orani-nedir">F/K oranı nedir?</Link></li>
+            <li><Link className="hover:text-emerald-400" href="/egitim/borsa-temelleri/temettu-nedir-nasil-alinir">Temettü nasıl alınır?</Link></li>
+            <li><Link className="hover:text-emerald-400" href="/egitim/teknik-analiz/rsi-indikatoru-nedir">RSI nedir?</Link></li>
+          </ol>
+        </div>
         <Link
           href="/blog"
           className="inline-block text-sm font-medium text-emerald-400 hover:underline"

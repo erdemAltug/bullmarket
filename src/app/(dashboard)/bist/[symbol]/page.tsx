@@ -71,11 +71,11 @@ export async function generateMetadata({
 
   const year = new Date().getFullYear();
   const title = isTr
-    ? `${symbol} Analiz Skoru, Canlı Fiyat ve Grafik ${year} | Bullsye`
+    ? `${symbol} Hisse ${year}: Hedef Fiyat, Yorum ve Canlı Grafik`
     : `${symbol} Analysis Score, Live Price & Chart ${year} | Bullsye`;
 
   const description = isTr
-    ? `${name} (${symbol}) bugünkü hareket, canlı fiyat ve eşleşen başlıklar.${hasLiveQuote ? ` Şimdi: ₺${price} (${change}).` : ''} Yatırım tavsiyesi değildir.`
+    ? `${name} (${symbol}) hissesi${hasLiveQuote ? ` bugün ₺${price} (${change})` : ''}: analist hedef fiyatı, 0–100 analiz skoru, F/K, temettü, canlı grafik ve neden yükseliyor/düşüyor özeti. Yatırım tavsiyesi değildir.`
     : `Live ${name} (${symbol}) BIST quote, Bullsye score (0–100), fundamentals and chart.${hasLiveQuote ? ` Now ₺${price} (${change}).` : ''}`;
 
   const ogImage = `${SITE_URL}/api/og/bist/${encodeURIComponent(symbol)}`;

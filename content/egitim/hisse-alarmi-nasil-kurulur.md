@@ -21,7 +21,7 @@ faqs:
   - question: Alarm yatırım tavsiyesi midir?
     answer: Hayır. Alarm sizin belirlediğiniz eşiğin haberidir; al/sat emri değildir.
   - question: E-posta her zaman gelir mi?
-    answer: Oturum açıkken ve e-posta servisi yapılandırıldığında tetik e-postası gider. Sekme kapalıyken tarayıcı bildirimi çalışmaz.
+    answer: Evet. Giriş yaptıysanız alarmlar sunucuda her 10 dakikada bir kontrol edilir ve tetiklenince e-posta gönderilir; tarayıcı sekmesinin açık olması gerekmez.
 ---
 
 ## Neden alarm?

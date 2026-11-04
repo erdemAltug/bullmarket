@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { ChevronRight } from 'lucide-react';
 import { FastLink } from '@/components/shared/NavigationProgress';
@@ -15,12 +15,16 @@ import {
 import { authClient } from '@/lib/auth/client';
 import { cn } from '@/lib/utils';
 
+const noopSubscribe = () => () => {};
+
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { t } = usePreferences();
   const { data: session, isPending } = authClient.useSession();
-  const signedIn = isPending || Boolean(session?.user);
+  // Match the server (session unknown -> full menu) until hydration is done.
+  const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
+  const signedIn = !hydrated || isPending || Boolean(session?.user);
   const groups = navGroupsForUser(signedIn);
   const { primary, more } = signedIn
     ? { primary: groups, more: [] as NavGroup[] }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hubOgImages } from '@/lib/seo/og';
 import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'BİST 100 Canlı Hisse Fiyatları | Bullsye',
     url: `${SITE_URL}/bist`,
+    images: hubOgImages('BİST 100 Canlı Hisse Fiyatları', 'Her hisseye 0–100 analiz skoru, tarama ve alarm'),
   },
 };
 

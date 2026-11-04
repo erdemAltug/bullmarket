@@ -510,17 +510,20 @@ const BLOG_POSTS_STATIC: BlogPost[] = [
   },
   {
     slug: 'analist-hedef-fiyati-nasil-okunur',
-    title: 'Analist Hedef Fiyatı Nasıl Okunur? Potansiyel Prim Rehberi',
+    title: 'Hisse Hedef Fiyatı Nasıl Belirlenir? 6 Adımlı Rehber',
     description:
-      'Ortalama, yüksek/düşük hedef ve upside % nasıl yorumlanır? Bullsye Hedef Fiyatlar’da canlı konsensüsü okuyun.',
+      'Hisse hedef fiyatı nasıl hesaplanır ve okunur? F/K, PD/DD, iskontolu nakit akışı ve analist konsensüsüyle 6 adım, örnek hesap ve sık yapılan hatalar.',
     keywords: [
+      'hisse hedef fiyat',
+      'hedef fiyat nasıl belirlenir',
+      'hisse analizi hedef fiyat belirleme adımları',
+      'hedef fiyat hesaplama',
       'analist hedef fiyat',
-      'hedef fiyat nedir',
       'potansiyel prim',
     ],
     publishedAt: '2026-07-22',
-    updatedAt: '2026-07-31',
-    readingMinutes: 5,
+    updatedAt: '2026-11-04',
+    readingMinutes: 8,
     tags: ['Analist', 'Hedef Fiyat', 'SEO'],
     toolCta: {
       href: '/targets',
@@ -529,25 +532,75 @@ const BLOG_POSTS_STATIC: BlogPost[] = [
     },
     sections: [
       {
-        id: 'mean',
-        heading: 'Ortalama hedef',
+        id: 'nedir',
+        heading: 'Hedef fiyat nedir?',
         paragraphs: [
-          'Analistlerin 12 aylık fiyat tahminlerinin ortalamasıdır. Mevcut fiyata göre yüzde fark “potansiyel prim” olarak okunur; garanti değildir.',
+          'Hedef fiyat, bir analistin hissenin önümüzdeki 12 ayda ulaşabileceğini düşündüğü değerdir. Aracı kurumlar bunu şirketin kârı, büyümesi ve benzer şirketlerin değerlemesine bakarak hesaplar. Birden fazla kurumun hedefinin ortalamasına “konsensüs hedef fiyat” denir.',
+          'Mevcut fiyat ile hedef arasındaki yüzde fark “potansiyel prim”dir. Örneğin fiyat 100 TL, konsensüs hedef 125 TL ise potansiyel prim %25’tir. Bu bir tahmindir, garanti değildir.',
         ],
       },
       {
-        id: 'dagilim',
-        heading: 'Al / Tut / Sat dağılımı',
+        id: 'adimlar',
+        heading: 'Hisse analizinde hedef fiyat belirleme adımları',
         paragraphs: [
-          'Sadece ortalama değil, oy dağılımı da önemlidir. Hepsi “Al” diyorsa konsensüs güçlü; karışık dağılımda volatilite bekleyin.',
+          'Kendi hedef fiyatınızı kabaca hesaplamak ya da bir analistin hedefini sorgulamak için şu 6 adımı izleyin:',
+        ],
+        bullets: [
+          '1. Kârı bulun: Son 12 ayın net kârını ve hisse başına kârı (HBK) bilançodan alın.',
+          '2. Büyümeyi tahmin edin: Gelecek yıl kâr ne kadar artabilir? Şirketin son 3 yıllık büyümesi ve sektör beklentisi iyi bir başlangıçtır.',
+          '3. Çarpan seçin: Aynı sektördeki benzer şirketlerin ortalama F/K (veya bankalar için PD/DD) oranını bulun.',
+          '4. Hesaplayın: Hedef fiyat ≈ beklenen HBK × sektör F/K. Örnek: beklenen HBK 10 TL, sektör F/K 8 ise hedef ≈ 80 TL.',
+          '5. Nakit akışıyla kontrol edin: Uzun vadeli yatırımcılar iskontolu nakit akışı (DCF) ile ikinci bir hedef bulur; iki sonuç birbirine yakınsa güven artar.',
+          '6. Konsensüsle karşılaştırın: Kendi sonucunuzu aracı kurumların ortalama hedefiyle kıyaslayın. Büyük fark varsa varsayımlarınızı tekrar gözden geçirin.',
+        ],
+      },
+      {
+        id: 'okuma',
+        heading: 'Analist hedef fiyatı nasıl okunur?',
+        paragraphs: [
+          'Sadece ortalamaya bakmayın. En yüksek ve en düşük hedef arasındaki fark büyükse analistler anlaşamıyor demektir; belirsizlik yüksektir.',
+          'Al / Tut / Sat dağılımı da önemlidir. Kurumların çoğu “Al” diyorsa konsensüs güçlüdür; karışık dağılımda oynaklık bekleyin. Hedefin ne zaman güncellendiğine de dikkat edin: 6 aylık bir hedef, yeni bilançodan sonra geçerliliğini yitirmiş olabilir.',
+        ],
+      },
+      {
+        id: 'hatalar',
+        heading: 'Sık yapılan hatalar',
+        paragraphs: [],
+        bullets: [
+          'Tek bir kurumun hedefine güvenmek yerine konsensüse bakmamak',
+          'Hedefi garanti fiyat gibi görmek ve stop-loss koymamak',
+          'Enflasyonun TL hedefleri şişirdiğini unutmak (reel getiriye bakın)',
+          'Eski tarihli hedefleri güncelmiş gibi okumak',
+        ],
+      },
+      {
+        id: 'bullsye',
+        heading: 'Bullsye’da hedef fiyatlara bakmak',
+        paragraphs: [
+          'Bullsye Hedef Fiyatlar sayfası BİST hisselerinin konsensüs hedefini, potansiyel primini ve kurum sayısını tek tabloda gösterir. Her hissenin kendi “hedef fiyat” sayfasında en yüksek / en düşük hedefleri ve 0–100 analiz skorunu görebilir, hedefe yaklaşınca haber veren bir fiyat alarmı kurabilirsiniz.',
         ],
       },
     ],
     faqs: [
       {
+        question: 'Hisse hedef fiyatı nasıl hesaplanır?',
+        answer:
+          'En yaygın yöntem: beklenen hisse başına kâr × sektörün ortalama F/K oranı. Analistler buna iskontolu nakit akışı (DCF) ve benzer şirket karşılaştırmasını da ekler.',
+      },
+      {
         question: 'Hedef fiyat her zaman tutar mı?',
         answer:
-          'Hayır. Makro şoklar ve şirket haberleri hedefleri geçersiz kılabilir. Risk yönetimi şarttır.',
+          'Hayır. Makro şoklar ve şirket haberleri hedefleri geçersiz kılabilir. Hedef fiyat bir senaryodur; risk yönetimi şarttır.',
+      },
+      {
+        question: 'Konsensüs hedef fiyat ne demek?',
+        answer:
+          'Hisseyi takip eden aracı kurumların 12 aylık hedef fiyatlarının ortalamasıdır. Tek bir kurumun görüşünden daha dengelidir.',
+      },
+      {
+        question: 'Hedef fiyatı 2026 için nereden görebilirim?',
+        answer:
+          'Bullsye’da her BİST hissesinin “hedef fiyat” sayfası güncel konsensüs hedefini, potansiyel primi ve kurum sayısını ücretsiz gösterir.',
       },
     ],
   },
