@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Trash2 } from 'lucide-react';
 import {
@@ -270,6 +271,21 @@ export default function PortfolioPage() {
           dailyPct={metrics.value ? (metrics.daily / metrics.value) * 100 : 0}
           count={positions.length}
         />
+      ) : null}
+
+      {positions.length > 0 ? (
+        <Link
+          href="/portfolio/rapor"
+          className="flex items-center justify-between gap-3 rounded-2xl border border-emerald-500/30 bg-gradient-to-r from-emerald-500/10 to-transparent p-4 transition-colors hover:border-emerald-500/50"
+        >
+          <span>
+            <span className="block text-sm font-semibold">Portföy doktoru raporun hazır</span>
+            <span className="mt-0.5 block text-xs text-[var(--muted)]">
+              Yoğunlaşma, sektör ve döviz dağılımı, analist hedefleri ve bu haftanın skor değişimleri
+            </span>
+          </span>
+          <span className="shrink-0 rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-bold text-black">Raporu aç →</span>
+        </Link>
       ) : null}
 
       <SoftGateBanner

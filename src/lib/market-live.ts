@@ -17,7 +17,7 @@ import {
 import type { Quote } from '@/types';
 import type { ScannerItem } from '@/types/scanner';
 
-const CACHE_KEY = 'market:live:v6';
+const CACHE_KEY = 'market:live:v7';
 
 const STABLECOINS = new Set([
   'USDC', 'FDUSD', 'TUSD', 'USDP', 'DAI', 'BUSD', 'USD1', 'RLUSD', 'PYUSD',
@@ -192,7 +192,7 @@ async function loadLiveMarketItems(): Promise<ScannerItem[]> {
       volume: formatVolumeDisplay(t.quoteVolume, 'USD'),
       volumeRaw: t.quoteVolume,
       category: 'CRYPTO',
-      market: 'BINANCE',
+      market: 'KRİPTO',
       currency: 'USD',
       sparkline: buildSparkline(t.price, t.changePercent, t.symbol),
       chartSymbol: t.symbol,

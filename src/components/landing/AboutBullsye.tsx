@@ -92,8 +92,9 @@ export function AboutBullsye() {
             ))}
             <Reveal delay={400}>
               <p className="px-1 text-xs leading-relaxed text-[var(--muted)]">
-                Veri kaynakları: Borsa İstanbul ve ABD piyasa verileri, Binance, TEFAS,
-                TCMB ve şirketlerin KAP açıklamaları. Fiyatlar gecikmeli olabilir.
+                Borsa İstanbul, ABD ve kripto piyasa verilerini TEFAS, TCMB ve KAP
+                açıklamalarıyla birlikte topluyor, Bullsye skoruna dönüştürüyoruz.
+                Fiyatlar gecikmeli olabilir.
               </p>
             </Reveal>
           </div>

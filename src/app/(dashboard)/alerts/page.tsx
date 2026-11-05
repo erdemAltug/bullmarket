@@ -1,5 +1,6 @@
 'use client';
 
+import { useProRequest } from '@/components/pro/ProRequest';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Bell,
@@ -135,6 +136,7 @@ export default function AlertsPage() {
   const { data: session } = authClient.useSession();
   const { openAuth } = useAuthGate();
   const {
+    alertLimit,
     alerts,
     addAlert,
     updateAlert,
@@ -143,6 +145,7 @@ export default function AlertsPage() {
     ready,
     source,
   } = useAlerts();
+  const { openPro } = useProRequest();
   const liveMap = useLiveQuoteMap();
 
   const [composerOpen, setComposerOpen] = useState(true);
@@ -244,7 +247,12 @@ export default function AlertsPage() {
     }
     const displaySymbol =
       selected?.display ?? symbol.replace('.IS', '').replace('USDT', '');
-    addAlert({ symbol, displaySymbol, kind, threshold: n });
+    const created = addAlert({ symbol, displaySymbol, kind, threshold: n });
+    if (!created) {
+      setFormError(`Ücretsiz planda aynı anda ${alertLimit} alarm kurabilirsin. Birini sil ya da Pro’ya geç.`);
+      openPro('alert-limit');
+      return;
+    }
     setFormOk(`${displaySymbol} eklendi — listede görünüyor.`);
     setComposerOpen(false);
   }
@@ -293,7 +301,10 @@ export default function AlertsPage() {
             <p className="text-[10px] uppercase tracking-wide text-[var(--muted)]">
               Aktif
             </p>
-            <p className="font-mono text-lg font-bold tabular-nums">{activeCount}</p>
+            <p className="font-mono text-lg font-bold tabular-nums">
+              {activeCount}
+              <span className="text-xs font-medium text-[var(--muted)]"> / {alertLimit}</span>
+            </p>
           </div>
           <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 py-2 text-center">
             <p className="text-[10px] uppercase tracking-wide text-[var(--muted)]">

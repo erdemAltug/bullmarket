@@ -1,5 +1,6 @@
 'use client';
 
+import { FREE_LIMITS } from '@/lib/pro-plan';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
@@ -66,6 +67,13 @@ export function useAlerts(opts?: { enabled?: boolean }) {
       kind: AlertKind;
       threshold: number;
     }) => {
+      const activeOthers = alerts.filter(
+        (a) => !a.triggered && !(a.symbol === input.symbol && a.kind === input.kind)
+      ).length;
+      if (activeOthers >= FREE_LIMITS.activeAlerts) {
+        trackEvent('alert_limit_hit', { symbol: input.displaySymbol });
+        return null;
+      }
       const local: PriceAlert = {
         id: crypto.randomUUID(),
         ...input,
@@ -103,7 +111,7 @@ export function useAlerts(opts?: { enabled?: boolean }) {
 
       return local;
     },
-    [useDb, setLsAlerts, qc, userId, writeDbCache]
+    [alerts, useDb, setLsAlerts, qc, userId, writeDbCache]
   );
 
   const removeAlert = useCallback(
@@ -212,8 +220,12 @@ export function useAlerts(opts?: { enabled?: boolean }) {
     [useDb, setLsAlerts, qc, userId, writeDbCache]
   );
 
+  const activeCount = alerts.filter((a) => !a.triggered).length;
+
   return {
     alerts,
+    activeCount,
+    alertLimit: FREE_LIMITS.activeAlerts,
     addAlert,
     updateAlert,
     removeAlert,

@@ -16,7 +16,7 @@ export const DEFAULT_WIDGET_ORDER: DashboardWidgetId[] = [
 ];
 
 // v4: lighter default terminal (detail lives on its own pages).
-const KEY = 'bullmarket:dashboard-layout:v4';
+const KEY = 'bullmarket:dashboard-layout:v5';
 
 export function useDashboardLayout() {
   const [order, setOrder, ready] = useLocalStorage<DashboardWidgetId[]>(
@@ -25,7 +25,7 @@ export function useDashboardLayout() {
   );
   const [hidden, setHidden] = useLocalStorage<DashboardWidgetId[]>(
     KEY + ':hidden',
-    ['smart-radar', 'metrics', 'signals', 'fear-greed', 'watchlist', 'calendar']
+    ['smart-radar', 'metrics', 'signals', 'fear-greed', 'watchlist']
   );
   const [editing, setEditing] = useLocalStorage<boolean>(
     KEY + ':editing',

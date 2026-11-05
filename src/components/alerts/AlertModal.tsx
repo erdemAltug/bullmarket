@@ -1,5 +1,6 @@
 'use client';
 
+import { useProRequest } from '@/components/pro/ProRequest';
 import { useEffect, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -39,6 +40,7 @@ export function AlertModal({
   changePercent = 0,
 }: AlertModalProps) {
   const { addAlert } = useAlerts();
+  const { openPro } = useProRequest();
   const [kind, setKind] = useState<AlertKind>('price_above');
   const [threshold, setThreshold] = useState(String(currentPrice));
   const rsiOk = assetSupportsRsi(symbol);
@@ -67,8 +69,9 @@ export function AlertModal({
       void Notification.requestPermission();
     }
 
-    addAlert({ symbol, displaySymbol, kind, threshold: n });
+    const created = addAlert({ symbol, displaySymbol, kind, threshold: n });
     onOpenChange(false);
+    if (!created) openPro('alert-limit');
   }
 
   return (

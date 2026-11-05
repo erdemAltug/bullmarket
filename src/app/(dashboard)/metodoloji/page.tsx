@@ -74,8 +74,7 @@ export default function MetodolojiPage() {
 
       <h2 className={H2}>Veri kaynakları</h2>
       <ul className="list-disc space-y-1.5 pl-5">
-        <li>Hisse ve ETF fiyatları: piyasa veri sağlayıcıları (gecikmeli olabilir)</li>
-        <li>Kripto paralar: Binance</li>
+        <li>Hisse, ETF ve kripto fiyatları: piyasa veri sağlayıcıları (hisselerde 15 dakikaya kadar gecikmeli olabilir)</li>
         <li>Yatırım fonları: TEFAS</li>
         <li>Döviz kurları: TCMB</li>
         <li>Analist hedef fiyatları: aracı kurum konsensüsü (skorda kullanılmaz, ayrı gösterilir)</li>
