@@ -3,7 +3,7 @@ import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
-  title: 'NASDAQ & ABD Hisse Fiyatları | Bullsye',
+  title: 'NASDAQ ve ABD Hisse Fiyatları: Canlı Skor ve Hedef Fiyat',
   description:
     'NASDAQ ve NYSE canlı fiyatlar: AAPL, NVDA, TSLA, MSFT. Analist hedefi, grafik ve sağlık karnesi — Bullsye.',
   keywords: [

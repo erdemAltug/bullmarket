@@ -3,7 +3,7 @@ import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
-  title: 'Faiz & Kredi — TCMB, Fed, Mevduat | Bullsye',
+  title: 'Faiz & Kredi — TCMB, Fed, Mevduat',
   description:
     'Türkiye ve dünya faiz çerçevesi: tahvil getirileri, USD/TRY, TCMB ve Fed haberleri. Kredi ve mevduat okuryazarlığı — tavsiye değildir.',
   keywords: [

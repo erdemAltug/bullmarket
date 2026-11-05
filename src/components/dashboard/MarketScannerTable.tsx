@@ -3,14 +3,17 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
+  ArrowDown,
   ArrowDownRight,
+  ArrowUp,
+  ArrowUpDown,
   ArrowUpRight,
   ChevronDown,
   Search,
   Star,
+  X,
 } from 'lucide-react';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
-import { Sparkline } from '@/components/dashboard/Sparkline';
 import {
   Dialog,
   DialogContent,
@@ -19,6 +22,8 @@ import {
 import { useWatchlist } from '@/hooks/useWatchlist';
 import { usePreferences } from '@/components/providers/PreferencesProvider';
 import { assetDetailHref } from '@/lib/seo/internal-links';
+import { scoreOpportunity } from '@/lib/ai-opportunity';
+import { BIST_SECTORS, US_SECTORS } from '@/lib/seo/sectors';
 import type { ScannerItem } from '@/types/scanner';
 import { cn } from '@/lib/utils';
 
@@ -35,7 +40,7 @@ export type ScannerFilter =
 
 const FILTERS: { id: ScannerFilter; label: string }[] = [
   { id: 'ALL', label: 'Tümü' },
-  { id: 'BIST', label: 'BİST 100' },
+  { id: 'BIST', label: 'BİST' },
   { id: 'CRYPTO', label: 'Kripto' },
   { id: 'US', label: 'NASDAQ' },
   { id: 'FUNDS', label: "Fonlar & ETF'ler" },
@@ -43,7 +48,45 @@ const FILTERS: { id: ScannerFilter; label: string }[] = [
   { id: 'LOSERS', label: 'Düşenler' },
 ];
 
-const PAGE_SIZES = [10, 25, 50] as const;
+const PAGE_SIZES = [10, 25, 50, 100] as const;
+
+type SortKey = 'default' | 'name' | 'price' | 'change' | 'volume' | 'pe' | 'score';
+type SortDir = 'asc' | 'desc';
+
+type QuickId = 'score70' | 'cheap' | 'up5' | 'down5' | 'watch';
+const QUICK: { id: QuickId; label: string; hint: string }[] = [
+  { id: 'score70', label: 'Skor 70+', hint: 'Analiz skoru 70 ve üstü' },
+  { id: 'cheap', label: 'F/K < 10', hint: 'Fiyat/kazanç oranı 10’un altında' },
+  { id: 'up5', label: '+%5 üstü', hint: 'Bugün yüzde 5’ten fazla yükselenler' },
+  { id: 'down5', label: '−%5 altı', hint: 'Bugün yüzde 5’ten fazla düşenler' },
+  { id: 'watch', label: 'İzlediklerim', hint: 'Sadece izleme listendekiler' },
+];
+
+/** Sector baskets keyed "BIST:banka-hisseleri" / "US:yari-iletken-hisseleri". */
+const SECTOR_OPTIONS = [
+  ...BIST_SECTORS.map((x) => ({ key: `BIST:${x.slug}`, market: 'BIST' as const, name: x.name, symbols: new Set(x.symbols) })),
+  ...US_SECTORS.map((x) => ({ key: `US:${x.slug}`, market: 'US' as const, name: x.name, symbols: new Set(x.symbols) })),
+];
+
+/** Turkish-insensitive fold: "İŞ Bankası" ~ "is bankasi". */
+function fold(v: string) {
+  return v
+    .toLocaleLowerCase('tr-TR')
+    .replace(/ı/g, 'i')
+    .replace(/ş/g, 's')
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ö/g, 'o')
+    .replace(/ç/g, 'c')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+function sectorOf(item: ScannerItem) {
+  const market = item.category === 'BIST' ? 'BIST' : item.category === 'US' ? 'US' : null;
+  if (!market) return null;
+  return SECTOR_OPTIONS.find((o) => o.market === market && o.symbols.has(item.displaySymbol)) ?? null;
+}
 
 function SymbolBadge({
   display,
@@ -97,34 +140,127 @@ export function MarketScannerTable({
   const [itemsPerPage, setItemsPerPage] = useState<number>(25);
   const [page, setPage] = useState(1);
   const [chartItem, setChartItem] = useState<ScannerItem | null>(null);
+  const [sortKey, setSortKey] = useState<SortKey>('default');
+  const [sortDir, setSortDir] = useState<SortDir>('desc');
+  const [quick, setQuick] = useState<Set<QuickId>>(() => new Set());
+  const [sector, setSector] = useState<string>('');
+
+  const scores = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const it of items) m.set(it.symbol, scoreOpportunity(it));
+    return m;
+  }, [items]);
+
+  const sectorChoices = useMemo(() => {
+    if (filter === 'BIST') return SECTOR_OPTIONS.filter((o) => o.market === 'BIST');
+    if (filter === 'US') return SECTOR_OPTIONS.filter((o) => o.market === 'US');
+    if (filter === 'ALL' || filter === 'GAINERS' || filter === 'LOSERS') return SECTOR_OPTIONS;
+    return [];
+  }, [filter]);
+
+  function resetPage() {
+    setPage(1);
+  }
+
+  function toggleQuick(id: QuickId) {
+    setQuick((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+    resetPage();
+  }
+
+  function onSort(key: SortKey) {
+    if (sortKey === key) {
+      setSortDir((d) => (d === 'desc' ? 'asc' : 'desc'));
+    } else {
+      setSortKey(key);
+      setSortDir(key === 'name' ? 'asc' : 'desc');
+    }
+    resetPage();
+  }
+
+  const activeCount = quick.size + (sector ? 1 : 0) + (searchQuery ? 1 : 0);
+  function clearAll() {
+    setQuick(new Set());
+    setSector('');
+    setSearchQuery('');
+    setSortKey('default');
+    resetPage();
+  }
 
   const filteredData = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
+    const q = fold(searchQuery.trim());
+    const sectorOpt = sector ? SECTOR_OPTIONS.find((o) => o.key === sector) : null;
+    // A search like "banka" or "yarı iletken" also matches that sector's members.
+    const sectorHits = q.length >= 3
+      ? SECTOR_OPTIONS.filter((o) => fold(o.name).includes(q))
+      : [];
+
     let list = items.filter((item) => {
-      const matchesSearch =
-        !q ||
-        item.symbol.toLowerCase().includes(q) ||
-        item.displaySymbol.toLowerCase().includes(q) ||
-        item.name.toLowerCase().includes(q);
-      if (!matchesSearch) return false;
-      if (filter === 'ALL') return true;
-      if (filter === 'GAINERS') return item.changePercent > 0;
-      if (filter === 'LOSERS') return item.changePercent < 0;
-      if (filter === 'FUNDS')
-        return item.category === 'FON' || item.category === 'ETF';
-      if (filter === 'FON') return item.category === 'FON';
-      if (filter === 'ETF') return item.category === 'ETF';
-      return item.category === filter;
+      if (q) {
+        const hit =
+          fold(item.displaySymbol).includes(q) ||
+          fold(item.symbol).includes(q) ||
+          fold(item.name).includes(q) ||
+          sectorHits.some((o) => o.symbols.has(item.displaySymbol) && (o.market === item.category));
+        if (!hit) return false;
+      }
+      if (filter === 'GAINERS' && !(item.changePercent > 0)) return false;
+      if (filter === 'LOSERS' && !(item.changePercent < 0)) return false;
+      if (filter === 'FUNDS' && item.category !== 'FON' && item.category !== 'ETF') return false;
+      if (filter === 'FON' && item.category !== 'FON') return false;
+      if (filter === 'ETF' && item.category !== 'ETF') return false;
+      if ((filter === 'BIST' || filter === 'CRYPTO' || filter === 'US') && item.category !== filter) return false;
+      if (sectorOpt && !(sectorOpt.market === item.category && sectorOpt.symbols.has(item.displaySymbol))) return false;
+      if (quick.has('score70') && (scores.get(item.symbol) ?? 0) < 70) return false;
+      if (quick.has('cheap') && !(item.trailingPE != null && item.trailingPE > 0 && item.trailingPE < 10)) return false;
+      if (quick.has('up5') && !(item.changePercent >= 5)) return false;
+      if (quick.has('down5') && !(item.changePercent <= -5)) return false;
+      if (quick.has('watch') && !hasSymbol(item.symbol)) return false;
+      return true;
     });
 
-    if (filter === 'GAINERS') {
-      list = [...list].sort((a, b) => b.changePercent - a.changePercent);
+    const dir = sortDir === 'asc' ? 1 : -1;
+    const val = (it: ScannerItem): number | string | null => {
+      switch (sortKey) {
+        case 'name': return it.displaySymbol;
+        case 'price': return it.price;
+        case 'change': return it.changePercent;
+        case 'volume': return it.volumeRaw;
+        case 'pe': return it.trailingPE != null && it.trailingPE > 0 ? it.trailingPE : null;
+        case 'score': return scores.get(it.symbol) ?? null;
+        default: return null;
+      }
+    };
+
+    if (sortKey !== 'default') {
+      list = [...list].sort((x, y) => {
+        const a1 = val(x);
+        const b1 = val(y);
+        if (a1 == null && b1 == null) return 0;
+        if (a1 == null) return 1; // missing values always last
+        if (b1 == null) return -1;
+        if (typeof a1 === 'string' && typeof b1 === 'string') return a1.localeCompare(b1, 'tr') * dir;
+        return ((a1 as number) - (b1 as number)) * dir;
+      });
+    } else if (filter === 'GAINERS') {
+      list = [...list].sort((x, y) => y.changePercent - x.changePercent);
     } else if (filter === 'LOSERS') {
-      list = [...list].sort((a, b) => a.changePercent - b.changePercent);
+      list = [...list].sort((x, y) => x.changePercent - y.changePercent);
+    } else if (q) {
+      // Exact ticker first, then ticker prefix, then the rest.
+      const rank = (it: ScannerItem) => {
+        const d = fold(it.displaySymbol);
+        return d === q ? 0 : d.startsWith(q) ? 1 : 2;
+      };
+      list = [...list].sort((x, y) => rank(x) - rank(y));
     }
 
     return list;
-  }, [items, searchQuery, filter]);
+  }, [items, searchQuery, filter, sector, quick, scores, sortKey, sortDir, hasSymbol]);
 
   const visibleCount = page * itemsPerPage;
   const paginatedData = filteredData.slice(0, visibleCount);
@@ -179,6 +315,9 @@ export function MarketScannerTable({
               type="button"
               onClick={() => {
                 setFilter(f.id);
+                if (f.id !== 'ALL' && f.id !== 'GAINERS' && f.id !== 'LOSERS' && !sector.startsWith(f.id === 'US' ? 'US:' : 'BIST:')) {
+                  setSector('');
+                }
                 setPage(1);
               }}
               className={cn(
@@ -202,10 +341,74 @@ export function MarketScannerTable({
               setSearchQuery(e.target.value);
               setPage(1);
             }}
-            placeholder="Ara: THYAO, VOO, YAY, AFT, BTC…"
+            placeholder="Ara: THYAO, Garanti, banka, yarı iletken, BTC…"
             className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] py-2 pl-9 pr-3 text-xs text-[var(--foreground)] placeholder:text-[var(--muted)] outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/40"
           />
         </div>
+      </div>
+
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        {sectorChoices.length ? (
+          <div className="relative">
+            <select
+              value={sector}
+              onChange={(e) => {
+                setSector(e.target.value);
+                resetPage();
+              }}
+              aria-label="Sektör"
+              className={cn(
+                'appearance-none rounded-lg border py-1.5 pl-2.5 pr-7 text-xs outline-none',
+                sector
+                  ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'
+                  : 'border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)]'
+              )}
+            >
+              <option value="">Tüm sektörler</option>
+              {sectorChoices.some((o) => o.market === 'BIST') ? (
+                <optgroup label="BİST">
+                  {sectorChoices.filter((o) => o.market === 'BIST').map((o) => (
+                    <option key={o.key} value={o.key}>{o.name}</option>
+                  ))}
+                </optgroup>
+              ) : null}
+              {sectorChoices.some((o) => o.market === 'US') ? (
+                <optgroup label="ABD">
+                  {sectorChoices.filter((o) => o.market === 'US').map((o) => (
+                    <option key={o.key} value={o.key}>{o.name}</option>
+                  ))}
+                </optgroup>
+              ) : null}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-1.5 top-1/2 size-3.5 -translate-y-1/2 text-[var(--muted)]" />
+          </div>
+        ) : null}
+        {QUICK.map((qf) => (
+          <button
+            key={qf.id}
+            type="button"
+            title={qf.hint}
+            aria-pressed={quick.has(qf.id)}
+            onClick={() => toggleQuick(qf.id)}
+            className={cn(
+              'rounded-full border px-2.5 py-1 text-[11px] font-medium transition-colors',
+              quick.has(qf.id)
+                ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300'
+                : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)]'
+            )}
+          >
+            {qf.label}
+          </button>
+        ))}
+        {activeCount || sortKey !== 'default' ? (
+          <button
+            type="button"
+            onClick={clearAll}
+            className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-[11px] text-[var(--muted)] hover:text-[var(--foreground)]"
+          >
+            <X className="size-3" /> Temizle
+          </button>
+        ) : null}
       </div>
 
       {error ? (
@@ -216,15 +419,12 @@ export function MarketScannerTable({
         <table className="w-full min-w-0 text-left text-xs sm:min-w-[560px] md:min-w-[640px]">
           <thead>
             <tr className="border-b border-[var(--border)] text-[var(--muted)]">
-              <th className="px-1.5 py-3 font-medium sm:px-2">Sembol</th>
-              <th className="px-1.5 py-3 text-right font-medium sm:px-2">Fiyat</th>
-              <th className="px-1.5 py-3 text-right font-medium sm:px-2">24s</th>
-              <th className="hidden px-2 py-3 text-right font-medium sm:table-cell">
-                Hacim
-              </th>
-              <th className="hidden px-2 py-3 text-center font-medium md:table-cell">
-                7 Gün
-              </th>
+              <SortTh label="Sembol" k="name" sortKey={sortKey} sortDir={sortDir} onSort={onSort} />
+              <SortTh label="Fiyat" k="price" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right />
+              <SortTh label="Günlük" k="change" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right />
+              <SortTh label="Hacim" k="volume" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right className="hidden sm:table-cell" />
+              <SortTh label="F/K" k="pe" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right className="hidden lg:table-cell" />
+              <SortTh label="Skor" k="score" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right className="hidden md:table-cell" />
               <th className="px-1.5 py-3 text-right font-medium sm:px-2">İşlem</th>
             </tr>
           </thead>
@@ -281,6 +481,7 @@ export function MarketScannerTable({
                         </div>
                         <p className="hidden truncate text-[10px] text-[var(--muted)] sm:block">
                           {item.name}
+                          {sectorOf(item) ? <span className="text-[var(--muted)]/70"> · {sectorOf(item)!.name}</span> : null}
                         </p>
                       </div>
                     </div>
@@ -309,13 +510,27 @@ export function MarketScannerTable({
                   <td className="hidden px-2 py-2.5 text-right font-mono text-[var(--muted)] sm:table-cell">
                     {item.volume}
                   </td>
-                  <td className="hidden px-2 py-2.5 md:table-cell">
-                    <Sparkline
-                      data={item.sparkline}
-                      positive={positive}
-                      width={96}
-                      height={28}
-                    />
+                  <td className="hidden px-2 py-2.5 text-right font-mono tabular-nums text-[var(--muted)] lg:table-cell">
+                    {item.trailingPE != null && item.trailingPE > 0 ? item.trailingPE.toFixed(1) : '—'}
+                  </td>
+                  <td className="hidden px-2 py-2.5 text-right md:table-cell">
+                    {(() => {
+                      const sc = scores.get(item.symbol) ?? 0;
+                      return (
+                        <span
+                          className={cn(
+                            'inline-flex min-w-[2.25rem] justify-center rounded-md px-1.5 py-0.5 font-mono text-[11px] font-bold',
+                            sc >= 80
+                              ? 'bg-emerald-500/15 text-emerald-300'
+                              : sc >= 60
+                                ? 'bg-[var(--surface)] text-[var(--foreground)]'
+                                : 'bg-[var(--surface)] text-[var(--muted)]'
+                          )}
+                        >
+                          {sc}
+                        </span>
+                      );
+                    })()}
                   </td>
                   <td className="px-1.5 py-2.5 text-right sm:px-2">
                     <button
@@ -335,7 +550,7 @@ export function MarketScannerTable({
             {!isLoading && paginatedData.length === 0 ? (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={7}
                   className="px-4 py-10 text-center text-sm text-[var(--muted)]"
                 >
                   Sonuç bulunamadı
@@ -345,7 +560,7 @@ export function MarketScannerTable({
             {isLoading && paginatedData.length === 0 ? (
               <tr>
                 <td
-                  colSpan={6}
+                  colSpan={7}
                   className="px-4 py-10 text-center text-sm text-[var(--muted)]"
                 >
                   Yükleniyor…
@@ -446,5 +661,44 @@ export function MarketScannerTable({
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+function SortTh({
+  label,
+  k,
+  sortKey,
+  sortDir,
+  onSort,
+  right,
+  className,
+}: {
+  label: string;
+  k: SortKey;
+  sortKey: SortKey;
+  sortDir: SortDir;
+  onSort: (k: SortKey) => void;
+  right?: boolean;
+  className?: string;
+}) {
+  const active = sortKey === k;
+  const Icon = !active ? ArrowUpDown : sortDir === 'desc' ? ArrowDown : ArrowUp;
+  return (
+    <th
+      className={cn('px-1.5 py-3 font-medium sm:px-2', right && 'text-right', className)}
+      aria-sort={active ? (sortDir === 'desc' ? 'descending' : 'ascending') : 'none'}
+    >
+      <button
+        type="button"
+        onClick={() => onSort(k)}
+        className={cn(
+          'inline-flex items-center gap-1 transition-colors hover:text-[var(--foreground)]',
+          active && 'text-emerald-400'
+        )}
+      >
+        {label}
+        <Icon className={cn('size-3', !active && 'opacity-40')} />
+      </button>
+    </th>
   );
 }
