@@ -318,3 +318,35 @@ html.terminal body {
     animation: none !important;
   }
 }
+
+/* Landing hero demo */
+@keyframes landing-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.landing-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: landing-draw 1.6s cubic-bezier(.65,0,.35,1) forwards; }
+@keyframes landing-area-in { from { opacity: 0; } to { opacity: 1; } }
+.landing-area-in { opacity: 0; animation: landing-area-in .8s ease-out 1s forwards; }
+.landing-dot-in { opacity: 0; animation: landing-area-in .3s ease-out 1.55s forwards; }
+@keyframes landing-dot-pulse { 0% { transform: scale(.6); opacity: .45; } 100% { transform: scale(1.8); opacity: 0; } }
+.landing-dot-pulse { transform-box: fill-box; transform-origin: center; opacity: 0; animation: landing-dot-pulse 1.8s ease-out 1.6s infinite; }
+@keyframes landing-progress { from { width: 0; } to { width: 100%; } }
+.landing-progress { animation: landing-progress linear forwards; }
+@keyframes landing-caret { 50% { opacity: 0; } }
+.landing-caret { animation: landing-caret 1s steps(1) infinite; }
+@keyframes landing-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.landing-bar { transform-origin: left; transform: scaleX(0); animation: landing-bar .8s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes landing-toast {
+  0%, 42% { opacity: 0; transform: translateY(12px); }
+  48%, 88% { opacity: 1; transform: translateY(0); }
+  94%, 100% { opacity: 0; transform: translateY(6px); }
+}
+.landing-toast { opacity: 0; animation: landing-toast ease-out forwards; }
+@keyframes landing-reveal { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.landing-reveal { opacity: 0; }
+.landing-reveal.is-visible { animation: landing-reveal .7s ease-out forwards; }
+@keyframes landing-scan { from { transform: translateX(-100%); } to { transform: translateX(400%); } }
+.landing-scan { animation: landing-scan 2.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .landing-draw, .landing-area-in, .landing-dot-in, .landing-bar, .landing-toast, .landing-reveal, .landing-reveal.is-visible {
+    animation: none; opacity: 1; stroke-dashoffset: 0; transform: none;
+  }
+  .landing-dot-pulse, .landing-progress, .landing-caret, .landing-scan { animation: none; }
+}

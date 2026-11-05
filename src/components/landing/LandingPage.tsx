@@ -3,13 +3,14 @@ import {
   Activity,
   Crosshair,
   Newspaper,
-  ShieldCheck,
   Waves,
   Zap,
 } from 'lucide-react';
 import { AssetChecker } from '@/components/landing/AssetChecker';
 import { FaqAccordion } from '@/components/landing/FaqAccordion';
-import { HeroAtmosphere } from '@/components/landing/HeroAtmosphere';
+import { HeroDemo } from '@/components/landing/HeroDemo';
+import { HowItWorks } from '@/components/landing/HowItWorks';
+import { Reveal } from '@/components/landing/Reveal';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingTicker } from '@/components/landing/LandingTicker';
 import { SignupBenefits } from '@/components/landing/SignupBenefits';
@@ -125,10 +126,12 @@ export function LandingPage() {
             </h1>
             <p className="landing-fade-up landing-delay-2 mx-auto mt-4 max-w-xl text-balance text-base text-[var(--muted)] sm:text-lg">
               BİST, NASDAQ ve kriptoda yüzlerce sinyal tek bir 0–100 skora
-              iner. Her sabah 08:30’da en güçlü 5’i e-postanda — ücretsiz.
+              iner. Her sabah 08:30’da en güçlü 5’i e-postanda.
             </p>
             <div className="landing-fade-up landing-delay-3 mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <SignupCta where="hero" className="w-full sm:w-auto" />
+              <SignupCta where="hero" className="w-full sm:w-auto">
+                Hemen kayıt ol
+              </SignupCta>
               <TerminalCtaButton
                 compact
                 className="inline-flex w-full items-center justify-center rounded-lg border border-[var(--border)] px-5 py-3 text-sm font-medium hover:border-[var(--accent)]/40 sm:w-auto"
@@ -136,16 +139,11 @@ export function LandingPage() {
                 Kayıtsız terminale gir
               </TerminalCtaButton>
             </div>
-            <p className="landing-fade-up landing-delay-3 mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-[var(--muted)]">
-              <span className="inline-flex items-center gap-1">
-                <ShieldCheck className="size-3.5 text-[var(--accent)]" />
-                Kredi kartı yok
-              </span>
-              <span>Google ile 10 saniye</span>
-              <span>Al/sat tavsiyesi vermez</span>
+            <p className="landing-fade-up landing-delay-3 mt-4 text-sm text-[var(--muted)]">
+              Hesap oluştur: sabah özeti, fiyat alarmı ve izleme listen her cihazda seninle.
             </p>
           </div>
-          <HeroAtmosphere />
+          <HeroDemo />
         </div>
       </section>
 
@@ -153,11 +151,19 @@ export function LandingPage() {
         <LandingTicker />
       </div>
 
-      <TodayPicks />
+      <Reveal>
+        <TodayPicks />
+      </Reveal>
 
-      <SignupBenefits />
+      <HowItWorks />
 
-      <AsistanDemo />
+      <Reveal>
+        <SignupBenefits />
+      </Reveal>
+
+      <Reveal>
+        <AsistanDemo />
+      </Reveal>
 
       <section
         id="ozellikler"
