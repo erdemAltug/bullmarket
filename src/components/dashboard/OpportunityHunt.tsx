@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Bell, Flame, Radio, Zap } from 'lucide-react';
+import { Bell, ChevronDown, Flame, Radio, Search, X, Zap } from 'lucide-react';
+import type { PotentialCard } from '@/lib/ai-opportunity';
 import { AIDailyVisionPanel } from '@/components/dashboard/AIDailyVisionPanel';
 import { AIPotentialRadar } from '@/components/dashboard/AIPotentialRadar';
 import { AISignalRadar } from '@/components/dashboard/AISignalRadar';
@@ -49,6 +50,48 @@ function readStreak(): number {
   }
 }
 
+type CardMarket = 'ALL' | 'BIST' | 'US' | 'CRYPTO' | 'FUND';
+type CardSort = 'score' | 'up' | 'down' | 'pe';
+
+const CARD_MARKETS: [CardMarket, string][] = [
+  ['ALL', 'Tümü'],
+  ['BIST', 'BİST'],
+  ['US', 'ABD'],
+  ['CRYPTO', 'Kripto'],
+  ['FUND', 'Fon & ETF'],
+];
+
+function fold(v: string) {
+  return v
+    .toLocaleLowerCase('tr-TR')
+    .replace(/ı/g, 'i')
+    .replace(/ş/g, 's')
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ö/g, 'o')
+    .replace(/ç/g, 'c');
+}
+
+function filterCards(cards: PotentialCard[], market: CardMarket, query: string, sort: CardSort, min: number) {
+  const q = fold(query.trim());
+  const list = cards.filter((c) => {
+    if (market === 'FUND') {
+      if (c.category !== 'FON' && c.category !== 'ETF') return false;
+    } else if (market !== 'ALL' && c.category !== market) return false;
+    if (c.score < min) return false;
+    if (q && !fold(c.displaySymbol).includes(q) && !fold(c.name).includes(q)) return false;
+    return true;
+  });
+  const pe = (c: PotentialCard) => (c.trailingPE && c.trailingPE > 0 ? c.trailingPE : Infinity);
+  const by: Record<CardSort, (a: PotentialCard, b: PotentialCard) => number> = {
+    score: (a, b) => b.score - a.score,
+    up: (a, b) => b.changePercent - a.changePercent,
+    down: (a, b) => a.changePercent - b.changePercent,
+    pe: (a, b) => pe(a) - pe(b),
+  };
+  return [...list].sort(by[sort]);
+}
+
 export function OpportunityHunt() {
   const scanner = useMarketScanner();
 
@@ -62,16 +105,27 @@ export function OpportunityHunt() {
     () => (marketItems.length ? buildDailyVision(marketItems) : null),
     [marketItems]
   );
-  const potentialCards = useMemo(
-    () => buildPotentialCards(marketItems, 12),
+  const allCards = useMemo(
+    () => buildPotentialCards(marketItems, 400),
     [marketItems]
   );
+  const [cMarket, setCMarket] = useState<CardMarket>('ALL');
+  const [cQuery, setCQuery] = useState('');
+  const [cSort, setCSort] = useState<CardSort>('score');
+  const [cMin, setCMin] = useState(0);
+  const [cLimit, setCLimit] = useState(12);
+  const filteredCards = useMemo(
+    () => filterCards(allCards, cMarket, cQuery, cSort, cMin),
+    [allCards, cMarket, cQuery, cSort, cMin]
+  );
+  const potentialCards = useMemo(() => filteredCards.slice(0, cLimit), [filteredCards, cLimit]);
+  const cFiltersOn = cMarket !== 'ALL' || cQuery !== '' || cSort !== 'score' || cMin > 0;
   const sentiment = useMemo(
     () => (marketItems.length ? computeMarketSentiment(marketItems) : null),
     [marketItems]
   );
 
-  const hotCount = potentialCards.filter((c) => c.score >= 75).length;
+  const hotCount = allCards.filter((c) => c.score >= 75).length;
 
   useEffect(() => {
     setStreak(readStreak());
@@ -143,10 +197,109 @@ export function OpportunityHunt() {
         />
       ) : null}
 
-      <AIPotentialRadar
-        cards={potentialCards}
-        loading={scanner.isLoading}
-      />
+      <section className="space-y-3">
+        <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
+          <div className="flex items-center gap-1.5 overflow-x-auto">
+            {CARD_MARKETS.map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => {
+                  setCMarket(id);
+                  setCLimit(12);
+                }}
+                className={cn(
+                  'whitespace-nowrap rounded-lg px-3 py-1.5 text-xs font-semibold transition-all',
+                  cMarket === id
+                    ? 'bg-emerald-500 text-black'
+                    : 'border border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-[var(--foreground)]'
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className="relative lg:ml-auto lg:w-56">
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-[var(--muted)]" />
+            <input
+              type="search"
+              value={cQuery}
+              onChange={(e) => {
+                setCQuery(e.target.value);
+                setCLimit(12);
+              }}
+              placeholder="Sembol veya şirket ara…"
+              className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] py-2 pl-9 pr-3 text-xs outline-none placeholder:text-[var(--muted)] focus:border-emerald-500/50"
+            />
+          </div>
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <select
+                value={cMin}
+                onChange={(e) => {
+                  setCMin(Number(e.target.value));
+                  setCLimit(12);
+                }}
+                aria-label="En düşük skor"
+                className="w-full appearance-none rounded-lg border border-[var(--border)] bg-[var(--surface)] py-1.5 pl-2.5 pr-7 text-xs outline-none"
+              >
+                <option value={0}>Tüm skorlar</option>
+                <option value={60}>Skor 60+</option>
+                <option value={70}>Skor 70+</option>
+                <option value={80}>Skor 80+</option>
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-1.5 top-1/2 size-3.5 -translate-y-1/2 text-[var(--muted)]" />
+            </div>
+            <div className="relative flex-1">
+              <select
+                value={cSort}
+                onChange={(e) => setCSort(e.target.value as CardSort)}
+                aria-label="Sıralama"
+                className="w-full appearance-none rounded-lg border border-[var(--border)] bg-[var(--surface)] py-1.5 pl-2.5 pr-7 text-xs outline-none"
+              >
+                <option value="score">En yüksek skor</option>
+                <option value="up">En çok yükselen</option>
+                <option value="down">En çok düşen</option>
+                <option value="pe">En düşük F/K</option>
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-1.5 top-1/2 size-3.5 -translate-y-1/2 text-[var(--muted)]" />
+            </div>
+          </div>
+        </div>
+        <p className="flex items-center gap-2 text-[11px] text-[var(--muted)]">
+          {filteredCards.length} sembol
+          {cFiltersOn ? (
+            <button
+              type="button"
+              onClick={() => {
+                setCMarket('ALL');
+                setCQuery('');
+                setCSort('score');
+                setCMin(0);
+                setCLimit(12);
+              }}
+              className="inline-flex items-center gap-1 hover:text-[var(--foreground)]"
+            >
+              <X className="size-3" /> Temizle
+            </button>
+          ) : null}
+        </p>
+        <AIPotentialRadar
+          cards={potentialCards}
+          loading={scanner.isLoading}
+        />
+        {filteredCards.length > potentialCards.length ? (
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => setCLimit((n) => n + 24)}
+              className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-6 py-2.5 text-xs font-bold text-[var(--muted)] transition-all hover:border-emerald-500/40 hover:text-[var(--foreground)]"
+            >
+              Daha fazla göster · {filteredCards.length - potentialCards.length} sembol kaldı
+            </button>
+          </div>
+        ) : null}
+      </section>
 
       <section className="space-y-3">
         <div className="flex flex-wrap items-end justify-between gap-2">
