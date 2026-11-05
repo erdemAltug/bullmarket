@@ -15,7 +15,18 @@ export interface SignalCardData {
   riskRewardRatio: string;
   changePercent: number;
   id: string;
+  /** What is happening, in plain terms (shown instead of buy/sell). */
+  kind: SignalKind;
+  /** 0 = at the day low, 1 = at the day high. */
+  rangePos: number;
+  dayHigh: number;
+  dayLow: number;
 }
+
+export type SignalKind = 'DIP' | 'PEAK' | 'SURGE' | 'SLUMP' | 'BREAKOUT';
+
+/** Moves beyond these are almost always bad quotes or corporate actions. */
+const MAX_PLAUSIBLE_MOVE = { CRYPTO: 60, DEFAULT: 25 } as const;
 
 /**
  * Intraday band signals from live price + session/24h high-low.
@@ -48,25 +59,33 @@ export function generateRealTimeSignals(
     const span = Math.max(high - low, price * 0.005);
     const rangePos = Math.min(1, Math.max(0, (price - low) / span));
     const chg = item.changePercent;
+    const maxMove = item.category === 'CRYPTO' ? MAX_PLAUSIBLE_MOVE.CRYPTO : MAX_PLAUSIBLE_MOVE.DEFAULT;
+    if (!Number.isFinite(chg) || Math.abs(chg) > maxMove) continue;
 
     let signalType: SignalCardData['signalType'] | null = null;
     let strategyName = '';
+    let kind: SignalKind = 'DIP';
 
     if (rangePos <= 0.22 && chg > -8) {
       signalType = rangePos <= 0.12 ? 'STRONG_BUY' : 'BUY';
-      strategyName = 'Gün içi dip bandı — canlı high/low desteği';
+      strategyName = 'Fiyat günün en düşük seviyesine yakın';
+      kind = 'DIP';
     } else if (rangePos >= 0.82 && chg < 8) {
       signalType = 'SELL';
-      strategyName = 'Gün içi zirve bandı — direnç reddi';
+      strategyName = 'Fiyat günün en yüksek seviyesine yakın';
+      kind = 'PEAK';
     } else if (chg >= 3 && rangePos < 0.7) {
       signalType = chg >= 5 ? 'STRONG_BUY' : 'BUY';
-      strategyName = `Momentum +%${chg.toFixed(1)} — canlı günlük değişim`;
+      strategyName = `Bugün %${chg.toFixed(1)} yükseldi, hâlâ zirvenin altında`;
+      kind = 'SURGE';
     } else if (chg <= -3 && rangePos > 0.3) {
       signalType = 'SELL';
-      strategyName = `Negatif ivme %${chg.toFixed(1)} — destek kırılım riski`;
+      strategyName = `Bugün %${Math.abs(chg).toFixed(1)} düştü, dibin üstünde`;
+      kind = 'SLUMP';
     } else if (price >= high * 0.995 && chg > 0) {
       signalType = 'BUY';
-      strategyName = 'Gün içi zirveye yakın kırılım denemesi';
+      strategyName = 'Gün içi zirveyi zorluyor';
+      kind = 'BREAKOUT';
     } else {
       continue;
     }
@@ -112,6 +131,10 @@ export function generateRealTimeSignals(
       timeAgo: 'canlı',
       riskRewardRatio: `1:${rr.toFixed(1)}`,
       changePercent: chg,
+      kind,
+      rangePos,
+      dayHigh: high,
+      dayLow: low,
     });
   }
 
