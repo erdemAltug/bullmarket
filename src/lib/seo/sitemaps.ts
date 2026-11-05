@@ -65,6 +65,13 @@ export function buildMainSitemap(): MetadataRoute.Sitemap {
     { path: '/bist', changeFrequency: 'always', priority: 1 },
     { path: '/bist/heatmap', changeFrequency: 'hourly', priority: 0.85 },
     { path: '/bist/f-k-en-dusuk-hisseler', changeFrequency: 'daily', priority: 0.9 },
+    { path: '/bist/en-yuksek-skorlu-hisseler', changeFrequency: 'hourly', priority: 0.95 },
+    { path: '/bist/en-cok-yukselen-hisseler', changeFrequency: 'hourly', priority: 0.95 },
+    { path: '/bist/en-cok-dusen-hisseler', changeFrequency: 'hourly', priority: 0.9 },
+    { path: '/nasdaq/en-yuksek-skorlu-hisseler', changeFrequency: 'hourly', priority: 0.9 },
+    { path: '/kripto/en-yuksek-skorlu-coinler', changeFrequency: 'hourly', priority: 0.9 },
+    { path: '/hakkimizda', changeFrequency: 'monthly', priority: 0.6 },
+    { path: '/metodoloji', changeFrequency: 'monthly', priority: 0.7 },
     {
       path: '/bist/yuksek-temettu-verenler-2026',
       changeFrequency: 'daily',

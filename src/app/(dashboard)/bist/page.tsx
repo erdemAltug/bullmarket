@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { BIST_HUB_SEO, HubSeoBlock } from '@/components/seo/HubSeoBlock';
 import { CrawlSnapshot } from '@/components/seo/CrawlSnapshot';
@@ -41,6 +42,23 @@ export default async function BistPage() {
         BİST 100 canlı hisse fiyatları
       </h1>
       <CrawlSnapshot snap={snap} />
+      <nav aria-label="Canlı listeler" className="mt-4 flex flex-wrap gap-2 text-xs">
+        {[
+          ['/bist/en-yuksek-skorlu-hisseler', 'En yüksek skorlu hisseler'],
+          ['/bist/en-cok-yukselen-hisseler', 'Bugün en çok yükselenler'],
+          ['/bist/en-cok-dusen-hisseler', 'Bugün en çok düşenler'],
+          ['/bist/yuksek-temettu-verenler-2026', 'Yüksek temettü verenler'],
+          ['/bist/halka-arz-takvimi', 'Halka arz takvimi'],
+        ].map(([href, label]) => (
+          <Link
+            key={href}
+            href={href}
+            className="rounded-full border border-[var(--border)] px-3 py-1 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+          >
+            {label}
+          </Link>
+        ))}
+      </nav>
       <div className="mt-6">
         <BistHubClient />
       </div>

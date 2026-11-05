@@ -27,7 +27,7 @@ function ScoreVisual() {
       {[
         ['Momentum', 82],
         ['Değerleme', 64],
-        ['Hedef fiyat', 71],
+        ['Hacim', 71],
       ].map(([l, v], i) => (
         <div key={l as string}>
           <div className="flex justify-between text-[10px] text-[var(--muted)]">
@@ -71,7 +71,7 @@ const STEPS = [
   {
     icon: Gauge,
     title: 'Tek skora indiriyoruz',
-    line: 'Momentum, değerleme, hedef fiyat ve hacim 0–100 arası tek bir sayıya iner.',
+    line: 'Fiyat hareketi, gün içi konum, hacim ve değerleme 0–100 arası tek bir sayıya iner.',
     visual: <ScoreVisual />,
   },
   {

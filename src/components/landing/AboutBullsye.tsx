@@ -7,7 +7,7 @@ const PRINCIPLES = [
     icon: Eye,
     title: 'Yöntemimiz açık',
     line: 'Skorun hangi verilerden ve nasıl hesaplandığını herkesin okuyabileceği şekilde yazdık. Kara kutu yok.',
-    href: '/egitim/teknik-analiz/analiz-skoru-nasil-okunur',
+    href: '/metodoloji',
     cta: 'Skor nasıl hesaplanır',
   },
   {
@@ -50,8 +50,8 @@ export function AboutBullsye() {
                 yüzlerce hisse, onlarca gösterge, sürekli akan haber.
               </p>
               <p>
-                Biz bu gürültüyü her gün tarıyoruz. Her hisseyi momentum, değerleme,
-                analist hedefleri ve hacimden oluşan{' '}
+                Biz bu gürültüyü her gün tarıyoruz. Her hisseyi fiyat hareketi, gün içi konum,
+                işlem hacmi ve değerlemeden oluşan{' '}
                 <strong className="font-semibold text-[var(--foreground)]">0–100 arası tek bir skora</strong>{' '}
                 indiriyoruz. Önemli bir şey olduğunda e-postanla haber veriyoruz.
                 Amacımız sana ne alacağını söylemek değil, neye bakman gerektiğini
