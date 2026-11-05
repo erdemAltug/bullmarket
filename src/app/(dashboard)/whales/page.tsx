@@ -4,7 +4,7 @@ import { withLangAlternates } from '@/lib/seo/hreflang';
 import { WhalesTerminal } from '@/components/dashboard/WhalesTerminal';
 
 export const metadata: Metadata = {
-  title: 'Balina & Takas Analizi',
+  title: 'Hacim ve Balina Takibi',
   description:
     'BİST kurumsal hacim ilgi proxy ve kripto büyük işlem (balina) akışı — Bullsye.',
   keywords: [

@@ -55,7 +55,7 @@ import { formatPrice } from '@/lib/utils';
 
 const WIDGET_LABELS: Record<DashboardWidgetId, string> = {
   'fear-greed': 'Korku ve Açgözlülük',
-  'smart-radar': 'Günün Radarı',
+  'smart-radar': 'Teknik göstergeler',
   metrics: 'Metrikler',
   'chart-fx': 'Grafik ve döviz',
   watchlist: 'İzleme listesi',
@@ -115,7 +115,7 @@ export default function OverviewPage() {
     [marketItems]
   );
   const potentialCards = useMemo(
-    () => buildPotentialCards(marketItems, 5),
+    () => buildPotentialCards(marketItems, 3),
     [marketItems]
   );
   const sentiment = useMemo(
@@ -251,7 +251,7 @@ export default function OverviewPage() {
             />
             <Card>
               <CardHeader>
-                <CardTitle>FX & Gold</CardTitle>
+                <CardTitle>Döviz ve altın</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 {rates.map((r) => (
@@ -290,7 +290,7 @@ export default function OverviewPage() {
               items={scanner.data ?? []}
               isLoading={scanner.isLoading}
               error={scanner.error?.message}
-              title="Piyasa tarama"
+              title="Piyasa tarayıcısı"
             />
             <div>
               <h2 className="mb-3 text-sm font-medium text-zinc-400">
@@ -403,7 +403,7 @@ export default function OverviewPage() {
             ? `${dailyVision.avgUpsidePct.toFixed(0)} · ${dailyVision.opportunityCount} yüksek`
             : undefined
         }
-        defaultOpen
+        defaultOpen={false}
       >
         <AIDailyVisionPanel
           report={dailyVision}
@@ -413,7 +413,7 @@ export default function OverviewPage() {
 
       <ExpandableSection
         id="opportunity-radar"
-        title="Skor listesi"
+        title="Bugünün ilk 3 skoru"
         subtitle={
           potentialCards.length ? `${potentialCards.length} sembol` : undefined
         }
@@ -437,7 +437,7 @@ export default function OverviewPage() {
               className="shrink-0 text-[11px] font-medium text-emerald-400 hover:underline sm:text-xs"
               onClick={(e) => e.stopPropagation()}
             >
-              Tarama →
+              Tüm skor taraması →
             </Link>
           </div>
         }

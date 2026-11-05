@@ -139,21 +139,13 @@ export default function DividendsPage() {
           Temettü & Bilanço Karnesi
         </h1>
         <p className="mt-1 text-xs text-[var(--muted)]">
-          Canlı temettü verimi & ex-date
+          Temettü takvimi, verim ve hak kullanım tarihleri
           {data?.updatedAt
             ? ` · ${new Date(data.updatedAt).toLocaleTimeString('tr-TR')}`
             : ''}
           {items.length ? ` · ${items.length} hisse` : ''}
         </p>
       </div>
-
-      <WealthSimulator
-        defaultPrincipal={100_000}
-        suggestedReturnPct={
-          champion ? Math.min(28, Math.max(8, champion.dividendYield + 10)) : 14
-        }
-        title="Temettü + Bileşik Getiri · 3 Yıllık Simülatör"
-      />
 
       {isLoading ? (
         <div className="grid gap-4 md:grid-cols-3">
@@ -344,6 +336,15 @@ export default function DividendsPage() {
           </div>
         </>
       )}
+
+      {/* Simulator after the real data: the page is a dividend calendar first. */}
+      <WealthSimulator
+        defaultPrincipal={100_000}
+        suggestedReturnPct={
+          champion ? Math.min(28, Math.max(8, champion.dividendYield + 10)) : 14
+        }
+        title="Temettüyü yeniden yatırırsan: 3 yıllık simülasyon"
+      />
     </div>
   );
 }

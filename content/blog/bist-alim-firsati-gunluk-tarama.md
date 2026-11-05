@@ -12,7 +12,7 @@ tags:
   - tarama
   - RSI
 readTime: 8
-author: Bullsye Research Team
+author: Bullsye Editörlüğü
 keywords:
   - BİST alım fırsatı günlük tarama
   - RSI

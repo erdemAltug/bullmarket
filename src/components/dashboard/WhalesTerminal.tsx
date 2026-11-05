@@ -78,11 +78,11 @@ export function WhalesTerminal() {
       <div>
         <h1 className="flex items-center gap-2 text-2xl font-semibold tracking-tight">
           <Waves className="size-6 text-cyan-400" />
-          Balina & Takas Analizi
+          Hacim ve Balina Takibi
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Kurumsal ilgi proxy (hacim × momentum) ve kripto büyük işlem akışı —
-          resmi KAP takas oranı değildir
+          Bugün en yüksek hacimle işlem gören BİST hisseleri ve kriptoda büyük
+          işlemler. Takas (aracı kurum dağılımı) verisi değildir.
         </p>
       </div>
 
@@ -97,15 +97,15 @@ export function WhalesTerminal() {
           <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
             <div className="mb-1 flex flex-wrap items-end justify-between gap-2">
               <h2 className="text-sm font-semibold">
-                Kurumsal İlgi — Takas Değişimi Proxy
+                Hacim liderleri
               </h2>
               <span className="text-[10px] text-[var(--muted)]">
-                Yabancı / kurumsal akış skoru · canlı hacim
+                Hacim ve fiyat hareketi · canlı
               </span>
             </div>
             <p className="mb-4 text-[11px] text-[var(--muted)]">
-              Net takas oranı yerine seans hacmi × fiyat hareketi ile kurumsal
-              ilgi tahmin edilir.
+              Hacim skoru, işlem hacmi ile fiyat hareketinin büyüklüğünden
+              hesaplanır. Kimin aldığını ya da sattığını göstermez.
             </p>
 
             {/* Mobile cards */}
@@ -166,10 +166,10 @@ export function WhalesTerminal() {
                       )}
                     >
                       {r.bias === 'accumulation'
-                        ? 'Toplama'
+                        ? 'Hacimli yükseliş'
                         : r.bias === 'distribution'
-                          ? 'Dağıtım'
-                          : 'Nötr'}
+                          ? 'Hacimli düşüş'
+                          : 'Yatay'}
                     </span>
                     <p className="min-w-0 flex-1 text-[10px] leading-snug text-[var(--muted)] line-clamp-2">
                       {r.narrative}
@@ -185,10 +185,10 @@ export function WhalesTerminal() {
                 <thead>
                   <tr className="border-b border-[var(--border)] text-[10px] uppercase tracking-wider text-[var(--muted)]">
                     <th className="pb-2 pr-2 font-medium">Sembol</th>
-                    <th className="pb-2 pr-2 font-medium">İlgi</th>
+                    <th className="pb-2 pr-2 font-medium">Hacim skoru</th>
                     <th className="pb-2 pr-2 font-medium">Değişim</th>
                     <th className="pb-2 pr-2 font-medium">Hacim</th>
-                    <th className="pb-2 font-medium">Sinyal</th>
+                    <th className="pb-2 font-medium">Durum</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -253,10 +253,10 @@ export function WhalesTerminal() {
                             <ArrowDownRight className="size-3" />
                           ) : null}
                           {r.bias === 'accumulation'
-                            ? 'Kurumsal toplama'
+                            ? 'Hacimli yükseliş'
                             : r.bias === 'distribution'
-                              ? 'Dağıtım'
-                              : 'Nötr'}
+                              ? 'Hacimli düşüş'
+                              : 'Yatay'}
                         </span>
                         <p className="mt-1 max-w-[220px] text-[10px] leading-snug text-[var(--muted)]">
                           {r.narrative}

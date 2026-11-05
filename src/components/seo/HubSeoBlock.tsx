@@ -72,11 +72,11 @@ export const BIST_HUB_SEO: HubSeoContent = {
   heading: 'BİST canlı fiyat ve analiz — nasıl kullanılır?',
   paragraphs: [
     'Borsa İstanbul tarama tablosunda hisseleri filtreleyin, grafik panelinden kısa vadeli yapıyı okuyun. Canlı fiyat; sinyal, fırsat skoru ve eğitim ile aynı terminaldedir. Kaynak BİST sayfasıdır; fırsat skoru /firsatlar, kurum hedefi /targets.',
-    'Yeni başlıyorsanız Eğitim Hub’daki borsa dersini, günlük ritim için Blog’daki 10 dakikalık rutini okuyun; ardından Fırsat Masası’nda skor kartlarına geçin.',
+    'Yeni başlıyorsanız Eğitim Hub’daki borsa dersini, günlük ritim için Blog’daki 10 dakikalık rutini okuyun; ardından Skor taramasında skor kartlarına geçin.',
   ],
   links: [
     { href: '/bist/heatmap', label: 'Isı haritası' },
-    { href: '/firsatlar', label: 'Fırsat Masası' },
+    { href: '/firsatlar', label: 'Skor taraması' },
     { href: '/targets', label: 'Analist hedef fiyatları' },
     { href: '/signals', label: 'Sinyaller' },
     { href: '/egitim/borsa-temelleri/borsa-nasil-oynanir', label: 'Borsa rehberi' },
@@ -108,7 +108,7 @@ export const SIGNALS_HUB_SEO: HubSeoContent = {
     { href: '/egitim/teknik-analiz/rsi-indikatoru-nedir', label: 'RSI dersi' },
     { href: '/egitim/teknik-analiz/ai-firsat-skoru-nasil-okunur', label: 'Analiz skoru' },
     { href: '/blog/ucretsiz-ai-sinyal-nasil-kullanilir', label: 'Sinyal rehberi' },
-    { href: '/bist', label: 'BİST screener' },
+    { href: '/bist', label: 'BİST tarayıcısı' },
   ],
   faqs: [
     {
@@ -128,15 +128,15 @@ export const US_HUB_SEO: HubSeoContent = {
   heading: 'NASDAQ ve ABD hisse analizi — nasıl kullanılır?',
   paragraphs: [
     'ABD screener’ında AAPL, NVDA, TSLA gibi likit hisseleri canlı fiyat, F/K ve analist hedefiyle izleyin. Bullsye; NASDAQ/NYSE kotlarını BİST ve kripto fırsatlarıyla aynı terminalde birleştirir.',
-    'Tek hisse riskini dağıtmak için 1v1 kıyaslama ve Fırsat Masası skorlarını birlikte kullanın; alarm ile fiyat kırılımlarını kaçırmayın.',
+    'Tek hisse riskini dağıtmak için 1v1 kıyaslama ve skor taramasını birlikte kullanın; alarm ile fiyat kırılımlarını kaçırmayın.',
   ],
   links: [
-    { href: '/firsatlar', label: 'Fırsat Masası' },
+    { href: '/firsatlar', label: 'Skor taraması' },
     { href: '/signals', label: 'Sinyaller' },
     { href: '/targets', label: 'Hedef fiyatlar' },
     { href: '/compare', label: '1v1 kıyasla' },
-    { href: '/nasdaq', label: 'NASDAQ screener' },
-    { href: '/bist', label: 'BİST screener' },
+    { href: '/nasdaq', label: 'ABD hisse tarayıcısı' },
+    { href: '/bist', label: 'BİST tarayıcısı' },
     { href: '/egitim/borsa-temelleri/fk-orani-nedir', label: 'F/K dersi' },
   ],
   faqs: [
@@ -148,7 +148,7 @@ export const US_HUB_SEO: HubSeoContent = {
     {
       question: 'ABD ve BİST aynı taramada mı?',
       answer:
-        'Evet. Fırsat Masası ve sinyal radarı BİST, ABD ve kripto kategorilerini birlikte tarar.',
+        'Evet. Skor taraması ve sinyal radarı BİST, ABD ve kripto kategorilerini birlikte tarar.',
     },
   ],
 };
@@ -156,17 +156,17 @@ export const US_HUB_SEO: HubSeoContent = {
 export const CRYPTO_HUB_SEO: HubSeoContent = {
   heading: 'Kripto canlı fiyat ve sinyal — nasıl kullanılır?',
   paragraphs: [
-    'Kripto screener’ında BTC, ETH ve likit altcoinleri 24s hacim, emir defteri ve momentum karnesiyle izleyin. Sinyal radarı ve Fırsat Masası ile aynı günün fırsatlarını filtreleyin.',
+    'Kripto tarayıcısında BTC, ETH ve likit altcoinleri 24s hacim, emir defteri ve momentum karnesiyle izleyin. Sinyal radarı ve skor taramasıyla aynı günün hareketlerini filtreleyin.',
     'Kaldıraçlı ürünler indekslenmez; liste likit USDT paritelerine odaklanır. Alarm ve izleme listesi ile geri dönüş döngüsünü kurun.',
   ],
   links: [
-    { href: '/firsatlar', label: 'Fırsat Masası' },
+    { href: '/firsatlar', label: 'Skor taraması' },
     { href: '/signals', label: 'Sinyaller' },
     { href: '/whales', label: 'Balina & Takas' },
     { href: '/egitim/teknik-analiz/rsi-indikatoru-nedir', label: 'RSI dersi' },
     { href: '/blog/kripto-sinyal-radarinda-btc-eth', label: 'BTC/ETH rehberi' },
-    { href: '/kripto', label: 'Kripto screener' },
-    { href: '/bist', label: 'BİST screener' },
+    { href: '/kripto', label: 'Kripto tarayıcısı' },
+    { href: '/bist', label: 'BİST tarayıcısı' },
   ],
   faqs: [
     {
@@ -185,7 +185,7 @@ export const CRYPTO_HUB_SEO: HubSeoContent = {
 export const FON_HUB_SEO: HubSeoContent = {
   heading: 'TEFAS fonları ve küresel ETF’ler',
   paragraphs: [
-    'Fonlar masasında TEFAS yatırım fonlarının günlük pay değeri ile VOO, QQQ gibi küresel ETF fiyatlarını aynı screener dilinde izlersiniz. Çekirdek portföy ile tek hisse riskini ayırmak için güçlü bir katmandır.',
+    'Fonlar masasında TEFAS yatırım fonlarının günlük pay değeri ile VOO, QQQ gibi küresel ETF fiyatlarını aynı tabloda izlersiniz. Çekirdek portföy ile tek hisse riskini ayırmak için güçlü bir katmandır.',
     'Seçim kriterleri için Eğitim’deki fon/ETF dersini okuyun; temettü odaklıysa Temettü Karnesi ve SCHD gibi ürünleri çaprazlayın.',
   ],
   links: [

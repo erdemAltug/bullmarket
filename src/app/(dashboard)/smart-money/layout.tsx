@@ -3,7 +3,7 @@ import { SITE_URL } from '@/lib/seo/symbols';
 import { withLangAlternates } from '@/lib/seo/hreflang';
 
 export const metadata: Metadata = {
-  title: 'Balina & Takas Analizi',
+  title: 'Hacim ve Balina Takibi',
   description:
     'BİST kurumsal hacim ilgi proxy ve kripto balina işlemleri — Bullsye.',
   alternates: withLangAlternates('/whales'),

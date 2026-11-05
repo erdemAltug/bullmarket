@@ -6,7 +6,7 @@ date: '2026-08-22'
 category: Temel Analiz
 tags: [hedef-fiyat, analist, BIST, konsensüs]
 readTime: 9
-author: Bullsye Research Team
+author: Bullsye Editörlüğü
 keywords:
   - analist tavsiyeleri ve hedef fiyatları
   - hisse hedef fiyat

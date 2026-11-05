@@ -66,8 +66,8 @@ export function generateRealTimeSignals(
     let strategyName = '';
     let kind: SignalKind = 'DIP';
 
-    if (rangePos <= 0.22 && chg > -8) {
-      signalType = rangePos <= 0.12 ? 'STRONG_BUY' : 'BUY';
+    if (rangePos <= 0.08 && chg > -8) {
+      signalType = rangePos <= 0.04 ? 'STRONG_BUY' : 'BUY';
       strategyName = 'Fiyat günün en düşük seviyesine yakın';
       kind = 'DIP';
     } else if (rangePos >= 0.82 && chg < 8) {

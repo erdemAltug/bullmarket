@@ -70,7 +70,7 @@ export function RatesHubClient() {
           ? Array.from({ length: 6 }).map((_, i) => (
               <div
                 key={i}
-                className="h-28 rounded-xl border border-[var(--border)] bg-[var(--card)]"
+                className="h-28 animate-pulse rounded-xl border border-[var(--border)] bg-[var(--card)]"
               />
             ))
           : points.map((p) => {

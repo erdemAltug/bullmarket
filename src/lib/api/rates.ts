@@ -68,7 +68,10 @@ export async function fetchRatePoints(): Promise<RatePoint[]> {
   for (const spec of SERIES) {
     const q = bySym.get(spec.symbol.toUpperCase());
     if (!q || !Number.isFinite(q.price) || q.price === 0) continue;
-    const value = CBOE_YIELD_X10.has(spec.symbol) ? q.price / 10 : q.price;
+    // CBOE yield indices used to be quoted x10 (42.5 = 4.25%). Yahoo now
+    // returns plain percent, so only rescale values that are clearly x10.
+    const value =
+      CBOE_YIELD_X10.has(spec.symbol) && q.price > 20 ? q.price / 10 : q.price;
     points.push({
       id: spec.id,
       label: spec.label,

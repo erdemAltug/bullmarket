@@ -161,14 +161,19 @@ function PreferencesInner({ children }: { children: React.ReactNode }) {
 
   const formatPrice = useCallback(
     (amount: number, fromCurrency: AppCurrency | string = 'TRY') => {
-      const converted = convertAmount(amount, fromCurrency);
+      // Dollar and euro assets (US stocks, crypto, ETFs) always show in their
+      // own currency: "BTC ₺3.883.738" next to a "$1.5B" volume confused
+      // people. Only TL prices follow the header currency switch.
+      const from = normalizeCurrency(fromCurrency);
+      const target = from === 'TRY' ? currency : from;
+      const converted = from === target ? amount : fromTry(toTry(amount, from), target);
       return new Intl.NumberFormat(LOCALE_MAP[language], {
         style: 'currency',
-        currency,
-        maximumFractionDigits: converted >= 1000 ? 2 : 4,
+        currency: target,
+        maximumFractionDigits: converted >= 1000 ? 2 : converted >= 1 ? 2 : 4,
       }).format(converted);
     },
-    [convertAmount, currency, language]
+    [currency, fromTry, toTry, language]
   );
 
   const value = useMemo<PreferencesContextType>(

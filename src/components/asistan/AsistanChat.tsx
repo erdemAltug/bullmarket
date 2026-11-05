@@ -24,7 +24,7 @@ function ChatInner() {
     {
       role: 'assistant',
       content:
-        'Merhaba — envanterin ve alarmların üzerinden konuşurum; envanterde olmayan hisseler için de hedef fiyat / boğa-ayı çerçevesi verebilirim. Al-sat demem.',
+        'Merhaba! Portföyün ve alarmların üzerinden sorularını yanıtlarım. Portföyünde olmayan bir hisse için de hedef fiyatları ve olumlu/olumsuz senaryoları özetleyebilirim. Al ya da sat demem.',
     },
   ]);
   const listRef = useRef<HTMLDivElement>(null);
@@ -85,7 +85,7 @@ function ChatInner() {
     }
   }
 
-  const name = session?.user?.name?.split(' ')[0] ?? 'sen';
+  const name = session?.user?.name?.split(' ')[0] ?? '';
 
   return (
     <div className="flex h-[min(70vh,640px)] flex-col overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)]">
@@ -95,7 +95,7 @@ function ChatInner() {
           <div>
             <p className="text-sm font-semibold">Portföy asistanı</p>
             <p className="text-[10px] text-[var(--muted)]">
-              Merhaba {name} · kayıtlı envanter bağlamı · tavsiye değil
+              Merhaba{name ? ` ${name}` : ''} 👋 · portföyünü bilerek konuşur · tavsiye vermez
             </p>
           </div>
         </div>

@@ -12,7 +12,7 @@ tags:
   - analiz
   - screener
 readTime: 8
-author: Bullsye Research Team
+author: Bullsye Editörlüğü
 keywords:
   - BİST 100 hisse analiz rehberi
   - bist 100 hisse analizi

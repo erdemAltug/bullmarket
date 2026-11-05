@@ -448,7 +448,7 @@ export default function AlertsPage() {
                               · canlı{' '}
                               <span className="font-mono tabular-nums text-[var(--foreground)]">
                                 {live.toLocaleString('tr-TR', {
-                                  maximumFractionDigits: 4,
+                                  maximumFractionDigits: live >= 1 ? 2 : 4,
                                 })}
                               </span>
                             </>
@@ -599,7 +599,7 @@ export default function AlertsPage() {
                     · canlı{' '}
                     <span className="font-mono tabular-nums text-emerald-400">
                       {livePrice.toLocaleString('tr-TR', {
-                        maximumFractionDigits: 4,
+                        maximumFractionDigits: livePrice >= 1 ? 2 : 4,
                       })}
                     </span>
                   </>
