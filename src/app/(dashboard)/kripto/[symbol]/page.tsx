@@ -1,3 +1,4 @@
+import { ScoreHistoryCard } from '@/components/asset/ScoreHistoryCard';
 import type { Metadata } from 'next';
 import { permanentRedirect, notFound } from 'next/navigation';
 import { AnalystTargetCard } from '@/components/asset/AnalystTargetCard';
@@ -196,6 +197,7 @@ export default async function KriptoSymbolPage({ params }: Props) {
         displaySymbol={display}
       />
       {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
+      <ScoreHistoryCard symbol={symbol} label={display} />
       <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 p-5 text-sm leading-relaxed text-zinc-400">
         <h2 className="mb-2 text-base font-semibold text-zinc-100">
           {display} hakkında
