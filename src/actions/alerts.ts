@@ -4,6 +4,7 @@ import { and, eq, isNull, ne } from 'drizzle-orm';
 import { getDb, isDatabaseConfigured } from '@/db';
 import { priceAlerts } from '@/db/schema';
 import { getCurrentSessionUser, getCurrentUserId } from '@/lib/auth-user';
+import { FREE_LIMITS } from '@/lib/pro-plan';
 import type { AlertKind, PriceAlert } from '@/types';
 
 function rowToAlert(row: typeof priceAlerts.$inferSelect): PriceAlert {
@@ -57,7 +58,7 @@ export async function createPriceAlert(
     threshold: number;
   },
   userId?: string
-): Promise<AlertsResult & { alert?: PriceAlert }> {
+): Promise<AlertsResult & { alert?: PriceAlert; limitReached?: boolean }> {
   const uid = userId ?? (await getCurrentUserId());
   if (!isDatabaseConfigured()) {
     return { db: false, alerts: [] };
@@ -65,6 +66,16 @@ export async function createPriceAlert(
 
   try {
     const db = getDb();
+    // Free plan: at most N active alerts. Replacing the same symbol + kind
+    // doesn't count as a new one.
+    const existing = await db.select().from(priceAlerts).where(eq(priceAlerts.userId, uid));
+    const active = existing.filter(
+      (r) => !r.isTriggered && !(r.symbol === input.symbol && r.condition === input.kind)
+    );
+    if (active.length >= FREE_LIMITS.activeAlerts) {
+      return { db: true, alerts: existing.map(rowToAlert), limitReached: true };
+    }
+
     await db
       .delete(priceAlerts)
       .where(

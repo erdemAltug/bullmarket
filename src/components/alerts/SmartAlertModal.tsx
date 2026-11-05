@@ -1,5 +1,6 @@
 'use client';
 
+import { useProRequest } from '@/components/pro/ProRequest';
 import { useEffect, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -47,6 +48,7 @@ export function SmartAlertModal({
   currentScore,
 }: SmartAlertModalProps) {
   const { addAlert } = useAlerts();
+  const { openPro } = useProRequest();
   const [kind, setKind] = useState<AlertKind>('price_above');
   const [threshold, setThreshold] = useState(String(currentPrice));
   const [permNote, setPermNote] = useState('');
@@ -102,8 +104,9 @@ export function SmartAlertModal({
     const n = Number(threshold.replace(',', '.'));
     if (!Number.isFinite(n)) return;
     void ensurePermission();
-    addAlert({ symbol, displaySymbol, kind, threshold: n });
+    const created = addAlert({ symbol, displaySymbol, kind, threshold: n });
     onOpenChange(false);
+    if (!created) openPro('alert-limit');
   }
 
   const hint =

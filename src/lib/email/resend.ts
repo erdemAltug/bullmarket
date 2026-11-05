@@ -167,3 +167,49 @@ export async function sendAlertEmail(input: {
     return { ok: false, error: msg };
   }
 }
+
+/** Owner notification for every Pro early-access lead (click or form). */
+export async function sendProLeadEmail(input: {
+  to: string;
+  email: string;
+  plan: string | null;
+  features: string | null;
+  source: string;
+  kind: 'click' | 'form';
+  signedIn: boolean;
+}): Promise<{ ok: boolean; skipped?: boolean; error?: string }> {
+  const resend = getResend();
+  if (!resend) return { ok: false, skipped: true };
+  const what = input.kind === 'click' ? 'Pro butonuna tıkladı' : 'Pro erken erişim formunu gönderdi';
+  const rows = [
+    ['E-posta', input.email],
+    ['Ne yaptı', what],
+    ['Plan', input.plan ?? '—'],
+    ['İstediği özellikler', input.features ?? '—'],
+    ['Nereden', input.source],
+    ['Hesap', input.signedIn ? 'Giriş yapmış kullanıcı' : 'Misafir'],
+  ];
+  const html = `<div style="font-family:system-ui,sans-serif;font-size:14px;color:#111">
+<h2 style="margin:0 0 12px">Yeni Pro talebi</h2>
+<table style="border-collapse:collapse">${rows
+    .map(
+      ([k, v]) =>
+        `<tr><td style="padding:4px 12px 4px 0;color:#666">${k}</td><td style="padding:4px 0"><b>${String(v).replace(/</g, '&lt;')}</b></td></tr>`
+    )
+    .join('')}</table>
+<p style="margin-top:16px"><a href="mailto:${input.email}">${input.email} adresine yaz</a></p>
+</div>`;
+  try {
+    const { error } = await resend.emails.send({
+      from: fromAddress(),
+      to: input.to,
+      replyTo: input.email,
+      subject: `Yeni Pro talebi · ${input.email}${input.plan ? ` · ${input.plan}` : ''}`,
+      html,
+    });
+    if (error) return { ok: false, error: error.message };
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'send failed' };
+  }
+}

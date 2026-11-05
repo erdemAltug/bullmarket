@@ -26,6 +26,8 @@ import { NewsFeed } from '@/components/dashboard/NewsFeed';
 import { ShareCardButton } from '@/components/dashboard/ShareCardButton';
 import { ShareDailyRadar } from '@/components/dashboard/ShareDailyRadar';
 import { AISignalRadar } from '@/components/dashboard/AISignalRadar';
+import { MarketMovers } from '@/components/dashboard/MarketMovers';
+import { SectorPulse } from '@/components/dashboard/SectorPulse';
 import { SmartRadar } from '@/components/dashboard/SmartRadar';
 import { StockScorecard } from '@/components/dashboard/StockScorecard';
 import { TickerTape } from '@/components/dashboard/TickerTape';
@@ -393,6 +395,11 @@ export default function OverviewPage() {
       <HabitCue topCards={potentialCards} />
       <TickerTape items={tapeItems} />
       <CommoditiesStrip />
+
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+        <MarketMovers items={scanner.data ?? []} loading={scanner.isLoading} />
+        <SectorPulse fallback={scanner.data ?? []} />
+      </div>
 
       <ExpandableSection
         id="daily-vision"

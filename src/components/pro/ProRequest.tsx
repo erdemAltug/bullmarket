@@ -27,6 +27,8 @@ export function useProRequest() {
 
 /** Mount once; any CTA calls useProRequest().openPro('placement'). */
 export function ProRequestProvider({ children }: { children: React.ReactNode }) {
+  const { data: session } = authClient.useSession();
+  const signedIn = Boolean(session?.user?.email);
   const [open, setOpen] = useState(false);
   const [where, setWhere] = useState('unknown');
   const [plan, setPlan] = useState<ProPlanChoice>('yearly');
@@ -36,7 +38,16 @@ export function ProRequestProvider({ children }: { children: React.ReactNode }) 
     if (p) setPlan(p);
     setOpen(true);
     trackEvent('pro_cta_click', { where: w });
-  }, []);
+    // Signed-in visitors are captured on the click itself (account e-mail),
+    // even if they close the dialog without sending the form.
+    if (signedIn) {
+      void fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ source: w, kind: 'click' }),
+      }).catch(() => undefined);
+    }
+  }, [signedIn]);
 
   const value = useMemo(() => ({ openPro }), [openPro]);
 

@@ -4,6 +4,8 @@ import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { History, TrendingDown, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useProRequest } from '@/components/pro/ProRequest';
+import { FREE_LIMITS } from '@/lib/pro-plan';
 
 type Point = { day: string; score: number; price: number };
 
@@ -27,7 +29,11 @@ export function ScoreHistoryCard({ symbol, label }: { symbol: string; label: str
     },
     staleTime: 15 * 60_000,
   });
-  const points = useMemo(() => data ?? [], [data]);
+  const { openPro } = useProRequest();
+  const allPoints = useMemo(() => data ?? [], [data]);
+  // Free plan shows the most recent N days; Pro unlocks the full 90.
+  const points = useMemo(() => allPoints.slice(-FREE_LIMITS.scoreHistoryDays), [allPoints]);
+  const lockedDays = allPoints.length - points.length;
 
   const chart = useMemo(() => {
     if (points.length < 2) return null;
@@ -53,7 +59,7 @@ export function ScoreHistoryCard({ symbol, label }: { symbol: string; label: str
             <History className="size-4 text-[var(--accent)]" /> {label} skor geçmişi
           </h2>
           <p className="mt-0.5 text-xs text-[var(--muted)]">
-            Analiz skorunun günlük değişimi, son 90 gün
+            Analiz skorunun günlük değişimi, son {FREE_LIMITS.scoreHistoryDays} gün
           </p>
         </div>
         {chart && last ? (
@@ -111,6 +117,15 @@ export function ScoreHistoryCard({ symbol, label }: { symbol: string; label: str
             ) : null}
             <span>{fmtDay(last.day)}</span>
           </div>
+          <button
+            type="button"
+            onClick={() => openPro('score-history')}
+            className="mt-3 w-full rounded-lg border border-[var(--accent)]/30 bg-[var(--accent)]/5 px-3 py-2 text-xs text-[var(--accent)] hover:bg-[var(--accent)]/10"
+          >
+            {lockedDays > 0
+              ? `${lockedDays} günlük daha eski geçmiş Pro’da · 90 gün skor geçmişini aç`
+              : 'Pro ile 90 günlük skor geçmişi ve skor değişim alarmı'}
+          </button>
         </>
       ) : (
         <div className="mt-4 rounded-lg border border-dashed border-[var(--border)] p-5 text-center text-sm text-[var(--muted)]">
