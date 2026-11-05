@@ -27,7 +27,7 @@ export const PRO_FEATURES = [
   { id: 'fast', label: 'Daha sık alarm kontrolü', detail: 'Alarmlar 5 dakikada bir kontrol edilir (ücretsizde 10 dk)' },
   { id: 'history', label: 'Skor geçmişi (90 gün)', detail: 'Ücretsizde son 14 gün; Pro’da 90 gün, grafikle' },
   { id: 'digest', label: 'Kişisel sabah özeti', detail: 'Senin listen ve portföyün için 08:30 e-postası' },
-  { id: 'report', label: 'Portföy doktoru raporu', detail: 'Yoğunlaşma, nakit dengesi, hedef fiyat özeti' },
+  { id: 'report', label: 'Portföy doktoru raporu', detail: 'Her pazartesi e-postanda: yoğunlaşma, sektör ve döviz dağılımı, hedef fiyat ve skor değişimi' },
   { id: 'export', label: 'CSV dışa aktarma', detail: 'İzleme listesi, alarm ve portföy verisi' },
 ] as const;
 

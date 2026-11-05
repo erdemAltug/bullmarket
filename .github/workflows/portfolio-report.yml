@@ -1,0 +1,30 @@
+name: Portfolio Report
+
+on:
+  schedule:
+    # Mondays 06:00 UTC = 09:00 Istanbul. The route skips anyone sent in the
+    # last 6 days, so a delayed or repeated run is harmless.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: portfolio-report
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Send weekly portfolio reports
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://bullsye.app' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "CRON_SECRET not set — skipping"
+            exit 0
+          fi
+          curl --fail-with-body -sS --max-time 320 \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$SITE_URL/api/cron/portfolio-report"
