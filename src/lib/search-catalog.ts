@@ -53,8 +53,8 @@ export const SEARCH_CATALOG: SearchCatalogItem[] = [
   },
   {
     id: 'nav-crypto',
-    label: 'Crypto',
-    keywords: 'crypto bitcoin ethereum',
+    label: 'Kripto',
+    keywords: 'kripto crypto bitcoin ethereum',
     kind: 'nav',
     href: '/kripto',
   },

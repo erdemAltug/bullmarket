@@ -14,7 +14,7 @@ tags:
   - hisse
   - nakit-akisi
 readTime: 8
-author: Bullsye Research Team
+author: Bullsye Editörlüğü
 keywords:
   - temettü verimi en yüksek hisseler
   - bist temettü hisseleri

@@ -97,7 +97,6 @@ export function OpportunityHunt() {
 
   const [streak, setStreak] = useState(0);
   const [newCount, setNewCount] = useState(0);
-  const [countdown, setCountdown] = useState(10);
 
   const marketItems = scanner.data ?? [];
 
@@ -147,14 +146,6 @@ export function OpportunityHunt() {
     }
   }, [potentialCards]);
 
-  useEffect(() => {
-    if (!scanner.updatedAt) return;
-    setCountdown(10);
-    const id = window.setInterval(() => {
-      setCountdown((c) => (c <= 1 ? 10 : c - 1));
-    }, 1000);
-    return () => window.clearInterval(id);
-  }, [scanner.updatedAt]);
 
   return (
     <div className="relative space-y-6 pb-32 md:pb-24">
@@ -164,24 +155,21 @@ export function OpportunityHunt() {
             <Radio className="size-3.5 animate-pulse" />
             Canlı
           </span>
-          {streak > 0 ? (
+          {streak > 1 ? (
             <span className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[11px] font-medium text-amber-300">
               <Flame className="size-3.5" />
-              {streak}g
+              {streak} gün üst üste
             </span>
           ) : null}
           {newCount > 0 ? (
             <span className="inline-flex items-center gap-1 rounded-full border border-sky-500/30 bg-sky-500/10 px-2.5 py-0.5 text-[11px] font-medium text-sky-300">
               <Zap className="size-3.5" />
-              +{newCount}
+              Son bakışından beri {newCount} yeni hisse
             </span>
           ) : null}
         </div>
-        <h2 className="text-xl font-semibold tracking-tight sm:text-2xl">
-          Skor taraması
-        </h2>
         <p className="text-xs text-[var(--muted)]">
-          Yenileme {countdown}s
+          Skorlar birkaç saniyede bir canlı fiyatla güncellenir.
         </p>
       </header>
 
@@ -335,7 +323,7 @@ export function OpportunityHunt() {
                 <span className="ml-2 text-sky-300">· +{newCount}</span>
               ) : null}
             </p>
-            <p className="text-[11px] text-[var(--muted)]">{countdown}s</p>
+            <p className="text-[11px] text-[var(--muted)]">Canlı güncelleniyor</p>
           </div>
           <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:shrink-0">
             <Link

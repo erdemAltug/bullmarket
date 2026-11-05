@@ -80,3 +80,13 @@ export function useCommodities() {
   );
   return { data: data ?? [], error, isLoading };
 }
+
+/** Full Borsa Istanbul board (~500 stocks), refreshed every minute. */
+export function useBistBoard() {
+  const { data, error, isLoading } = useSWR(
+    '/api/market?view=lite&scope=all&category=BIST',
+    marketFetcher,
+    { refreshInterval: 60_000, keepPreviousData: true, dedupingInterval: 30_000 }
+  );
+  return { data: data?.items, error, isLoading };
+}

@@ -123,12 +123,15 @@ export function HabitCue({ topCards }: HabitCueProps) {
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex shrink-0 items-center gap-2">
             <p className="text-sm font-semibold text-[var(--foreground)]">
-              Kısa tur
+              Bugünün ilk 3 skoru
             </p>
-            {streak.count > 0 ? (
-              <span className="inline-flex items-center gap-1 text-[10px] text-orange-300">
+            {streak.count > 1 ? (
+              <span
+                title="Kaç gündür üst üste bakıyorsun"
+                className="inline-flex items-center gap-1 text-[10px] text-orange-300"
+              >
                 <Flame className="size-3" />
-                {streak.count}g
+                {streak.count} gün üst üste
               </span>
             ) : null}
             {doneToday ? (
@@ -171,14 +174,14 @@ export function HabitCue({ topCards }: HabitCueProps) {
               disabled={!cards.length}
               className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent)] px-3 py-1.5 text-xs font-semibold text-[#042f2e] hover:brightness-110 disabled:opacity-50"
             >
-              {doneToday ? 'Yeniden' : 'Başlat'}
+              {doneToday ? 'Tekrar incele' : '30 sn’de incele'}
               <ArrowRight className="size-3.5" />
             </button>
             <Link
               href="/firsatlar"
               className="px-1 text-xs text-[var(--muted)] hover:text-[var(--foreground)]"
             >
-              Liste
+              Tüm liste →
             </Link>
           </div>
         </div>
@@ -188,7 +191,7 @@ export function HabitCue({ topCards }: HabitCueProps) {
         <DialogContent className="max-w-md p-0 overflow-hidden">
           <div className="border-b border-[var(--border)] px-5 py-4 pr-12">
             <DialogTitle className="text-base font-semibold">
-              Tur · {Math.min(step + 1, totalSteps)}/{totalSteps}
+              Hızlı inceleme · {Math.min(step + 1, totalSteps)}/{totalSteps}
             </DialogTitle>
             <div className="mt-3 flex gap-1.5">
               {Array.from({ length: totalSteps }).map((_, i) => (

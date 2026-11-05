@@ -12,7 +12,7 @@ const LEGAL_LINKS = [
 
 const PRODUCT_LINKS = [
   { href: '/terminal', label: 'Terminal' },
-  { href: '/firsatlar', label: 'Fırsat Masası' },
+  { href: '/firsatlar', label: 'Skor Taraması' },
   { href: '/bist', label: 'BİST' },
   { href: '/nasdaq', label: 'NASDAQ' },
   { href: '/faiz', label: 'Faiz & Kredi' },

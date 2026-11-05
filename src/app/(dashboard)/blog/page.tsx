@@ -121,7 +121,7 @@ export default function BlogIndexPage() {
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           <Link href="/firsatlar" className="rounded-lg bg-[var(--accent)] px-3 py-1.5 text-xs font-bold text-black">
-            Fırsat masası
+            Skor taraması
           </Link>
           <Link href="/targets" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-xs font-medium">
             Hedef fiyatlar

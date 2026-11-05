@@ -5,13 +5,21 @@ import { useSearchParams } from 'next/navigation';
 import { ChartPanel } from '@/components/dashboard/ChartPanel';
 import { MarketScannerTable } from '@/components/dashboard/MarketScannerTable';
 import { MetricCard } from '@/components/dashboard/MetricCard';
-import { useMarketScanner } from '@/hooks/useMarketScanner';
+import { useBistBoard, useMarketScanner } from '@/hooks/useMarketScanner';
 
 function BistPageInner() {
   const searchParams = useSearchParams();
   const focusSymbol = searchParams.get('symbol') ?? 'XU100.IS';
   const scanner = useMarketScanner();
-  const items = scanner.data ?? [];
+  const board = useBistBoard();
+  // The full board covers every listed stock; the live tape keeps XU100 and
+  // refreshes faster, so its quotes win where both have a symbol.
+  const tape = scanner.data ?? [];
+  const liveBySymbol = new Map(tape.map((i) => [i.symbol, i]));
+  const items = [
+    ...tape.filter((i) => i.category === 'BIST'),
+    ...(board.data ?? []).filter((i) => !liveBySymbol.has(i.symbol)),
+  ];
   const bistItems = items.filter((i) => i.category === 'BIST');
   const focus =
     bistItems.find((i) => i.symbol === focusSymbol) ??
@@ -22,7 +30,7 @@ function BistPageInner() {
       <div>
         <h2 className="text-2xl font-semibold tracking-tight">Tarama</h2>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Borsa İstanbul screener — ara, filtrele, sparkline & watchlist
+          Borsa İstanbul hisselerini ara, sektöre göre filtrele, sırala ve izleme listene ekle
         </p>
       </div>
 
@@ -50,8 +58,8 @@ function BistPageInner() {
         items={items}
         isLoading={scanner.isLoading}
         error={scanner.error?.message}
-        defaultFilter="BIST"
-        title="BİST tarama"
+        scope={['BIST']}
+        title="BİST hisseleri"
       />
     </div>
   );

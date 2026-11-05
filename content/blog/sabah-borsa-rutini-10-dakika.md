@@ -12,7 +12,7 @@ tags:
   - canlı
   - alarm
 readTime: 8
-author: Bullsye Research Team
+author: Bullsye Editörlüğü
 keywords:
   - Sabah borsa rutini 10 dakika
   - Borsa analizi

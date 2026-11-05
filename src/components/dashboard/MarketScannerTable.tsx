@@ -44,6 +44,8 @@ const FILTERS: { id: ScannerFilter; label: string }[] = [
   { id: 'CRYPTO', label: 'Kripto' },
   { id: 'US', label: 'NASDAQ' },
   { id: 'FUNDS', label: "Fonlar & ETF'ler" },
+  { id: 'FON', label: 'TEFAS fonları' },
+  { id: 'ETF', label: "ETF'ler" },
   { id: 'GAINERS', label: 'Yükselenler' },
   { id: 'LOSERS', label: 'Düşenler' },
 ];
@@ -124,6 +126,13 @@ interface MarketScannerTableProps {
   error?: string | null;
   defaultFilter?: ScannerFilter;
   title?: string;
+  /**
+   * Restrict the table to these asset classes (a market page). Market tabs
+   * then collapse to Tümü / Yükselenler / Düşenler (+ FON/ETF on the fund page).
+   */
+  scope?: ScannerItem['category'][];
+  /** Columns that mean nothing for this market (F/K for crypto, score for funds). */
+  hideColumns?: ('pe' | 'score')[];
 }
 
 export function MarketScannerTable({
@@ -131,12 +140,27 @@ export function MarketScannerTable({
   isLoading,
   error,
   defaultFilter = 'ALL',
-  title = 'Market Screener',
+  title = 'Piyasa tarayıcısı',
+  scope,
+  hideColumns = [],
 }: MarketScannerTableProps) {
+  const scopedItems = useMemo(
+    () => (scope ? items.filter((i) => scope.includes(i.category)) : items),
+    [items, scope]
+  );
+  const visibleFilters = useMemo(() => {
+    if (!scope) return FILTERS.filter((f) => f.id !== 'FON' && f.id !== 'ETF');
+    const ids: ScannerFilter[] = ['ALL'];
+    if (scope.includes('FON') && scope.includes('ETF')) ids.push('FON', 'ETF');
+    ids.push('GAINERS', 'LOSERS');
+    return FILTERS.filter((f) => ids.includes(f.id));
+  }, [scope]);
+  const showPe = !hideColumns.includes('pe');
+  const showScore = !hideColumns.includes('score');
   const { formatPrice } = usePreferences();
   const { hasSymbol, addSymbol, removeSymbol } = useWatchlist();
   const [searchQuery, setSearchQuery] = useState('');
-  const [filter, setFilter] = useState<ScannerFilter>(defaultFilter);
+  const [filter, setFilter] = useState<ScannerFilter>(scope ? 'ALL' : defaultFilter);
   const [itemsPerPage, setItemsPerPage] = useState<number>(25);
   const [page, setPage] = useState(1);
   const [chartItem, setChartItem] = useState<ScannerItem | null>(null);
@@ -147,16 +171,19 @@ export function MarketScannerTable({
 
   const scores = useMemo(() => {
     const m = new Map<string, number>();
-    for (const it of items) m.set(it.symbol, scoreOpportunity(it));
+    for (const it of scopedItems) m.set(it.symbol, scoreOpportunity(it));
     return m;
-  }, [items]);
+  }, [scopedItems]);
 
   const sectorChoices = useMemo(() => {
+    if (scope?.length === 1 && scope[0] === 'BIST') return SECTOR_OPTIONS.filter((o) => o.market === 'BIST');
+    if (scope?.length === 1 && scope[0] === 'US') return SECTOR_OPTIONS.filter((o) => o.market === 'US');
+    if (scope) return [];
     if (filter === 'BIST') return SECTOR_OPTIONS.filter((o) => o.market === 'BIST');
     if (filter === 'US') return SECTOR_OPTIONS.filter((o) => o.market === 'US');
     if (filter === 'ALL' || filter === 'GAINERS' || filter === 'LOSERS') return SECTOR_OPTIONS;
     return [];
-  }, [filter]);
+  }, [filter, scope]);
 
   function resetPage() {
     setPage(1);
@@ -199,7 +226,7 @@ export function MarketScannerTable({
       ? SECTOR_OPTIONS.filter((o) => fold(o.name).includes(q))
       : [];
 
-    let list = items.filter((item) => {
+    let list = scopedItems.filter((item) => {
       if (q) {
         const hit =
           fold(item.displaySymbol).includes(q) ||
@@ -260,7 +287,7 @@ export function MarketScannerTable({
     }
 
     return list;
-  }, [items, searchQuery, filter, sector, quick, scores, sortKey, sortDir, hasSymbol]);
+  }, [scopedItems, searchQuery, filter, sector, quick, scores, sortKey, sortDir, hasSymbol]);
 
   const visibleCount = page * itemsPerPage;
   const paginatedData = filteredData.slice(0, visibleCount);
@@ -309,7 +336,7 @@ export function MarketScannerTable({
 
       <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
-          {FILTERS.map((f) => (
+          {visibleFilters.map((f) => (
             <button
               key={f.id}
               type="button"
@@ -383,7 +410,7 @@ export function MarketScannerTable({
             <ChevronDown className="pointer-events-none absolute right-1.5 top-1/2 size-3.5 -translate-y-1/2 text-[var(--muted)]" />
           </div>
         ) : null}
-        {QUICK.map((qf) => (
+        {QUICK.filter((qf) => (qf.id !== 'cheap' || showPe) && (qf.id !== 'score70' || showScore)).map((qf) => (
           <button
             key={qf.id}
             type="button"
@@ -423,8 +450,8 @@ export function MarketScannerTable({
               <SortTh label="Fiyat" k="price" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right />
               <SortTh label="Günlük" k="change" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right />
               <SortTh label="Hacim" k="volume" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right className="hidden sm:table-cell" />
-              <SortTh label="F/K" k="pe" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right className="hidden lg:table-cell" />
-              <SortTh label="Skor" k="score" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right className="hidden md:table-cell" />
+              {showPe ? <SortTh label="F/K" k="pe" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right className="hidden lg:table-cell" /> : null}
+              {showScore ? <SortTh label="Skor" k="score" sortKey={sortKey} sortDir={sortDir} onSort={onSort} right className="hidden md:table-cell" /> : null}
               <th className="px-1.5 py-3 text-right font-medium sm:px-2">İşlem</th>
             </tr>
           </thead>
@@ -510,9 +537,12 @@ export function MarketScannerTable({
                   <td className="hidden px-2 py-2.5 text-right font-mono text-[var(--muted)] sm:table-cell">
                     {item.volume}
                   </td>
+                  {showPe ? (
                   <td className="hidden px-2 py-2.5 text-right font-mono tabular-nums text-[var(--muted)] lg:table-cell">
                     {item.trailingPE != null && item.trailingPE > 0 ? item.trailingPE.toFixed(1) : '—'}
                   </td>
+                  ) : null}
+                  {showScore ? (
                   <td className="hidden px-2 py-2.5 text-right md:table-cell">
                     {(() => {
                       const sc = scores.get(item.symbol) ?? 0;
@@ -532,6 +562,7 @@ export function MarketScannerTable({
                       );
                     })()}
                   </td>
+                  ) : null}
                   <td className="px-1.5 py-2.5 text-right sm:px-2">
                     <button
                       type="button"

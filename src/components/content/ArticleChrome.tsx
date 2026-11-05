@@ -146,7 +146,7 @@ export function RegisterCtaBanner() {
       <p className="mt-2 text-[11px] text-zinc-500">
         veya{' '}
         <Link href="/firsatlar" className="text-emerald-400 hover:underline">
-          Fırsat Masası
+          Skor taraması
         </Link>
         &apos;na git
       </p>
@@ -194,11 +194,13 @@ export function AuthorBio() {
       </div>
       <div>
         <p className="text-sm font-semibold text-zinc-100">
-          Bullsye Araştırma Ekibi
+          Bullsye Editörlüğü
         </p>
         <p className="mt-1 text-xs leading-relaxed text-zinc-500">
-          BİST, kripto ve küresel piyasalar üzerine eğitim ve analiz içerikleri
-          üreten editöryal ekip. İçerikler yatırım tavsiyesi değildir.
+          Bullsye’ın eğitim ve rehber içerikleri. Yazılar kamuya açık kaynaklar
+          (KAP, Borsa İstanbul, SPK, TCMB) kullanılarak hazırlanır ve düzenli
+          güncellenir. Yatırım tavsiyesi değildir.{' '}
+          <a href="/hakkimizda" className="text-emerald-400 hover:underline">Hakkımızda</a>
         </p>
       </div>
     </div>

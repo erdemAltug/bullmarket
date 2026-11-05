@@ -67,7 +67,7 @@ export function ArticleSchema({
     dateModified: post.updatedAt,
     author: {
       '@type': 'Organization',
-      name: 'Bullsye Araştırma Ekibi',
+      name: 'Bullsye',
       url: SITE_URL,
     },
     publisher: {

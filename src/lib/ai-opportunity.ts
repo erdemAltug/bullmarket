@@ -45,6 +45,12 @@ export interface SentimentReading {
 
 function rangePos(item: ScannerItem): number {
   const price = item.price;
+  // No real range yet (limit-up/down or a single print): high == low.
+  // Treat it as the top of the day when up, the bottom when down — never
+  // as "near the low" for a stock sitting at its ceiling.
+  if (item.dayHigh && item.dayLow && item.dayHigh <= item.dayLow) {
+    return item.changePercent >= 0 ? 1 : 0;
+  }
   const high = item.dayHigh && item.dayHigh > 0 ? item.dayHigh : price * 1.01;
   const low = item.dayLow && item.dayLow > 0 ? item.dayLow : price * 0.99;
   const span = Math.max(high - low, price * 0.002);
@@ -91,35 +97,35 @@ function catalystsFor(item: ScannerItem, score: number): string[] {
   const pe = item.trailingPE;
 
   if (pe != null && pe > 0 && pe < 14) {
-    out.push(`F/K ${pe.toFixed(1)} — görece iskontolu değerleme bandı`);
+    out.push(`F/K ${pe.toFixed(1)}: kârına göre düşük çarpanla işlem görüyor`);
   } else if (item.changePercent >= 2) {
-    out.push(`Günlük momentum +%${item.changePercent.toFixed(1)} — kırılım ivmesi`);
+    out.push(`Bugün %${item.changePercent.toFixed(1)} yükseldi`);
   } else {
-    out.push(`Canlı hacim ${item.volume} — likidite desteği`);
+    out.push(`İşlem hacmi yüksek: ${item.volume}`);
   }
 
   if (pos <= 0.3) {
-    out.push('Gün içi dip bölgesine yakın — teknik toparlanma potansiyeli');
+    out.push('Günün en düşük seviyesine yakın işlem görüyor');
   } else if (pos >= 0.7 && item.changePercent > 0) {
-    out.push('Zirve bandında güçlü alım baskısı sürüyor');
+    out.push('Günün en yüksek seviyesine yakın, yükselişte');
   } else {
     out.push(
       item.category === 'CRYPTO'
-        ? '24s high/low bandı içinde aktif fiyat keşfi'
-        :         'Seans aralığında dengeli konum'
+        ? '24 saatlik aralığın ortasında'
+        : 'Günün aralığının ortasında'
     );
   }
 
   if (score >= 80) {
-    out.push(`Analiz skoru ${score}/100 — üst dilim`);
+    out.push(`Analiz skoru ${score}/100, bugünkü en yüksekler arasında`);
   } else if (item.category === 'FON') {
     out.push('TEFAS yatırım fonu — günlük pay değeri taraması');
   } else if (item.category === 'ETF') {
     out.push('Küresel ETF — canlı ABD borsa yatırım fonu profili');
   } else if (item.category === 'BIST') {
-    out.push('BİST likidite evreninde tarama sinyali pozitif');
+    out.push('BİST’te taranan hisseler arasında öne çıkıyor');
   } else {
-    out.push('Global risk iştahı ile uyumlu canlı profil');
+    out.push('Taranan hisseler arasında öne çıkıyor');
   }
 
   return out.slice(0, 3);

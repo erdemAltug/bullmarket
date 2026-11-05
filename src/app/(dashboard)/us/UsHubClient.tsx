@@ -25,7 +25,7 @@ function UsPageInner() {
           NASDAQ & ABD
         </h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Amerikan borsaları — canlı fiyat, F/K, analist hedefi & screener
+          ABD hisselerinin canlı fiyatı, F/K'sı ve analiz skoru; sektöre göre filtrele
         </p>
       </div>
 
@@ -42,6 +42,7 @@ function UsPageInner() {
             symbol={focus.chartSymbol}
             source="yahoo"
             isPositive={focus.changePercent >= 0}
+            currencySymbol="$"
             defaultTimeframe="5D"
           />
         </div>
@@ -53,8 +54,8 @@ function UsPageInner() {
         items={items}
         isLoading={scanner.isLoading}
         error={scanner.error?.message}
-        defaultFilter="US"
-        title="ABD / NASDAQ Market Screener"
+        scope={['US']}
+        title="ABD hisse tarayıcısı"
       />
     </div>
   );

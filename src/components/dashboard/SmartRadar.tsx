@@ -32,7 +32,7 @@ export function SmartRadar({ symbols }: SmartRadarProps) {
         </div>
         <div>
           <h2 className="text-sm font-semibold text-[var(--foreground)]">
-            Teknik radar
+            Teknik göstergeler
           </h2>
           <p className="text-[11px] text-[var(--muted)]">
             RSI · SMA · hacim kuralları

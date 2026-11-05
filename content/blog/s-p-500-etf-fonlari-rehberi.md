@@ -12,7 +12,7 @@ tags:
   - fon
   - beta
 readTime: 8
-author: Bullsye Research Team
+author: Bullsye Editörlüğü
 keywords:
   - S&P 500 ETF fonları rehberi
   - S&P 500 borsa yatırım fonu

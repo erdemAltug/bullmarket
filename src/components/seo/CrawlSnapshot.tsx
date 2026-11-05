@@ -42,7 +42,7 @@ export function CrawlSnapshot({
       {variant === 'full' && snap.top.length ? (
         <>
           <h2 className="mt-3 text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
-            Top 5
+            Bugünün ilk 5 BİST skoru
           </h2>
           <ol className="mt-1 list-decimal space-y-0.5 pl-5 text-sm">
             {snap.top.map((row) => (

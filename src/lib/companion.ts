@@ -80,7 +80,7 @@ export function buildCompanionNotes(input: {
       body: `${holdNoAlert
         .slice(0, 3)
         .map((s) => s.replace('.IS', '').replace('USDT', ''))
-        .join(', ')} envanterde; fiyat alarmı yok. İstersen alarm kur — kayıt, yarın da görmek içindir.`,
+        .join(', ')} envanterde; fiyat alarmı yok. Önemli bir seviyeye alarm kurarsan hareket olunca e-postayla haber veririz.`,
       href: '/alerts',
     });
   }
@@ -88,12 +88,12 @@ export function buildCompanionNotes(input: {
   if (watchOnly.length) {
     notes.push({
       id: 'watch',
-      title: 'İzliyorsun, taşımıyorsun',
+      title: 'Listendekiler portföyünde değil',
       body: `${watchOnly
         .slice(0, 4)
         .map((s) => s.replace('.IS', ''))
-        .join(', ')} listende. Analiz skoruna bakmak izlemeyi işleme çevirmez; meraktır.`,
-      href: '/firsatlar',
+        .join(', ')} izleme listende ama portföyünde yok. Aldıysan portföyüne ekle; toplam değerini ve dağılımını takip edelim.`,
+      href: '/portfolio',
     });
   }
 

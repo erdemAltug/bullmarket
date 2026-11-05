@@ -116,7 +116,7 @@ export default function EgitimHubPage() {
             href="/firsatlar"
             className="rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-bold text-black hover:bg-emerald-400"
           >
-            Fırsat Masası
+            Skor taraması
           </Link>
           <Link
             href="/signals"

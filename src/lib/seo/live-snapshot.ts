@@ -40,7 +40,8 @@ export async function getSeoSnapshot(): Promise<SeoSnapshot> {
     getLiveMarketItems(),
     getIndexQuote(),
   ]);
-  const cards = buildPotentialCards(items, 5);
+  // Shown on BIST pages: keep it to Borsa Istanbul names.
+  const cards = buildPotentialCards(items.filter((i) => i.category === 'BIST'), 5);
   const xu = items.find(
     (i) => i.displaySymbol === 'XU100' || i.symbol.includes('XU100')
   );

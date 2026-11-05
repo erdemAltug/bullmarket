@@ -58,10 +58,10 @@ export function rankInstitutionalFlows(
 
       const narrative =
         bias === 'accumulation'
-          ? `${i.displaySymbol} — son seans güçlü alım baskısı (hacim ${i.volume}, ilgi ${interestScore}/100)`
+          ? `${i.displaySymbol} yüksek hacimle yükseliyor (hacim ${i.volume})`
           : bias === 'distribution'
-            ? `${i.displaySymbol} — yüksek hacimli satış baskısı (hacim ${i.volume})`
-            : `${i.displaySymbol} — dikkat çeken hacim × hareket (kurumsal ilgi proxy)`;
+            ? `${i.displaySymbol} yüksek hacimle düşüyor (hacim ${i.volume})`
+            : `${i.displaySymbol} hacmi yüksek, fiyat yatay`;
 
       return {
         symbol: i.symbol,

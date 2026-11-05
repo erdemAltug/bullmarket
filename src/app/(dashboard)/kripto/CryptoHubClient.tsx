@@ -28,9 +28,9 @@ function CryptoPageInner() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Crypto</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Kripto</h1>
         <p className="mt-1 text-sm text-[var(--muted)]">
-          Kripto screener, derinlik ve grafikler
+          Kripto paraları ara, sırala ve emir defterini incele
         </p>
       </div>
 
@@ -63,14 +63,15 @@ function CryptoPageInner() {
             items={scanner.data ?? []}
             isLoading={scanner.isLoading}
             error={error?.message ?? scanner.error?.message}
-            defaultFilter="CRYPTO"
-            title="Crypto Market Screener"
+            scope={['CRYPTO']}
+            hideColumns={['pe']}
+            title="Kripto tarayıcısı"
           />
         </div>
         <Card>
           <CardHeader>
             <CardTitle>
-              Order Book · {orderbook?.symbol ?? focusSymbol}
+              Emir defteri · {orderbook?.symbol ?? focusSymbol}
               {focus ? (
                 <span className="ml-2 font-normal text-[var(--muted)]">
                   {formatPrice(focus.price, 'USD')}

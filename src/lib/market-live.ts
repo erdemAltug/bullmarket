@@ -17,7 +17,12 @@ import {
 import type { Quote } from '@/types';
 import type { ScannerItem } from '@/types/scanner';
 
-const CACHE_KEY = 'market:live:v5';
+const CACHE_KEY = 'market:live:v6';
+
+const STABLECOINS = new Set([
+  'USDC', 'FDUSD', 'TUSD', 'USDP', 'DAI', 'BUSD', 'USD1', 'RLUSD', 'PYUSD',
+  'USDE', 'USDD', 'EURI', 'EUR', 'AEUR', 'XUSD', 'BFUSD', 'USDS', 'FRAX', 'GUSD',
+]);
 const BOARD_KEY = 'market:bist-board:v1';
 
 function bistItemFromQuote(q: Quote): ScannerItem | null {
@@ -175,6 +180,9 @@ async function loadLiveMarketItems(): Promise<ScannerItem[]> {
   for (const t of cryptoTickers) {
     if (!(t.price > 0)) continue;
     const display = t.symbol.replace('USDT', '');
+    // Dollar-pegged coins sit at ~$1 with huge volume and crowd the top of
+    // every crypto list without telling anyone anything.
+    if (STABLECOINS.has(display)) continue;
     items.push({
       symbol: t.symbol,
       displaySymbol: display,

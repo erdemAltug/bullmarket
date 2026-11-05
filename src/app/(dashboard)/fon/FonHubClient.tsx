@@ -52,8 +52,9 @@ export function FonHubClient() {
         items={items}
         isLoading={scanner.isLoading}
         error={scanner.error?.message}
-        defaultFilter="FUNDS"
-        title="Fon & ETF Screener"
+        scope={['FON', 'ETF']}
+        hideColumns={['score']}
+        title="Fon ve ETF tarayıcısı"
       />
     </div>
   );
