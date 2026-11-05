@@ -9,12 +9,12 @@ const noopSubscribe = () => () => {};
 
 /**
  * Google Ads tag with Consent Mode v2: ad cookies are denied by default and
- * only granted after the visitor accepts. Renders nothing without an AW- id.
+ * only granted after the visitor accepts. The consent banner always shows
+ * (KVKK); the Google tag itself loads only when an AW- id is set.
  */
 export function GoogleAds() {
   const stored = useSyncExternalStore(noopSubscribe, readAdsConsent, () => 'denied' as const);
   const [answered, setAnswered] = useState(false);
-  if (!ADS_ID) return null;
 
   function choose(value: 'granted' | 'denied') {
     setAdsConsent(value);
@@ -23,6 +23,8 @@ export function GoogleAds() {
 
   return (
     <>
+      {ADS_ID ? (
+        <>
       <Script id="google-ads-consent" strategy="afterInteractive">
         {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',wait_for_update:500});
@@ -34,6 +36,8 @@ gtag('js',new Date());gtag('config','${ADS_ID}');`}
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${ADS_ID}`}
       />
+        </>
+      ) : null}
 
       {stored === null && !answered ? (
         <div
@@ -42,8 +46,8 @@ gtag('js',new Date());gtag('config','${ADS_ID}');`}
           className="fixed inset-x-3 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-[60] mx-auto max-w-xl rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4 shadow-2xl md:bottom-4"
         >
           <p className="text-sm leading-relaxed">
-            Reklamlarımızın işe yarayıp yaramadığını ölçmek için Google reklam
-            çerezlerini kullanmak istiyoruz. Siteyi kullanmak için gerekli değildir.{' '}
+            Siteyi geliştirmek ve reklamlarımızı ölçmek için çerez kullanıyoruz.
+            Zorunlu olmayan çerezler yalnızca onay verirsen açılır.{' '}
             <Link href="/gizlilik" className="text-[var(--accent)] underline">
               Gizlilik
             </Link>
