@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { SITE_URL } from '@/lib/seo/symbols';
 
 const LEGAL_LINKS = [
+  { href: '/hakkimizda', label: 'Hakkımızda' },
+  { href: '/metodoloji', label: 'Skor Metodolojisi' },
   { href: '/kvkk', label: 'KVKK' },
   { href: '/gizlilik', label: 'Gizlilik' },
   { href: '/kosullar', label: 'Kullanım Koşulları' },
@@ -19,6 +21,8 @@ const PRODUCT_LINKS = [
   { href: '/targets', label: 'Hedefler' },
   { href: '/dividends', label: 'Temettü' },
   { href: '/fon', label: 'Fonlar & ETF' },
+  { href: '/bist/en-yuksek-skorlu-hisseler', label: 'En Yüksek Skorlu Hisseler' },
+  { href: '/bist/en-cok-yukselen-hisseler', label: 'En Çok Yükselenler' },
   { href: '/egitim', label: 'Eğitim' },
   { href: '/blog', label: 'Blog' },
 ] as const;

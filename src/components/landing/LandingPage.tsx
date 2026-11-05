@@ -320,6 +320,15 @@ export function LandingPage() {
               {SITE_URL.replace('https://', '')}
             </p>
             <div className="flex flex-wrap gap-4">
+              <Link href="/hakkimizda" className="hover:text-[var(--accent)]">
+                Hakkımızda
+              </Link>
+              <Link href="/metodoloji" className="hover:text-[var(--accent)]">
+                Metodoloji
+              </Link>
+              <Link href="/bist/en-yuksek-skorlu-hisseler" className="hover:text-[var(--accent)]">
+                En yüksek skorlar
+              </Link>
               <Link href="/terminal" className="hover:text-[var(--accent)]">
                 Terminal
               </Link>
