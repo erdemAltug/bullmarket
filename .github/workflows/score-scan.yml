@@ -1,0 +1,29 @@
+name: Score Scan
+
+on:
+  schedule:
+    # Every 15 minutes; history keeps the last scan of each Istanbul day.
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: score-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Run score scan
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://bullsye.app' }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "CRON_SECRET not set — skipping"
+            exit 0
+          fi
+          curl --fail-with-body -sS --max-time 90 \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "$SITE_URL/api/cron/scan"

@@ -1,6 +1,11 @@
 import {
   boolean,
+  date,
+  doublePrecision,
+  index,
+  integer,
   numeric,
+  primaryKey,
   pgTable,
   text,
   timestamp,
@@ -94,6 +99,42 @@ export const proWaitlist = pgTable(
   (table) => [uniqueIndex('pro_waitlist_email_idx').on(table.email)]
 );
 
+/**
+ * Latest server-side score per symbol, refreshed by /api/cron/scan.
+ * Pages and digests read this instead of scanning Yahoo per request.
+ */
+export const marketScores = pgTable(
+  'market_scores',
+  {
+    symbol: text('symbol').primaryKey(),
+    displaySymbol: text('display_symbol').notNull(),
+    name: text('name').notNull().default(''),
+    category: text('category').notNull(), // BIST | US | CRYPTO | ETF | FON
+    score: integer('score').notNull(),
+    price: doublePrecision('price').notNull(),
+    changePercent: doublePrecision('change_percent').notNull().default(0),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [index('market_scores_category_score_idx').on(table.category, table.score)]
+);
+
+/**
+ * One row per symbol per Istanbul calendar day (last scan of the day wins).
+ * Feeds score history charts and score-change alerts.
+ */
+export const scoreHistory = pgTable(
+  'score_history',
+  {
+    symbol: text('symbol').notNull(),
+    day: date('day').notNull(),
+    score: integer('score').notNull(),
+    price: doublePrecision('price').notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.symbol, table.day] })]
+);
+
+export type MarketScoreRow = typeof marketScores.$inferSelect;
 export type WatchlistRow = typeof watchlists.$inferSelect;
 export type PortfolioRow = typeof portfolioTransactions.$inferSelect;
 export type PriceAlertRow = typeof priceAlerts.$inferSelect;
