@@ -10,6 +10,7 @@ import { AssetChecker } from '@/components/landing/AssetChecker';
 import { FaqAccordion } from '@/components/landing/FaqAccordion';
 import { HeroDemo } from '@/components/landing/HeroDemo';
 import { HowItWorks } from '@/components/landing/HowItWorks';
+import { AboutBullsye } from '@/components/landing/AboutBullsye';
 import { Reveal } from '@/components/landing/Reveal';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingTicker } from '@/components/landing/LandingTicker';
@@ -118,15 +119,16 @@ export function LandingPage() {
           <div className="relative mx-auto max-w-3xl pt-6 text-center sm:pt-10">
             <p className="landing-fade-up inline-flex items-center gap-2 rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--accent)]">
               <span className="size-1.5 rounded-full bg-[var(--accent)]" />
-              Bullsye
+              Bireysel yatırımcı için takip asistanı
             </p>
             <h1 className="landing-fade-up landing-delay-1 mt-5 text-balance text-3xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
-              Bugün hangi hisseye{' '}
-              <span className="text-[var(--accent)]">bakmalısın?</span>
+              Piyasayı{' '}
+              <span className="text-[var(--accent)]">senin yerine</span> takip ediyoruz
             </h1>
             <p className="landing-fade-up landing-delay-2 mx-auto mt-4 max-w-xl text-balance text-base text-[var(--muted)] sm:text-lg">
-              BİST, NASDAQ ve kriptoda yüzlerce sinyal tek bir 0–100 skora
-              iner. Her sabah 08:30’da en güçlü 5’i e-postanda.
+              Bullsye BİST, ABD ve kripto piyasalarını her gün tarar, her hisseyi
+              anlaşılır bir 0–100 skora indirir ve önemli bir şey olduğunda sana
+              haber verir. Karar her zaman senin.
             </p>
             <div className="landing-fade-up landing-delay-3 mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <SignupCta where="hero" className="w-full sm:w-auto">
@@ -150,6 +152,8 @@ export function LandingPage() {
       <div className="mt-10">
         <LandingTicker />
       </div>
+
+      <AboutBullsye />
 
       <Reveal>
         <TodayPicks />

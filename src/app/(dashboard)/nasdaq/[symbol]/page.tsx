@@ -1,3 +1,4 @@
+import { ScoreHistoryCard } from '@/components/asset/ScoreHistoryCard';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { AnalystTargetCard } from '@/components/asset/AnalystTargetCard';
@@ -229,6 +230,8 @@ export default async function NasdaqSymbolPage({ params }: Props) {
         />
         {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
       </div>
+
+      <ScoreHistoryCard symbol={symbol} label={symbol} />
 
       <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 text-sm leading-relaxed text-[var(--muted)]">
         <h2 className="mb-2 text-base font-semibold text-[var(--foreground)]">

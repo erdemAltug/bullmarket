@@ -1,3 +1,4 @@
+import { ScoreHistoryCard } from '@/components/asset/ScoreHistoryCard';
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { SymbolAnalysisIsland } from '@/components/analysis/SymbolAnalysisIsland';
@@ -248,6 +249,8 @@ export default async function BistSymbolPage({ params }: Props) {
         />
         {analystCard ? <AnalystTargetCard data={analystCard} /> : null}
       </div>
+
+      <ScoreHistoryCard symbol={yahoo} label={symbol} />
 
       <SymbolAnalysisIsland symbol={symbol} yahooSymbol={yahoo} />
     </AssetSeoShell>

@@ -7,6 +7,7 @@ import { authClient } from '@/lib/auth/client';
 import { cn } from '@/lib/utils';
 
 const LINKS = [
+  { href: '#biz-kimiz', label: 'Biz kimiz' },
   { href: '#bugun', label: 'Bugün' },
   { href: '#neden-hesap', label: 'Neden hesap' },
   { href: '#ozellikler', label: 'Araçlar' },
