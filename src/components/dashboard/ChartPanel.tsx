@@ -271,10 +271,10 @@ function ChartPanelInner({
         )}
         <p className="mt-2 text-[10px] text-[var(--muted)]">
           {source === 'binance'
-            ? 'Kaynak: Binance · gerçek zamanlıya yakın'
+            ? 'Anlık fiyat'
             : source === 'tefas'
-              ? 'Kaynak: TEFAS · günlük pay değeri'
-              : 'Kaynak: Yahoo Finance · borsa verisi 15 dk gecikmeli olabilir'}
+              ? 'Günlük pay değeri (gün sonu)'
+              : 'Fiyatlar 15 dakikaya kadar gecikmeli olabilir'}
           {' · '}sürükleyerek kaydır, tekerlek ya da iki parmakla yakınlaştır
         </p>
       </CardContent>

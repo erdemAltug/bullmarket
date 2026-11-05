@@ -84,8 +84,9 @@ export default function HakkimizdaPage() {
 
       <h2 className={H2}>Veri kaynaklarımız</h2>
       <p>
-        Hisse ve ETF fiyatları için piyasa veri sağlayıcıları, kripto için Binance, fonlar
-        için TEFAS, döviz için TCMB ve şirket açıklamaları için KAP verilerini kullanıyoruz.
+        Hisse, ETF ve kripto fiyatlarını piyasa veri sağlayıcılarından; fon, döviz ve
+        şirket açıklamalarını TEFAS, TCMB ve KAP gibi resmi kaynaklardan topluyor, kendi
+        skor modelimizle işliyoruz.
         Fiyatlar gecikmeli olabilir; işlem kararı vermeden önce aracı kurumunuzdaki fiyatı
         kontrol edin.
       </p>

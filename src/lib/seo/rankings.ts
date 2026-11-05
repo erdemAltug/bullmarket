@@ -137,9 +137,9 @@ export const RANKINGS = {
     h1: 'Bugün en yüksek analiz skoruna sahip kripto paralar',
     title: 'En Yüksek Skorlu Coinler Bugün: Kripto Canlı Liste',
     description:
-      'Bugün analiz skoru en yüksek 50 kripto para: fiyat, 24 saatlik değişim ve 0–100 skor. Binance verisiyle her 15 dakikada güncellenir.',
+      'Bugün analiz skoru en yüksek 50 kripto para: fiyat, 24 saatlik değişim ve 0–100 skor. Her 15 dakikada güncellenir.',
     intro:
-      'Binance’te işlem hacmi yüksek 200 civarı coini her 15 dakikada tarıyor ve analiz skoruna göre sıralıyoruz. Kripto piyasası 7/24 açık ve oynaktır; liste hızla değişebilir.',
+      'İşlem hacmi yüksek 200 civarı coini her 15 dakikada tarıyor ve analiz skoruna göre sıralıyoruz. Kripto piyasası 7/24 açık ve oynaktır; liste hızla değişebilir.',
     notes: [
       SCORE_NOTE,
       {
