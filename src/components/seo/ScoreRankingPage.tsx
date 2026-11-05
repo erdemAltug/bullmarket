@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { asc, desc, eq } from 'drizzle-orm';
+import { and, asc, desc, eq, inArray } from 'drizzle-orm';
 import { getDb, isDatabaseConfigured } from '@/db';
 import { marketScores, type MarketScoreRow } from '@/db/schema';
 import { absoluteCanonical } from '@/lib/seo/canonical';
@@ -23,6 +24,12 @@ export interface RankingConfig {
   notes: { heading: string; body: string }[];
   related: { href: string; label: string }[];
   limit?: number;
+  /** Restrict to these display symbols (sector baskets). */
+  symbols?: string[];
+  /** Visible Q&A, also emitted as FAQPage schema. */
+  faqs?: { q: string; a: string }[];
+  /** OG subtitle override. */
+  ogSubtitle?: string;
 }
 
 function hrefFor(row: MarketScoreRow) {
@@ -46,7 +53,9 @@ function istanbulDate() {
   });
 }
 
-async function loadRows(cfg: RankingConfig): Promise<MarketScoreRow[]> {
+export async function loadRows(
+  cfg: Pick<RankingConfig, 'category' | 'sort' | 'limit' | 'symbols'>
+): Promise<MarketScoreRow[]> {
   if (!isDatabaseConfigured()) return [];
   try {
     const order =
@@ -58,7 +67,11 @@ async function loadRows(cfg: RankingConfig): Promise<MarketScoreRow[]> {
     return await getDb()
       .select()
       .from(marketScores)
-      .where(eq(marketScores.category, cfg.category))
+      .where(
+        cfg.symbols?.length
+          ? and(eq(marketScores.category, cfg.category), inArray(marketScores.displaySymbol, cfg.symbols))
+          : eq(marketScores.category, cfg.category)
+      )
       .orderBy(...order)
       .limit(cfg.limit ?? 50);
   } catch {
@@ -75,13 +88,20 @@ export function rankingMetadata(cfg: RankingConfig): Metadata {
       url: absoluteCanonical(cfg.path),
       title: cfg.title,
       description: cfg.description,
-      images: hubOgImages(cfg.h1, 'Her 15 dakikada güncellenen canlı liste'),
+      images: hubOgImages(cfg.h1, cfg.ogSubtitle ?? 'Her 15 dakikada güncellenen canlı liste'),
     },
   };
 }
 
 /** Server-rendered ranking table fed by the 15-minute score scan. */
-export async function ScoreRankingPage({ cfg }: { cfg: RankingConfig }) {
+export async function ScoreRankingPage({
+  cfg,
+  children,
+}: {
+  cfg: RankingConfig;
+  /** Extra sections rendered between the table and the notes. */
+  children?: ReactNode;
+}) {
   const rows = await loadRows(cfg);
   const updated = rows[0]?.updatedAt
     ? new Date(rows[0].updatedAt).toLocaleTimeString('tr-TR', {
@@ -165,12 +185,44 @@ export async function ScoreRankingPage({ cfg }: { cfg: RankingConfig }) {
         </Link>
       </p>
 
+      {children}
+
       {cfg.notes.map((n) => (
         <section key={n.heading} className="space-y-2 text-sm leading-relaxed text-[var(--muted)]">
           <h2 className="text-lg font-semibold text-[var(--foreground)]">{n.heading}</h2>
           <p>{n.body}</p>
         </section>
       ))}
+
+      {cfg.faqs?.length ? (
+        <section className="space-y-3">
+          <h2 className="text-lg font-semibold">Sık sorulan sorular</h2>
+          <div className="divide-y divide-[var(--border)] rounded-2xl border border-[var(--border)] bg-[var(--card)]">
+            {cfg.faqs.map((f) => (
+              <details key={f.q} className="group px-4 py-3">
+                <summary className="cursor-pointer list-none text-sm font-medium [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                </summary>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{f.a}</p>
+              </details>
+            ))}
+          </div>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                mainEntity: cfg.faqs.map((f) => ({
+                  '@type': 'Question',
+                  name: f.q,
+                  acceptedAnswer: { '@type': 'Answer', text: f.a },
+                })),
+              }),
+            }}
+          />
+        </section>
+      ) : null}
 
       <nav aria-label="İlgili listeler" className="flex flex-wrap gap-2">
         {cfg.related.map((l) => (

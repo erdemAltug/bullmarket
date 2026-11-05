@@ -2,9 +2,6 @@
 
 import { useEffect } from 'react';
 
-const DEFAULT_TITLE =
-  'Bullsye — BİST, Kripto & Finansal Analiz Terminali';
-
 interface DynamicTitleProps {
   symbol?: string;
   price?: number;
@@ -13,21 +10,26 @@ interface DynamicTitleProps {
   enabled?: boolean;
 }
 
+/** Live-price prefix we add: "🟢 ₺295,5 +1,46% · ". */
+const PREFIX_RE = /^(?:🟢|🔴|●) [^·]* · /u;
+
+function stripPrefix(title: string) {
+  return title.replace(PREFIX_RE, '');
+}
+
+/**
+ * Prefixes the live price to the page's own title instead of replacing it,
+ * so the keyword title from metadata stays in the rendered DOM (Google reads
+ * it) while the browser tab still shows the move at a glance.
+ */
 export function DynamicTitle({
-  symbol = 'XU100',
   price,
   changePercent,
   currencySymbol = '₺',
   enabled = true,
 }: DynamicTitleProps) {
   useEffect(() => {
-    // Static routes keep Next.js metadata titles untouched
-    if (!enabled) return;
-
-    if (price == null || Number.isNaN(price)) {
-      document.title = DEFAULT_TITLE;
-      return;
-    }
+    if (!enabled || price == null || Number.isNaN(price)) return;
 
     const direction =
       changePercent == null ? '●' : changePercent >= 0 ? '🟢' : '🔴';
@@ -37,14 +39,15 @@ export function DynamicTitle({
     const formattedChange =
       changePercent == null
         ? ''
-        : ` (${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%)`;
+        : ` ${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`;
 
-    document.title = `${direction} ${symbol} ${currencySymbol}${formattedPrice}${formattedChange} | Bullsye`;
+    const base = stripPrefix(document.title);
+    document.title = `${direction} ${currencySymbol}${formattedPrice}${formattedChange} · ${base}`;
 
     return () => {
-      document.title = DEFAULT_TITLE;
+      document.title = stripPrefix(document.title);
     };
-  }, [symbol, price, changePercent, currencySymbol, enabled]);
+  }, [price, changePercent, currencySymbol, enabled]);
 
   return null;
 }

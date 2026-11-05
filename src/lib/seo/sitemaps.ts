@@ -1,3 +1,4 @@
+import { BIST_SECTORS, US_SECTORS } from '@/lib/seo/sectors';
 import type { MetadataRoute } from 'next';
 import { BLOG_POSTS, EDUCATION_LESSONS } from '@/content/academy';
 import { buildComparePairs } from '@/lib/seo/compare-pairs';
@@ -71,6 +72,19 @@ export function buildMainSitemap(): MetadataRoute.Sitemap {
     { path: '/nasdaq/en-yuksek-skorlu-hisseler', changeFrequency: 'hourly', priority: 0.9 },
     { path: '/kripto/en-yuksek-skorlu-coinler', changeFrequency: 'hourly', priority: 0.9 },
     { path: '/hakkimizda', changeFrequency: 'monthly', priority: 0.6 },
+    { path: '/bist/sektorler', changeFrequency: 'hourly', priority: 0.9 },
+    { path: '/bist/2026-one-cikan-hisseler', changeFrequency: 'daily', priority: 0.95 },
+    { path: '/nasdaq/2026-one-cikan-abd-hisseleri', changeFrequency: 'daily', priority: 0.9 },
+    ...BIST_SECTORS.map((s) => ({
+      path: `/bist/sektor/${s.slug}`,
+      changeFrequency: 'hourly' as const,
+      priority: 0.85,
+    })),
+    ...US_SECTORS.map((s) => ({
+      path: `/nasdaq/sektor/${s.slug}`,
+      changeFrequency: 'hourly' as const,
+      priority: 0.8,
+    })),
     { path: '/metodoloji', changeFrequency: 'monthly', priority: 0.7 },
     {
       path: '/bist/yuksek-temettu-verenler-2026',

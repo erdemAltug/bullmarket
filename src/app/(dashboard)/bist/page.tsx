@@ -45,6 +45,8 @@ export default async function BistPage() {
       <nav aria-label="Canlı listeler" className="mt-4 flex flex-wrap gap-2 text-xs">
         {[
           ['/bist/en-yuksek-skorlu-hisseler', 'En yüksek skorlu hisseler'],
+          ['/bist/2026-one-cikan-hisseler', '2026’de öne çıkanlar'],
+          ['/bist/sektorler', 'Sektörler'],
           ['/bist/en-cok-yukselen-hisseler', 'Bugün en çok yükselenler'],
           ['/bist/en-cok-dusen-hisseler', 'Bugün en çok düşenler'],
           ['/bist/yuksek-temettu-verenler-2026', 'Yüksek temettü verenler'],
