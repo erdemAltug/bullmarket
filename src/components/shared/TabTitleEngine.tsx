@@ -10,10 +10,10 @@ function TabTitleInner() {
   const searchParams = useSearchParams();
   const focusParam = searchParams.get('symbol');
 
-  const isCrypto = pathname === '/crypto' || pathname === '/kripto' || pathname.startsWith('/crypto/') || pathname.startsWith('/kripto/');
-  const isBist =
-    pathname === '/bist' ||
-    (pathname.startsWith('/bist/') && !pathname.includes('heatmap'));
+  // Only real symbol pages (/bist/THYAO, /kripto/BTCUSDT); hubs, lists and
+  // sub-pages keep their metadata title untouched.
+  const isCrypto = /^\/(?:kripto|crypto)\/[A-Z0-9]+$/.test(pathname);
+  const isBist = /^\/bist\/[A-Z0-9]+$/.test(pathname);
   // Overview already has market queries — avoid a second BIST poll just for the tab title
   const live = isBist || isCrypto;
 

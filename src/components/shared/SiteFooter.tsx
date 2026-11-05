@@ -23,6 +23,7 @@ const PRODUCT_LINKS = [
   { href: '/fon', label: 'Fonlar & ETF' },
   { href: '/bist/en-yuksek-skorlu-hisseler', label: 'En Yüksek Skorlu Hisseler' },
   { href: '/bist/en-cok-yukselen-hisseler', label: 'En Çok Yükselenler' },
+  { href: '/bist/sektorler', label: 'Sektörler' },
   { href: '/egitim', label: 'Eğitim' },
   { href: '/blog', label: 'Blog' },
 ] as const;
