@@ -95,13 +95,14 @@ function CustomContent(props: {
 interface HeatmapTreemapProps {
   quotes: Quote[];
   sizeBy: 'marketCap' | 'volume';
+  heightClass?: string;
 }
 
-export function HeatmapTreemap({ quotes, sizeBy }: HeatmapTreemapProps) {
+export function HeatmapTreemap({ quotes, sizeBy, heightClass = 'h-[560px]' }: HeatmapTreemapProps) {
   const data = toNodes(quotes, sizeBy);
 
   return (
-    <div className="h-[560px] w-full rounded-xl border border-zinc-800 bg-zinc-950 p-2">
+    <div className={`${heightClass} w-full rounded-xl border border-zinc-800 bg-zinc-950 p-2`}>
       <ResponsiveContainer width="100%" height="100%">
         <Treemap
           data={data}

@@ -27,6 +27,9 @@ import { ShareCardButton } from '@/components/dashboard/ShareCardButton';
 import { ShareDailyRadar } from '@/components/dashboard/ShareDailyRadar';
 import { AISignalRadar } from '@/components/dashboard/AISignalRadar';
 import { MarketMovers } from '@/components/dashboard/MarketMovers';
+import { MarketPulseBoard } from '@/components/dashboard/MarketPulseBoard';
+import { MiniHeatmap } from '@/components/dashboard/MiniHeatmap';
+import { ExploreGrid } from '@/components/dashboard/ExploreGrid';
 import { SectorPulse } from '@/components/dashboard/SectorPulse';
 import { SmartRadar } from '@/components/dashboard/SmartRadar';
 import { StockScorecard } from '@/components/dashboard/StockScorecard';
@@ -401,6 +404,9 @@ export default function OverviewPage() {
         <SectorPulse fallback={scanner.data ?? []} />
       </div>
 
+      <MarketPulseBoard items={scanner.data ?? []} loading={scanner.isLoading} />
+      <MiniHeatmap />
+
       <ExpandableSection
         id="daily-vision"
         title="Günlük özet"
@@ -497,6 +503,8 @@ export default function OverviewPage() {
         render={renderWidget}
         labels={WIDGET_LABELS}
       />
+
+      <ExploreGrid />
 
       <StockScorecard
         symbol={scoreSymbol}
