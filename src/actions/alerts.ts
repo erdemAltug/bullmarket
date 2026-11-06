@@ -4,7 +4,7 @@ import { and, eq, isNull, ne } from 'drizzle-orm';
 import { getDb, isDatabaseConfigured } from '@/db';
 import { priceAlerts } from '@/db/schema';
 import { getCurrentSessionUser, getCurrentUserId } from '@/lib/auth-user';
-import { FREE_LIMITS } from '@/lib/pro-plan';
+import { getCurrentPlan } from '@/lib/entitlements';
 import type { AlertKind, PriceAlert } from '@/types';
 
 function rowToAlert(row: typeof priceAlerts.$inferSelect): PriceAlert {
@@ -72,7 +72,8 @@ export async function createPriceAlert(
     const active = existing.filter(
       (r) => !r.isTriggered && !(r.symbol === input.symbol && r.condition === input.kind)
     );
-    if (active.length >= FREE_LIMITS.activeAlerts) {
+    const { limits } = await getCurrentPlan();
+    if (active.length >= limits.activeAlerts) {
       return { db: true, alerts: existing.map(rowToAlert), limitReached: true };
     }
 

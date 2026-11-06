@@ -249,7 +249,7 @@ export default function AlertsPage() {
       selected?.display ?? symbol.replace('.IS', '').replace('USDT', '');
     const created = addAlert({ symbol, displaySymbol, kind, threshold: n });
     if (!created) {
-      setFormError(`Ücretsiz planda aynı anda ${alertLimit} alarm kurabilirsin. Birini sil ya da Pro’ya geç.`);
+      setFormError(`Planında aynı anda en fazla ${alertLimit} alarm kurabilirsin. Birini sil ya da planını yükselt.`);
       openPro('alert-limit');
       return;
     }

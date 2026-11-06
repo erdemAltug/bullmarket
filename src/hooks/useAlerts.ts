@@ -1,6 +1,6 @@
 'use client';
 
-import { FREE_LIMITS } from '@/lib/pro-plan';
+import { usePlan } from '@/hooks/usePlan';
 import { useCallback, useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
@@ -28,6 +28,7 @@ function mergeAlert(list: PriceAlert[], next: PriceAlert): PriceAlert[] {
 export function useAlerts(opts?: { enabled?: boolean }) {
   const enabled = opts?.enabled ?? true;
   const qc = useQueryClient();
+  const { limits } = usePlan();
   const { data: session } = authClient.useSession();
   const userId = session?.user?.id ?? 'anon';
   const [lsAlerts, setLsAlerts, lsReady] = useLocalStorage<PriceAlert[]>(
@@ -70,7 +71,7 @@ export function useAlerts(opts?: { enabled?: boolean }) {
       const activeOthers = alerts.filter(
         (a) => !a.triggered && !(a.symbol === input.symbol && a.kind === input.kind)
       ).length;
-      if (activeOthers >= FREE_LIMITS.activeAlerts) {
+      if (activeOthers >= limits.activeAlerts) {
         trackEvent('alert_limit_hit', { symbol: input.displaySymbol });
         return null;
       }
@@ -111,7 +112,7 @@ export function useAlerts(opts?: { enabled?: boolean }) {
 
       return local;
     },
-    [alerts, useDb, setLsAlerts, qc, userId, writeDbCache]
+    [alerts, limits.activeAlerts, useDb, setLsAlerts, qc, userId, writeDbCache]
   );
 
   const removeAlert = useCallback(
@@ -225,7 +226,7 @@ export function useAlerts(opts?: { enabled?: boolean }) {
   return {
     alerts,
     activeCount,
-    alertLimit: FREE_LIMITS.activeAlerts,
+    alertLimit: limits.activeAlerts,
     addAlert,
     updateAlert,
     removeAlert,
