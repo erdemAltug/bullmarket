@@ -2,10 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Check, Sparkles } from 'lucide-react';
+import { Check, Crown, Sparkles } from 'lucide-react';
+import { usePlan } from '@/hooks/usePlan';
 import { useProRequest } from '@/components/pro/ProRequest';
 import {
+  ELITE_FEATURES,
+  ELITE_PRICE,
   FOUNDER_SEATS,
+  PLAN_LABEL,
   FREE_FEATURES,
   PRO_FEATURES,
   PRO_PRICE,
@@ -41,6 +45,8 @@ export function PricingView() {
   const { openPro } = useProRequest();
   const [plan, setPlan] = useState<ProPlanChoice>('yearly');
   const price = plan === 'yearly' ? PRO_PRICE.yearly : PRO_PRICE.monthly;
+  const elitePrice = plan === 'yearly' ? ELITE_PRICE.yearly : ELITE_PRICE.monthly;
+  const me = usePlan();
 
   return (
     <div className="mx-auto max-w-4xl space-y-10 pb-8">
@@ -85,7 +91,12 @@ export function PricingView() {
         </div>
       </header>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      {me.isPaid ? (
+        <p className="mx-auto w-fit rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 py-1.5 text-sm font-semibold text-emerald-300">
+          Aktif planın: {PLAN_LABEL[me.plan]} ✓
+        </p>
+      ) : null}
+      <div className="grid gap-4 md:grid-cols-3">
         <section className="flex flex-col rounded-2xl border border-[var(--border)] bg-[var(--card)] p-6">
           <h2 className="text-lg font-semibold">Ücretsiz</h2>
           <p className="mt-2">
@@ -149,6 +160,32 @@ export function PricingView() {
           <p className="mt-2 text-center text-[11px] text-[var(--muted)]">
             Şimdi ödeme alınmaz · davet e-postayla gelir
           </p>
+        </section>
+
+        <section className="flex flex-col rounded-2xl border border-amber-500/40 bg-gradient-to-b from-amber-500/[0.07] to-[var(--card)] p-6">
+          <h2 className="flex items-center gap-2 text-lg font-semibold">
+            <Crown className="size-4 text-amber-400" /> Elite
+          </h2>
+          <p className="mt-2 flex items-baseline gap-2">
+            <span className="text-3xl font-semibold">{formatTl(elitePrice)}</span>
+            <span className="text-sm text-[var(--muted)]">/{plan === 'yearly' ? 'yıl' : 'ay'}</span>
+          </p>
+          <p className="mt-1 text-xs text-amber-300">Aktif yatırımcı ve profesyoneller için</p>
+          <ul className="mt-6 flex-1 space-y-2.5 text-sm">
+            {ELITE_FEATURES.map((f) => (
+              <li key={f} className="flex items-start gap-2">
+                <Check className="mt-0.5 size-4 shrink-0 text-amber-400" />
+                {f}
+              </li>
+            ))}
+          </ul>
+          <button
+            type="button"
+            onClick={() => openPro('pricing_elite', plan)}
+            className="mt-6 inline-flex items-center justify-center gap-1.5 rounded-lg border border-amber-500/50 px-4 py-2.5 text-sm font-bold text-amber-300 hover:bg-amber-500/10"
+          >
+            <Crown className="size-4" /> Elite’e erken erişim al
+          </button>
         </section>
       </div>
 
