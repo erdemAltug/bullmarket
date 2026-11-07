@@ -8,7 +8,7 @@ import { EconomicCalendar } from '@/components/dashboard/EconomicCalendar';
 import { ExploreGrid } from '@/components/dashboard/ExploreGrid';
 import { MarketMovers } from '@/components/dashboard/MarketMovers';
 import { MarketPulseBoard } from '@/components/dashboard/MarketPulseBoard';
-import { ChartPanel } from '@/components/dashboard/ChartPanel';
+import { TerminalChart } from '@/components/terminal/TerminalChart';
 import { NewsFeed } from '@/components/dashboard/NewsFeed';
 import { SectorPulse } from '@/components/dashboard/SectorPulse';
 import { ShareDailyRadar } from '@/components/dashboard/ShareDailyRadar';
@@ -111,12 +111,7 @@ export default function OverviewPage() {
             <WatchlistPanel />
           </div>
           <div className="min-w-0 [&>*]:h-full">
-            <ChartPanel
-              title="BİST 100"
-              symbol="XU100.IS"
-              source="yahoo"
-              isPositive={(xu100?.changePercent ?? 0) >= 0}
-            />
+            <TerminalChart />
           </div>
           <div className="min-w-0">
             <TopScoresPanel items={items} loading={scanner.isLoading} />
