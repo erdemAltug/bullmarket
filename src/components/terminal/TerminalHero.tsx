@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import Link from 'next/link';
 import { Sparkline } from '@/components/dashboard/Sparkline';
 import { useCommodities } from '@/hooks/useMarketScanner';
+import { useFx } from '@/hooks/useMarketData';
 import { computeMarketSentiment } from '@/lib/ai-opportunity';
 import type { ScannerItem } from '@/types/scanner';
 import { cn } from '@/lib/utils';
@@ -41,6 +42,7 @@ function moodTone(v: number) {
  */
 export function TerminalHero({ items, loading }: { items: ScannerItem[]; loading?: boolean }) {
   const commodities = useCommodities();
+  const fx = useFx();
   const chartClick = useChartClick();
 
   const stats = useMemo(() => {
@@ -59,7 +61,11 @@ export function TerminalHero({ items, loading }: { items: ScannerItem[]; loading
 
   const tiles = useMemo<Tile[]>(() => {
     const find = (re: RegExp) => commodities.data.find((c) => re.test(`${c.symbol} ${c.name}`));
-    const usd = find(/USD\s*\/?\s*TRY|USDTRY/i);
+    const fxUsd = fx.data?.rates?.find((r) => r.code === 'USD');
+    // Fall back to the FX feed when the commodities feed misses USD/TRY.
+    const usd =
+      find(/USD\s*\/?\s*TRY|USDTRY/i) ??
+      (fxUsd ? { symbol: 'USDTRY', name: 'USD/TRY', price: fxUsd.forexSelling, changePercent: Number.NaN, currency: 'TRY' as const } : undefined);
     const gold = find(/gram\s*alt/i);
     const brent = find(/brent/i);
     const out: Tile[] = [];
@@ -75,7 +81,7 @@ export function TerminalHero({ items, loading }: { items: ScannerItem[]; loading
         href: '/bist',
         chart: targetFromScanner(stats.xu100, '/bist'),
       });
-    if (usd) out.push({ key: 'usd', label: 'Dolar / TL', value: money(usd.price, 'TRY', 4), change: usd.changePercent, href: '/fx', chart: { title: 'Dolar / TL', market: 'Döviz', chartSymbol: 'USDTRY=X', price: usd.price, changePercent: usd.changePercent, currency: 'TRY', href: '/fx', alertSymbol: 'USDTRY' } });
+    if (usd) out.push({ key: 'usd', label: 'Dolar / TL', value: money(usd.price, 'TRY', 4), change: Number.isFinite(usd.changePercent) ? usd.changePercent : null, href: '/fx', chart: { title: 'Dolar / TL', market: 'Döviz', chartSymbol: 'USDTRY=X', price: usd.price, changePercent: Number.isFinite(usd.changePercent) ? usd.changePercent : undefined, currency: 'TRY', href: '/fx', alertSymbol: 'USDTRY' } });
     if (gold) out.push({ key: 'gold', label: 'Gram altın', value: money(gold.price, 'TRY', 0), change: gold.changePercent, href: '/fx', chart: { title: 'Gram altın', market: 'Emtia', subtitle: 'Grafik: ons altın (USD) üzerinden', chartSymbol: 'GC=F', price: gold.price, changePercent: gold.changePercent, currency: 'TRY', href: '/fx', alertSymbol: gold.symbol } });
     if (stats.btc)
       out.push({
@@ -89,7 +95,7 @@ export function TerminalHero({ items, loading }: { items: ScannerItem[]; loading
       });
     if (brent) out.push({ key: 'brent', label: 'Brent petrol', value: money(brent.price, 'USD'), change: brent.changePercent, href: '/fx', chart: { title: 'Brent petrol', market: 'Emtia', chartSymbol: 'BZ=F', price: brent.price, changePercent: brent.changePercent, currency: 'USD', alertSymbol: brent.symbol } });
     return out;
-  }, [commodities.data, stats.xu100, stats.btc]);
+  }, [commodities.data, fx.data, stats.xu100, stats.btc]);
 
   const mood = stats.sentiment?.value ?? 50;
   const tone = moodTone(mood);

@@ -358,3 +358,8 @@ html.terminal body {
   }
   .landing-dot-pulse, .landing-progress, .landing-caret, .landing-scan { animation: none; }
 }
+
+/* Chrome/Safari still draw a thin bar with scrollbar-width:none alone. */
+[class*='scrollbar-width:none']::-webkit-scrollbar {
+  display: none;
+}

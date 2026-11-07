@@ -44,14 +44,14 @@ export function TerminalChart() {
 
   return (
     <div className="flex h-full flex-col rounded-2xl border border-[var(--border)] bg-[var(--card)]">
-      <div className="-mb-2 flex gap-1.5 overflow-x-auto px-4 pt-4 [scrollbar-width:none]">
+      <div className="flex gap-1.5 overflow-x-auto px-4 pb-1 pt-4 [scrollbar-width:none]">
         {OPTIONS.map((o) => (
           <button
             key={o.id}
             type="button"
             onClick={() => pick(o.id)}
             className={cn(
-              'shrink-0 rounded-full border px-3 py-1 text-xs font-semibold transition-colors',
+              'shrink-0 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold leading-none transition-colors',
               o.id === opt.id
                 ? 'border-[var(--accent)] bg-[var(--accent)]/15 text-[var(--accent)]'
                 : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)]'

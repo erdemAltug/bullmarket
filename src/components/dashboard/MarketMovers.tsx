@@ -83,7 +83,7 @@ export function MarketMovers({ items, loading }: { items: ScannerItem[]; loading
           ))}
         </div>
       </div>
-      <div className="mt-3 flex gap-1 overflow-x-auto border-b border-[var(--border)]">
+      <div className="mt-3 flex gap-1 overflow-x-auto overflow-y-hidden border-b border-[var(--border)] [scrollbar-width:none]">
         {TABS.map((t) => (
           <button
             key={t.id}
