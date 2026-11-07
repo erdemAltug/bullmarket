@@ -129,7 +129,11 @@ export default async function RootLayout({
   const lang = langFromCookie(jar.get(PREF_KEYS.lang)?.value);
 
   return (
-    <html lang={lang} className={theme} suppressHydrationWarning>
+    <html
+      lang={lang}
+      className={`${theme} ${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <link
           rel="preload"
@@ -142,7 +146,7 @@ export default async function RootLayout({
         <JsonLd />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background antialiased`}
+        className="min-h-screen bg-background antialiased"
       >
         <MicrosoftClarity />
         <GoogleAds />

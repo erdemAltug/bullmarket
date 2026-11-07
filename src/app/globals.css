@@ -89,7 +89,15 @@
   --color-up: var(--up);
   --color-down: var(--down);
   --font-sans: 'Lira', var(--font-geist-sans);
-  --font-mono: 'Lira', var(--font-geist-mono);
+  /* Numbers use the sans face with tabular figures: same width per digit
+     (columns line up) without the typewriter look of a true monospace. */
+  --font-mono: 'Lira', var(--font-geist-sans);
+}
+
+.font-mono {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: -0.01em;
 }
 
 body {
@@ -128,7 +136,7 @@ html.light body {
 
 .terminal body,
 html.terminal body {
-  font-family: var(--font-mono), ui-monospace, monospace;
+  font-family: 'Lira', var(--font-geist-mono), ui-monospace, monospace;
   background-image:
     radial-gradient(
       ellipse 80% 45% at 50% -5%,
