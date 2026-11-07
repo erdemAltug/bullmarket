@@ -66,8 +66,10 @@ export default function OverviewPage() {
           <p className="text-xs capitalize text-[var(--muted)]">{today}</p>
           <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Piyasa özeti</h1>
         </div>
-        <div className="-mx-1 flex max-w-full gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none]">
-          <ShareDailyRadar cards={shareCards} />
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <ShareDailyRadar cards={shareCards} />
+          </div>
           <ComparisonTrigger onClick={() => setCompareOpen(true)} />
           <Link
             href="/alerts"

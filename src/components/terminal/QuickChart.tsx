@@ -202,7 +202,7 @@ function ChartView({ t, onClose }: { t: QuickChartTarget; onClose: () => void })
             symbol={t.chartSymbol}
             source={t.source ?? 'yahoo'}
             isPositive={up}
-            height={440}
+            height={typeof window !== 'undefined' && window.innerWidth < 640 ? 300 : 440}
             defaultTimeframe="1M"
             currencySymbol={t.currency === 'USD' ? '$' : t.currency === 'TRY' ? '₺' : ''}
             bare

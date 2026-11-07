@@ -126,10 +126,10 @@ export function DailyPicks({ items, loading }: { items: ScannerItem[]; loading?:
         })}
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="-mx-4 mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 xl:grid-cols-3">
         {loading && !shown.length
           ? Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-[132px] animate-pulse rounded-xl border border-[var(--border)] bg-[var(--card)]" />
+              <div key={i} className="h-[132px] w-[85%] shrink-0 animate-pulse rounded-xl sm:w-auto border border-[var(--border)] bg-[var(--card)]" />
             ))
           : shown.map((p, idx) => {
               const locked = idx >= visible;
@@ -181,17 +181,17 @@ export function DailyPicks({ items, loading }: { items: ScannerItem[]; loading?:
                 </div>
               );
               return locked ? (
-                <button key={`locked-${idx}`} type="button" onClick={() => openPro('daily-picks')} className="text-left">
+                <button key={`locked-${idx}`} type="button" onClick={() => openPro('daily-picks')} className="w-[85%] shrink-0 snap-start text-left sm:w-auto">
                   {card}
                 </button>
               ) : (
-                <Link key={p.item.symbol} href={href ?? '/firsatlar'} onClick={chartClick(targetFromScanner(p.item, href))} className="block">
+                <Link key={p.item.symbol} href={href ?? '/firsatlar'} onClick={chartClick(targetFromScanner(p.item, href))} className="block w-[85%] shrink-0 snap-start sm:w-auto">
                   {card}
                 </Link>
               );
             })}
         {!loading && !shown.length ? (
-          <p className="col-span-full rounded-xl border border-dashed border-[var(--border)] p-6 text-center text-sm text-[var(--muted)]">
+          <p className="col-span-full w-full shrink-0 rounded-xl border border-dashed border-[var(--border)] p-6 text-center text-sm text-[var(--muted)]">
             Bugün bu kritere uyan varlık yok. Başka bir sekmeye bak.
           </p>
         ) : null}
