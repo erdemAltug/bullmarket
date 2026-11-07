@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { ScannerItem } from '@/types/scanner';
 import { assetDetailHref } from '@/lib/seo/internal-links';
 import { cn } from '@/lib/utils';
+import { targetFromScanner, useChartClick } from '@/components/terminal/QuickChart';
 
 const COLS: { id: 'BIST' | 'US' | 'CRYPTO'; label: string; href: string; usd: boolean }[] = [
   { id: 'BIST', label: 'Borsa İstanbul', href: '/bist', usd: false },
@@ -18,6 +19,7 @@ function fmt(v: number, usd: boolean) {
 
 /** Three markets side by side: breadth, average move and the most traded names. */
 export function MarketPulseBoard({ items, loading }: { items: ScannerItem[]; loading?: boolean }) {
+  const chartClick = useChartClick();
   const cols = useMemo(
     () =>
       COLS.map((c) => {
@@ -89,6 +91,7 @@ export function MarketPulseBoard({ items, loading }: { items: ScannerItem[]; loa
                           {href ? (
                             <Link
                               href={href}
+                              onClick={chartClick(targetFromScanner(i, href))}
                               className="flex items-center gap-2 rounded px-1.5 py-1 text-xs hover:bg-[var(--surface)]"
                             >
                               {row}

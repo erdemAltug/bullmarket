@@ -39,6 +39,8 @@ interface ChartPanelProps {
   defaultTimeframe?: ChartTimeframe;
   height?: number;
   detailed?: boolean;
+  /** Embedded use (e.g. inside a dialog): no card frame, no title. */
+  bare?: boolean;
 }
 
 const PREF_KEY = 'bullsye_chart_prefs_v1';
@@ -87,6 +89,7 @@ function ChartPanelInner({
   defaultTimeframe = '1D',
   height = 380,
   detailed = true,
+  bare = false,
 }: ChartPanelProps) {
   const [timeframe, setTimeframe] = useState<ChartTimeframe>(
     source === 'tefas' && isIntraday(defaultTimeframe) ? '3M' : defaultTimeframe
@@ -140,9 +143,15 @@ function ChartPanelInner({
   const chartHeight = fullscreen ? Math.max(320, Math.round(window.innerHeight * 0.62)) : height;
 
   return (
-    <Card ref={shellRef} className={cn(fullscreen && 'overflow-auto rounded-none bg-[var(--background)]')}>
+    <Card
+      ref={shellRef}
+      className={cn(
+        bare && 'border-0 bg-transparent shadow-none [&>*]:px-0',
+        fullscreen && 'overflow-auto rounded-none bg-[var(--background)] [&>*]:px-6'
+      )}
+    >
       <CardHeader className="gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <CardTitle className="truncate">{title}</CardTitle>
+        {bare ? null : <CardTitle className="truncate">{title}</CardTitle>}
         <div className="-mx-1 flex max-w-full items-center gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] lg:pb-0">
           <ChartTimeframeTabs
             value={timeframe}

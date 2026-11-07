@@ -8,6 +8,7 @@ import { scoreOpportunity } from '@/lib/ai-opportunity';
 import { assetDetailHref } from '@/lib/seo/internal-links';
 import type { ScannerItem } from '@/types/scanner';
 import { cn } from '@/lib/utils';
+import { targetFromScanner, useQuickChart } from '@/components/terminal/QuickChart';
 
 type Market = 'BIST' | 'US' | 'CRYPTO';
 type Tab = 'up' | 'down' | 'volume' | 'score';
@@ -34,6 +35,7 @@ export function MarketMovers({ items, loading }: { items: ScannerItem[]; loading
   const [market, setMarket] = useState<Market>('BIST');
   const [tab, setTab] = useState<Tab>('up');
   const { hasSymbol, addSymbol, removeSymbol } = useWatchlist();
+  const openChart = useQuickChart();
 
   const rows = useMemo(() => {
     const list = items.filter(
@@ -62,7 +64,7 @@ export function MarketMovers({ items, loading }: { items: ScannerItem[]; loading
         : '/kripto/en-yuksek-skorlu-coinler';
 
   return (
-    <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
+    <section className="h-full rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-sm font-semibold">Piyasa hareketleri</h2>
         <div className="flex rounded-lg border border-[var(--border)] p-0.5">
@@ -110,18 +112,32 @@ export function MarketMovers({ items, loading }: { items: ScannerItem[]; loading
               const href = assetDetailHref(item.symbol, item.category);
               const starred = hasSymbol(item.symbol);
               return (
-                <li key={item.symbol} className="group flex items-center gap-3 py-2">
+                <li
+                  key={item.symbol}
+                  onClick={openChart ? () => openChart(targetFromScanner(item, href)) : undefined}
+                  className={cn('group flex items-center gap-3 py-2', openChart && '-mx-2 cursor-pointer rounded-lg px-2 hover:bg-[var(--surface)]')}
+                >
                   <button
                     type="button"
                     aria-label={starred ? 'İzleme listesinden çıkar' : 'İzleme listesine ekle'}
-                    onClick={() => (starred ? removeSymbol(item.symbol) : addSymbol(item.symbol))}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (starred) removeSymbol(item.symbol);
+                      else addSymbol(item.symbol);
+                    }}
                     className={cn('shrink-0', starred ? 'text-amber-400' : 'text-[var(--muted)] hover:text-amber-400')}
                   >
                     <Star className={cn('size-3.5', starred && 'fill-amber-400')} />
                   </button>
                   <div className="min-w-0 flex-1">
                     {href ? (
-                      <Link href={href} className="text-sm font-semibold hover:text-[var(--accent)]">
+                      <Link
+                        href={href}
+                        onClick={(e) => {
+                          if (openChart && !e.metaKey && !e.ctrlKey) e.preventDefault();
+                        }}
+                        className="text-sm font-semibold hover:text-[var(--accent)]"
+                      >
                         {item.displaySymbol}
                       </Link>
                     ) : (
