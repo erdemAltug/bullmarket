@@ -2,385 +2,82 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { AIDailyVisionPanel } from '@/components/dashboard/AIDailyVisionPanel';
-import { AIPotentialRadar } from '@/components/dashboard/AIPotentialRadar';
-import { CommoditiesStrip } from '@/components/dashboard/CommoditiesStrip';
-import { HabitCue } from '@/components/dashboard/HabitCue';
-import { MarketSentimentMeter } from '@/components/dashboard/MarketSentimentMeter';
-import { AlertModal } from '@/components/alerts/AlertModal';
-import { ChartPanel } from '@/components/dashboard/ChartPanel';
-import {
-  ComparisonModal,
-  ComparisonTrigger,
-} from '@/components/dashboard/ComparisonModal';
-import { DashboardCanvas } from '@/components/dashboard/DashboardCanvas';
-import {
-  CalendarTickerBanner,
-  EconomicCalendar,
-} from '@/components/dashboard/EconomicCalendar';
-import { ExpandableSection } from '@/components/dashboard/ExpandableSection';
-import { FearGreedIndex } from '@/components/dashboard/FearGreedIndex';
-import { FxConverter } from '@/components/dashboard/FxConverter';
-import { MetricCard } from '@/components/dashboard/MetricCard';
-import { NewsFeed } from '@/components/dashboard/NewsFeed';
-import { ShareCardButton } from '@/components/dashboard/ShareCardButton';
-import { ShareDailyRadar } from '@/components/dashboard/ShareDailyRadar';
-import { AISignalRadar } from '@/components/dashboard/AISignalRadar';
+import { Bell } from 'lucide-react';
+import { ComparisonModal, ComparisonTrigger } from '@/components/dashboard/ComparisonModal';
+import { EconomicCalendar } from '@/components/dashboard/EconomicCalendar';
+import { ExploreGrid } from '@/components/dashboard/ExploreGrid';
 import { MarketMovers } from '@/components/dashboard/MarketMovers';
 import { MarketPulseBoard } from '@/components/dashboard/MarketPulseBoard';
-import { MiniHeatmap } from '@/components/dashboard/MiniHeatmap';
-import { ExploreGrid } from '@/components/dashboard/ExploreGrid';
+import { ChartPanel } from '@/components/dashboard/ChartPanel';
+import { NewsFeed } from '@/components/dashboard/NewsFeed';
 import { SectorPulse } from '@/components/dashboard/SectorPulse';
-import { SmartRadar } from '@/components/dashboard/SmartRadar';
-import { StockScorecard } from '@/components/dashboard/StockScorecard';
-import { TickerTape } from '@/components/dashboard/TickerTape';
-import { WatchlistTable } from '@/components/dashboard/WatchlistTable';
+import { ShareDailyRadar } from '@/components/dashboard/ShareDailyRadar';
 import { NetWorthStrip } from '@/components/inventory/NetWorthStrip';
-import { YourDayCard } from '@/components/dashboard/YourDayCard';
-import { MarketScannerTable } from '@/components/dashboard/MarketScannerTable';
 import { DynamicTitle } from '@/components/shared/DynamicTitle';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAlerts } from '@/hooks/useAlerts';
-import {
-  DEFAULT_WIDGET_ORDER,
-  useDashboardLayout,
-} from '@/hooks/useDashboardLayout';
+import { TerminalHero } from '@/components/terminal/TerminalHero';
+import { TopScoresPanel } from '@/components/terminal/TopScoresPanel';
+import { WatchlistPanel } from '@/components/terminal/WatchlistPanel';
+import { WorldIndices } from '@/components/terminal/WorldIndices';
+import { QuickChartProvider } from '@/components/terminal/QuickChart';
+import { DailyPicks } from '@/components/terminal/DailyPicks';
+import { MarketBriefs } from '@/components/terminal/MarketBriefs';
+import { SectorPicks } from '@/components/terminal/SectorPicks';
 import { useInventorySummary } from '@/hooks/useInventorySummary';
-import { useBist, useCrypto, useFx } from '@/hooks/useMarketData';
 import { useMarketScanner } from '@/hooks/useMarketScanner';
-import { useWatchlist } from '@/hooks/useWatchlist';
-import {
-  buildDailyVision,
-  buildPotentialCards,
-  computeMarketSentiment,
-} from '@/lib/ai-opportunity';
-import type { DashboardWidgetId } from '@/types';
-import { formatPrice } from '@/lib/utils';
+import { buildPotentialCards } from '@/lib/ai-opportunity';
 
-const WIDGET_LABELS: Record<DashboardWidgetId, string> = {
-  'fear-greed': 'Korku ve Açgözlülük',
-  'smart-radar': 'Teknik göstergeler',
-  metrics: 'Metrikler',
-  'chart-fx': 'Grafik ve döviz',
-  watchlist: 'İzleme listesi',
-  news: 'Haberler',
-  signals: 'Sinyal Radarı',
-  calendar: 'Ekonomik Takvim',
-};
+function SectionTitle({ children, hint }: { children: React.ReactNode; hint?: string }) {
+  return (
+    <div className="flex items-baseline gap-3">
+      <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">{children}</h2>
+      {hint ? <span className="text-[11px] text-[var(--muted)]/70">{hint}</span> : null}
+      <span className="h-px flex-1 bg-[var(--border)]" />
+    </div>
+  );
+}
 
+/**
+ * Terminal home: what the market is doing (hero), what is moving and where
+ * (movers, heatmap, sectors), what you follow (list, scores), then context
+ * (three markets, news, calendar) and ways to go deeper.
+ */
 export default function OverviewPage() {
-  const { symbols, removeSymbol } = useWatchlist();
-  const layout = useDashboardLayout();
-
-  const bistSymbols = useMemo(
-    () =>
-      symbols
-        .filter((s) => s.endsWith('.IS') || s.startsWith('XU'))
-        .join(','),
-    [symbols]
-  );
-  const cryptoSymbols = useMemo(() => {
-    const list = symbols.filter((s) => s.endsWith('USDT'));
-    return list.length ? list.join(',') : undefined;
-  }, [symbols]);
-
-  const bist = useBist(bistSymbols || undefined);
-  const crypto = useCrypto(cryptoSymbols);
-  const fx = useFx();
   const scanner = useMarketScanner();
-  const { alerts } = useAlerts();
+  const items = useMemo(() => scanner.data ?? [], [scanner.data]);
   const inventory = useInventorySummary();
-
-  const [alertTarget, setAlertTarget] = useState<{
-    symbol: string;
-    displaySymbol: string;
-    price: number;
-    changePercent: number;
-  } | null>(null);
-  const [scoreSymbol, setScoreSymbol] = useState<string | null>(null);
   const [compareOpen, setCompareOpen] = useState(false);
+  const shareCards = useMemo(() => buildPotentialCards(items, 3), [items]);
+  const xu100 = items.find((i) => i.displaySymbol === 'XU100');
 
-  const quotes = bist.data?.quotes ?? [];
-  const tickers = crypto.data?.tickers ?? [];
-  const rates = fx.data?.rates ?? [];
-
-  const index = quotes.find((q) => q.symbol.includes('XU100'));
-  const btc = tickers.find((t) => t.symbol === 'BTCUSDT');
-  const usd = rates.find((r) => r.code === 'USD');
-
-  const activeAlerts = useMemo(
-    () => new Set(alerts.filter((a) => a.triggered).map((a) => a.displaySymbol)),
-    [alerts]
-  );
-
-  const marketItems = scanner.data ?? [];
-  const dailyVision = useMemo(
-    () => (marketItems.length ? buildDailyVision(marketItems) : null),
-    [marketItems]
-  );
-  const potentialCards = useMemo(
-    () => buildPotentialCards(marketItems, 3),
-    [marketItems]
-  );
-  const sentiment = useMemo(
-    () => (marketItems.length ? computeMarketSentiment(marketItems) : null),
-    [marketItems]
-  );
-
-  const tapeItems = [
-    ...quotes.map((q) => {
-      const display = q.symbol.replace('.IS', '');
-      return {
-        symbol: display,
-        price: q.price,
-        changePercent: q.changePercent,
-        alertActive: activeAlerts.has(display),
-      };
-    }),
-    ...tickers.map((t) => {
-      const display = t.symbol.replace('USDT', '');
-      return {
-        symbol: display,
-        price: t.price,
-        changePercent: t.changePercent,
-        alertActive: activeAlerts.has(display),
-      };
-    }),
-  ];
-
-  const watchRows = [
-    ...quotes.map((q) => ({
-      symbol: q.symbol,
-      name: q.name,
-      price: q.price,
-      changePercent: q.changePercent,
-      currency: q.currency,
-    })),
-    ...tickers.map((t) => ({
-      symbol: t.symbol,
-      name: t.symbol.replace('USDT', '/USDT'),
-      price: t.price,
-      changePercent: t.changePercent,
-      currency: 'USD',
-    })),
-  ];
-
-  const signalSymbols = useMemo(() => {
-    const fromWatch = symbols.filter(
-      (s) => s.endsWith('.IS') || s.endsWith('USDT')
-    );
-    if (fromWatch.length) return fromWatch;
-    return ['THYAO.IS', 'GARAN.IS', 'ASELS.IS', 'BTCUSDT'];
-  }, [symbols]);
-
-  function renderWidget(id: DashboardWidgetId) {
-    switch (id) {
-      case 'fear-greed':
-        return <FearGreedIndex />;
-      case 'smart-radar':
-        return <SmartRadar symbols={signalSymbols} />;
-      case 'metrics':
-        return (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {index ? (
-              <div className="relative">
-                <div className="absolute right-2 top-2 z-10">
-                  <ShareCardButton
-                    title="BİST 100"
-                    price={index.price}
-                    changePercent={index.changePercent}
-                    currency={index.currency}
-                  />
-                </div>
-                <MetricCard
-                  title="BİST 100"
-                  value={index.price}
-                  changePercent={index.changePercent}
-                  currency={index.currency}
-                  onClick={() =>
-                    setAlertTarget({
-                      symbol: index.symbol,
-                      displaySymbol: 'XU100',
-                      price: index.price,
-                      changePercent: index.changePercent,
-                    })
-                  }
-                />
-              </div>
-            ) : null}
-            {btc ? (
-              <div className="relative">
-                <div className="absolute right-2 top-2 z-10">
-                  <ShareCardButton
-                    title="Bitcoin"
-                    price={btc.price}
-                    changePercent={btc.changePercent}
-                    currency="USD"
-                  />
-                </div>
-                <MetricCard
-                  title="Bitcoin"
-                  value={btc.price}
-                  changePercent={btc.changePercent}
-                  currency="USD"
-                  onClick={() =>
-                    setAlertTarget({
-                      symbol: btc.symbol,
-                      displaySymbol: 'BTC',
-                      price: btc.price,
-                      changePercent: btc.changePercent,
-                    })
-                  }
-                />
-              </div>
-            ) : null}
-            {usd ? (
-              <MetricCard
-                title="USD/TRY"
-                value={usd.forexSelling}
-                currency="TRY"
-                subtitle={fx.data?.updatedAt}
-              />
-            ) : null}
-          </div>
-        );
-      case 'chart-fx':
-        return (
-          <div className="grid gap-4 lg:grid-cols-2">
-            <ChartPanel
-              title="BİST 100"
-              symbol="XU100.IS"
-              source="yahoo"
-              isPositive={(index?.changePercent ?? 0) >= 0}
-            />
-            <Card>
-              <CardHeader>
-                <CardTitle>Döviz ve altın</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {rates.map((r) => (
-                  <div
-                    key={r.code}
-                    className="flex items-center justify-between border-b border-zinc-800 py-2 last:border-0"
-                  >
-                    <div>
-                      <p className="font-medium">{r.code}</p>
-                      <p className="text-xs text-zinc-500">{r.name}</p>
-                    </div>
-                    <div className="text-right text-sm tabular-nums">
-                      <p>{formatPrice(r.forexSelling, 'TRY')}</p>
-                      <p className="text-xs text-zinc-500">
-                        Alış {formatPrice(r.forexBuying, 'TRY')}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-                {!rates.length && (
-                  <p className="py-8 text-center text-sm text-zinc-500">
-                    {fx.isLoading
-                      ? 'Yükleniyor…'
-                      : fx.error?.message ?? 'No FX data'}
-                  </p>
-                )}
-                {rates.length ? <FxConverter rates={rates} /> : null}
-              </CardContent>
-            </Card>
-          </div>
-        );
-      case 'watchlist':
-        return (
-          <div className="space-y-4">
-            <MarketScannerTable
-              items={scanner.data ?? []}
-              isLoading={scanner.isLoading}
-              error={scanner.error?.message}
-              title="Piyasa tarayıcısı"
-            />
-            <div>
-              <h2 className="mb-3 text-sm font-medium text-zinc-400">
-                Kişisel izleme listesi — BİST satırı → Temel Analiz Karnesi
-              </h2>
-              <WatchlistTable
-                rows={watchRows}
-                onRowClick={(row) => {
-                  if (
-                    row.symbol.endsWith('.IS') &&
-                    !row.symbol.includes('XU')
-                  ) {
-                    setScoreSymbol(row.symbol);
-                  }
-                }}
-                onAlert={(row) =>
-                  setAlertTarget({
-                    symbol: row.symbol,
-                    displaySymbol: row.symbol
-                      .replace('.IS', '')
-                      .replace('USDT', ''),
-                    price: row.price,
-                    changePercent: row.changePercent,
-                  })
-                }
-                onRemove={removeSymbol}
-              />
-            </div>
-          </div>
-        );
-      case 'news':
-        return <NewsFeed />;
-      case 'signals':
-        return (
-          <AISignalRadar
-            marketItems={scanner.data ?? []}
-            isLoading={scanner.isLoading}
-            hideHeader
-          />
-        );
-      case 'calendar':
-        return <EconomicCalendar />;
-      default:
-        return null;
-    }
-  }
+  const today = new Date().toLocaleDateString('tr-TR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    timeZone: 'Europe/Istanbul',
+  });
 
   return (
-    <div className="space-y-6">
-      <DynamicTitle
-        symbol="XU100"
-        price={index?.price}
-        changePercent={index?.changePercent}
-        currencySymbol="₺"
-      />
-      <div className="flex flex-wrap items-end justify-between gap-3">
+    <QuickChartProvider>
+    <div className="space-y-8">
+      <DynamicTitle symbol="XU100" price={xu100?.price} changePercent={xu100?.changePercent} currencySymbol="₺" />
+
+      <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Piyasa özeti
-          </h1>
+          <p className="text-xs capitalize text-[var(--muted)]">{today}</p>
+          <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Piyasa özeti</h1>
         </div>
-        <div className="-mx-1 flex max-w-full gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] sm:flex-wrap sm:overflow-visible">
-          <ShareDailyRadar cards={potentialCards} />
+        <div className="-mx-1 flex max-w-full gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none]">
+          <ShareDailyRadar cards={shareCards} />
+          <ComparisonTrigger onClick={() => setCompareOpen(true)} />
           <Link
             href="/alerts"
-            className="inline-flex items-center rounded-md border border-orange-500/40 bg-orange-500/10 px-3 py-2 text-sm font-medium text-orange-300 hover:bg-orange-500/20"
+            className="inline-flex items-center gap-1.5 rounded-md border border-orange-500/40 bg-orange-500/10 px-3 py-2 text-sm font-medium text-orange-300 hover:bg-orange-500/20"
           >
-            Alarm
+            <Bell className="size-4" /> Alarm kur
           </Link>
-          <ComparisonTrigger onClick={() => setCompareOpen(true)} />
-          <Button
-            type="button"
-            className="hidden md:inline-flex"
-            variant={layout.editing ? 'default' : 'outline'}
-            onClick={() => layout.setEditing(!layout.editing)}
-          >
-            {layout.editing ? 'Bitir' : 'Düzenle'}
-          </Button>
-          {layout.editing ? (
-            <Button type="button" variant="ghost" onClick={layout.reset}>
-              Sıfırla
-            </Button>
-          ) : null}
         </div>
-      </div>
+      </header>
+
       {inventory.count > 0 ? (
         <NetWorthStrip
           value={inventory.value}
@@ -390,138 +87,64 @@ export default function OverviewPage() {
           dailyPct={inventory.dailyPct}
           count={inventory.count}
           href="/portfolio"
-          className="z-20 md:sticky md:top-[4.5rem] md:bg-[var(--card)]/90 md:backdrop-blur-md"
         />
       ) : null}
-      <YourDayCard />
-      <CalendarTickerBanner />
-      <HabitCue topCards={potentialCards} />
-      <TickerTape items={tapeItems} />
-      <CommoditiesStrip />
 
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
-        <MarketMovers items={scanner.data ?? []} loading={scanner.isLoading} />
-        <SectorPulse fallback={scanner.data ?? []} />
+      <div className="space-y-4">
+        <TerminalHero items={items} loading={scanner.isLoading} />
+        <WorldIndices />
       </div>
 
-      <MarketPulseBoard items={scanner.data ?? []} loading={scanner.isLoading} />
-      <MiniHeatmap />
+      <div className="space-y-4">
+        <DailyPicks items={items} loading={scanner.isLoading} />
+        <SectorPicks items={items} />
+      </div>
 
-      <ExpandableSection
-        id="daily-vision"
-        title="Günlük özet"
-        subtitle={`${dailyVision ? `skor ${dailyVision.avgUpsidePct.toFixed(0)}` : '—'} · genişlik`}
-        collapsedHint={
-          dailyVision
-            ? `${dailyVision.avgUpsidePct.toFixed(0)} · ${dailyVision.opportunityCount} yüksek`
-            : undefined
-        }
-        defaultOpen={false}
-      >
-        <AIDailyVisionPanel
-          report={dailyVision}
-          loading={scanner.isLoading}
-        />
-      </ExpandableSection>
-
-      <ExpandableSection
-        id="opportunity-radar"
-        title="Bugünün ilk 3 skoru"
-        subtitle={
-          potentialCards.length ? `${potentialCards.length} sembol` : undefined
-        }
-        collapsedHint={
-          potentialCards.length
-            ? `${potentialCards.length} kart`
-            : undefined
-        }
-        defaultOpen
-        actions={
-          <div className="flex items-center gap-3">
-            <Link
-              href="/alerts"
-              className="shrink-0 text-[11px] font-medium text-orange-400 hover:underline sm:text-xs"
-              onClick={(e) => e.stopPropagation()}
-            >
-              Alarm →
-            </Link>
-            <Link
-              href="/firsatlar"
-              className="shrink-0 text-[11px] font-medium text-emerald-400 hover:underline sm:text-xs"
-              onClick={(e) => e.stopPropagation()}
-            >
-              Tüm skor taraması →
-            </Link>
+      <div className="space-y-4">
+        <SectionTitle hint="dakikada bir güncellenir">Ne hareket ediyor</SectionTitle>
+        {/* Row by row so the two columns always line up. */}
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_380px]">
+          <div className="min-w-0">
+            <MarketMovers items={items} loading={scanner.isLoading} />
           </div>
-        }
-      >
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_260px] xl:items-stretch">
-          <AIPotentialRadar
-            cards={potentialCards}
-            loading={scanner.isLoading}
-            hideHeader
-          />
-          <div className="xl:sticky xl:top-4 xl:self-start">
-            <MarketSentimentMeter
-              reading={sentiment}
-              loading={scanner.isLoading}
+          <div className="min-w-0">
+            <WatchlistPanel />
+          </div>
+          <div className="min-w-0 [&>*]:h-full">
+            <ChartPanel
+              title="BİST 100"
+              symbol="XU100.IS"
+              source="yahoo"
+              isPositive={(xu100?.changePercent ?? 0) >= 0}
             />
           </div>
+          <div className="min-w-0">
+            <TopScoresPanel items={items} loading={scanner.isLoading} />
+          </div>
+          <div className="min-w-0 lg:col-span-2">
+            <SectorPulse fallback={items} />
+          </div>
         </div>
-      </ExpandableSection>
+      </div>
 
-      {layout.editing ? (
-        <div className="flex flex-wrap gap-2 rounded-xl border border-zinc-800 bg-zinc-950 p-3">
-          {DEFAULT_WIDGET_ORDER.map((id) => {
-            const on = !layout.hidden.includes(id);
-            return (
-              <button
-                key={id}
-                type="button"
-                onClick={() => layout.toggleHidden(id)}
-                className={`rounded-md border px-2 py-1 text-xs ${
-                  on
-                    ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
-                    : 'border-zinc-700 text-zinc-500'
-                }`}
-              >
-                {on ? '✓ ' : ''}
-                {WIDGET_LABELS[id]}
-              </button>
-            );
-          })}
-          <p className="w-full text-[11px] text-zinc-600">
-            Sürüklemek için tutamacı kullanın · gizle/göster için rozetlere tıklayın
-          </p>
+      <div className="space-y-4">
+        <SectionTitle>Dünya ve gündem</SectionTitle>
+        <MarketBriefs items={items} />
+        <MarketPulseBoard items={items} loading={scanner.isLoading} />
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="min-w-0 [&>*]:h-full">
+            <NewsFeed />
+          </div>
+          <div className="min-w-0 [&>*]:h-full">
+            <EconomicCalendar />
+          </div>
         </div>
-      ) : null}
-
-      <DashboardCanvas
-        ids={layout.visible}
-        editing={layout.editing}
-        onReorder={layout.move}
-        render={renderWidget}
-        labels={WIDGET_LABELS}
-      />
+      </div>
 
       <ExploreGrid />
 
-      <StockScorecard
-        symbol={scoreSymbol}
-        open={Boolean(scoreSymbol)}
-        onOpenChange={(o) => !o && setScoreSymbol(null)}
-      />
       <ComparisonModal open={compareOpen} onOpenChange={setCompareOpen} />
-      {alertTarget ? (
-        <AlertModal
-          open={Boolean(alertTarget)}
-          onOpenChange={(o) => !o && setAlertTarget(null)}
-          symbol={alertTarget.symbol}
-          displaySymbol={alertTarget.displaySymbol}
-          currentPrice={alertTarget.price}
-          changePercent={alertTarget.changePercent}
-        />
-      ) : null}
     </div>
+    </QuickChartProvider>
   );
 }

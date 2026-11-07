@@ -40,8 +40,12 @@ export function EconomicCalendar() {
       ) : !events.length ? (
         <EmptyState
           icon={CalendarClock}
-          title="Takvim yüklenemedi"
-          description="Makro olaylar geçici olarak alınamadı — birazdan yeniden dene."
+          title={data ? 'Bu hafta yaklaşan önemli veri yok' : 'Takvim yüklenemedi'}
+          description={
+            data
+              ? 'Faiz kararı, enflasyon ve istihdam gibi önemli açıklamalar yaklaştıkça burada görünür.'
+              : 'Makro olaylar geçici olarak alınamadı. Birazdan yeniden dene.'
+          }
           className="py-8"
         />
       ) : (

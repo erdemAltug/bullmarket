@@ -37,8 +37,11 @@ export default async function TerminalLayout({
   };
   return (
     <>
-      <CrawlSnapshot snap={snap} variant="compact" />
-      <div className="mt-4">{children}</div>
+      {/* Same numbers as the hero below; kept in the HTML for crawlers. */}
+      <div className="sr-only">
+        <CrawlSnapshot snap={snap} variant="compact" />
+      </div>
+      {children}
     </>
   );
 }

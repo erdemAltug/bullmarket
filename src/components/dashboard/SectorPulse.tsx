@@ -36,7 +36,7 @@ export function SectorPulse({ fallback }: { fallback: ScannerItem[] }) {
   const maxAbs = Math.max(0.5, ...rows.map((r) => Math.abs(r.avg)));
 
   return (
-    <section className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
+    <section className="h-full rounded-2xl border border-[var(--border)] bg-[var(--card)] p-4">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="text-sm font-semibold">Sektör nabzı</h2>
         <Link href="/bist/sektorler" className="text-xs text-[var(--accent)] hover:underline">
@@ -44,7 +44,7 @@ export function SectorPulse({ fallback }: { fallback: ScannerItem[] }) {
         </Link>
       </div>
       <p className="mt-0.5 text-[11px] text-[var(--muted)]">BİST sektörlerinin bugünkü ortalama hareketi</p>
-      <ul className="mt-3 space-y-1.5">
+      <ul className="mt-3 grid gap-x-8 gap-y-1.5 md:grid-cols-2">
         {!rows.length
           ? Array.from({ length: 8 }).map((_, i) => (
               <li key={i} className="h-6 animate-pulse rounded bg-[var(--border)]/40" />
